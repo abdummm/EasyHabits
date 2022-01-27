@@ -1,0 +1,661 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.constraintlayout.widget.ConstraintLayout android:id="@+id/main_layout_in_posts_in_card_in_item"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/card_showing_the_non_loading"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:foreground="?android:attr/selectableItemBackground"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constriant_inside_card_inside_post_feed"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/text_saying_name_in_feed_post_recylce_view_card"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="5dp"
+                android:text=""
+                android:textColor="@color/fav"
+                android:textSize="12sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"/>
+
+            <View
+                android:id="@+id/circle_between_name_and_time_in_card_post_card"
+                android:layout_width="5dp"
+                android:layout_height="5dp"
+                android:layout_marginStart="5dp"
+                android:background="@drawable/circle_colored_fav_for_journal"
+                app:layout_constraintBottom_toBottomOf="@+id/text_at_top_left_of_card_to_show_time"
+                app:layout_constraintStart_toEndOf="@+id/text_saying_name_in_feed_post_recylce_view_card"
+                app:layout_constraintTop_toTopOf="@+id/text_at_top_left_of_card_to_show_time" />
+
+            <TextView
+                android:id="@+id/text_at_top_left_of_card_to_show_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="5dp"
+                android:text=""
+                android:textColor="@color/fav"
+                android:textSize="12sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toEndOf="@+id/circle_between_name_and_time_in_card_post_card"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <View
+                android:id="@+id/circle_between_time_and_cat_in_card"
+                android:layout_width="5dp"
+                android:layout_height="5dp"
+                android:layout_marginStart="5dp"
+                android:background="@drawable/circle_colored_fav_for_journal"
+                app:layout_constraintBottom_toBottomOf="@+id/text_at_top_left_of_card_to_show_time"
+                app:layout_constraintStart_toEndOf="@+id/text_at_top_left_of_card_to_show_time"
+                app:layout_constraintTop_toTopOf="@+id/text_at_top_left_of_card_to_show_time" />
+
+            <TextView
+                android:id="@+id/text_at_the_top_showing_what_category_this_is_in"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="5dp"
+                android:textColor="@color/fav"
+                android:textSize="12sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toEndOf="@+id/circle_between_time_and_cat_in_card"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <View
+                android:id="@+id/circle_between_time_and_cat_in_streak_in_post"
+                android:layout_width="5dp"
+                android:layout_height="5dp"
+                android:layout_marginStart="5dp"
+                android:background="@drawable/circle_colored_fav_for_journal"
+                app:layout_constraintBottom_toBottomOf="@+id/text_at_top_left_of_card_to_show_time"
+                app:layout_constraintStart_toEndOf="@+id/text_at_the_top_showing_what_category_this_is_in"
+                app:layout_constraintTop_toTopOf="@+id/text_at_top_left_of_card_to_show_time" />
+
+            <TextView
+                android:id="@+id/text_at_the_top_showing_how_much_is_the_streak"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="5dp"
+                android:textColor="@color/fav"
+                android:textSize="12sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toEndOf="@+id/circle_between_time_and_cat_in_streak_in_post"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <View
+                android:id="@+id/circle_between_the_streak_and_the_dev_icon"
+                android:layout_width="5dp"
+                android:layout_height="5dp"
+                android:layout_marginStart="5dp"
+                android:background="@drawable/circle_colored_fav_for_journal"
+                app:layout_constraintBottom_toBottomOf="@+id/text_at_top_left_of_card_to_show_time"
+                app:layout_constraintStart_toEndOf="@+id/text_at_the_top_showing_how_much_is_the_streak"
+                app:layout_constraintTop_toTopOf="@+id/text_at_top_left_of_card_to_show_time" />
+
+            <TextView
+                android:id="@+id/text_view_saying_i_am_the_dev_of_the_app"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="DEV"
+                android:translationZ="100dp"
+                android:textColor="@color/white"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="5dp"
+                android:textStyle="bold"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/circle_between_the_streak_and_the_dev_icon"/>
+
+            <View
+                android:id="@+id/view_at_the_top_of_the_dev_object"
+                android:layout_width="0.1dp"
+                android:layout_height="0.1dp"
+                android:layout_marginBottom="1dp"
+                app:layout_constraintBottom_toTopOf="@+id/text_view_saying_i_am_the_dev_of_the_app"
+                app:layout_constraintEnd_toEndOf="@+id/text_view_saying_i_am_the_dev_of_the_app"
+                app:layout_constraintStart_toStartOf="@+id/text_view_saying_i_am_the_dev_of_the_app" />
+
+            <View
+                android:id="@+id/view_at_the_bottom_of_the_dev_object"
+                android:layout_width="0.1dp"
+                android:layout_height="0.1dp"
+                android:layout_marginTop="1dp"
+                app:layout_constraintTop_toBottomOf="@+id/text_view_saying_i_am_the_dev_of_the_app"
+                app:layout_constraintEnd_toEndOf="@+id/text_view_saying_i_am_the_dev_of_the_app"
+                app:layout_constraintStart_toStartOf="@+id/text_view_saying_i_am_the_dev_of_the_app" />
+
+            <View
+                android:id="@+id/view_at_the_start_of_the_dev_object"
+                android:layout_width="0.1dp"
+                android:layout_height="0.1dp"
+                android:layout_marginEnd="3dp"
+                app:layout_constraintTop_toTopOf="@+id/text_view_saying_i_am_the_dev_of_the_app"
+                app:layout_constraintBottom_toBottomOf="@+id/text_view_saying_i_am_the_dev_of_the_app"
+                app:layout_constraintEnd_toStartOf="@+id/text_view_saying_i_am_the_dev_of_the_app" />
+
+            <View
+                android:id="@+id/view_at_the_end_of_the_dev_object"
+                android:layout_width="0.1dp"
+                android:layout_height="0.1dp"
+                android:layout_marginStart="3dp"
+                app:layout_constraintTop_toTopOf="@+id/text_view_saying_i_am_the_dev_of_the_app"
+                app:layout_constraintBottom_toBottomOf="@+id/text_view_saying_i_am_the_dev_of_the_app"
+                app:layout_constraintStart_toEndOf="@+id/text_view_saying_i_am_the_dev_of_the_app" />
+
+            <View
+                android:id="@+id/view_behind_i_am_the_dev_of_the_text"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:background="@drawable/dev_back_ground_for_posts"
+                app:layout_constraintTop_toTopOf="@+id/view_at_the_top_of_the_dev_object"
+                app:layout_constraintBottom_toBottomOf="@+id/view_at_the_bottom_of_the_dev_object"
+                app:layout_constraintStart_toStartOf="@+id/view_at_the_start_of_the_dev_object"
+                app:layout_constraintEnd_toEndOf="@+id/view_at_the_end_of_the_dev_object"/>
+
+
+            <TextView
+                android:id="@+id/title_for_post_in_posts_to_show_for_public"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:layout_marginEnd="15dp"
+                android:text="Title"
+                android:textColor="@color/black"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/text_saying_name_in_feed_post_recylce_view_card"
+                app:layout_constraintTop_toBottomOf="@+id/text_saying_the_number_of_awards" />
+
+            <TextView
+                android:id="@+id/actual_text_to_show_post_in_card"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:layout_marginEnd="15dp"
+                android:ellipsize="end"
+                android:maxLines="3"
+                android:text="Body"
+                android:textColor="@color/black"
+                android:textSize="15sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/text_saying_name_in_feed_post_recylce_view_card"
+                app:layout_constraintTop_toBottomOf="@+id/title_for_post_in_posts_to_show_for_public" />
+
+            <ImageView
+                android:id="@+id/image_to_show_any_base_64_in_psot"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:adjustViewBounds="true"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?android:attr/selectableItemBackground"
+                android:scaleType="fitCenter"
+                android:visibility="invisible"
+                app:layout_constraintTop_toBottomOf="@+id/title_for_post_in_posts_to_show_for_public" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/layput_to_put_the_two_buttons_in"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/layout_for_the_comment_in_card_in_psot"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintHorizontal_chainStyle="spread_inside"
+                app:layout_constraintStart_toStartOf="@+id/actual_text_to_show_post_in_card"
+                app:layout_constraintTop_toBottomOf="@+id/actual_text_to_show_post_in_card">
+
+                <Button
+                    android:id="@+id/button_to_watch_upvote_in_card_in_post"
+                    style="?android:attr/borderlessButtonStyle"
+                    android:layout_width="43dp"
+                    android:layout_height="43dp"
+                    android:background="@drawable/ripple_for_all_circle"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <View
+                    android:id="@+id/upvote_view_in_post_card"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:background="@drawable/round_arrow_drop_up_24"
+                    app:layout_constraintBottom_toBottomOf="@+id/button_to_watch_upvote_in_card_in_post"
+                    app:layout_constraintEnd_toEndOf="@+id/button_to_watch_upvote_in_card_in_post"
+                    app:layout_constraintStart_toStartOf="@+id/button_to_watch_upvote_in_card_in_post"
+                    app:layout_constraintTop_toTopOf="@+id/button_to_watch_upvote_in_card_in_post" />
+
+                <TextView
+                    android:id="@+id/text_showing_the_number_of_up_votes"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:text="999"
+                    android:textSize="17sp"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/upvote_view_in_post_card"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <Button
+                    android:id="@+id/button_to_watch_downvote_in_card_in_post"
+                    style="?android:attr/borderlessButtonStyle"
+                    android:layout_width="43dp"
+                    android:layout_height="43dp"
+                    android:background="@drawable/ripple_for_all_circle"
+                    app:layout_constraintBottom_toBottomOf="@+id/down_vote_view_in_post_card"
+                    app:layout_constraintEnd_toEndOf="@+id/down_vote_view_in_post_card"
+                    app:layout_constraintStart_toStartOf="@+id/down_vote_view_in_post_card"
+                    app:layout_constraintTop_toTopOf="@+id/down_vote_view_in_post_card" />
+
+                <View
+                    android:id="@+id/down_vote_view_in_post_card"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginStart="8dp"
+                    android:background="@drawable/arrow_down_down_vote_card"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/text_showing_the_number_of_up_votes"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/layout_for_the_comment_in_card_in_psot"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="@+id/layput_to_put_the_two_buttons_in"
+                app:layout_constraintEnd_toStartOf="@+id/save_button_in_card_in_posts"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintHorizontal_chainStyle="spread_inside"
+                app:layout_constraintStart_toEndOf="@+id/layput_to_put_the_two_buttons_in"
+                app:layout_constraintTop_toTopOf="@+id/layput_to_put_the_two_buttons_in">
+
+                <View
+                    android:id="@+id/comment_view_to_show_number_in_post"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:background="@drawable/round_comment_24"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/text_telling_the_number_of_comments_in_card_in_post"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:text="999"
+                    android:textColor="@color/fav"
+                    android:textSize="17sp"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/comment_view_to_show_number_in_post"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <Button
+                android:id="@+id/button_to_watch_share_in_card_in_post_in_top"
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_width="38dp"
+                android:layout_height="38dp"
+                android:background="@drawable/ripple_for_all_circle"
+                android:layout_marginEnd="2dp"
+                app:layout_constraintBottom_toBottomOf="@+id/button_to_watch_three_dot_in_card_in_post_in_top"
+                app:layout_constraintEnd_toStartOf="@+id/button_to_watch_three_dot_in_card_in_post_in_top"
+                app:layout_constraintTop_toTopOf="@+id/button_to_watch_three_dot_in_card_in_post_in_top" />
+
+            <View
+                android:id="@+id/share_view_in_card_in_posts"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:background="@drawable/round_share_24"
+                app:layout_constraintBottom_toBottomOf="@+id/button_to_watch_share_in_card_in_post_in_top"
+                app:layout_constraintEnd_toEndOf="@+id/button_to_watch_share_in_card_in_post_in_top"
+                app:layout_constraintStart_toStartOf="@+id/button_to_watch_share_in_card_in_post_in_top"
+                app:layout_constraintTop_toTopOf="@+id/button_to_watch_share_in_card_in_post_in_top" />
+
+            <Button
+                android:id="@+id/button_to_watch_save_in_card_in_post"
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_width="42dp"
+                android:layout_height="42dp"
+                android:background="@drawable/ripple_for_all_circle"
+                app:layout_constraintBottom_toBottomOf="@+id/save_button_in_card_in_posts"
+                app:layout_constraintEnd_toEndOf="@+id/save_button_in_card_in_posts"
+                app:layout_constraintStart_toStartOf="@+id/save_button_in_card_in_posts"
+                app:layout_constraintTop_toTopOf="@+id/save_button_in_card_in_posts" />
+
+
+            <View
+                android:id="@+id/save_button_in_card_in_posts"
+                android:layout_width="29dp"
+                android:layout_height="29dp"
+                android:background="@drawable/round_turned_in_not_24"
+                android:translationZ="100dp"
+                app:layout_constraintBottom_toBottomOf="@+id/layout_for_the_comment_in_card_in_psot"
+                app:layout_constraintEnd_toStartOf="@+id/gift_view_in_card_in_posts"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/layout_for_the_comment_in_card_in_psot"
+                app:layout_constraintTop_toTopOf="@+id/layout_for_the_comment_in_card_in_psot" />
+
+            <Button
+                android:id="@+id/button_to_watch_gift_in_card_in_post"
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_width="42dp"
+                android:layout_height="42dp"
+                android:background="@drawable/ripple_for_all_circle"
+                app:layout_constraintBottom_toBottomOf="@+id/gift_view_in_card_in_posts"
+                app:layout_constraintEnd_toEndOf="@+id/gift_view_in_card_in_posts"
+                app:layout_constraintStart_toStartOf="@+id/gift_view_in_card_in_posts"
+                app:layout_constraintTop_toTopOf="@+id/gift_view_in_card_in_posts" />
+
+            <View
+                android:id="@+id/gift_view_in_card_in_posts"
+                android:layout_width="29dp"
+                android:layout_height="29dp"
+                android:background="@drawable/round_card_giftcard_24"
+                app:layout_constraintBottom_toBottomOf="@+id/layout_for_the_comment_in_card_in_psot"
+                app:layout_constraintEnd_toEndOf="@+id/actual_text_to_show_post_in_card"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/save_button_in_card_in_posts"
+                app:layout_constraintTop_toTopOf="@+id/layout_for_the_comment_in_card_in_psot" />
+
+            <Button
+                android:id="@+id/button_to_watch_three_dot_in_card_in_post_in_top"
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_width="38dp"
+                android:layout_height="38dp"
+                android:background="@drawable/ripple_for_all_circle"
+                android:layout_marginTop="2dp"
+                android:layout_marginEnd="2dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"/>
+
+            <View
+                android:id="@+id/three_dots_at_the_top_right_of_post"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:background="@drawable/round_flag_24"
+                app:layout_constraintStart_toStartOf="@+id/button_to_watch_three_dot_in_card_in_post_in_top"
+                app:layout_constraintBottom_toBottomOf="@+id/button_to_watch_three_dot_in_card_in_post_in_top"
+                app:layout_constraintEnd_toEndOf="@+id/button_to_watch_three_dot_in_card_in_post_in_top"
+                app:layout_constraintTop_toTopOf="@+id/button_to_watch_three_dot_in_card_in_post_in_top" />
+
+            <View
+                android:id="@+id/start_part_of_the_grey_part_in_post_award"
+                android:layout_width="10dp"
+                android:layout_height="20dp"
+                android:background="@drawable/start_awards_part_posts_item"
+                app:layout_constraintBottom_toBottomOf="@+id/middle_part_of_the_grey_part_in_post_award"
+                app:layout_constraintStart_toStartOf="@+id/text_saying_name_in_feed_post_recylce_view_card"
+                app:layout_constraintTop_toTopOf="@+id/middle_part_of_the_grey_part_in_post_award" />
+
+            <View
+                android:id="@+id/middle_part_of_the_grey_part_in_post_award"
+                android:layout_width="0dp"
+                android:layout_height="20dp"
+                android:background="#f2f3f5"
+                app:layout_constraintEnd_toEndOf="@+id/silver_text_beside_the_award_post"
+                app:layout_constraintStart_toEndOf="@+id/start_part_of_the_grey_part_in_post_award"
+                app:layout_constraintTop_toBottomOf="@+id/three_dots_at_the_top_right_of_post" />
+
+            <View
+                android:id="@+id/end_part_of_the_grey_part_in_post_award"
+                android:layout_width="10dp"
+                android:layout_height="20dp"
+                android:background="@drawable/end_awards_post_items"
+                app:layout_constraintBottom_toBottomOf="@+id/middle_part_of_the_grey_part_in_post_award"
+                app:layout_constraintStart_toEndOf="@+id/middle_part_of_the_grey_part_in_post_award"
+                app:layout_constraintTop_toTopOf="@+id/middle_part_of_the_grey_part_in_post_award" />
+
+            <TextView
+                android:id="@+id/text_saying_the_number_of_awards"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="20 awards"
+                android:textColor="@color/fav"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="@+id/middle_part_of_the_grey_part_in_post_award"
+                app:layout_constraintTop_toBottomOf="@+id/three_dots_at_the_top_right_of_post" />
+
+            <View
+                android:id="@+id/circle_between_awards_and_plat_in_post"
+                android:layout_width="5dp"
+                android:layout_height="5dp"
+                android:layout_marginStart="5dp"
+                android:background="@drawable/circle_colored_fav_for_journal"
+                app:layout_constraintBottom_toBottomOf="@+id/middle_part_of_the_grey_part_in_post_award"
+                app:layout_constraintStart_toEndOf="@+id/text_saying_the_number_of_awards"
+                app:layout_constraintTop_toTopOf="@+id/middle_part_of_the_grey_part_in_post_award" />
+
+            <View
+                android:id="@+id/view_showing_the_plat_award"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginStart="5dp"
+                android:background="@drawable/ic_plat_award_posts"
+                app:layout_constraintBottom_toBottomOf="@+id/middle_part_of_the_grey_part_in_post_award"
+                app:layout_constraintDimensionRatio="1:1"
+                app:layout_constraintStart_toEndOf="@+id/circle_between_awards_and_plat_in_post"
+                app:layout_constraintTop_toTopOf="@+id/middle_part_of_the_grey_part_in_post_award" />
+
+            <TextView
+                android:id="@+id/plat_text_beside_the_award_posts"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:text="10"
+                android:textColor="@color/fav"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="@+id/middle_part_of_the_grey_part_in_post_award"
+                app:layout_constraintStart_toEndOf="@+id/view_showing_the_plat_award"
+                app:layout_constraintTop_toTopOf="@+id/middle_part_of_the_grey_part_in_post_award" />
+
+            <View
+                android:id="@+id/circle_between_plat_and_gold_in_post"
+                android:layout_width="5dp"
+                android:layout_height="5dp"
+                android:layout_marginStart="5dp"
+                android:background="@drawable/circle_colored_fav_for_journal"
+                app:layout_constraintBottom_toBottomOf="@+id/middle_part_of_the_grey_part_in_post_award"
+                app:layout_constraintStart_toEndOf="@+id/plat_text_beside_the_award_posts"
+                app:layout_constraintTop_toTopOf="@+id/middle_part_of_the_grey_part_in_post_award" />
+
+            <View
+                android:id="@+id/view_showing_the_gold_award"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginStart="5dp"
+                android:background="@drawable/gold_award_png"
+                app:layout_constraintBottom_toBottomOf="@+id/middle_part_of_the_grey_part_in_post_award"
+                app:layout_constraintDimensionRatio="1:1"
+                app:layout_constraintStart_toEndOf="@+id/circle_between_plat_and_gold_in_post"
+                app:layout_constraintTop_toTopOf="@+id/middle_part_of_the_grey_part_in_post_award" />
+
+            <TextView
+                android:id="@+id/plat_text_beside_the_gold_award_posts"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:text="5"
+                android:textColor="@color/fav"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="@+id/middle_part_of_the_grey_part_in_post_award"
+                app:layout_constraintStart_toEndOf="@+id/view_showing_the_gold_award"
+                app:layout_constraintTop_toTopOf="@+id/middle_part_of_the_grey_part_in_post_award" />
+
+            <View
+                android:id="@+id/circle_between_gold_and_silver_in_post"
+                android:layout_width="5dp"
+                android:layout_height="5dp"
+                android:layout_marginStart="5dp"
+                android:background="@drawable/circle_colored_fav_for_journal"
+                app:layout_constraintBottom_toBottomOf="@+id/middle_part_of_the_grey_part_in_post_award"
+                app:layout_constraintStart_toEndOf="@+id/plat_text_beside_the_gold_award_posts"
+                app:layout_constraintTop_toTopOf="@+id/middle_part_of_the_grey_part_in_post_award" />
+
+            <View
+                android:id="@+id/view_showing_the_silver_award"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginStart="5dp"
+                android:background="@drawable/silver_award_png"
+                app:layout_constraintBottom_toBottomOf="@+id/middle_part_of_the_grey_part_in_post_award"
+                app:layout_constraintDimensionRatio="1:1"
+                app:layout_constraintStart_toEndOf="@+id/circle_between_gold_and_silver_in_post"
+                app:layout_constraintTop_toTopOf="@+id/middle_part_of_the_grey_part_in_post_award" />
+
+            <TextView
+                android:id="@+id/silver_text_beside_the_award_post"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:text="5"
+                android:textColor="@color/fav"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="@+id/middle_part_of_the_grey_part_in_post_award"
+                app:layout_constraintStart_toEndOf="@+id/view_showing_the_silver_award"
+                app:layout_constraintTop_toTopOf="@+id/middle_part_of_the_grey_part_in_post_award" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/card_showing_teh_loading"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:foreground="?android:attr/selectableItemBackground"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constriant_inside_card_inside_loading"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <View
+                android:id="@+id/text_at_top_left_of_card_to_show_time_shimmer"
+                android:layout_width="60dp"
+                android:layout_height="20dp"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/loading_shape_for_post"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <View
+                android:id="@+id/circle_between_time_and_cat_in_card_shimmer"
+                android:layout_width="5dp"
+                android:layout_height="5dp"
+                android:layout_marginStart="5dp"
+                android:background="@drawable/circle_colored_fav_for_journal"
+                app:layout_constraintBottom_toBottomOf="@+id/text_at_top_left_of_card_to_show_time_shimmer"
+                app:layout_constraintStart_toEndOf="@+id/text_at_top_left_of_card_to_show_time_shimmer"
+                app:layout_constraintTop_toTopOf="@+id/text_at_top_left_of_card_to_show_time_shimmer" />
+
+            <TextView
+                android:id="@+id/text_at_the_top_showing_what_category_this_is_in_shimmer"
+                android:layout_width="60dp"
+                android:layout_height="20dp"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/loading_shape_for_post"
+                app:layout_constraintStart_toEndOf="@+id/circle_between_time_and_cat_in_card_shimmer"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <View
+                android:id="@+id/circle_between_time_and_cat_in_streak_in_post_shimmer"
+                android:layout_width="5dp"
+                android:layout_height="5dp"
+                android:layout_marginStart="5dp"
+                android:background="@drawable/circle_colored_fav_for_journal"
+                app:layout_constraintBottom_toBottomOf="@+id/text_at_top_left_of_card_to_show_time_shimmer"
+                app:layout_constraintStart_toEndOf="@+id/text_at_the_top_showing_what_category_this_is_in_shimmer"
+                app:layout_constraintTop_toTopOf="@+id/text_at_top_left_of_card_to_show_time_shimmer" />
+
+            <TextView
+                android:id="@+id/text_at_the_top_showing_how_much_is_the_streak_shimmer"
+                android:layout_width="60dp"
+                android:layout_height="20dp"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/loading_shape_for_post"
+                app:layout_constraintStart_toEndOf="@+id/circle_between_time_and_cat_in_streak_in_post_shimmer"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+            <View
+                android:id="@+id/title_for_post_in_posts_to_show_for_public_shimmer"
+                android:layout_width="100dp"
+                android:layout_height="20dp"
+                android:layout_marginTop="15dp"
+                android:background="@drawable/loading_shape_for_post"
+                app:layout_constraintStart_toStartOf="@+id/text_at_top_left_of_card_to_show_time_shimmer"
+                app:layout_constraintTop_toBottomOf="@+id/middle_part_of_the_grey_part_in_post_award_shimmer" />
+
+            <View
+                android:id="@+id/actual_text_to_show_post_in_card_shimmer"
+                android:layout_width="300dp"
+                android:layout_height="20dp"
+                android:layout_marginTop="15dp"
+                android:background="@drawable/loading_shape_for_post"
+                app:layout_constraintStart_toStartOf="@+id/text_at_top_left_of_card_to_show_time_shimmer"
+                app:layout_constraintTop_toBottomOf="@+id/title_for_post_in_posts_to_show_for_public_shimmer" />
+
+
+            <View
+                android:id="@+id/middle_part_of_the_grey_part_in_post_award_shimmer"
+                android:layout_width="60dp"
+                android:layout_height="20dp"
+                android:layout_marginTop="15dp"
+                android:background="@drawable/loading_shape_for_post"
+                app:layout_constraintStart_toStartOf="@+id/text_at_top_left_of_card_to_show_time_shimmer"
+                app:layout_constraintTop_toBottomOf="@+id/text_at_top_left_of_card_to_show_time_shimmer" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.1dp"
+                android:layout_marginTop="10dp"
+                android:background="@android:color/transparent"
+                app:layout_constraintTop_toBottomOf="@+id/actual_text_to_show_post_in_card_shimmer" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

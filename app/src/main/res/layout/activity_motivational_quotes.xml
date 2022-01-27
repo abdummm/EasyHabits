@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.easyhabitsapp2.android.Motivational_quotes">
+
+    <TextView
+        android:id="@+id/quotes_in_motivate_button"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_marginEnd="12dp"
+        android:text="motivation"
+        android:textColor="@color/fav"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:textAlignment="center"
+        android:gravity="center"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/view_to_next_motivation"
+        app:layout_constraintStart_toEndOf="@+id/view_to_previous_motivation"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <View
+        android:id="@+id/view_to_next_motivation"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginEnd="20dp"
+        android:background="@drawable/round_arrow_forward_ios_24"
+        android:elevation="100dp"
+        app:layout_constraintBottom_toBottomOf="@+id/quotes_in_motivate_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/quotes_in_motivate_button" />
+
+    <View
+        android:id="@+id/view_to_previous_motivation"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="20dp"
+        android:background="@drawable/round_arrow_back_ios_24"
+        android:elevation="100dp"
+        app:layout_constraintBottom_toBottomOf="@+id/quotes_in_motivate_button"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/quotes_in_motivate_button" />
+
+    <Button
+        android:id="@+id/back_button_ios_in_motivation"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:background="@drawable/ripple_for_all_circle"
+        style="?android:attr/borderlessButtonStyle"
+        app:layout_constraintBottom_toBottomOf="@+id/view_to_previous_motivation"
+        app:layout_constraintEnd_toEndOf="@+id/view_to_previous_motivation"
+        app:layout_constraintStart_toStartOf="@+id/view_to_previous_motivation"
+        app:layout_constraintTop_toTopOf="@+id/view_to_previous_motivation" />
+
+    <Button
+        android:id="@+id/forward_button_ios_in_motivation"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:background="@drawable/ripple_for_all_circle"
+        style="?android:attr/borderlessButtonStyle"
+        app:layout_constraintBottom_toBottomOf="@+id/view_to_next_motivation"
+        app:layout_constraintEnd_toEndOf="@+id/view_to_next_motivation"
+        app:layout_constraintStart_toStartOf="@+id/view_to_next_motivation"
+        app:layout_constraintTop_toTopOf="@+id/view_to_next_motivation" />
+
+    <Button
+        android:id="@+id/button_to_copy_motivation"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Copy quote"
+        android:textColor="@color/fav"
+        android:background="@drawable/ripple_for_all"
+        style="?android:attr/borderlessButtonStyle"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/button_to_share_motivation"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/view_to_previous_motivation" />
+
+    <Button
+        android:id="@+id/button_to_share_motivation"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Share quote"
+        android:textColor="@color/fav"
+        android:background="@drawable/ripple_for_all"
+        style="?android:attr/borderlessButtonStyle"
+        app:layout_constraintBottom_toBottomOf="@+id/button_to_copy_motivation"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/button_to_copy_motivation"
+        app:layout_constraintTop_toTopOf="@+id/button_to_copy_motivation" />
+
+    <View
+        android:id="@+id/back_button_in_the_journal_emergency"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="5dp"
+        android:elevation="100dp"
+        android:background="@drawable/round_arrow_back_24"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/button_to_go_back_counter"
+        style="?android:attr/borderlessButtonStyle"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="5dp"
+        android:background="@drawable/round_button_for_trash"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

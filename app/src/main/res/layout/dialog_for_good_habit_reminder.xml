@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/whitelist_dialog_background">
+
+    <View
+        android:id="@+id/view_that_contains_title_of_dialog"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:background="@drawable/removing_corners_for_view"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/title_of_dialog_white_list"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Set Reminder"
+        android:textColor="@color/white"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/view_that_contains_title_of_dialog"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/view_that_contains_title_of_dialog"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/text_view_saying_time_good_habit_dialog"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Time:"
+        android:textColor="@color/fav"
+        android:textSize="17sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/button_to_change_time_in_good_habits"
+        app:layout_constraintEnd_toStartOf="@+id/button_to_change_time_in_good_habits"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/button_to_change_time_in_good_habits" />
+
+    <Button
+        android:id="@+id/button_to_change_time_in_good_habits"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:backgroundTint="@color/fav"
+        android:text="Change Time"
+        android:textColor="@color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/text_view_saying_time_good_habit_dialog"
+        app:layout_constraintTop_toBottomOf="@+id/view_that_contains_title_of_dialog" />
+
+    <TextView
+        android:id="@+id/text_saying_days_in_good_habits_dialog"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Days: "
+        android:textColor="@color/fav"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="30dp"
+        android:textSize="21sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button_to_change_time_in_good_habits" />
+
+    <CheckBox
+        android:id="@+id/monday_check_box_good_habits"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:buttonTint="@color/fav"
+        android:layout_marginTop="15dp"
+        android:text="Monday"
+        android:textColor="@color/fav"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:checked="true"
+        app:layout_constraintStart_toStartOf="@+id/text_saying_days_in_good_habits_dialog"
+        app:layout_constraintTop_toBottomOf="@+id/text_saying_days_in_good_habits_dialog" />
+
+    <CheckBox
+        android:id="@+id/tuesday_check_box_good_habits"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:buttonTint="@color/fav"
+        android:layout_marginTop="10dp"
+        android:text="Tuesday"
+        android:textColor="@color/fav"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:checked="true"
+        app:layout_constraintStart_toStartOf="@+id/text_saying_days_in_good_habits_dialog"
+        app:layout_constraintTop_toBottomOf="@+id/monday_check_box_good_habits" />
+
+    <CheckBox
+        android:id="@+id/wednesday_check_box_good_habits"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:buttonTint="@color/fav"
+        android:layout_marginTop="10dp"
+        android:text="Wednesday"
+        android:textColor="@color/fav"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:checked="true"
+        app:layout_constraintStart_toStartOf="@+id/text_saying_days_in_good_habits_dialog"
+        app:layout_constraintTop_toBottomOf="@+id/tuesday_check_box_good_habits" />
+
+    <CheckBox
+        android:id="@+id/thursday_check_box_good_habits"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:buttonTint="@color/fav"
+        android:layout_marginTop="10dp"
+        android:text="Thursday"
+        android:textColor="@color/fav"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:checked="true"
+        app:layout_constraintStart_toStartOf="@+id/text_saying_days_in_good_habits_dialog"
+        app:layout_constraintTop_toBottomOf="@+id/wednesday_check_box_good_habits" />
+
+    <CheckBox
+        android:id="@+id/friday_check_box_good_habits"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:buttonTint="@color/fav"
+        android:layout_marginTop="10dp"
+        android:text="Friday"
+        android:textColor="@color/fav"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:checked="true"
+        app:layout_constraintStart_toStartOf="@+id/text_saying_days_in_good_habits_dialog"
+        app:layout_constraintTop_toBottomOf="@+id/thursday_check_box_good_habits" />
+
+    <CheckBox
+        android:id="@+id/saturday_check_box_good_habits"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:buttonTint="@color/fav"
+        android:layout_marginTop="10dp"
+        android:text="Saturday"
+        android:textColor="@color/fav"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:checked="true"
+        app:layout_constraintStart_toStartOf="@+id/text_saying_days_in_good_habits_dialog"
+        app:layout_constraintTop_toBottomOf="@+id/friday_check_box_good_habits" />
+
+    <CheckBox
+        android:id="@+id/sunday_check_box_good_habits"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:buttonTint="@color/fav"
+        android:layout_marginTop="10dp"
+        android:text="Sunday"
+        android:textColor="@color/fav"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:checked="true"
+        app:layout_constraintStart_toStartOf="@+id/text_saying_days_in_good_habits_dialog"
+        app:layout_constraintTop_toBottomOf="@+id/saturday_check_box_good_habits" />
+
+    <Button
+        android:id="@+id/ok_button_for_white_list_dialog"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="15dp"
+        android:layout_marginBottom="10dp"
+        android:backgroundTint="@color/white"
+        android:stateListAnimator="@null"
+        android:text="@android:string/ok"
+        android:textColor="@color/fav"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <Button
+        android:id="@+id/cancel_button_for_white_list_dialog"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:backgroundTint="@color/white"
+        android:stateListAnimator="@null"
+        android:text="@android:string/cancel"
+        android:textColor="@color/fav"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/ok_button_for_white_list_dialog" />
+
+    <View
+        android:id="@+id/view_under_lasat_check_box"
+        android:layout_width="0dp"
+        android:layout_height="0.1dp"
+        android:background="@android:color/transparent"
+        android:layout_marginTop="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/sunday_check_box_good_habits" />
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

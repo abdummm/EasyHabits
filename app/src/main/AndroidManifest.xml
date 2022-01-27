@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.easyhabitsapp.android"
+    tools:ignore="LockedOrientationActivity">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.PACKAGE_USAGE_STATS" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.REORDER_TASKS" />
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <uses-permission android:name="android.permission.QUERY_ALL_PACKAGES" />
+
+    <application
+        android:name="com.easyhabitsapp.android.First_time_running"
+        android:allowBackup="false"
+        android:fullBackupOnly="false"
+        android:hardwareAccelerated="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="false"
+        android:theme="@style/AppTheme"
+        tools:replace="allowBackup">
+        <activity android:name="com.easyhabitsapp.android.Add_bad_habits_in_home_button" />
+        <activity android:name="com.easyhabitsapp.android.Weight_tracker_emergency" />
+        <activity android:name="com.easyhabitsapp.android.phone_usage_emergency" />
+        <activity android:name="com.easyhabitsapp.android.Pushups_emergency" />
+        <activity android:name="com.easyhabitsapp.android.Motivational_quotes" />
+        <activity android:name="com.easyhabitsapp.android.Counter_activity" />
+        <activity android:name="com.easyhabitsapp.android.Journal_emergency" />
+        <activity android:name="com.easyhabitsapp.android.Second_screen_to_choose_emergency" />
+        <activity android:name="com.easyhabitsapp.android.Which_habit_do_i_choose" />
+        <activity
+            android:name="com.easyhabitsapp.android.Cold_shower_activity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.easyhabitsapp.android.Locking_the_screen"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.easyhabitsapp.android.First_screen"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.easyhabitsapp.android.MainActivity"
+            android:screenOrientation="portrait" />
+
+        <service
+            android:name="com.easyhabitsapp.android.Lock_phone_service"
+            android:configChanges="orientation|screenSize" />
+
+        <activity
+            android:name="com.easyhabitsapp.android.after_login"
+            android:label="@string/title_activity_after_login"
+            android:windowSoftInputMode="stateHidden"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.easyhabitsapp.android.Before_main_activity"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <receiver android:name=".Send_notifcation_at_set_time"/>
+
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="com.easyhabitsapp.android.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/filepaths"/>
+        </provider>
+
+    </application>
+
+</manifest>

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/item_number_one_for_menu_edit_week_month_mood"
+        android:title="Weekly Average" />
+    <item
+        android:id="@+id/item_number_two_for_menu_delete_week_month_mood"
+        android:title="Monthly Average" />
+</menu>

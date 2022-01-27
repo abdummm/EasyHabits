@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <TextView
+        android:id="@+id/title_for_system_choose_system"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Choose Measurement System"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        android:layout_marginTop="30dp"
+        android:textStyle="bold"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+    <Button
+        android:id="@+id/make_metric_system_running"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/ripple_for_all"
+        android:layout_marginTop="15dp"
+        android:text="Metric System (Kilometers)"
+        android:textColor="@color/fav"
+        android:textAllCaps="false"
+        style="?android:attr/borderlessButtonStyle"
+        app:layout_constraintTop_toBottomOf="@+id/title_for_system_choose_system"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <View
+        android:id="@+id/horizantal_straight_line_1"
+        android:layout_width="0dp"
+        android:layout_height="1.5dp"
+        android:background="@color/fav"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/make_metric_system_running" />
+
+    <Button
+        android:id="@+id/make_imperial_system_running"
+        style="?android:attr/borderlessButtonStyle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/ripple_for_all"
+        android:text="Imperial System (Miles)"
+        android:textAllCaps="false"
+        android:textColor="@color/fav"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/horizantal_straight_line_1" />
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

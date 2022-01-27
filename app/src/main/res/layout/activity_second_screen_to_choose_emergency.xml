@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.easyhabitsapp2.android.Second_screen_to_choose_emergency">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout_child_in_the_middle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <Button
+            android:id="@+id/journal_button_on_off_at_start"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Journal"
+            app:layout_constraintEnd_toStartOf="@+id/lock_phone_button_on_off_at_start"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/lock_phone_button_on_off_at_start"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Lock Phone"
+            app:layout_constraintEnd_toStartOf="@+id/cold_shower_button_on_off_at_start"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/journal_button_on_off_at_start"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/cold_shower_button_on_off_at_start"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Cold Shower"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/lock_phone_button_on_off_at_start"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/push_ups_button_on_off_at_start"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="Push ups"
+            app:layout_constraintEnd_toStartOf="@+id/motivational_quotes_button_on_off_at_start"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/journal_button_on_off_at_start" />
+
+        <Button
+            android:id="@+id/running_or_biking_phone_button_on_off_at_start"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Running/Biking"
+            app:layout_constraintEnd_toStartOf="@+id/weight_tracker_button_on_off_at_start"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/counter_button_on_off_at_start" />
+
+        <Button
+            android:id="@+id/mediation_button_on_off_at_start"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="Mediation"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/motivational_quotes_button_on_off_at_start"
+            app:layout_constraintTop_toBottomOf="@+id/journal_button_on_off_at_start" />
+
+        <Button
+            android:id="@+id/motivational_quotes_button_on_off_at_start"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="Quotes"
+            app:layout_constraintEnd_toStartOf="@+id/mediation_button_on_off_at_start"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="@+id/view_total_phone_usage_phone_button_on_off_at_start"
+            app:layout_constraintTop_toBottomOf="@+id/journal_button_on_off_at_start" />
+
+        <Button
+            android:id="@+id/view_total_phone_usage_phone_button_on_off_at_start"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="Phone Usage"
+            app:layout_constraintEnd_toStartOf="@+id/view_user_submitted_stories_button_on_off_at_start"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/counter_button_on_off_at_start"
+            app:layout_constraintTop_toBottomOf="@+id/push_ups_button_on_off_at_start" />
+
+        <Button
+            android:id="@+id/view_user_submitted_stories_button_on_off_at_start"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="User Stories"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/view_total_phone_usage_phone_button_on_off_at_start"
+            app:layout_constraintTop_toBottomOf="@+id/push_ups_button_on_off_at_start" />
+
+        <Button
+            android:id="@+id/counter_button_on_off_at_start"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Counter"
+            android:layout_marginTop="10dp"
+            app:layout_constraintEnd_toStartOf="@+id/view_total_phone_usage_phone_button_on_off_at_start"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/push_ups_button_on_off_at_start" />
+
+        <Button
+            android:id="@+id/weight_tracker_button_on_off_at_start"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="Weight Tracker"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/running_or_biking_phone_button_on_off_at_start"
+            app:layout_constraintTop_toBottomOf="@+id/counter_button_on_off_at_start" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <TextView
+        android:id="@+id/text_asking_which_buttons_are_good_for_you"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Which features would you like to be available for you when you Emergency button"
+        android:layout_marginBottom="50dp"
+        android:textAlignment="center"
+        android:gravity="center"
+        android:textColor="@color/fav"
+        android:textSize="17sp"
+        app:layout_constraintBottom_toTopOf="@+id/constraintLayout_child_in_the_middle"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/you_can_change_text_under"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="You can always change it later in settings"
+        android:textAlignment="center"
+        android:gravity="center"
+        android:textColor="@color/fav"
+        android:textSize="17sp"
+        android:layout_marginTop="75dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout_child_in_the_middle" />
+
+    <Button
+        android:id="@+id/back_button_to_previous"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/white"
+        android:backgroundTint="@color/fav"
+        android:text="Back"
+        android:layout_marginBottom="5dp"
+        android:layout_marginStart="5dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/next_button_to_next"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Next"
+        android:textColor="@color/white"
+        android:backgroundTint="@color/fav"
+        android:layout_marginBottom="5dp"
+        android:layout_marginEnd="5dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>

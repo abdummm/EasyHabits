@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/whitelist_dialog_background">
+
+    <View
+        android:id="@+id/view_that_contains_title_of_dialog"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:background="@drawable/removing_corners_for_view"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/new_button_to_create_white_list"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/color_for_botton_on"
+        android:text="New"
+        android:textColor="@color/white"
+        app:layout_constraintEnd_toStartOf="@+id/custom_button_to_use_white_list"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/view_that_contains_title_of_dialog" />
+
+    <Button
+        android:id="@+id/custom_button_to_use_white_list"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/color_for_botton_off"
+        android:text="  your list  "
+        android:textColor="@color/fav"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/new_button_to_create_white_list"
+        app:layout_constraintTop_toBottomOf="@+id/view_that_contains_title_of_dialog" />
+
+    <Button
+        android:id="@+id/ok_button_for_white_list_dialog"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="15dp"
+        android:layout_marginBottom="10dp"
+        android:backgroundTint="@color/white"
+        android:stateListAnimator="@null"
+        android:text="@android:string/ok"
+        android:textColor="@color/fav"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <Button
+        android:id="@+id/cancel_button_for_white_list_dialog"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:backgroundTint="@color/white"
+        android:stateListAnimator="@null"
+        android:text="@android:string/cancel"
+        android:textColor="@color/fav"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/ok_button_for_white_list_dialog" />
+
+    <EditText
+        android:id="@+id/enter_name_to_search_app_white_list_edit_text"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="15dp"
+        android:ems="10"
+        android:hint="Enter app name"
+        android:inputType="textPersonName"
+        android:textColorHint="@color/fav"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.918"
+        app:layout_constraintStart_toEndOf="@+id/search_text_beside_search_app_edit_text"
+        app:layout_constraintTop_toBottomOf="@+id/custom_button_to_use_white_list" />
+
+    <TextView
+        android:id="@+id/title_of_dialog_white_list"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Whitelist apps"
+        android:textColor="@color/white"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/view_that_contains_title_of_dialog"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/view_that_contains_title_of_dialog"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/search_text_beside_search_app_edit_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
+        android:text="Search: "
+        android:textColor="@color/fav"
+        android:textSize="19sp"
+        app:layout_constraintBottom_toBottomOf="@+id/enter_name_to_search_app_white_list_edit_text"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/enter_name_to_search_app_white_list_edit_text" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/apps_recycle_view_white_list"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginBottom="10dp"
+        app:layout_constraintBottom_toTopOf="@+id/cancel_button_for_white_list_dialog"
+        app:layout_constraintEnd_toEndOf="@+id/enter_name_to_search_app_white_list_edit_text"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="@+id/search_text_beside_search_app_edit_text"
+        app:layout_constraintTop_toBottomOf="@+id/enter_name_to_search_app_white_list_edit_text" />
+
+    <ProgressBar
+        android:id="@+id/progressBar_cyclic_for_the_white_list_dialog"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:minWidth="40dp"
+        android:minHeight="40dp"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="@+id/apps_recycle_view_white_list"
+        app:layout_constraintEnd_toEndOf="@+id/apps_recycle_view_white_list"
+        app:layout_constraintStart_toStartOf="@+id/apps_recycle_view_white_list"
+        app:layout_constraintTop_toTopOf="@+id/apps_recycle_view_white_list" />
+
+    <TextView
+        android:id="@+id/saying_that_there_is_no_lists_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="There are no existing lists, please create a new list."
+        android:textColor="@color/fav"
+        android:textSize="16sp"
+        android:visibility="invisible"
+        android:gravity="center_horizontal"
+        app:layout_constraintBottom_toBottomOf="@+id/ok_button_for_white_list_dialog"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/custom_button_to_use_white_list" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/apps_recycle_view_for_allowed_apps"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginBottom="10dp"
+        app:layout_constraintBottom_toTopOf="@+id/cancel_button_for_white_list_dialog"
+        app:layout_constraintEnd_toEndOf="@+id/enter_name_to_search_app_white_list_edit_text"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="@+id/search_text_beside_search_app_edit_text"
+        app:layout_constraintTop_toBottomOf="@+id/enter_name_to_search_app_white_list_edit_text" />
+
+    <Button
+        android:id="@+id/save_button_for_white_list_dialog"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginBottom="10dp"
+        android:backgroundTint="@color/white"
+        android:stateListAnimator="@null"
+        android:text="save list"
+
+        android:textColor="@color/fav"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/this_is_your_list"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="This is your saved list"
+        android:textColor="@color/fav"
+        android:textSize="18sp"
+        android:visibility="invisible"
+        android:gravity="center_horizontal"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/apps_recycle_view_for_allowed_apps"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/new_button_to_create_white_list" />
+
+    <Button
+        android:id="@+id/clear_button_for_white_list_dialog"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginBottom="10dp"
+        android:backgroundTint="@color/white"
+        android:stateListAnimator="@null"
+        android:text="clear list"
+        android:textColor="@color/fav"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>

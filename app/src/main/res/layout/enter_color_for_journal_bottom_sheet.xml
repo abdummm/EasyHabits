@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/text_saying_the_color_of_the_color_bottom"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:text="Change text color"
+        android:textColor="@color/black"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/teal_color_circle_under_bottom"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/z_dark_green"
+        app:layout_constraintEnd_toStartOf="@+id/red_color_circle_under_bottom"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/text_saying_the_color_of_the_color_bottom" />
+
+    <Button
+        android:id="@+id/red_color_circle_under_bottom"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/z_red"
+        app:layout_constraintEnd_toStartOf="@+id/green_color_circle_under_bottom"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/teal_color_circle_under_bottom"
+        app:layout_constraintTop_toBottomOf="@+id/text_saying_the_color_of_the_color_bottom" />
+
+    <Button
+        android:id="@+id/green_color_circle_under_bottom"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/z_green"
+        app:layout_constraintEnd_toStartOf="@+id/blue_color_circle_under_bottom"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/red_color_circle_under_bottom"
+        app:layout_constraintTop_toBottomOf="@+id/text_saying_the_color_of_the_color_bottom" />
+
+    <Button
+        android:id="@+id/blue_color_circle_under_bottom"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/z_blue"
+        app:layout_constraintEnd_toStartOf="@+id/orange_color_circle_under_bottom"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/green_color_circle_under_bottom"
+        app:layout_constraintTop_toBottomOf="@+id/text_saying_the_color_of_the_color_bottom" />
+
+    <Button
+        android:id="@+id/orange_color_circle_under_bottom"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/z_orange"
+        app:layout_constraintEnd_toStartOf="@+id/navy_color_circle_under_bottom"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/blue_color_circle_under_bottom"
+        app:layout_constraintTop_toBottomOf="@+id/text_saying_the_color_of_the_color_bottom" />
+
+    <Button
+        android:id="@+id/navy_color_circle_under_bottom"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/z_brown"
+        app:layout_constraintEnd_toStartOf="@+id/black_color_circle_under_bottom"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/orange_color_circle_under_bottom"
+        app:layout_constraintTop_toBottomOf="@+id/text_saying_the_color_of_the_color_bottom" />
+
+    <Button
+        android:id="@+id/black_color_circle_under_bottom"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/z_black"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/navy_color_circle_under_bottom"
+        app:layout_constraintTop_toBottomOf="@+id/text_saying_the_color_of_the_color_bottom" />
+
+    <View
+        android:id="@+id/horizantal_straight_line_3"
+        android:layout_width="0dp"
+        android:layout_height="1.5dp"
+        android:layout_marginTop="35dp"
+        android:background="@android:color/transparent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/teal_color_circle_under_bottom" />
+</androidx.constraintlayout.widget.ConstraintLayout>

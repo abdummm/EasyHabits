@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:id="@+id/layout_showing_phone_usage"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    tools:context="com.easyhabitsapp2.android.phone_usage_emergency">
+
+    <TextView
+        android:id="@+id/text_saying_the_phone_usage_in_the_top"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="Total phone usage in the past 7 days"
+        android:textAlignment="center"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/view_showing_number_of_hours"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/view_showing_number_of_hours"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="123"
+        android:textColor="@color/black"
+        android:textSize="130sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.5" />
+
+    <TextView
+        android:id="@+id/hours_just_beside_big_in_phone_usage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:text="hours"
+        android:textColor="@color/black"
+        app:layout_constraintBottom_toBottomOf="@+id/view_showing_number_of_hours"
+        app:layout_constraintStart_toEndOf="@+id/view_showing_number_of_hours" />
+
+    <TextView
+        android:id="@+id/days_under_hours_phone_usage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="60dp"
+        android:text=""
+        android:textColor="@color/fav"
+        android:textSize="17sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toStartOf="@+id/minutes_under_hours_phone_usage"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/view_showing_number_of_hours" />
+
+    <TextView
+        android:id="@+id/minutes_under_hours_phone_usage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="60dp"
+        android:text=""
+        android:textColor="@color/fav"
+        android:textSize="17sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toStartOf="@+id/seconds_under_hours_phone_usage"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/days_under_hours_phone_usage"
+        app:layout_constraintTop_toBottomOf="@+id/view_showing_number_of_hours" />
+
+    <TextView
+        android:id="@+id/seconds_under_hours_phone_usage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="60dp"
+        android:text=""
+        android:textColor="@color/fav"
+        android:textSize="17sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/minutes_under_hours_phone_usage"
+        app:layout_constraintTop_toBottomOf="@+id/view_showing_number_of_hours" />
+
+    <TextView
+        android:id="@+id/text_view_under_days_phone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="Days"
+        android:textColor="@color/black"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="@+id/days_under_hours_phone_usage"
+        app:layout_constraintStart_toStartOf="@+id/days_under_hours_phone_usage"
+        app:layout_constraintTop_toBottomOf="@+id/days_under_hours_phone_usage" />
+
+    <TextView
+        android:id="@+id/text_view_under_minutes_phone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="Minutes"
+        android:textColor="@color/black"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="@+id/minutes_under_hours_phone_usage"
+        app:layout_constraintStart_toStartOf="@+id/minutes_under_hours_phone_usage"
+        app:layout_constraintTop_toBottomOf="@+id/minutes_under_hours_phone_usage" />
+
+    <TextView
+        android:id="@+id/text_view_under_seconds_phone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="Seconds"
+        android:textColor="@color/black"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="@+id/seconds_under_hours_phone_usage"
+        app:layout_constraintStart_toStartOf="@+id/seconds_under_hours_phone_usage"
+        app:layout_constraintTop_toBottomOf="@+id/seconds_under_hours_phone_usage" />
+
+    <View
+        android:id="@+id/back_button_in_the_journal_emergency"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="5dp"
+        android:background="@drawable/round_arrow_back_24"
+        android:elevation="100dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/button_to_go_back_counter"
+        style="?android:attr/borderlessButtonStyle"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="5dp"
+        android:background="@drawable/round_button_for_trash"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/button_lets_go_to_go_back_to_emergency"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/fav"
+        android:text="Got it"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/button_to_sahre_phone_usage"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/text_view_under_minutes_phone" />
+
+    <Button
+        android:id="@+id/button_to_sahre_phone_usage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/fav"
+        android:text="Share"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/button_lets_go_to_go_back_to_emergency"
+        app:layout_constraintTop_toBottomOf="@+id/text_view_under_minutes_phone" />
+
+    <TextView
+        android:id="@+id/text_saying_name_of_the_app_in_the_phone_usage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:gravity="center"
+        android:text="Easy Habits"
+        android:textAlignment="center"
+        android:textColor="@color/fav"
+        android:textSize="25sp"
+        android:textStyle="bold"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="@+id/button_lets_go_to_go_back_to_emergency"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/button_lets_go_to_go_back_to_emergency" />
+</androidx.constraintlayout.widget.ConstraintLayout>

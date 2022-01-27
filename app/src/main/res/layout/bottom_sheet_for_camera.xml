@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <Button
+        android:id="@+id/take_photo_for_journal_button"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/ripple_for_all"
+        android:layout_marginTop="20dp"
+        android:text="Take a photo"
+        android:textColor="@color/fav"
+        android:textAllCaps="false"
+        style="?android:attr/borderlessButtonStyle"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <View
+        android:id="@+id/horizantal_straight_line_1"
+        android:layout_width="0dp"
+        android:layout_height="1.5dp"
+        android:background="@color/fav"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/take_photo_for_journal_button" />
+
+    <Button
+        android:id="@+id/import_galley_button_journal"
+        style="?android:attr/borderlessButtonStyle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/ripple_for_all"
+        android:text="Import Image From Gallery"
+        android:textAllCaps="false"
+        android:textColor="@color/fav"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/horizantal_straight_line_1" />
+
+    <View
+        android:id="@+id/select_all_icon_in_bottom_journal_camera"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:background="@drawable/round_photo_camera_24"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginStart="30dp"
+        app:layout_constraintBottom_toBottomOf="@+id/take_photo_for_journal_button"
+        app:layout_constraintTop_toTopOf="@+id/take_photo_for_journal_button" />
+
+    <View
+        android:id="@+id/import_from_gallery_icon_in_bottom_journal_camera"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:background="@drawable/round_collections_24"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginStart="30dp"
+        app:layout_constraintBottom_toBottomOf="@+id/import_galley_button_journal"
+        app:layout_constraintTop_toTopOf="@+id/import_galley_button_journal" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,2296 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/stats_scroll_view"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#FFFFFF"
+        android:id="@+id/stat_fragment_for_layout"
+        tools:context="com.easyhabitsapp2.android.stats_fragment">
+
+        <TextView
+            android:id="@+id/main_text_in_statistics"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:text="Statistics"
+            android:textColor="@color/fav"
+            android:textSize="25sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <View
+            android:id="@+id/horizontal_line_under_the_main"
+            android:layout_width="0dp"
+            android:layout_height="1.5dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="20dp"
+            android:background="@color/fav"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/main_text_in_statistics" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/calender_in_stats"
+            android:layout_width="304dp"
+            android:layout_height="320dp"
+            android:layout_marginTop="20dp"
+            android:background="@color/white"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/horizontal_line_under_the_main">
+
+            <TextView
+                android:id="@+id/month_and_year_in_calender"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Month year"
+                android:textColor="@color/fav"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="@+id/button_shadow_for_the_back"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/button_shadow_for_the_back" />
+
+            <Button
+                android:id="@+id/button_shadow_for_the_back"
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="@drawable/round_button"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <Button
+                android:id="@+id/button_shadow_for_the_front"
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="@drawable/round_button"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <View
+                android:id="@+id/forward_button_over"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_margin="10dp"
+                android:background="@drawable/round_arrow_forward_ios_24"
+                app:layout_constraintBottom_toBottomOf="@+id/button_shadow_for_the_front"
+                app:layout_constraintLeft_toLeftOf="@+id/button_shadow_for_the_front"
+                app:layout_constraintRight_toRightOf="@+id/button_shadow_for_the_front"
+                app:layout_constraintTop_toTopOf="@+id/button_shadow_for_the_front" />
+
+            <View
+                android:id="@+id/backward_button_over"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_margin="10dp"
+                android:background="@drawable/round_arrow_back_ios_24"
+                app:layout_constraintBottom_toBottomOf="@+id/button_shadow_for_the_back"
+                app:layout_constraintLeft_toLeftOf="@+id/button_shadow_for_the_back"
+                app:layout_constraintRight_toRightOf="@+id/button_shadow_for_the_back"
+                app:layout_constraintTop_toTopOf="@+id/button_shadow_for_the_back" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/child_of_calender_showing_days"
+                android:layout_width="304dp"
+                android:layout_height="40dp"
+                android:background="@color/white"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/button_shadow_for_the_back">
+
+                <TextView
+                    android:id="@+id/first_day_in_the_week_calender"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:gravity="center"
+                    android:text=""
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/second_day_in_the_week_calender"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginStart="4dp"
+                    android:gravity="center"
+                    android:text=""
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toEndOf="@+id/first_day_in_the_week_calender"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/third_day_in_the_week_calender"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginStart="4dp"
+                    android:gravity="center"
+                    android:text=""
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toEndOf="@+id/second_day_in_the_week_calender"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/fourth_day_in_the_week_calender"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginStart="4dp"
+                    android:gravity="center"
+                    android:text=""
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toEndOf="@+id/third_day_in_the_week_calender"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/fifth_day_in_the_week_calender"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginStart="4dp"
+                    android:gravity="center"
+                    android:text=""
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toEndOf="@+id/fourth_day_in_the_week_calender"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/sixth_day_in_the_week_calender"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginStart="4dp"
+                    android:gravity="center"
+                    android:text=""
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toEndOf="@+id/fifth_day_in_the_week_calender"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/seventh_day_in_the_week_calender"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginStart="4dp"
+                    android:gravity="center"
+                    android:text=""
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toEndOf="@+id/sixth_day_in_the_week_calender"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/child_showing_days_number_for_calender"
+                android:layout_width="304dp"
+                android:layout_height="240dp"
+                android:background="@color/white"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/child_of_calender_showing_days">
+
+                <View
+                    android:id="@+id/event_for_calender_one_1"
+                    android:layout_width="5dp"
+                    android:layout_height="5dp"
+                    android:layout_marginTop="2dp"
+                    app:layout_constraintEnd_toEndOf="@+id/calender_button_showing_shadow_1"
+                    app:layout_constraintStart_toStartOf="@+id/calender_button_showing_shadow_1"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <View
+                    android:id="@+id/event_for_calender_one_2"
+                    android:layout_width="5dp"
+                    android:layout_height="5dp"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginStart="3dp"
+                    app:layout_constraintStart_toEndOf="@+id/event_for_calender_one_1"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <View
+                    android:id="@+id/event_for_calender_one_3"
+                    android:layout_width="5dp"
+                    android:layout_height="5dp"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginEnd="3dp"
+                    app:layout_constraintEnd_toStartOf="@+id/event_for_calender_one_1"
+                    app:layout_constraintTop_toTopOf="parent" />
+                <View
+                    android:id="@+id/event_for_calender_two_1"
+                    android:layout_width="5dp"
+                    android:layout_height="5dp"
+                    android:layout_marginTop="2dp"
+                    app:layout_constraintEnd_toEndOf="@+id/calender_button_showing_shadow_2"
+                    app:layout_constraintStart_toStartOf="@+id/calender_button_showing_shadow_2"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <View
+                    android:id="@+id/event_for_calender_two_2"
+                    android:layout_width="5dp"
+                    android:layout_height="5dp"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginStart="3dp"
+                    app:layout_constraintStart_toEndOf="@+id/event_for_calender_two_1"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <View
+                    android:id="@+id/event_for_calender_two_3"
+                    android:layout_width="5dp"
+                    android:layout_height="5dp"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginEnd="3dp"
+                    app:layout_constraintEnd_toStartOf="@+id/event_for_calender_two_1"
+                    app:layout_constraintTop_toTopOf="parent" />
+                <View
+                    android:id="@+id/event_for_calender_three_1"
+                    android:layout_width="5dp"
+                    android:layout_height="5dp"
+                    android:layout_marginTop="2dp"
+                    app:layout_constraintEnd_toEndOf="@+id/calender_button_showing_shadow_3"
+                    app:layout_constraintStart_toStartOf="@+id/calender_button_showing_shadow_3"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <View
+                    android:id="@+id/event_for_calender_three_2"
+                    android:layout_width="5dp"
+                    android:layout_height="5dp"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginStart="3dp"
+                    app:layout_constraintStart_toEndOf="@+id/event_for_calender_three_1"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <View
+                    android:id="@+id/event_for_calender_three_3"
+                    android:layout_width="5dp"
+                    android:layout_height="5dp"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginEnd="3dp"
+                    app:layout_constraintEnd_toStartOf="@+id/event_for_calender_three_1"
+                    app:layout_constraintTop_toTopOf="parent" />
+                <View
+                    android:id="@+id/event_for_calender_four_1"
+                    android:layout_width="5dp"
+                    android:layout_height="5dp"
+                    android:layout_marginTop="2dp"
+                    app:layout_constraintEnd_toEndOf="@+id/calender_button_showing_shadow_4"
+                    app:layout_constraintStart_toStartOf="@+id/calender_button_showing_shadow_4"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <View
+                    android:id="@+id/event_for_calender_four_2"
+                    android:layout_width="5dp"
+                    android:layout_height="5dp"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginStart="3dp"
+                    app:layout_constraintStart_toEndOf="@+id/event_for_calender_four_1"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <View
+                    android:id="@+id/event_for_calender_four_3"
+                    android:layout_width="5dp"
+                    android:layout_height="5dp"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginEnd="3dp"
+                    app:layout_constraintEnd_toStartOf="@+id/event_for_calender_four_1"
+                    app:layout_constraintTop_toTopOf="parent" />
+                <View
+                    android:id="@+id/event_for_calender_five_1"
+                    android:layout_width="5dp"
+                    android:layout_height="5dp"
+                    android:layout_marginTop="2dp"
+                    app:layout_constraintEnd_toEndOf="@+id/calender_button_showing_shadow_5"
+                    app:layout_constraintStart_toStartOf="@+id/calender_button_showing_shadow_5"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <View
+                    android:id="@+id/event_for_calender_five_2"
+                    android:layout_width="5dp"
+                    android:layout_height="5dp"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginStart="3dp"
+                    app:layout_constraintStart_toEndOf="@+id/event_for_calender_five_1"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <View
+                    android:id="@+id/event_for_calender_five_3"
+                    android:layout_width="5dp"
+                    android:layout_height="5dp"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginEnd="3dp"
+                    app:layout_constraintEnd_toStartOf="@+id/event_for_calender_five_1"
+                    app:layout_constraintTop_toTopOf="parent" />
+                <View
+                    android:id="@+id/event_for_calender_six_1"
+                    android:layout_width="5dp"
+                    android:layout_height="5dp"
+                    android:layout_marginTop="2dp"
+                    app:layout_constraintEnd_toEndOf="@+id/calender_button_showing_shadow_6"
+                    app:layout_constraintStart_toStartOf="@+id/calender_button_showing_shadow_6"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <View
+                    android:id="@+id/event_for_calender_six_2"
+                    android:layout_width="5dp"
+                    android:layout_height="5dp"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginStart="3dp"
+                    app:layout_constraintStart_toEndOf="@+id/event_for_calender_six_1"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <View
+                    android:id="@+id/event_for_calender_six_3"
+                    android:layout_width="5dp"
+                    android:layout_height="5dp"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginEnd="3dp"
+                    app:layout_constraintEnd_toStartOf="@+id/event_for_calender_six_1"
+                    app:layout_constraintTop_toTopOf="parent" />
+                <View
+                    android:id="@+id/event_for_calender_seven_1"
+                    android:layout_width="5dp"
+                    android:layout_height="5dp"
+                    android:layout_marginTop="2dp"
+                    app:layout_constraintEnd_toEndOf="@+id/calender_button_showing_shadow_7"
+                    app:layout_constraintStart_toStartOf="@+id/calender_button_showing_shadow_7"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <View
+                    android:id="@+id/event_for_calender_seven_2"
+                    android:layout_width="5dp"
+                    android:layout_height="5dp"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginStart="3dp"
+                    app:layout_constraintStart_toEndOf="@+id/event_for_calender_seven_1"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <View
+                    android:id="@+id/event_for_calender_seven_3"
+                    android:layout_width="5dp"
+                    android:layout_height="5dp"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginEnd="3dp"
+                    app:layout_constraintEnd_toStartOf="@+id/event_for_calender_seven_1"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <View
+                    android:id="@+id/event_for_calender_eight_1"
+                    android:layout_width="5dp"
+                    android:layout_height="5dp"
+                    android:layout_marginTop="2dp"
+                    app:layout_constraintEnd_toEndOf="@+id/calender_button_showing_shadow_8"
+                    app:layout_constraintStart_toStartOf="@+id/calender_button_showing_shadow_8"
+                    app:layout_constraintTop_toBottomOf="@+id/calender_button_showing_shadow_1" />
+
+                <View
+                    android:id="@+id/event_for_calender_eight_2"
+                    android:layout_width="5dp"
+                    android:layout_height="5dp"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginStart="3dp"
+                    app:layout_constraintStart_toEndOf="@+id/event_for_calender_one_1"
+                    app:layout_constraintTop_toBottomOf="@+id/calender_button_showing_shadow_1" />
+
+                <View
+                    android:id="@+id/event_for_calender_eight_3"
+                    android:layout_width="5dp"
+                    android:layout_height="5dp"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginEnd="3dp"
+                    app:layout_constraintEnd_toStartOf="@+id/event_for_calender_one_1"
+                    app:layout_constraintTop_toBottomOf="@+id/calender_button_showing_shadow_1"/>
+                <View
+                    android:id="@+id/event_for_calender_nine_1"
+                    android:layout_width="5dp"
+                    android:layout_height="5dp"
+                    android:layout_marginTop="2dp"
+                    app:layout_constraintEnd_toEndOf="@+id/calender_button_showing_shadow_9"
+                    app:layout_constraintStart_toStartOf="@+id/calender_button_showing_shadow_9"
+                    app:layout_constraintTop_toBottomOf="@+id/calender_button_showing_shadow_1"/>
+
+                <View
+                    android:id="@+id/event_for_calender_nine_2"
+                    android:layout_width="5dp"
+                    android:layout_height="5dp"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginStart="3dp"
+                    app:layout_constraintStart_toEndOf="@+id/event_for_calender_two_1"
+                    app:layout_constraintTop_toBottomOf="@+id/calender_button_showing_shadow_1" />
+
+                <View
+                    android:id="@+id/event_for_calender_nine_3"
+                    android:layout_width="5dp"
+                    android:layout_height="5dp"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginEnd="3dp"
+                    app:layout_constraintEnd_toStartOf="@+id/event_for_calender_two_1"
+                    app:layout_constraintTop_toBottomOf="@+id/calender_button_showing_shadow_1" />
+                <View
+                    android:id="@+id/event_for_calender_ten_1"
+                    android:layout_width="5dp"
+                    android:layout_height="5dp"
+                    android:layout_marginTop="2dp"
+                    app:layout_constraintEnd_toEndOf="@+id/calender_button_showing_shadow_10"
+                    app:layout_constraintStart_toStartOf="@+id/calender_button_showing_shadow_10"
+                    app:layout_constraintTop_toBottomOf="@+id/calender_button_showing_shadow_1" />
+
+                <View
+                    android:id="@+id/event_for_calender_ten_2"
+                    android:layout_width="5dp"
+                    android:layout_height="5dp"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginStart="3dp"
+                    app:layout_constraintStart_toEndOf="@+id/event_for_calender_three_1"
+                    app:layout_constraintTop_toBottomOf="@+id/calender_button_showing_shadow_1"/>
+
+                <View
+                    android:id="@+id/event_for_calender_ten_3"
+                    android:layout_width="5dp"
+                    android:layout_height="5dp"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginEnd="3dp"
+                    app:layout_constraintEnd_toStartOf="@+id/event_for_calender_three_1"
+                    app:layout_constraintTop_toBottomOf="@+id/calender_button_showing_shadow_1"/>
+                <View
+                    android:id="@+id/event_for_calender_eleven_1"
+                    android:layout_width="5dp"
+                    android:layout_height="5dp"
+                    android:layout_marginTop="2dp"
+                    app:layout_constraintEnd_toEndOf="@+id/calender_button_showing_shadow_11"
+                    app:layout_constraintStart_toStartOf="@+id/calender_button_showing_shadow_11"
+                    app:layout_constraintTop_toBottomOf="@+id/calender_button_showing_shadow_1" />
+
+                <View
+                    android:id="@+id/event_for_calender_eleven_2"
+                    android:layout_width="5dp"
+                    android:layout_height="5dp"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginStart="3dp"
+                    app:layout_constraintStart_toEndOf="@+id/event_for_calender_four_1"
+                    app:layout_constraintTop_toBottomOf="@+id/calender_button_showing_shadow_1"/>
+
+                <View
+                    android:id="@+id/event_for_calender_eleven_3"
+                    android:layout_width="5dp"
+                    android:layout_height="5dp"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginEnd="3dp"
+                    app:layout_constraintEnd_toStartOf="@+id/event_for_calender_four_1"
+                    app:layout_constraintTop_toBottomOf="@+id/calender_button_showing_shadow_1" />
+                <View
+                    android:id="@+id/event_for_calender_twelve_1"
+                    android:layout_width="5dp"
+                    android:layout_height="5dp"
+                    android:layout_marginTop="2dp"
+                    app:layout_constraintEnd_toEndOf="@+id/calender_button_showing_shadow_12"
+                    app:layout_constraintStart_toStartOf="@+id/calender_button_showing_shadow_12"
+                    app:layout_constraintTop_toBottomOf="@+id/calender_button_showing_shadow_1"/>
+
+                <View
+                    android:id="@+id/event_for_calender_twelve_2"
+                    android:layout_width="5dp"
+                    android:layout_height="5dp"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginStart="3dp"
+                    app:layout_constraintStart_toEndOf="@+id/event_for_calender_five_1"
+                    app:layout_constraintTop_toBottomOf="@+id/calender_button_showing_shadow_1"/>
+
+                <View
+                    android:id="@+id/event_for_calender_twelve_3"
+                    android:layout_width="5dp"
+                    android:layout_height="5dp"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginEnd="3dp"
+                    app:layout_constraintEnd_toStartOf="@+id/event_for_calender_five_1"
+                    app:layout_constraintTop_toBottomOf="@+id/calender_button_showing_shadow_1"/>
+                <View
+                    android:id="@+id/event_for_calender_thirteen_1"
+                    android:layout_width="5dp"
+                    android:layout_height="5dp"
+                    android:layout_marginTop="2dp"
+                    app:layout_constraintEnd_toEndOf="@+id/calender_button_showing_shadow_13"
+                    app:layout_constraintStart_toStartOf="@+id/calender_button_showing_shadow_13"
+                    app:layout_constraintTop_toBottomOf="@+id/calender_button_showing_shadow_1" />
+
+                <View
+                    android:id="@+id/event_for_calender_thirteen_2"
+                    android:layout_width="5dp"
+                    android:layout_height="5dp"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginStart="3dp"
+                    app:layout_constraintStart_toEndOf="@+id/event_for_calender_six_1"
+                    app:layout_constraintTop_toBottomOf="@+id/calender_button_showing_shadow_1"/>
+
+                <View
+                    android:id="@+id/event_for_calender_thirteen_3"
+                    android:layout_width="5dp"
+                    android:layout_height="5dp"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginEnd="3dp"
+                    app:layout_constraintEnd_toStartOf="@+id/event_for_calender_six_1"
+                    app:layout_constraintTop_toBottomOf="@+id/calender_button_showing_shadow_1" />
+                <View
+                    android:id="@+id/event_for_calender_fourteen_1"
+                    android:layout_width="5dp"
+                    android:layout_height="5dp"
+                    android:layout_marginTop="2dp"
+                    app:layout_constraintEnd_toEndOf="@+id/calender_button_showing_shadow_14"
+                    app:layout_constraintStart_toStartOf="@+id/calender_button_showing_shadow_14"
+                    app:layout_constraintTop_toBottomOf="@+id/calender_button_showing_shadow_1" />
+
+                <View
+                    android:id="@+id/event_for_calender_fourteen_2"
+                    android:layout_width="5dp"
+                    android:layout_height="5dp"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginStart="3dp"
+                    app:layout_constraintStart_toEndOf="@+id/event_for_calender_seven_1"
+                    app:layout_constraintTop_toBottomOf="@+id/calender_button_showing_shadow_1" />
+
+                <View
+                    android:id="@+id/event_for_calender_fourteen_3"
+                    android:layout_width="5dp"
+                    android:layout_height="5dp"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginEnd="3dp"
+                    app:layout_constraintEnd_toStartOf="@+id/event_for_calender_seven_1"
+                    app:layout_constraintTop_toBottomOf="@+id/calender_button_showing_shadow_1" />
+
+                <View
+                    android:id="@+id/event_for_calender_fifteen_1"
+                    android:layout_width="5dp"
+                    android:layout_height="5dp"
+                    android:layout_marginTop="2dp"
+                    app:layout_constraintEnd_toEndOf="@+id/calender_button_showing_shadow_15"
+                    app:layout_constraintStart_toStartOf="@+id/calender_button_showing_shadow_15"
+                    app:layout_constraintTop_toBottomOf="@+id/calender_button_showing_shadow_8" />
+
+                <View
+                    android:id="@+id/event_for_calender_fifteen_2"
+                    android:layout_width="5dp"
+                    android:layout_height="5dp"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginStart="3dp"
+                    app:layout_constraintStart_toEndOf="@+id/event_for_calender_one_1"
+                    app:layout_constraintTop_toBottomOf="@+id/calender_button_showing_shadow_8" />
+
+                <View
+                    android:id="@+id/event_for_calender_fifteen_3"
+                    android:layout_width="5dp"
+                    android:layout_height="5dp"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginEnd="3dp"
+                    app:layout_constraintEnd_toStartOf="@+id/event_for_calender_one_1"
+                    app:layout_constraintTop_toBottomOf="@+id/calender_button_showing_shadow_8"/>
+                <View
+                    android:id="@+id/event_for_calender_sixteen_1"
+                    android:layout_width="5dp"
+                    android:layout_height="5dp"
+                    android:layout_marginTop="2dp"
+                    app:layout_constraintEnd_toEndOf="@+id/calender_button_showing_shadow_16"
+                    app:layout_constraintStart_toStartOf="@+id/calender_button_showing_shadow_16"
+                    app:layout_constraintTop_toBottomOf="@+id/calender_button_showing_shadow_8"/>
+
+                <View
+                    android:id="@+id/event_for_calender_sixteen_2"
+                    android:layout_width="5dp"
+                    android:layout_height="5dp"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginStart="3dp"
+                    app:layout_constraintStart_toEndOf="@+id/event_for_calender_two_1"
+                    app:layout_constraintTop_toBottomOf="@+id/calender_button_showing_shadow_8" />
+
+                <View
+                    android:id="@+id/event_for_calender_sixteen_3"
+                    android:layout_width="5dp"
+                    android:layout_height="5dp"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginEnd="3dp"
+                    app:layout_constraintEnd_toStartOf="@+id/event_for_calender_two_1"
+                    app:layout_constraintTop_toBottomOf="@+id/calender_button_showing_shadow_8" />
+                <View
+                    android:id="@+id/event_for_calender_seventeen_1"
+                    android:layout_width="5dp"
+                    android:layout_height="5dp"
+                    android:layout_marginTop="2dp"
+                    app:layout_constraintEnd_toEndOf="@+id/calender_button_showing_shadow_17"
+                    app:layout_constraintStart_toStartOf="@+id/calender_button_showing_shadow_17"
+                    app:layout_constraintTop_toBottomOf="@+id/calender_button_showing_shadow_8" />
+
+                <View
+                    android:id="@+id/event_for_calender_seventeen_2"
+                    android:layout_width="5dp"
+                    android:layout_height="5dp"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginStart="3dp"
+                    app:layout_constraintStart_toEndOf="@+id/event_for_calender_three_1"
+                    app:layout_constraintTop_toBottomOf="@+id/calender_button_showing_shadow_8"/>
+
+                <View
+                    android:id="@+id/event_for_calender_seventeen_3"
+                    android:layout_width="5dp"
+                    android:layout_height="5dp"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginEnd="3dp"
+                    app:layout_constraintEnd_toStartOf="@+id/event_for_calender_three_1"
+                    app:layout_constraintTop_toBottomOf="@+id/calender_button_showing_shadow_8"/>
+                <View
+                    android:id="@+id/event_for_calender_eighteen_1"
+                    android:layout_width="5dp"
+                    android:layout_height="5dp"
+                    android:layout_marginTop="2dp"
+                    app:layout_constraintEnd_toEndOf="@+id/calender_button_showing_shadow_18"
+                    app:layout_constraintStart_toStartOf="@+id/calender_button_showing_shadow_18"
+                    app:layout_constraintTop_toBottomOf="@+id/calender_button_showing_shadow_8" />
+
+                <View
+                    android:id="@+id/event_for_calender_eighteen_2"
+                    android:layout_width="5dp"
+                    android:layout_height="5dp"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginStart="3dp"
+                    app:layout_constraintStart_toEndOf="@+id/event_for_calender_four_1"
+                    app:layout_constraintTop_toBottomOf="@+id/calender_button_showing_shadow_8"/>
+
+                <View
+                    android:id="@+id/event_for_calender_eighteen_3"
+                    android:layout_width="5dp"
+                    android:layout_height="5dp"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginEnd="3dp"
+                    app:layout_constraintEnd_toStartOf="@+id/event_for_calender_four_1"
+                    app:layout_constraintTop_toBottomOf="@+id/calender_button_showing_shadow_8" />
+                <View
+                    android:id="@+id/event_for_calender_nineteen_1"
+                    android:layout_width="5dp"
+                    android:layout_height="5dp"
+                    android:layout_marginTop="2dp"
+                    app:layout_constraintEnd_toEndOf="@+id/calender_button_showing_shadow_19"
+                    app:layout_constraintStart_toStartOf="@+id/calender_button_showing_shadow_19"
+                    app:layout_constraintTop_toBottomOf="@+id/calender_button_showing_shadow_8"/>
+
+                <View
+                    android:id="@+id/event_for_calender_nineteen_2"
+                    android:layout_width="5dp"
+                    android:layout_height="5dp"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginStart="3dp"
+                    app:layout_constraintStart_toEndOf="@+id/event_for_calender_five_1"
+                    app:layout_constraintTop_toBottomOf="@+id/calender_button_showing_shadow_8"/>
+
+                <View
+                    android:id="@+id/event_for_calender_nineteen_3"
+                    android:layout_width="5dp"
+                    android:layout_height="5dp"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginEnd="3dp"
+                    app:layout_constraintEnd_toStartOf="@+id/event_for_calender_five_1"
+                    app:layout_constraintTop_toBottomOf="@+id/calender_button_showing_shadow_8"/>
+                <View
+                    android:id="@+id/event_for_calender_twenty_1"
+                    android:layout_width="5dp"
+                    android:layout_height="5dp"
+                    android:layout_marginTop="2dp"
+                    app:layout_constraintEnd_toEndOf="@+id/calender_button_showing_shadow_20"
+                    app:layout_constraintStart_toStartOf="@+id/calender_button_showing_shadow_20"
+                    app:layout_constraintTop_toBottomOf="@+id/calender_button_showing_shadow_8" />
+
+                <View
+                    android:id="@+id/event_for_calender_twenty_2"
+                    android:layout_width="5dp"
+                    android:layout_height="5dp"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginStart="3dp"
+                    app:layout_constraintStart_toEndOf="@+id/event_for_calender_six_1"
+                    app:layout_constraintTop_toBottomOf="@+id/calender_button_showing_shadow_8"/>
+
+                <View
+                    android:id="@+id/event_for_calender_twenty_3"
+                    android:layout_width="5dp"
+                    android:layout_height="5dp"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginEnd="3dp"
+                    app:layout_constraintEnd_toStartOf="@+id/event_for_calender_six_1"
+                    app:layout_constraintTop_toBottomOf="@+id/calender_button_showing_shadow_8" />
+                <View
+                    android:id="@+id/event_for_calender_twenty_one_1"
+                    android:layout_width="5dp"
+                    android:layout_height="5dp"
+                    android:layout_marginTop="2dp"
+                    app:layout_constraintEnd_toEndOf="@+id/calender_button_showing_shadow_21"
+                    app:layout_constraintStart_toStartOf="@+id/calender_button_showing_shadow_21"
+                    app:layout_constraintTop_toBottomOf="@+id/calender_button_showing_shadow_8" />
+
+                <View
+                    android:id="@+id/event_for_calender_twenty_one_2"
+                    android:layout_width="5dp"
+                    android:layout_height="5dp"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginStart="3dp"
+                    app:layout_constraintStart_toEndOf="@+id/event_for_calender_seven_1"
+                    app:layout_constraintTop_toBottomOf="@+id/calender_button_showing_shadow_8" />
+
+                <View
+                    android:id="@+id/event_for_calender_twenty_one_3"
+                    android:layout_width="5dp"
+                    android:layout_height="5dp"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginEnd="3dp"
+                    app:layout_constraintEnd_toStartOf="@+id/event_for_calender_seven_1"
+                    app:layout_constraintTop_toBottomOf="@+id/calender_button_showing_shadow_8" />
+
+                <View
+                    android:id="@+id/event_for_calender_twenty_two_1"
+                    android:layout_width="5dp"
+                    android:layout_height="5dp"
+                    android:layout_marginTop="2dp"
+                    app:layout_constraintEnd_toEndOf="@+id/calender_button_showing_shadow_22"
+                    app:layout_constraintStart_toStartOf="@+id/calender_button_showing_shadow_22"
+                    app:layout_constraintTop_toBottomOf="@+id/calender_button_showing_shadow_15" />
+
+                <View
+                    android:id="@+id/event_for_calender_twenty_two_2"
+                    android:layout_width="5dp"
+                    android:layout_height="5dp"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginStart="3dp"
+                    app:layout_constraintStart_toEndOf="@+id/event_for_calender_one_1"
+                    app:layout_constraintTop_toBottomOf="@+id/calender_button_showing_shadow_15" />
+
+                <View
+                    android:id="@+id/event_for_calender_twenty_two_3"
+                    android:layout_width="5dp"
+                    android:layout_height="5dp"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginEnd="3dp"
+                    app:layout_constraintEnd_toStartOf="@+id/event_for_calender_one_1"
+                    app:layout_constraintTop_toBottomOf="@+id/calender_button_showing_shadow_15"/>
+                <View
+                    android:id="@+id/event_for_calender_twenty_three_1"
+                    android:layout_width="5dp"
+                    android:layout_height="5dp"
+                    android:layout_marginTop="2dp"
+                    app:layout_constraintEnd_toEndOf="@+id/calender_button_showing_shadow_23"
+                    app:layout_constraintStart_toStartOf="@+id/calender_button_showing_shadow_23"
+                    app:layout_constraintTop_toBottomOf="@+id/calender_button_showing_shadow_15"/>
+
+                <View
+                    android:id="@+id/event_for_calender_twenty_three_2"
+                    android:layout_width="5dp"
+                    android:layout_height="5dp"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginStart="3dp"
+                    app:layout_constraintStart_toEndOf="@+id/event_for_calender_two_1"
+                    app:layout_constraintTop_toBottomOf="@+id/calender_button_showing_shadow_15" />
+
+                <View
+                    android:id="@+id/event_for_calender_twenty_three_3"
+                    android:layout_width="5dp"
+                    android:layout_height="5dp"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginEnd="3dp"
+                    app:layout_constraintEnd_toStartOf="@+id/event_for_calender_two_1"
+                    app:layout_constraintTop_toBottomOf="@+id/calender_button_showing_shadow_15" />
+                <View
+                    android:id="@+id/event_for_calender_twenty_four_1"
+                    android:layout_width="5dp"
+                    android:layout_height="5dp"
+                    android:layout_marginTop="2dp"
+                    app:layout_constraintEnd_toEndOf="@+id/calender_button_showing_shadow_24"
+                    app:layout_constraintStart_toStartOf="@+id/calender_button_showing_shadow_24"
+                    app:layout_constraintTop_toBottomOf="@+id/calender_button_showing_shadow_15" />
+
+                <View
+                    android:id="@+id/event_for_calender_twenty_four_2"
+                    android:layout_width="5dp"
+                    android:layout_height="5dp"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginStart="3dp"
+                    app:layout_constraintStart_toEndOf="@+id/event_for_calender_three_1"
+                    app:layout_constraintTop_toBottomOf="@+id/calender_button_showing_shadow_15"/>
+
+                <View
+                    android:id="@+id/event_for_calender_twenty_four_3"
+                    android:layout_width="5dp"
+                    android:layout_height="5dp"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginEnd="3dp"
+                    app:layout_constraintEnd_toStartOf="@+id/event_for_calender_three_1"
+                    app:layout_constraintTop_toBottomOf="@+id/calender_button_showing_shadow_15"/>
+                <View
+                    android:id="@+id/event_for_calender_twenty_five_1"
+                    android:layout_width="5dp"
+                    android:layout_height="5dp"
+                    android:layout_marginTop="2dp"
+                    app:layout_constraintEnd_toEndOf="@+id/calender_button_showing_shadow_25"
+                    app:layout_constraintStart_toStartOf="@+id/calender_button_showing_shadow_25"
+                    app:layout_constraintTop_toBottomOf="@+id/calender_button_showing_shadow_15" />
+
+                <View
+                    android:id="@+id/event_for_calender_twenty_five_2"
+                    android:layout_width="5dp"
+                    android:layout_height="5dp"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginStart="3dp"
+                    app:layout_constraintStart_toEndOf="@+id/event_for_calender_four_1"
+                    app:layout_constraintTop_toBottomOf="@+id/calender_button_showing_shadow_15"/>
+
+                <View
+                    android:id="@+id/event_for_calender_twenty_five_3"
+                    android:layout_width="5dp"
+                    android:layout_height="5dp"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginEnd="3dp"
+                    app:layout_constraintEnd_toStartOf="@+id/event_for_calender_four_1"
+                    app:layout_constraintTop_toBottomOf="@+id/calender_button_showing_shadow_15" />
+                <View
+                    android:id="@+id/event_for_calender_twenty_six_1"
+                    android:layout_width="5dp"
+                    android:layout_height="5dp"
+                    android:layout_marginTop="2dp"
+                    app:layout_constraintEnd_toEndOf="@+id/calender_button_showing_shadow_26"
+                    app:layout_constraintStart_toStartOf="@+id/calender_button_showing_shadow_26"
+                    app:layout_constraintTop_toBottomOf="@+id/calender_button_showing_shadow_15"/>
+
+                <View
+                    android:id="@+id/event_for_calender_twenty_six_2"
+                    android:layout_width="5dp"
+                    android:layout_height="5dp"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginStart="3dp"
+                    app:layout_constraintStart_toEndOf="@+id/event_for_calender_five_1"
+                    app:layout_constraintTop_toBottomOf="@+id/calender_button_showing_shadow_15"/>
+
+                <View
+                    android:id="@+id/event_for_calender_twenty_six_3"
+                    android:layout_width="5dp"
+                    android:layout_height="5dp"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginEnd="3dp"
+                    app:layout_constraintEnd_toStartOf="@+id/event_for_calender_five_1"
+                    app:layout_constraintTop_toBottomOf="@+id/calender_button_showing_shadow_15"/>
+                <View
+                    android:id="@+id/event_for_calender_twenty_seven_1"
+                    android:layout_width="5dp"
+                    android:layout_height="5dp"
+                    android:layout_marginTop="2dp"
+                    app:layout_constraintEnd_toEndOf="@+id/calender_button_showing_shadow_27"
+                    app:layout_constraintStart_toStartOf="@+id/calender_button_showing_shadow_27"
+                    app:layout_constraintTop_toBottomOf="@+id/calender_button_showing_shadow_15" />
+
+                <View
+                    android:id="@+id/event_for_calender_twenty_seven_2"
+                    android:layout_width="5dp"
+                    android:layout_height="5dp"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginStart="3dp"
+                    app:layout_constraintStart_toEndOf="@+id/event_for_calender_six_1"
+                    app:layout_constraintTop_toBottomOf="@+id/calender_button_showing_shadow_15"/>
+
+                <View
+                    android:id="@+id/event_for_calender_twenty_seven_3"
+                    android:layout_width="5dp"
+                    android:layout_height="5dp"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginEnd="3dp"
+                    app:layout_constraintEnd_toStartOf="@+id/event_for_calender_six_1"
+                    app:layout_constraintTop_toBottomOf="@+id/calender_button_showing_shadow_15" />
+                <View
+                    android:id="@+id/event_for_calender_twenty_eight_1"
+                    android:layout_width="5dp"
+                    android:layout_height="5dp"
+                    android:layout_marginTop="2dp"
+                    app:layout_constraintEnd_toEndOf="@+id/calender_button_showing_shadow_28"
+                    app:layout_constraintStart_toStartOf="@+id/calender_button_showing_shadow_28"
+                    app:layout_constraintTop_toBottomOf="@+id/calender_button_showing_shadow_15" />
+
+                <View
+                    android:id="@+id/event_for_calender_twenty_eight_2"
+                    android:layout_width="5dp"
+                    android:layout_height="5dp"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginStart="3dp"
+                    app:layout_constraintStart_toEndOf="@+id/event_for_calender_seven_1"
+                    app:layout_constraintTop_toBottomOf="@+id/calender_button_showing_shadow_15" />
+
+                <View
+                    android:id="@+id/event_for_calender_twenty_eight_3"
+                    android:layout_width="5dp"
+                    android:layout_height="5dp"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginEnd="3dp"
+                    app:layout_constraintEnd_toStartOf="@+id/event_for_calender_seven_1"
+                    app:layout_constraintTop_toBottomOf="@+id/calender_button_showing_shadow_15" />
+
+                <View
+                    android:id="@+id/event_for_calender_twenty_nine_1"
+                    android:layout_width="5dp"
+                    android:layout_height="5dp"
+                    android:layout_marginTop="2dp"
+                    app:layout_constraintEnd_toEndOf="@+id/calender_button_showing_shadow_22"
+                    app:layout_constraintStart_toStartOf="@+id/calender_button_showing_shadow_22"
+                    app:layout_constraintTop_toBottomOf="@+id/calender_button_showing_shadow_22" />
+
+                <View
+                    android:id="@+id/event_for_calender_twenty_nine_2"
+                    android:layout_width="5dp"
+                    android:layout_height="5dp"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginStart="3dp"
+                    app:layout_constraintStart_toEndOf="@+id/event_for_calender_one_1"
+                    app:layout_constraintTop_toBottomOf="@+id/calender_button_showing_shadow_22" />
+
+                <View
+                    android:id="@+id/event_for_calender_twenty_nine_3"
+                    android:layout_width="5dp"
+                    android:layout_height="5dp"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginEnd="3dp"
+                    app:layout_constraintEnd_toStartOf="@+id/event_for_calender_one_1"
+                    app:layout_constraintTop_toBottomOf="@+id/calender_button_showing_shadow_22"/>
+                <View
+                    android:id="@+id/event_for_calender_thirty_1"
+                    android:layout_width="5dp"
+                    android:layout_height="5dp"
+                    android:layout_marginTop="2dp"
+                    app:layout_constraintEnd_toEndOf="@+id/calender_button_showing_shadow_23"
+                    app:layout_constraintStart_toStartOf="@+id/calender_button_showing_shadow_23"
+                    app:layout_constraintTop_toBottomOf="@+id/calender_button_showing_shadow_22"/>
+
+                <View
+                    android:id="@+id/event_for_calender_thirty_2"
+                    android:layout_width="5dp"
+                    android:layout_height="5dp"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginStart="3dp"
+                    app:layout_constraintStart_toEndOf="@+id/event_for_calender_two_1"
+                    app:layout_constraintTop_toBottomOf="@+id/calender_button_showing_shadow_22" />
+
+                <View
+                    android:id="@+id/event_for_calender_thirty_3"
+                    android:layout_width="5dp"
+                    android:layout_height="5dp"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginEnd="3dp"
+                    app:layout_constraintEnd_toStartOf="@+id/event_for_calender_two_1"
+                    app:layout_constraintTop_toBottomOf="@+id/calender_button_showing_shadow_22" />
+                <View
+                    android:id="@+id/event_for_calender_thirty_one_1"
+                    android:layout_width="5dp"
+                    android:layout_height="5dp"
+                    android:layout_marginTop="2dp"
+                    app:layout_constraintEnd_toEndOf="@+id/calender_button_showing_shadow_24"
+                    app:layout_constraintStart_toStartOf="@+id/calender_button_showing_shadow_24"
+                    app:layout_constraintTop_toBottomOf="@+id/calender_button_showing_shadow_22" />
+
+                <View
+                    android:id="@+id/event_for_calender_thirty_one_2"
+                    android:layout_width="5dp"
+                    android:layout_height="5dp"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginStart="3dp"
+                    app:layout_constraintStart_toEndOf="@+id/event_for_calender_three_1"
+                    app:layout_constraintTop_toBottomOf="@+id/calender_button_showing_shadow_22"/>
+
+                <View
+                    android:id="@+id/event_for_calender_thirty_one_3"
+                    android:layout_width="5dp"
+                    android:layout_height="5dp"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginEnd="3dp"
+                    app:layout_constraintEnd_toStartOf="@+id/event_for_calender_three_1"
+                    app:layout_constraintTop_toBottomOf="@+id/calender_button_showing_shadow_22"/>
+                <View
+                    android:id="@+id/event_for_calender_thirty_two_1"
+                    android:layout_width="5dp"
+                    android:layout_height="5dp"
+                    android:layout_marginTop="2dp"
+                    app:layout_constraintEnd_toEndOf="@+id/calender_button_showing_shadow_25"
+                    app:layout_constraintStart_toStartOf="@+id/calender_button_showing_shadow_25"
+                    app:layout_constraintTop_toBottomOf="@+id/calender_button_showing_shadow_22" />
+
+                <View
+                    android:id="@+id/event_for_calender_thirty_two_2"
+                    android:layout_width="5dp"
+                    android:layout_height="5dp"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginStart="3dp"
+                    app:layout_constraintStart_toEndOf="@+id/event_for_calender_four_1"
+                    app:layout_constraintTop_toBottomOf="@+id/calender_button_showing_shadow_22"/>
+
+                <View
+                    android:id="@+id/event_for_calender_thirty_two_3"
+                    android:layout_width="5dp"
+                    android:layout_height="5dp"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginEnd="3dp"
+                    app:layout_constraintEnd_toStartOf="@+id/event_for_calender_four_1"
+                    app:layout_constraintTop_toBottomOf="@+id/calender_button_showing_shadow_22" />
+                <View
+                    android:id="@+id/event_for_calender_thirty_three_1"
+                    android:layout_width="5dp"
+                    android:layout_height="5dp"
+                    android:layout_marginTop="2dp"
+                    app:layout_constraintEnd_toEndOf="@+id/calender_button_showing_shadow_26"
+                    app:layout_constraintStart_toStartOf="@+id/calender_button_showing_shadow_26"
+                    app:layout_constraintTop_toBottomOf="@+id/calender_button_showing_shadow_22"/>
+
+                <View
+                    android:id="@+id/event_for_calender_thirty_three_2"
+                    android:layout_width="5dp"
+                    android:layout_height="5dp"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginStart="3dp"
+                    app:layout_constraintStart_toEndOf="@+id/event_for_calender_five_1"
+                    app:layout_constraintTop_toBottomOf="@+id/calender_button_showing_shadow_22"/>
+
+                <View
+                    android:id="@+id/event_for_calender_thirty_three_3"
+                    android:layout_width="5dp"
+                    android:layout_height="5dp"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginEnd="3dp"
+                    app:layout_constraintEnd_toStartOf="@+id/event_for_calender_five_1"
+                    app:layout_constraintTop_toBottomOf="@+id/calender_button_showing_shadow_22"/>
+                <View
+                    android:id="@+id/event_for_calender_thirty_four_1"
+                    android:layout_width="5dp"
+                    android:layout_height="5dp"
+                    android:layout_marginTop="2dp"
+                    app:layout_constraintEnd_toEndOf="@+id/calender_button_showing_shadow_27"
+                    app:layout_constraintStart_toStartOf="@+id/calender_button_showing_shadow_27"
+                    app:layout_constraintTop_toBottomOf="@+id/calender_button_showing_shadow_22" />
+
+                <View
+                    android:id="@+id/event_for_calender_thirty_four_2"
+                    android:layout_width="5dp"
+                    android:layout_height="5dp"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginStart="3dp"
+                    app:layout_constraintStart_toEndOf="@+id/event_for_calender_six_1"
+                    app:layout_constraintTop_toBottomOf="@+id/calender_button_showing_shadow_22"/>
+
+                <View
+                    android:id="@+id/event_for_calender_thirty_four_3"
+                    android:layout_width="5dp"
+                    android:layout_height="5dp"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginEnd="3dp"
+                    app:layout_constraintEnd_toStartOf="@+id/event_for_calender_six_1"
+                    app:layout_constraintTop_toBottomOf="@+id/calender_button_showing_shadow_22" />
+                <View
+                    android:id="@+id/event_for_calender_thirty_five_1"
+                    android:layout_width="5dp"
+                    android:layout_height="5dp"
+                    android:layout_marginTop="2dp"
+                    app:layout_constraintEnd_toEndOf="@+id/calender_button_showing_shadow_28"
+                    app:layout_constraintStart_toStartOf="@+id/calender_button_showing_shadow_28"
+                    app:layout_constraintTop_toBottomOf="@+id/calender_button_showing_shadow_22" />
+
+                <View
+                    android:id="@+id/event_for_calender_thirty_five_2"
+                    android:layout_width="5dp"
+                    android:layout_height="5dp"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginStart="3dp"
+                    app:layout_constraintStart_toEndOf="@+id/event_for_calender_seven_1"
+                    app:layout_constraintTop_toBottomOf="@+id/calender_button_showing_shadow_22" />
+
+                <View
+                    android:id="@+id/event_for_calender_thirty_five_3"
+                    android:layout_width="5dp"
+                    android:layout_height="5dp"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginEnd="3dp"
+                    app:layout_constraintEnd_toStartOf="@+id/event_for_calender_seven_1"
+                    app:layout_constraintTop_toBottomOf="@+id/calender_button_showing_shadow_22" />
+
+                <View
+                    android:id="@+id/event_for_calender_thirty_six_1"
+                    android:layout_width="5dp"
+                    android:layout_height="5dp"
+                    android:layout_marginTop="2dp"
+                    app:layout_constraintEnd_toEndOf="@+id/calender_button_showing_shadow_22"
+                    app:layout_constraintStart_toStartOf="@+id/calender_button_showing_shadow_22"
+                    app:layout_constraintTop_toBottomOf="@+id/calender_button_showing_shadow_30" />
+
+                <View
+                    android:id="@+id/event_for_calender_thirty_six_2"
+                    android:layout_width="5dp"
+                    android:layout_height="5dp"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginStart="3dp"
+                    app:layout_constraintStart_toEndOf="@+id/event_for_calender_one_1"
+                    app:layout_constraintTop_toBottomOf="@+id/calender_button_showing_shadow_30" />
+
+                <View
+                    android:id="@+id/event_for_calender_thirty_six_3"
+                    android:layout_width="5dp"
+                    android:layout_height="5dp"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginEnd="3dp"
+                    app:layout_constraintEnd_toStartOf="@+id/event_for_calender_one_1"
+                    app:layout_constraintTop_toBottomOf="@+id/calender_button_showing_shadow_30"/>
+                <View
+                    android:id="@+id/event_for_calender_thirty_seven_1"
+                    android:layout_width="5dp"
+                    android:layout_height="5dp"
+                    android:layout_marginTop="2dp"
+                    app:layout_constraintEnd_toEndOf="@+id/calender_button_showing_shadow_23"
+                    app:layout_constraintStart_toStartOf="@+id/calender_button_showing_shadow_23"
+                    app:layout_constraintTop_toBottomOf="@+id/calender_button_showing_shadow_30"/>
+
+                <View
+                    android:id="@+id/event_for_calender_thirty_seven_2"
+                    android:layout_width="5dp"
+                    android:layout_height="5dp"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginStart="3dp"
+                    app:layout_constraintStart_toEndOf="@+id/event_for_calender_two_1"
+                    app:layout_constraintTop_toBottomOf="@+id/calender_button_showing_shadow_30" />
+
+                <View
+                    android:id="@+id/event_for_calender_thirty_seven_3"
+                    android:layout_width="5dp"
+                    android:layout_height="5dp"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginEnd="3dp"
+                    app:layout_constraintEnd_toStartOf="@+id/event_for_calender_two_1"
+                    app:layout_constraintTop_toBottomOf="@+id/calender_button_showing_shadow_30" />
+
+                <View
+                    android:id="@+id/calender_under_number_state_1"
+                    android:layout_width="40dp"
+                    android:layout_height="6dp"
+                    android:layout_marginTop="33dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <View
+                    android:id="@+id/calender_under_number_state_2"
+                    android:layout_width="40dp"
+                    android:layout_height="6dp"
+                    android:layout_marginStart="4dp"
+                    android:layout_marginTop="33dp"
+                    app:layout_constraintStart_toEndOf="@+id/calender_under_number_state_1"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <View
+                    android:id="@+id/calender_under_number_state_3"
+                    android:layout_width="40dp"
+                    android:layout_height="6dp"
+                    android:layout_marginStart="4dp"
+                    android:layout_marginTop="33dp"
+                    app:layout_constraintStart_toEndOf="@+id/calender_under_number_state_2"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <View
+                    android:id="@+id/calender_under_number_state_4"
+                    android:layout_width="40dp"
+                    android:layout_height="6dp"
+                    android:layout_marginStart="4dp"
+                    android:layout_marginTop="33dp"
+                    app:layout_constraintStart_toEndOf="@+id/calender_under_number_state_3"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <View
+                    android:id="@+id/calender_under_number_state_5"
+                    android:layout_width="40dp"
+                    android:layout_height="6dp"
+                    android:layout_marginStart="4dp"
+                    android:layout_marginTop="33dp"
+                    app:layout_constraintStart_toEndOf="@+id/calender_under_number_state_4"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <View
+                    android:id="@+id/calender_under_number_state_6"
+                    android:layout_width="40dp"
+                    android:layout_height="6dp"
+                    android:layout_marginStart="4dp"
+                    android:layout_marginTop="33dp"
+                    app:layout_constraintStart_toEndOf="@+id/calender_under_number_state_5"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <View
+                    android:id="@+id/calender_under_number_state_7"
+                    android:layout_width="40dp"
+                    android:layout_height="6dp"
+                    android:layout_marginStart="4dp"
+                    android:layout_marginTop="33dp"
+                    app:layout_constraintStart_toEndOf="@+id/calender_under_number_state_6"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <View
+                    android:id="@+id/calender_under_number_state_8"
+                    android:layout_width="40dp"
+                    android:layout_height="6dp"
+                    android:layout_marginTop="33dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/calender_button_showing_shadow_1" />
+
+                <View
+                    android:id="@+id/calender_under_number_state_9"
+                    android:layout_width="40dp"
+                    android:layout_height="6dp"
+                    android:layout_marginStart="4dp"
+                    android:layout_marginTop="33dp"
+                    app:layout_constraintStart_toEndOf="@+id/calender_under_number_state_1"
+                    app:layout_constraintTop_toBottomOf="@id/calender_button_showing_shadow_1" />
+
+                <View
+                    android:id="@+id/calender_under_number_state_10"
+                    android:layout_width="40dp"
+                    android:layout_height="6dp"
+                    android:layout_marginStart="4dp"
+                    android:layout_marginTop="33dp"
+                    app:layout_constraintStart_toEndOf="@+id/calender_under_number_state_2"
+                    app:layout_constraintTop_toBottomOf="@id/calender_button_showing_shadow_1" />
+
+                <View
+                    android:id="@+id/calender_under_number_state_11"
+                    android:layout_width="40dp"
+                    android:layout_height="6dp"
+                    android:layout_marginStart="4dp"
+                    android:layout_marginTop="33dp"
+                    app:layout_constraintStart_toEndOf="@+id/calender_under_number_state_3"
+                    app:layout_constraintTop_toBottomOf="@id/calender_button_showing_shadow_1" />
+
+                <View
+                    android:id="@+id/calender_under_number_state_12"
+                    android:layout_width="40dp"
+                    android:layout_height="6dp"
+                    android:layout_marginStart="4dp"
+                    android:layout_marginTop="33dp"
+                    app:layout_constraintStart_toEndOf="@+id/calender_under_number_state_4"
+                    app:layout_constraintTop_toBottomOf="@id/calender_button_showing_shadow_1" />
+
+                <View
+                    android:id="@+id/calender_under_number_state_13"
+                    android:layout_width="40dp"
+                    android:layout_height="6dp"
+                    android:layout_marginStart="4dp"
+                    android:layout_marginTop="33dp"
+                    app:layout_constraintStart_toEndOf="@+id/calender_under_number_state_5"
+                    app:layout_constraintTop_toBottomOf="@id/calender_button_showing_shadow_1" />
+
+                <View
+                    android:id="@+id/calender_under_number_state_14"
+                    android:layout_width="40dp"
+                    android:layout_height="6dp"
+                    android:layout_marginStart="4dp"
+                    android:layout_marginTop="33dp"
+                    app:layout_constraintStart_toEndOf="@+id/calender_under_number_state_6"
+                    app:layout_constraintTop_toBottomOf="@id/calender_button_showing_shadow_1" />
+
+                <View
+                    android:id="@+id/calender_under_number_state_15"
+                    android:layout_width="40dp"
+                    android:layout_height="6dp"
+                    android:layout_marginTop="33dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/calender_button_showing_shadow_14" />
+
+                <View
+                    android:id="@+id/calender_under_number_state_16"
+                    android:layout_width="40dp"
+                    android:layout_height="6dp"
+                    android:layout_marginStart="4dp"
+                    android:layout_marginTop="33dp"
+                    app:layout_constraintStart_toEndOf="@+id/calender_under_number_state_1"
+                    app:layout_constraintTop_toBottomOf="@id/calender_button_showing_shadow_14" />
+
+                <View
+                    android:id="@+id/calender_under_number_state_17"
+                    android:layout_width="40dp"
+                    android:layout_height="6dp"
+                    android:layout_marginStart="4dp"
+                    android:layout_marginTop="33dp"
+                    app:layout_constraintStart_toEndOf="@+id/calender_under_number_state_2"
+                    app:layout_constraintTop_toBottomOf="@id/calender_button_showing_shadow_14" />
+
+                <View
+                    android:id="@+id/calender_under_number_state_18"
+                    android:layout_width="40dp"
+                    android:layout_height="6dp"
+                    android:layout_marginStart="4dp"
+                    android:layout_marginTop="33dp"
+                    app:layout_constraintStart_toEndOf="@+id/calender_under_number_state_3"
+                    app:layout_constraintTop_toBottomOf="@id/calender_button_showing_shadow_14" />
+
+                <View
+                    android:id="@+id/calender_under_number_state_19"
+                    android:layout_width="40dp"
+                    android:layout_height="6dp"
+                    android:layout_marginStart="4dp"
+                    android:layout_marginTop="33dp"
+                    app:layout_constraintStart_toEndOf="@+id/calender_under_number_state_4"
+                    app:layout_constraintTop_toBottomOf="@id/calender_button_showing_shadow_14" />
+
+                <View
+                    android:id="@+id/calender_under_number_state_20"
+                    android:layout_width="40dp"
+                    android:layout_height="6dp"
+                    android:layout_marginStart="4dp"
+                    android:layout_marginTop="33dp"
+                    app:layout_constraintStart_toEndOf="@+id/calender_under_number_state_5"
+                    app:layout_constraintTop_toBottomOf="@id/calender_button_showing_shadow_14" />
+
+                <View
+                    android:id="@+id/calender_under_number_state_21"
+                    android:layout_width="40dp"
+                    android:layout_height="6dp"
+                    android:layout_marginStart="4dp"
+                    android:layout_marginTop="33dp"
+                    app:layout_constraintStart_toEndOf="@+id/calender_under_number_state_6"
+                    app:layout_constraintTop_toBottomOf="@id/calender_button_showing_shadow_14" />
+
+                <View
+                    android:id="@+id/calender_under_number_state_22"
+                    android:layout_width="40dp"
+                    android:layout_height="6dp"
+                    android:layout_marginTop="33dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/calender_button_showing_shadow_21" />
+
+                <View
+                    android:id="@+id/calender_under_number_state_23"
+                    android:layout_width="40dp"
+                    android:layout_height="6dp"
+                    android:layout_marginStart="4dp"
+                    android:layout_marginTop="33dp"
+                    app:layout_constraintStart_toEndOf="@+id/calender_under_number_state_1"
+                    app:layout_constraintTop_toBottomOf="@id/calender_button_showing_shadow_21" />
+
+                <View
+                    android:id="@+id/calender_under_number_state_24"
+                    android:layout_width="40dp"
+                    android:layout_height="6dp"
+                    android:layout_marginStart="4dp"
+                    android:layout_marginTop="33dp"
+                    app:layout_constraintStart_toEndOf="@+id/calender_under_number_state_2"
+                    app:layout_constraintTop_toBottomOf="@id/calender_button_showing_shadow_21" />
+
+                <View
+                    android:id="@+id/calender_under_number_state_25"
+                    android:layout_width="40dp"
+                    android:layout_height="6dp"
+                    android:layout_marginStart="4dp"
+                    android:layout_marginTop="33dp"
+                    app:layout_constraintStart_toEndOf="@+id/calender_under_number_state_3"
+                    app:layout_constraintTop_toBottomOf="@id/calender_button_showing_shadow_21" />
+
+                <View
+                    android:id="@+id/calender_under_number_state_26"
+                    android:layout_width="40dp"
+                    android:layout_height="6dp"
+                    android:layout_marginStart="4dp"
+                    android:layout_marginTop="33dp"
+                    app:layout_constraintStart_toEndOf="@+id/calender_under_number_state_4"
+                    app:layout_constraintTop_toBottomOf="@id/calender_button_showing_shadow_21" />
+
+                <View
+                    android:id="@+id/calender_under_number_state_27"
+                    android:layout_width="40dp"
+                    android:layout_height="6dp"
+                    android:layout_marginStart="4dp"
+                    android:layout_marginTop="33dp"
+                    app:layout_constraintStart_toEndOf="@+id/calender_under_number_state_5"
+                    app:layout_constraintTop_toBottomOf="@id/calender_button_showing_shadow_21" />
+
+                <View
+                    android:id="@+id/calender_under_number_state_28"
+                    android:layout_width="40dp"
+                    android:layout_height="6dp"
+                    android:layout_marginStart="4dp"
+                    android:layout_marginTop="33dp"
+                    app:layout_constraintStart_toEndOf="@+id/calender_under_number_state_6"
+                    app:layout_constraintTop_toBottomOf="@id/calender_button_showing_shadow_21" />
+
+                <View
+                    android:id="@+id/calender_under_number_state_29"
+                    android:layout_width="40dp"
+                    android:layout_height="6dp"
+                    android:layout_marginTop="33dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/calender_button_showing_shadow_28" />
+
+                <View
+                    android:id="@+id/calender_under_number_state_30"
+                    android:layout_width="40dp"
+                    android:layout_height="6dp"
+                    android:layout_marginStart="4dp"
+                    android:layout_marginTop="33dp"
+                    app:layout_constraintStart_toEndOf="@+id/calender_under_number_state_1"
+                    app:layout_constraintTop_toBottomOf="@id/calender_button_showing_shadow_28" />
+
+                <View
+                    android:id="@+id/calender_under_number_state_31"
+                    android:layout_width="40dp"
+                    android:layout_height="6dp"
+                    android:layout_marginStart="4dp"
+                    android:layout_marginTop="33dp"
+                    app:layout_constraintStart_toEndOf="@+id/calender_under_number_state_2"
+                    app:layout_constraintTop_toBottomOf="@id/calender_button_showing_shadow_28" />
+
+                <View
+                    android:id="@+id/calender_under_number_state_32"
+                    android:layout_width="40dp"
+                    android:layout_height="6dp"
+                    android:layout_marginStart="4dp"
+                    android:layout_marginTop="33dp"
+                    app:layout_constraintStart_toEndOf="@+id/calender_under_number_state_3"
+                    app:layout_constraintTop_toBottomOf="@id/calender_button_showing_shadow_28" />
+
+                <View
+                    android:id="@+id/calender_under_number_state_33"
+                    android:layout_width="40dp"
+                    android:layout_height="6dp"
+                    android:layout_marginStart="4dp"
+                    android:layout_marginTop="33dp"
+                    app:layout_constraintStart_toEndOf="@+id/calender_under_number_state_4"
+                    app:layout_constraintTop_toBottomOf="@id/calender_button_showing_shadow_28" />
+
+                <View
+                    android:id="@+id/calender_under_number_state_34"
+                    android:layout_width="40dp"
+                    android:layout_height="6dp"
+                    android:layout_marginStart="4dp"
+                    android:layout_marginTop="33dp"
+                    app:layout_constraintStart_toEndOf="@+id/calender_under_number_state_5"
+                    app:layout_constraintTop_toBottomOf="@id/calender_button_showing_shadow_28" />
+
+                <View
+                    android:id="@+id/calender_under_number_state_35"
+                    android:layout_width="40dp"
+                    android:layout_height="6dp"
+                    android:layout_marginStart="4dp"
+                    android:layout_marginTop="33dp"
+                    app:layout_constraintStart_toEndOf="@+id/calender_under_number_state_6"
+                    app:layout_constraintTop_toBottomOf="@id/calender_button_showing_shadow_28" />
+
+                <View
+                    android:id="@+id/calender_under_number_state_36"
+                    android:layout_width="40dp"
+                    android:layout_height="6dp"
+                    android:layout_marginTop="33dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/calender_button_showing_shadow_35" />
+
+                <View
+                    android:id="@+id/calender_under_number_state_37"
+                    android:layout_width="40dp"
+                    android:layout_height="6dp"
+                    android:layout_marginStart="4dp"
+                    android:layout_marginTop="33dp"
+                    app:layout_constraintStart_toEndOf="@+id/calender_under_number_state_1"
+                    app:layout_constraintTop_toBottomOf="@id/calender_button_showing_shadow_35" />
+
+                <View
+                    android:id="@+id/middle_calender_1"
+                    android:layout_width="0dp"
+                    android:layout_height="6dp"
+                    android:layout_marginTop="33dp"
+                    android:background="@drawable/middle_part_rectangle_calender"
+                    app:layout_constraintEnd_toStartOf="@+id/calender_under_number_state_2"
+                    app:layout_constraintStart_toEndOf="@+id/calender_under_number_state_1"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <View
+                    android:id="@+id/middle_calender_2"
+                    android:layout_width="0dp"
+                    android:layout_height="6dp"
+                    android:layout_marginTop="33dp"
+                    android:background="@drawable/middle_part_rectangle_calender"
+                    app:layout_constraintEnd_toStartOf="@+id/calender_under_number_state_3"
+                    app:layout_constraintStart_toEndOf="@+id/calender_under_number_state_2"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <View
+                    android:id="@+id/middle_calender_3"
+                    android:layout_width="0dp"
+                    android:layout_height="6dp"
+                    android:layout_marginTop="33dp"
+                    android:background="@drawable/middle_part_rectangle_calender"
+                    app:layout_constraintEnd_toStartOf="@+id/calender_under_number_state_4"
+                    app:layout_constraintStart_toEndOf="@+id/calender_under_number_state_3"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <View
+                    android:id="@+id/middle_calender_4"
+                    android:layout_width="0dp"
+                    android:layout_height="6dp"
+                    android:layout_marginTop="33dp"
+                    android:background="@drawable/middle_part_rectangle_calender"
+                    app:layout_constraintEnd_toStartOf="@+id/calender_under_number_state_5"
+                    app:layout_constraintStart_toEndOf="@+id/calender_under_number_state_4"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <View
+                    android:id="@+id/middle_calender_5"
+                    android:layout_width="0dp"
+                    android:layout_height="6dp"
+                    android:layout_marginTop="33dp"
+                    android:background="@drawable/middle_part_rectangle_calender"
+                    app:layout_constraintEnd_toStartOf="@+id/calender_under_number_state_6"
+                    app:layout_constraintStart_toEndOf="@+id/calender_under_number_state_5"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <View
+                    android:id="@+id/middle_calender_6"
+                    android:layout_width="0dp"
+                    android:layout_height="6dp"
+                    android:layout_marginTop="33dp"
+                    android:background="@drawable/middle_part_rectangle_calender"
+                    app:layout_constraintEnd_toStartOf="@+id/calender_under_number_state_7"
+                    app:layout_constraintStart_toEndOf="@+id/calender_under_number_state_6"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <View
+                    android:id="@+id/middle_calender_7"
+                    android:layout_width="0dp"
+                    android:layout_height="6dp"
+                    android:layout_marginTop="33dp"
+                    android:background="@drawable/middle_part_rectangle_calender"
+                    app:layout_constraintEnd_toStartOf="@+id/calender_under_number_state_2"
+                    app:layout_constraintStart_toEndOf="@+id/calender_under_number_state_1"
+                    app:layout_constraintTop_toBottomOf="@+id/calender_button_showing_shadow_1" />
+
+                <View
+                    android:id="@+id/middle_calender_8"
+                    android:layout_width="0dp"
+                    android:layout_height="6dp"
+                    android:layout_marginTop="33dp"
+                    android:background="@drawable/middle_part_rectangle_calender"
+                    app:layout_constraintEnd_toStartOf="@+id/calender_under_number_state_3"
+                    app:layout_constraintStart_toEndOf="@+id/calender_under_number_state_2"
+                    app:layout_constraintTop_toBottomOf="@+id/calender_button_showing_shadow_1" />
+
+                <View
+                    android:id="@+id/middle_calender_9"
+                    android:layout_width="0dp"
+                    android:layout_height="6dp"
+                    android:layout_marginTop="33dp"
+                    android:background="@drawable/middle_part_rectangle_calender"
+                    app:layout_constraintEnd_toStartOf="@+id/calender_under_number_state_4"
+                    app:layout_constraintStart_toEndOf="@+id/calender_under_number_state_3"
+                    app:layout_constraintTop_toBottomOf="@+id/calender_button_showing_shadow_1" />
+
+                <View
+                    android:id="@+id/middle_calender_10"
+                    android:layout_width="0dp"
+                    android:layout_height="6dp"
+                    android:layout_marginTop="33dp"
+                    android:background="@drawable/middle_part_rectangle_calender"
+                    app:layout_constraintEnd_toStartOf="@+id/calender_under_number_state_5"
+                    app:layout_constraintStart_toEndOf="@+id/calender_under_number_state_4"
+                    app:layout_constraintTop_toBottomOf="@+id/calender_button_showing_shadow_1" />
+
+                <View
+                    android:id="@+id/middle_calender_11"
+                    android:layout_width="0dp"
+                    android:layout_height="6dp"
+                    android:layout_marginTop="33dp"
+                    android:background="@drawable/middle_part_rectangle_calender"
+                    app:layout_constraintEnd_toStartOf="@+id/calender_under_number_state_6"
+                    app:layout_constraintStart_toEndOf="@+id/calender_under_number_state_5"
+                    app:layout_constraintTop_toBottomOf="@+id/calender_button_showing_shadow_1" />
+
+                <View
+                    android:id="@+id/middle_calender_12"
+                    android:layout_width="0dp"
+                    android:layout_height="6dp"
+                    android:layout_marginTop="33dp"
+                    android:background="@drawable/middle_part_rectangle_calender"
+                    app:layout_constraintEnd_toStartOf="@+id/calender_under_number_state_7"
+                    app:layout_constraintStart_toEndOf="@+id/calender_under_number_state_6"
+                    app:layout_constraintTop_toBottomOf="@+id/calender_button_showing_shadow_1" />
+
+                <View
+                    android:id="@+id/middle_calender_13"
+                    android:layout_width="0dp"
+                    android:layout_height="6dp"
+                    android:layout_marginTop="33dp"
+                    android:background="@drawable/middle_part_rectangle_calender"
+                    app:layout_constraintEnd_toStartOf="@+id/calender_under_number_state_2"
+                    app:layout_constraintStart_toEndOf="@+id/calender_under_number_state_1"
+                    app:layout_constraintTop_toBottomOf="@+id/calender_button_showing_shadow_8" />
+
+                <View
+                    android:id="@+id/middle_calender_14"
+                    android:layout_width="0dp"
+                    android:layout_height="6dp"
+                    android:layout_marginTop="33dp"
+                    android:background="@drawable/middle_part_rectangle_calender"
+                    app:layout_constraintEnd_toStartOf="@+id/calender_under_number_state_3"
+                    app:layout_constraintStart_toEndOf="@+id/calender_under_number_state_2"
+                    app:layout_constraintTop_toBottomOf="@+id/calender_button_showing_shadow_8" />
+
+                <View
+                    android:id="@+id/middle_calender_15"
+                    android:layout_width="0dp"
+                    android:layout_height="6dp"
+                    android:layout_marginTop="33dp"
+                    android:background="@drawable/middle_part_rectangle_calender"
+                    app:layout_constraintEnd_toStartOf="@+id/calender_under_number_state_4"
+                    app:layout_constraintStart_toEndOf="@+id/calender_under_number_state_3"
+                    app:layout_constraintTop_toBottomOf="@+id/calender_button_showing_shadow_8" />
+
+                <View
+                    android:id="@+id/middle_calender_16"
+                    android:layout_width="0dp"
+                    android:layout_height="6dp"
+                    android:layout_marginTop="33dp"
+                    android:background="@drawable/middle_part_rectangle_calender"
+                    app:layout_constraintEnd_toStartOf="@+id/calender_under_number_state_5"
+                    app:layout_constraintStart_toEndOf="@+id/calender_under_number_state_4"
+                    app:layout_constraintTop_toBottomOf="@+id/calender_button_showing_shadow_8" />
+
+                <View
+                    android:id="@+id/middle_calender_17"
+                    android:layout_width="0dp"
+                    android:layout_height="6dp"
+                    android:layout_marginTop="33dp"
+                    android:background="@drawable/middle_part_rectangle_calender"
+                    app:layout_constraintEnd_toStartOf="@+id/calender_under_number_state_6"
+                    app:layout_constraintStart_toEndOf="@+id/calender_under_number_state_5"
+                    app:layout_constraintTop_toBottomOf="@+id/calender_button_showing_shadow_8" />
+
+                <View
+                    android:id="@+id/middle_calender_18"
+                    android:layout_width="0dp"
+                    android:layout_height="6dp"
+                    android:layout_marginTop="33dp"
+                    android:background="@drawable/middle_part_rectangle_calender"
+                    app:layout_constraintEnd_toStartOf="@+id/calender_under_number_state_7"
+                    app:layout_constraintStart_toEndOf="@+id/calender_under_number_state_6"
+                    app:layout_constraintTop_toBottomOf="@+id/calender_button_showing_shadow_8" />
+
+                <View
+                    android:id="@+id/middle_calender_19"
+                    android:layout_width="0dp"
+                    android:layout_height="6dp"
+                    android:layout_marginTop="33dp"
+                    android:background="@drawable/middle_part_rectangle_calender"
+                    app:layout_constraintEnd_toStartOf="@+id/calender_under_number_state_2"
+                    app:layout_constraintStart_toEndOf="@+id/calender_under_number_state_1"
+                    app:layout_constraintTop_toBottomOf="@+id/calender_button_showing_shadow_15" />
+
+                <View
+                    android:id="@+id/middle_calender_20"
+                    android:layout_width="0dp"
+                    android:layout_height="6dp"
+                    android:layout_marginTop="33dp"
+                    android:background="@drawable/middle_part_rectangle_calender"
+                    app:layout_constraintEnd_toStartOf="@+id/calender_under_number_state_3"
+                    app:layout_constraintStart_toEndOf="@+id/calender_under_number_state_2"
+                    app:layout_constraintTop_toBottomOf="@+id/calender_button_showing_shadow_15" />
+
+                <View
+                    android:id="@+id/middle_calender_21"
+                    android:layout_width="0dp"
+                    android:layout_height="6dp"
+                    android:layout_marginTop="33dp"
+                    android:background="@drawable/middle_part_rectangle_calender"
+                    app:layout_constraintEnd_toStartOf="@+id/calender_under_number_state_4"
+                    app:layout_constraintStart_toEndOf="@+id/calender_under_number_state_3"
+                    app:layout_constraintTop_toBottomOf="@+id/calender_button_showing_shadow_15" />
+
+                <View
+                    android:id="@+id/middle_calender_22"
+                    android:layout_width="0dp"
+                    android:layout_height="6dp"
+                    android:layout_marginTop="33dp"
+                    android:background="@drawable/middle_part_rectangle_calender"
+                    app:layout_constraintEnd_toStartOf="@+id/calender_under_number_state_5"
+                    app:layout_constraintStart_toEndOf="@+id/calender_under_number_state_4"
+                    app:layout_constraintTop_toBottomOf="@+id/calender_button_showing_shadow_15" />
+
+                <View
+                    android:id="@+id/middle_calender_23"
+                    android:layout_width="0dp"
+                    android:layout_height="6dp"
+                    android:layout_marginTop="33dp"
+                    android:background="@drawable/middle_part_rectangle_calender"
+                    app:layout_constraintEnd_toStartOf="@+id/calender_under_number_state_6"
+                    app:layout_constraintStart_toEndOf="@+id/calender_under_number_state_5"
+                    app:layout_constraintTop_toBottomOf="@+id/calender_button_showing_shadow_15" />
+
+                <View
+                    android:id="@+id/middle_calender_24"
+                    android:layout_width="0dp"
+                    android:layout_height="6dp"
+                    android:layout_marginTop="33dp"
+                    android:background="@drawable/middle_part_rectangle_calender"
+                    app:layout_constraintEnd_toStartOf="@+id/calender_under_number_state_7"
+                    app:layout_constraintStart_toEndOf="@+id/calender_under_number_state_6"
+                    app:layout_constraintTop_toBottomOf="@+id/calender_button_showing_shadow_15" />
+
+                <View
+                    android:id="@+id/middle_calender_25"
+                    android:layout_width="0dp"
+                    android:layout_height="6dp"
+                    android:layout_marginTop="33dp"
+                    android:background="@drawable/middle_part_rectangle_calender"
+                    app:layout_constraintEnd_toStartOf="@+id/calender_under_number_state_2"
+                    app:layout_constraintStart_toEndOf="@+id/calender_under_number_state_1"
+                    app:layout_constraintTop_toBottomOf="@+id/calender_button_showing_shadow_22" />
+
+                <View
+                    android:id="@+id/middle_calender_26"
+                    android:layout_width="0dp"
+                    android:layout_height="6dp"
+                    android:layout_marginTop="33dp"
+                    android:background="@drawable/middle_part_rectangle_calender"
+                    app:layout_constraintEnd_toStartOf="@+id/calender_under_number_state_3"
+                    app:layout_constraintStart_toEndOf="@+id/calender_under_number_state_2"
+                    app:layout_constraintTop_toBottomOf="@+id/calender_button_showing_shadow_22" />
+
+                <View
+                    android:id="@+id/middle_calender_27"
+                    android:layout_width="0dp"
+                    android:layout_height="6dp"
+                    android:layout_marginTop="33dp"
+                    android:background="@drawable/middle_part_rectangle_calender"
+                    app:layout_constraintEnd_toStartOf="@+id/calender_under_number_state_4"
+                    app:layout_constraintStart_toEndOf="@+id/calender_under_number_state_3"
+                    app:layout_constraintTop_toBottomOf="@+id/calender_button_showing_shadow_22" />
+
+                <View
+                    android:id="@+id/middle_calender_28"
+                    android:layout_width="0dp"
+                    android:layout_height="6dp"
+                    android:layout_marginTop="33dp"
+                    android:background="@drawable/middle_part_rectangle_calender"
+                    app:layout_constraintEnd_toStartOf="@+id/calender_under_number_state_5"
+                    app:layout_constraintStart_toEndOf="@+id/calender_under_number_state_4"
+                    app:layout_constraintTop_toBottomOf="@+id/calender_button_showing_shadow_22" />
+
+                <View
+                    android:id="@+id/middle_calender_29"
+                    android:layout_width="0dp"
+                    android:layout_height="6dp"
+                    android:layout_marginTop="33dp"
+                    android:background="@drawable/middle_part_rectangle_calender"
+                    app:layout_constraintEnd_toStartOf="@+id/calender_under_number_state_6"
+                    app:layout_constraintStart_toEndOf="@+id/calender_under_number_state_5"
+                    app:layout_constraintTop_toBottomOf="@+id/calender_button_showing_shadow_22" />
+
+                <View
+                    android:id="@+id/middle_calender_30"
+                    android:layout_width="0dp"
+                    android:layout_height="6dp"
+                    android:layout_marginTop="33dp"
+                    android:background="@drawable/middle_part_rectangle_calender"
+                    app:layout_constraintEnd_toStartOf="@+id/calender_under_number_state_7"
+                    app:layout_constraintStart_toEndOf="@+id/calender_under_number_state_6"
+                    app:layout_constraintTop_toBottomOf="@+id/calender_button_showing_shadow_22" />
+
+                <View
+                    android:id="@+id/middle_calender_31"
+                    android:layout_width="0dp"
+                    android:layout_height="6dp"
+                    android:layout_marginTop="33dp"
+                    android:background="@drawable/middle_part_rectangle_calender"
+                    app:layout_constraintEnd_toStartOf="@+id/calender_under_number_state_2"
+                    app:layout_constraintStart_toEndOf="@+id/calender_under_number_state_1"
+                    app:layout_constraintTop_toBottomOf="@+id/calender_button_showing_shadow_29" />
+
+                <Button
+                    android:id="@+id/calender_button_showing_shadow_1"
+                    style="?android:attr/borderlessButtonStyle"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:background="@drawable/round_button"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <Button
+                    android:id="@+id/calender_button_showing_shadow_2"
+                    style="?android:attr/borderlessButtonStyle"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginStart="4dp"
+                    android:background="@drawable/round_button"
+                    app:layout_constraintStart_toEndOf="@+id/calender_button_showing_shadow_1"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <Button
+                    android:id="@+id/calender_button_showing_shadow_3"
+                    style="?android:attr/borderlessButtonStyle"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginStart="4dp"
+                    android:background="@drawable/round_button"
+                    app:layout_constraintStart_toEndOf="@+id/calender_button_showing_shadow_2"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <Button
+                    android:id="@+id/calender_button_showing_shadow_4"
+                    style="?android:attr/borderlessButtonStyle"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginStart="4dp"
+                    android:background="@drawable/round_button"
+                    app:layout_constraintStart_toEndOf="@+id/calender_button_showing_shadow_3"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <Button
+                    android:id="@+id/calender_button_showing_shadow_5"
+                    style="?android:attr/borderlessButtonStyle"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginStart="4dp"
+                    android:background="@drawable/round_button"
+                    app:layout_constraintStart_toEndOf="@+id/calender_button_showing_shadow_4"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <Button
+                    android:id="@+id/calender_button_showing_shadow_6"
+                    style="?android:attr/borderlessButtonStyle"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginStart="4dp"
+                    android:background="@drawable/round_button"
+                    app:layout_constraintStart_toEndOf="@+id/calender_button_showing_shadow_5"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <Button
+                    android:id="@+id/calender_button_showing_shadow_7"
+                    style="?android:attr/borderlessButtonStyle"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginStart="4dp"
+                    android:background="@drawable/round_button"
+                    app:layout_constraintStart_toEndOf="@+id/calender_button_showing_shadow_6"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <Button
+                    android:id="@+id/calender_button_showing_shadow_8"
+                    style="?android:attr/borderlessButtonStyle"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:background="@drawable/round_button"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/calender_button_showing_shadow_1" />
+
+                <Button
+                    android:id="@+id/calender_button_showing_shadow_9"
+                    style="?android:attr/borderlessButtonStyle"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginStart="4dp"
+                    android:background="@drawable/round_button"
+                    app:layout_constraintStart_toEndOf="@+id/calender_button_showing_shadow_1"
+                    app:layout_constraintTop_toBottomOf="@+id/calender_button_showing_shadow_1" />
+
+                <Button
+                    android:id="@+id/calender_button_showing_shadow_10"
+                    style="?android:attr/borderlessButtonStyle"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginStart="4dp"
+                    android:background="@drawable/round_button"
+                    app:layout_constraintStart_toEndOf="@+id/calender_button_showing_shadow_2"
+                    app:layout_constraintTop_toBottomOf="@+id/calender_button_showing_shadow_1" />
+
+                <Button
+                    android:id="@+id/calender_button_showing_shadow_11"
+                    style="?android:attr/borderlessButtonStyle"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginStart="4dp"
+                    android:background="@drawable/round_button"
+                    app:layout_constraintStart_toEndOf="@+id/calender_button_showing_shadow_3"
+                    app:layout_constraintTop_toBottomOf="@+id/calender_button_showing_shadow_1" />
+
+                <Button
+                    android:id="@+id/calender_button_showing_shadow_12"
+                    style="?android:attr/borderlessButtonStyle"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginStart="4dp"
+                    android:background="@drawable/round_button"
+                    app:layout_constraintStart_toEndOf="@+id/calender_button_showing_shadow_4"
+                    app:layout_constraintTop_toBottomOf="@+id/calender_button_showing_shadow_1" />
+
+                <Button
+                    android:id="@+id/calender_button_showing_shadow_13"
+                    style="?android:attr/borderlessButtonStyle"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginStart="4dp"
+                    android:background="@drawable/round_button"
+                    app:layout_constraintStart_toEndOf="@+id/calender_button_showing_shadow_5"
+                    app:layout_constraintTop_toBottomOf="@+id/calender_button_showing_shadow_1" />
+
+                <Button
+                    android:id="@+id/calender_button_showing_shadow_14"
+                    style="?android:attr/borderlessButtonStyle"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginStart="4dp"
+                    android:background="@drawable/round_button"
+                    app:layout_constraintStart_toEndOf="@+id/calender_button_showing_shadow_6"
+                    app:layout_constraintTop_toBottomOf="@+id/calender_button_showing_shadow_1" />
+
+                <Button
+                    android:id="@+id/calender_button_showing_shadow_15"
+                    style="?android:attr/borderlessButtonStyle"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:background="@drawable/round_button"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/calender_button_showing_shadow_8" />
+
+                <Button
+                    android:id="@+id/calender_button_showing_shadow_16"
+                    style="?android:attr/borderlessButtonStyle"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginStart="4dp"
+                    android:background="@drawable/round_button"
+                    app:layout_constraintStart_toEndOf="@+id/calender_button_showing_shadow_8"
+                    app:layout_constraintTop_toBottomOf="@+id/calender_button_showing_shadow_8" />
+
+                <Button
+                    android:id="@+id/calender_button_showing_shadow_17"
+                    style="?android:attr/borderlessButtonStyle"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginStart="4dp"
+                    android:background="@drawable/round_button"
+                    app:layout_constraintStart_toEndOf="@+id/calender_button_showing_shadow_2"
+                    app:layout_constraintTop_toBottomOf="@+id/calender_button_showing_shadow_8" />
+
+                <Button
+                    android:id="@+id/calender_button_showing_shadow_18"
+                    style="?android:attr/borderlessButtonStyle"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginStart="4dp"
+                    android:background="@drawable/round_button"
+                    app:layout_constraintStart_toEndOf="@+id/calender_button_showing_shadow_3"
+                    app:layout_constraintTop_toBottomOf="@+id/calender_button_showing_shadow_8" />
+
+                <Button
+                    android:id="@+id/calender_button_showing_shadow_19"
+                    style="?android:attr/borderlessButtonStyle"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginStart="4dp"
+                    android:background="@drawable/round_button"
+                    app:layout_constraintStart_toEndOf="@+id/calender_button_showing_shadow_4"
+                    app:layout_constraintTop_toBottomOf="@+id/calender_button_showing_shadow_8" />
+
+                <Button
+                    android:id="@+id/calender_button_showing_shadow_20"
+                    style="?android:attr/borderlessButtonStyle"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginStart="4dp"
+                    android:background="@drawable/round_button"
+                    app:layout_constraintStart_toEndOf="@+id/calender_button_showing_shadow_5"
+                    app:layout_constraintTop_toBottomOf="@+id/calender_button_showing_shadow_8" />
+
+                <Button
+                    android:id="@+id/calender_button_showing_shadow_21"
+                    style="?android:attr/borderlessButtonStyle"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginStart="4dp"
+                    android:background="@drawable/round_button"
+                    app:layout_constraintStart_toEndOf="@+id/calender_button_showing_shadow_6"
+                    app:layout_constraintTop_toBottomOf="@+id/calender_button_showing_shadow_8" />
+
+                <Button
+                    android:id="@+id/calender_button_showing_shadow_22"
+                    style="?android:attr/borderlessButtonStyle"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:background="@drawable/round_button"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/calender_button_showing_shadow_15" />
+
+                <Button
+                    android:id="@+id/calender_button_showing_shadow_23"
+                    style="?android:attr/borderlessButtonStyle"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginStart="4dp"
+                    android:background="@drawable/round_button"
+                    app:layout_constraintStart_toEndOf="@+id/calender_button_showing_shadow_8"
+                    app:layout_constraintTop_toBottomOf="@+id/calender_button_showing_shadow_15" />
+
+                <Button
+                    android:id="@+id/calender_button_showing_shadow_24"
+                    style="?android:attr/borderlessButtonStyle"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginStart="4dp"
+                    android:background="@drawable/round_button"
+                    app:layout_constraintStart_toEndOf="@+id/calender_button_showing_shadow_2"
+                    app:layout_constraintTop_toBottomOf="@+id/calender_button_showing_shadow_15" />
+
+                <Button
+                    android:id="@+id/calender_button_showing_shadow_25"
+                    style="?android:attr/borderlessButtonStyle"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginStart="4dp"
+                    android:background="@drawable/round_button"
+                    app:layout_constraintStart_toEndOf="@+id/calender_button_showing_shadow_3"
+                    app:layout_constraintTop_toBottomOf="@+id/calender_button_showing_shadow_15" />
+
+                <Button
+                    android:id="@+id/calender_button_showing_shadow_26"
+                    style="?android:attr/borderlessButtonStyle"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginStart="4dp"
+                    android:background="@drawable/round_button"
+                    app:layout_constraintStart_toEndOf="@+id/calender_button_showing_shadow_4"
+                    app:layout_constraintTop_toBottomOf="@+id/calender_button_showing_shadow_15" />
+
+                <Button
+                    android:id="@+id/calender_button_showing_shadow_27"
+                    style="?android:attr/borderlessButtonStyle"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginStart="4dp"
+                    android:background="@drawable/round_button"
+                    app:layout_constraintStart_toEndOf="@+id/calender_button_showing_shadow_5"
+                    app:layout_constraintTop_toBottomOf="@+id/calender_button_showing_shadow_15" />
+
+                <Button
+                    android:id="@+id/calender_button_showing_shadow_28"
+                    style="?android:attr/borderlessButtonStyle"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginStart="4dp"
+                    android:background="@drawable/round_button"
+                    app:layout_constraintStart_toEndOf="@+id/calender_button_showing_shadow_6"
+                    app:layout_constraintTop_toBottomOf="@+id/calender_button_showing_shadow_15" />
+
+                <Button
+                    android:id="@+id/calender_button_showing_shadow_29"
+                    style="?android:attr/borderlessButtonStyle"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:background="@drawable/round_button"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/calender_button_showing_shadow_22" />
+
+                <Button
+                    android:id="@+id/calender_button_showing_shadow_30"
+                    style="?android:attr/borderlessButtonStyle"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginStart="4dp"
+                    android:background="@drawable/round_button"
+                    app:layout_constraintStart_toEndOf="@+id/calender_button_showing_shadow_8"
+                    app:layout_constraintTop_toBottomOf="@+id/calender_button_showing_shadow_22" />
+
+                <Button
+                    android:id="@+id/calender_button_showing_shadow_31"
+                    style="?android:attr/borderlessButtonStyle"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginStart="4dp"
+                    android:background="@drawable/round_button"
+                    app:layout_constraintStart_toEndOf="@+id/calender_button_showing_shadow_2"
+                    app:layout_constraintTop_toBottomOf="@+id/calender_button_showing_shadow_22" />
+
+                <Button
+                    android:id="@+id/calender_button_showing_shadow_32"
+                    style="?android:attr/borderlessButtonStyle"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginStart="4dp"
+                    android:background="@drawable/round_button"
+                    app:layout_constraintStart_toEndOf="@+id/calender_button_showing_shadow_3"
+                    app:layout_constraintTop_toBottomOf="@+id/calender_button_showing_shadow_22" />
+
+                <Button
+                    android:id="@+id/calender_button_showing_shadow_33"
+                    style="?android:attr/borderlessButtonStyle"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginStart="4dp"
+                    android:background="@drawable/round_button"
+                    app:layout_constraintStart_toEndOf="@+id/calender_button_showing_shadow_4"
+                    app:layout_constraintTop_toBottomOf="@+id/calender_button_showing_shadow_22" />
+
+                <Button
+                    android:id="@+id/calender_button_showing_shadow_34"
+                    style="?android:attr/borderlessButtonStyle"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginStart="4dp"
+                    android:background="@drawable/round_button"
+                    app:layout_constraintStart_toEndOf="@+id/calender_button_showing_shadow_5"
+                    app:layout_constraintTop_toBottomOf="@+id/calender_button_showing_shadow_22" />
+
+                <Button
+                    android:id="@+id/calender_button_showing_shadow_35"
+                    style="?android:attr/borderlessButtonStyle"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginStart="4dp"
+                    android:background="@drawable/round_button"
+                    app:layout_constraintStart_toEndOf="@+id/calender_button_showing_shadow_6"
+                    app:layout_constraintTop_toBottomOf="@+id/calender_button_showing_shadow_22" />
+
+                <Button
+                    android:id="@+id/calender_button_showing_shadow_36"
+                    style="?android:attr/borderlessButtonStyle"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:background="@drawable/round_button"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/calender_button_showing_shadow_29" />
+
+                <Button
+                    android:id="@+id/calender_button_showing_shadow_37"
+                    style="?android:attr/borderlessButtonStyle"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginStart="4dp"
+                    android:background="@drawable/round_button"
+                    app:layout_constraintStart_toEndOf="@+id/calender_button_showing_shadow_8"
+                    app:layout_constraintTop_toBottomOf="@+id/calender_button_showing_shadow_29" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <Button
+            android:id="@+id/show_events_button_for_calender"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/fav"
+            android:text="Show Events"
+            android:textColor="@color/white"
+            app:layout_constraintBottom_toBottomOf="@+id/add_events_button_for_calender"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/spinner_to_choose_which_habit_to_show"
+            app:layout_constraintTop_toTopOf="@+id/add_events_button_for_calender"
+            app:layout_constraintVertical_bias="0.0" />
+
+        <Button
+            android:id="@+id/add_events_button_for_calender"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="340dp"
+            android:backgroundTint="@color/fav"
+            android:text="Add Event"
+            android:textColor="@color/white"
+            app:layout_constraintEnd_toStartOf="@+id/spinner_to_choose_which_habit_to_show"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/calender_in_stats" />
+
+        <View
+            android:id="@+id/box_around_spinner_for_calender"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="@drawable/back_ground_for_text_box"
+            app:layout_constraintBottom_toTopOf="@+id/horizontal_line_two_for_spinner"
+            app:layout_constraintEnd_toStartOf="@+id/vertical_line_two_for_spinner"
+            app:layout_constraintStart_toEndOf="@+id/vertical_line_one_for_spinner"
+            app:layout_constraintTop_toBottomOf="@+id/horizontal_line_one_for_spinner" />
+
+        <Spinner
+            android:id="@+id/spinner_to_choose_which_habit_to_show"
+            android:layout_width="47dp"
+            android:layout_height="18dp"
+            app:layout_constraintBottom_toBottomOf="@+id/add_events_button_for_calender"
+            app:layout_constraintEnd_toStartOf="@+id/show_events_button_for_calender"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/add_events_button_for_calender"
+            app:layout_constraintTop_toTopOf="@+id/add_events_button_for_calender" />
+
+        <View
+            android:id="@+id/vertical_line_one_for_spinner"
+            android:layout_width="0.1dp"
+            android:layout_height="0dp"
+            android:layout_marginEnd="10dp"
+            android:background="@android:color/transparent"
+            app:layout_constraintBottom_toBottomOf="@+id/spinner_to_choose_which_habit_to_show"
+            app:layout_constraintEnd_toStartOf="@+id/spinner_to_choose_which_habit_to_show"
+            app:layout_constraintTop_toTopOf="@+id/spinner_to_choose_which_habit_to_show" />
+
+        <View
+            android:id="@+id/vertical_line_two_for_spinner"
+            android:layout_width="0.1dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="10dp"
+            android:background="@android:color/transparent"
+            app:layout_constraintBottom_toBottomOf="@+id/spinner_to_choose_which_habit_to_show"
+            app:layout_constraintStart_toEndOf="@+id/spinner_to_choose_which_habit_to_show"
+            app:layout_constraintTop_toTopOf="@+id/spinner_to_choose_which_habit_to_show" />
+
+        <View
+            android:id="@+id/horizontal_line_one_for_spinner"
+            android:layout_width="0dp"
+            android:layout_height="0.1dp"
+            android:layout_marginBottom="10dp"
+            android:background="@android:color/transparent"
+            app:layout_constraintBottom_toTopOf="@+id/spinner_to_choose_which_habit_to_show"
+            app:layout_constraintEnd_toEndOf="@+id/spinner_to_choose_which_habit_to_show"
+            app:layout_constraintStart_toStartOf="@+id/spinner_to_choose_which_habit_to_show" />
+
+        <View
+            android:id="@+id/horizontal_line_two_for_spinner"
+            android:layout_width="0dp"
+            android:layout_height="0.1dp"
+            android:layout_marginTop="10dp"
+            android:background="@android:color/transparent"
+            app:layout_constraintEnd_toEndOf="@+id/spinner_to_choose_which_habit_to_show"
+            app:layout_constraintStart_toStartOf="@+id/spinner_to_choose_which_habit_to_show"
+            app:layout_constraintTop_toBottomOf="@+id/spinner_to_choose_which_habit_to_show" />
+
+        <com.github.mikephil.charting.charts.LineChart
+            android:id="@+id/line_chart_for_streak"
+            android:layout_width="0dp"
+            android:layout_height="200dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="5dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/streak_length_title_above_chart" />
+
+        <TextView
+            android:id="@+id/streak_length_title_above_chart"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Streak lengths"
+            android:layout_marginTop="25dp"
+            android:textColor="@color/fav"
+            android:textSize="20sp"
+            app:layout_constraintStart_toStartOf="@+id/add_events_button_for_calender"
+            app:layout_constraintTop_toBottomOf="@+id/add_events_button_for_calender" />
+        <TextView
+            android:id="@+id/text_view_asking_which_habit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Streak lengths"
+            android:layout_marginTop="25dp"
+            android:textColor="@color/fav"
+            android:textSize="20sp"
+            app:layout_constraintStart_toStartOf="@+id/add_events_button_for_calender"
+            app:layout_constraintTop_toBottomOf="@+id/add_events_button_for_calender" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

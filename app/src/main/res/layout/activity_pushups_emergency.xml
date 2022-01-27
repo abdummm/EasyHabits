@@ -1,0 +1,312 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.easyhabitsapp2.android.Pushups_emergency">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/before_staritng_pushups"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <View
+            android:id="@+id/back_button_in_the_journal_emergency"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/round_arrow_back_24"
+            android:elevation="100dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/button_to_go_back_counter"
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/round_button_for_trash"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/start_push_ups_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/fav"
+            android:text="Start"
+            android:textColor="@color/white"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/showing_total_pushups_in_pushups"
+            app:layout_constraintVertical_bias="0.4" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layout_to_put_pushups_in_the_middle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:id="@+id/sets_of_text_view_in_the_middle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:text="Sets of"
+                android:textColor="@color/fav"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/enter_number_of_sets_for_pushups"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <EditText
+                android:id="@+id/enter_number_of_sets_for_pushups"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ems="2"
+                android:inputType="number"
+                android:maxLength="2"
+                android:text=""
+                android:textAlignment="center"
+                android:gravity="center"
+                android:textColor="@color/fav"
+                android:textColorHint="@color/fav"
+                android:theme="@style/SwitchTheme"
+                app:layout_constraintBottom_toBottomOf="@+id/sets_of_text_view_in_the_middle"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/sets_of_text_view_in_the_middle" />
+
+            <EditText
+                android:id="@+id/enter_number_of_pushups_for_pushups"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:ems="2"
+                android:inputType="number"
+                android:maxLength="2"
+                android:text=""
+                android:textAlignment="center"
+                android:gravity="center"
+                android:textColor="@color/fav"
+                android:textColorHint="@color/fav"
+                android:theme="@style/SwitchTheme"
+                app:layout_constraintBottom_toBottomOf="@+id/sets_of_text_view_in_the_middle"
+                app:layout_constraintStart_toEndOf="@+id/sets_of_text_view_in_the_middle"
+                app:layout_constraintTop_toTopOf="@+id/sets_of_text_view_in_the_middle" />
+
+            <TextView
+                android:id="@+id/pushups_text_view_beside_sets"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:text="Pushups"
+                android:textColor="@color/fav"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="@+id/sets_of_text_view_in_the_middle"
+                app:layout_constraintStart_toEndOf="@+id/enter_number_of_pushups_for_pushups"
+                app:layout_constraintTop_toTopOf="@+id/sets_of_text_view_in_the_middle" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <TextView
+            android:id="@+id/saying_total_pushups_in_pushups"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="50dp"
+            android:layout_marginEnd="10dp"
+            android:text="Total Pushups = Sets x Pushups"
+            android:textAlignment="center"
+            android:gravity="center"
+            android:textColor="@color/black"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/rest_layout_under_layout_pushups" />
+
+        <TextView
+            android:id="@+id/showing_total_pushups_in_pushups"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="10dp"
+            android:text="Total Pushups = Sets x Pushups"
+            android:textAlignment="center"
+            android:gravity="center"
+            android:textColor="@color/black"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/saying_total_pushups_in_pushups" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/rest_layout_under_layout_pushups"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/layout_to_put_pushups_in_the_middle">
+
+            <TextView
+                android:id="@+id/sating_with_before_rest_pushups"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="With"
+                android:textColor="@color/fav"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <EditText
+                android:id="@+id/enter_of_rest_in_seconds_for_pushups"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:ems="2"
+                android:inputType="number"
+                android:maxLength="2"
+                android:text=""
+                android:textAlignment="center"
+                android:gravity="center"
+                android:textColor="@color/fav"
+                android:textColorHint="@color/fav"
+                android:theme="@style/SwitchTheme"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/sating_with_before_rest_pushups"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/text_saying_seconds_after_eidt_text_pushups"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:text="of seconds of rest in between"
+                android:textColor="@color/fav"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/enter_of_rest_in_seconds_for_pushups"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <Button
+        android:id="@+id/Stop_Pushups_button_in_after_start_text"
+        style="?android:attr/borderlessButtonStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/ripple_for_all"
+        android:text=" Stop Pushups "
+        android:textColor="#DC143C"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/circle_button_counter_view" />
+
+    <View
+        android:id="@+id/circle_button_counter_view"
+        android:layout_width="250dp"
+        android:layout_height="250dp"
+        android:background="@drawable/z_dark_green"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/button_to_press_on_add_counter"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@drawable/round_button_color_any_size"
+        app:layout_constraintBottom_toBottomOf="@+id/circle_button_counter_view"
+        app:layout_constraintEnd_toEndOf="@+id/circle_button_counter_view"
+        app:layout_constraintStart_toStartOf="@+id/circle_button_counter_view"
+        app:layout_constraintTop_toTopOf="@+id/circle_button_counter_view" />
+
+    <TextView
+        android:id="@+id/text_view_typing_which_set"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="50dp"
+        android:text="Set 1"
+        android:textColor="@color/black"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/circle_button_counter_view"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/text_showing_number_of_counter_in_circle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:elevation="100dp"
+        android:text="Tap to start"
+        android:textAlignment="center"
+        android:gravity="center"
+        android:textColor="@color/white"
+        android:textSize="25sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/button_to_press_on_add_counter"
+        app:layout_constraintEnd_toEndOf="@+id/button_to_press_on_add_counter"
+        app:layout_constraintStart_toStartOf="@+id/button_to_press_on_add_counter"
+        app:layout_constraintTop_toTopOf="@+id/button_to_press_on_add_counter" />
+
+    <TextView
+        android:id="@+id/text_saying_time_in_pushups"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/black"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        app:layout_constraintVertical_bias="0.5"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/text_saying_time_in_rest"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/black"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        app:layout_constraintVertical_bias="0.65"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/text_saying_congrtas_in_pushups"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/black"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        app:layout_constraintVertical_bias="0.35"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

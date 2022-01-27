@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">Easy Habits</string>
+    <string name="title_activity_after_login">after_login</string>
+    <string name="title_home">Home</string>
+    <string name="title_stats">Stats</string>
+    <string name="title_notifications">Notifications</string>
+    <string name="title_habits">Habits</string>
+
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_tapped_popup">Tapped_popup</string>
+    <string name="tab_text_1">Tab 1</string>
+    <string name="tab_text_2">Tab 2</string>
+    <string name="hyper_link_string_and_terrm_and_condition">I agree to <a href="https://learntodroid.com">Privacy Policy</a> and <a href="https://google.com">Terms and Conditions</a></string>
+</resources>

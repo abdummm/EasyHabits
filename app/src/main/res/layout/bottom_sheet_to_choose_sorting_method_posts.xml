@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <TextView
+        android:id="@+id/text_at_the_top_of_the_bottom_saying_sort_by_what"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/black"
+        android:text="Sort Posts By"
+        android:textStyle="bold"
+        android:layout_marginTop="15dp"
+        android:textSize="17sp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <Button
+        android:id="@+id/saying_sort_by_hot_in_bottom_sheet"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:background="@drawable/ripple_for_all"
+        android:text="Hot"
+        android:textAllCaps="false"
+        android:textColor="@color/fav"
+        style="?android:attr/borderlessButtonStyle"
+        app:layout_constraintTop_toBottomOf="@+id/text_at_the_top_of_the_bottom_saying_sort_by_what" />
+
+    <View
+        android:id="@+id/horizantal_straight_line_1"
+        android:layout_width="0dp"
+        android:layout_height="1.5dp"
+        android:background="@color/fav"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/saying_sort_by_hot_in_bottom_sheet" />
+
+    <Button
+        android:id="@+id/saying_sort_by_top_in_bottom_sheet"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Top"
+        android:textColor="@color/fav"
+        android:background="@drawable/ripple_for_all"
+        android:textAllCaps="false"
+        style="?android:attr/borderlessButtonStyle"
+        app:layout_constraintTop_toBottomOf="@+id/horizantal_straight_line_1"/>
+
+    <View
+        android:id="@+id/horizantal_straight_line_2"
+        android:layout_width="0dp"
+        android:layout_height="1.5dp"
+        android:background="@color/fav"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/saying_sort_by_top_in_bottom_sheet" />
+
+    <Button
+        android:id="@+id/saying_sort_by_new_in_bottom_sheet"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="New"
+        android:textColor="@color/fav"
+        android:background="@drawable/ripple_for_all"
+        android:textAllCaps="false"
+        style="?android:attr/borderlessButtonStyle"
+        app:layout_constraintTop_toBottomOf="@+id/horizantal_straight_line_2"/>
+
+    <View
+        android:id="@+id/fire_in_the_hot_button_sort"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:background="@drawable/baseline_local_fire_department_24"
+        android:translationZ="100dp"
+        android:layout_marginStart="25dp"
+        app:layout_constraintBottom_toBottomOf="@+id/saying_sort_by_hot_in_bottom_sheet"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/saying_sort_by_hot_in_bottom_sheet" />
+
+    <View
+        android:id="@+id/fire_in_the_top_button_sort"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:background="@drawable/round_emoji_events_24"
+        android:translationZ="100dp"
+        android:layout_marginStart="25dp"
+        app:layout_constraintBottom_toBottomOf="@+id/saying_sort_by_top_in_bottom_sheet"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/saying_sort_by_top_in_bottom_sheet" />
+
+    <View
+        android:id="@+id/fire_in_the_new_button_sort"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:background="@drawable/round_trending_up_24"
+        android:translationZ="100dp"
+        android:layout_marginStart="25dp"
+        app:layout_constraintBottom_toBottomOf="@+id/saying_sort_by_new_in_bottom_sheet"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/saying_sort_by_new_in_bottom_sheet" />
+
+    <View
+        android:id="@+id/back_button_in_bottom_sheet_listen"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:background="@drawable/round_arrow_back_24"
+        android:layout_marginTop="15dp"
+        android:layout_marginStart="15dp"
+        android:translationZ="100dp"
+        android:visibility="invisible"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+    <Button
+        android:id="@+id/back_button_lsiten_in_bottom_sheet_to_sort"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:background="@drawable/ripple_for_all_circle"
+        android:visibility="invisible"
+        style="?android:attr/borderlessButtonStyle"
+        app:layout_constraintStart_toStartOf="@+id/back_button_in_bottom_sheet_listen"
+        app:layout_constraintEnd_toEndOf="@+id/back_button_in_bottom_sheet_listen"
+        app:layout_constraintTop_toTopOf="@+id/back_button_in_bottom_sheet_listen"
+        app:layout_constraintBottom_toBottomOf="@+id/back_button_in_bottom_sheet_listen"/>
+
+    <Button
+        android:id="@+id/saying_sort_i_want_top_this_day"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:background="@drawable/ripple_for_all"
+        android:text="Today"
+        android:textAllCaps="false"
+        android:textColor="@color/fav"
+        android:visibility="invisible"
+        style="?android:attr/borderlessButtonStyle"
+        app:layout_constraintTop_toBottomOf="@+id/text_at_the_top_of_the_bottom_saying_sort_by_what" />
+
+    <Button
+        android:id="@+id/saying_sort_i_want_top_this_week"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="This Week"
+        android:textColor="@color/fav"
+        android:background="@drawable/ripple_for_all"
+        android:textAllCaps="false"
+        android:visibility="invisible"
+        style="?android:attr/borderlessButtonStyle"
+        app:layout_constraintTop_toBottomOf="@+id/horizantal_straight_line_1"/>
+
+    <Button
+        android:id="@+id/saying_sort_i_want_top_this_month"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="This Month"
+        android:textColor="@color/fav"
+        android:background="@drawable/ripple_for_all"
+        android:textAllCaps="false"
+        android:visibility="invisible"
+        style="?android:attr/borderlessButtonStyle"
+        app:layout_constraintTop_toBottomOf="@+id/horizantal_straight_line_2"/>
+
+    <View
+        android:id="@+id/view_at_bottom_of_sheet_to_extend_post_sort"
+        android:layout_width="match_parent"
+        android:layout_height="0.1dp"
+        android:layout_marginTop="8dp"
+        android:background="@android:color/transparent"
+        app:layout_constraintTop_toBottomOf="@+id/saying_sort_by_new_in_bottom_sheet"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

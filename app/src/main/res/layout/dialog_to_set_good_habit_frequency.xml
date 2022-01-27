@@ -1,0 +1,256 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/whitelist_dialog_background">
+
+    <Button
+        android:id="@+id/monday_button_in_good_habits"
+        android:stateListAnimator="@null"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/ripple_for_all"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/view_that_contains_title_of_dialog" />
+
+    <Button
+        android:id="@+id/tuesday_button_in_good_habits"
+        android:stateListAnimator="@null"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/ripple_for_all"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/monday_button_in_good_habits" />
+
+    <Button
+        android:id="@+id/wednesday_button_in_good_habits"
+        android:stateListAnimator="@null"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/ripple_for_all"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tuesday_button_in_good_habits" />
+
+    <Button
+        android:id="@+id/thursday_button_in_good_habits"
+        android:stateListAnimator="@null"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/ripple_for_all"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/wednesday_button_in_good_habits" />
+
+    <Button
+        android:id="@+id/friday_button_in_good_habits"
+        android:stateListAnimator="@null"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/ripple_for_all"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/thursday_button_in_good_habits" />
+
+    <Button
+        android:id="@+id/saturday_button_in_good_habits"
+        android:layout_width="0dp"
+        android:stateListAnimator="@null"
+        android:layout_height="wrap_content"
+        android:background="@drawable/ripple_for_all"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/friday_button_in_good_habits" />
+
+    <Button
+        android:id="@+id/sunday_button_in_good_habits"
+        android:stateListAnimator="@null"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/ripple_for_all"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/saturday_button_in_good_habits" />
+
+    <View
+        android:id="@+id/view_that_contains_title_of_dialog"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:background="@drawable/removing_corners_for_view"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/title_of_dialog_white_list"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Set Good habit Days"
+        android:textColor="@color/white"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/view_that_contains_title_of_dialog"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/view_that_contains_title_of_dialog"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <CheckBox
+        android:id="@+id/monday_check_box_good_habits"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
+        android:buttonTint="@color/fav"
+        android:checked="false"
+        android:clickable="false"
+        android:text="Monday"
+        android:textColor="@color/fav"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:translationZ="100dp"
+        app:layout_constraintBottom_toBottomOf="@+id/monday_button_in_good_habits"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/monday_button_in_good_habits" />
+
+    <CheckBox
+        android:id="@+id/tuesday_check_box_good_habits"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
+        android:buttonTint="@color/fav"
+        android:checked="false"
+        android:clickable="false"
+        android:text="Tuesday"
+        android:textColor="@color/fav"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:translationZ="100dp"
+        app:layout_constraintBottom_toBottomOf="@+id/tuesday_button_in_good_habits"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/tuesday_button_in_good_habits" />
+
+    <CheckBox
+        android:id="@+id/wednesday_check_box_good_habits"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
+        android:buttonTint="@color/fav"
+        android:checked="false"
+        android:clickable="false"
+        android:text="Wednesday"
+        android:textColor="@color/fav"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:translationZ="100dp"
+        app:layout_constraintBottom_toBottomOf="@+id/wednesday_button_in_good_habits"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/wednesday_button_in_good_habits" />
+
+    <CheckBox
+        android:id="@+id/thursday_check_box_good_habits"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
+        android:buttonTint="@color/fav"
+        android:checked="false"
+        android:clickable="false"
+        android:text="Thursday"
+        android:textColor="@color/fav"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:translationZ="100dp"
+        app:layout_constraintBottom_toBottomOf="@+id/thursday_button_in_good_habits"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/thursday_button_in_good_habits" />
+
+    <CheckBox
+        android:id="@+id/friday_check_box_good_habits"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
+        android:buttonTint="@color/fav"
+        android:checked="false"
+        android:clickable="false"
+        android:text="Friday"
+        android:textColor="@color/fav"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:translationZ="100dp"
+        app:layout_constraintBottom_toBottomOf="@+id/friday_button_in_good_habits"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/friday_button_in_good_habits" />
+
+    <CheckBox
+        android:id="@+id/saturday_check_box_good_habits"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
+        android:buttonTint="@color/fav"
+        android:checked="false"
+        android:clickable="false"
+        android:text="Saturday"
+        android:textColor="@color/fav"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:translationZ="100dp"
+        app:layout_constraintBottom_toBottomOf="@+id/saturday_button_in_good_habits"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/saturday_button_in_good_habits" />
+
+    <CheckBox
+        android:id="@+id/sunday_check_box_good_habits"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
+        android:buttonTint="@color/fav"
+        android:checked="false"
+        android:clickable="false"
+        android:text="Sunday"
+        android:textColor="@color/fav"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:translationZ="100dp"
+        app:layout_constraintBottom_toBottomOf="@+id/sunday_button_in_good_habits"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/sunday_button_in_good_habits" />
+
+    <Button
+        android:id="@+id/ok_button_for_white_list_dialog"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="15dp"
+        android:backgroundTint="@color/white"
+        android:stateListAnimator="@null"
+        android:text="@android:string/ok"
+        android:textColor="@color/fav"
+        android:layout_marginTop="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/sunday_button_in_good_habits" />
+
+    <Button
+        android:id="@+id/cancel_button_for_white_list_dialog"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/white"
+        android:stateListAnimator="@null"
+        android:text="@android:string/cancel"
+        android:textColor="@color/fav"
+        android:layout_marginTop="10dp"
+        app:layout_constraintEnd_toStartOf="@+id/ok_button_for_white_list_dialog"
+        app:layout_constraintTop_toBottomOf="@+id/sunday_button_in_good_habits" />
+
+    <View
+        android:id="@+id/view_bottom_right"
+        android:layout_width="0dp"
+        android:layout_height="0.1dp"
+        android:background="@android:color/transparent"
+        android:layout_marginTop="10dp"
+        app:layout_constraintTop_toBottomOf="@+id/cancel_button_for_white_list_dialog"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

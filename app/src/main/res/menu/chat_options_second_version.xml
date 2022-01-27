@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/item_to_end_chat_in_menu_three_dot"
+        android:orderInCategory="0"
+        android:title="Leave Chat" />
+    <item
+        android:id="@+id/item_to_report_chat_in_menu_three_dot"
+        android:orderInCategory="1"
+        android:title="Report" />
+</menu>

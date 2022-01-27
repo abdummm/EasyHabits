@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/main_id_for_good_habits"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <View
+            android:id="@+id/thirty_three_percent_divider_for_buttons_in_top"
+            android:layout_width="1px"
+            android:layout_height="0dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.33"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <View
+            android:id="@+id/sixty_six_percent_divider_for_buttons_in_top"
+            android:layout_width="1px"
+            android:layout_height="0dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.66"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <View
+            android:id="@+id/view_at_the_top_of_posts_showing_three_buttons"
+            android:layout_width="match_parent"
+            android:layout_height="?android:attr/actionBarSize"
+            android:background="@color/white"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/button_to_go_to_all_posts"
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_margin="5dp"
+            android:background="@drawable/fav_back_ground_for_rectangle_ripple"
+            android:text="All icons"
+            android:textAllCaps="false"
+            android:textColor="@color/fav"
+            android:textSize="13sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/view_at_the_top_of_posts_showing_three_buttons"
+            app:layout_constraintEnd_toEndOf="@+id/thirty_three_percent_divider_for_buttons_in_top"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/button_to_go_to_your_posts"
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_margin="5dp"
+            android:background="@drawable/fav_back_ground_for_rectangle_ripple"
+            android:text="Bad habits"
+            android:textAllCaps="false"
+            android:textColor="@color/fav"
+            android:textSize="13sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/view_at_the_top_of_posts_showing_three_buttons"
+            app:layout_constraintEnd_toEndOf="@+id/sixty_six_percent_divider_for_buttons_in_top"
+            app:layout_constraintStart_toStartOf="@+id/thirty_three_percent_divider_for_buttons_in_top"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/button_to_go_to_saved_posts"
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_margin="5dp"
+            android:background="@drawable/fav_back_ground_for_rectangle_ripple"
+            android:text="Good habits"
+            android:textAllCaps="false"
+            android:textColor="@color/fav"
+            android:textSize="13sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/view_at_the_top_of_posts_showing_three_buttons"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/sixty_six_percent_divider_for_buttons_in_top"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <View
+            android:id="@+id/white_view_under_first_button_feed"
+            android:layout_width="0dp"
+            android:layout_height="4dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="5dp"
+            android:layout_marginBottom="5dp"
+            android:background="@drawable/round_corner_white_rectangle"
+            android:backgroundTint="@color/fav"
+            app:layout_constraintBottom_toBottomOf="@+id/view_at_the_top_of_posts_showing_three_buttons"
+            app:layout_constraintEnd_toEndOf="@+id/thirty_three_percent_divider_for_buttons_in_top"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <View
+            android:id="@+id/white_view_under_second_button_your_posts"
+            android:layout_width="0dp"
+            android:layout_height="4dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="5dp"
+            android:layout_marginBottom="5dp"
+            android:background="@drawable/round_corner_white_rectangle"
+            android:visibility="invisible"
+            android:backgroundTint="@color/fav"
+            app:layout_constraintBottom_toBottomOf="@+id/view_at_the_top_of_posts_showing_three_buttons"
+            app:layout_constraintEnd_toEndOf="@+id/sixty_six_percent_divider_for_buttons_in_top"
+            app:layout_constraintStart_toStartOf="@+id/thirty_three_percent_divider_for_buttons_in_top" />
+
+        <View
+            android:id="@+id/white_view_under_third_button_saved_posts"
+            android:layout_width="0dp"
+            android:layout_height="4dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="5dp"
+            android:layout_marginBottom="5dp"
+            android:background="@drawable/round_corner_white_rectangle"
+            android:visibility="invisible"
+            android:backgroundTint="@color/fav"
+            app:layout_constraintBottom_toBottomOf="@+id/view_at_the_top_of_posts_showing_three_buttons"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/sixty_six_percent_divider_for_buttons_in_top" />
+
+        <View
+            android:id="@+id/divider_between_first_two_buttons_posts"
+            android:layout_width="1dp"
+            android:layout_height="25dp"
+            android:layout_marginTop="12.5dp"
+            android:background="@color/white"
+            app:layout_constraintStart_toEndOf="@+id/button_to_go_to_all_posts"
+            app:layout_constraintEnd_toStartOf="@+id/button_to_go_to_your_posts"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <View
+            android:id="@+id/divider_between_second_two_buttons_posts"
+            android:layout_width="1dp"
+            android:layout_height="25dp"
+            android:layout_marginTop="12.5dp"
+            android:background="@color/white"
+            app:layout_constraintStart_toEndOf="@+id/button_to_go_to_your_posts"
+            app:layout_constraintEnd_toStartOf="@+id/button_to_go_to_saved_posts"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/good_habit_scroll_view_in_dialog"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:visibility="visible"
+            app:layout_constraintBottom_toTopOf="@+id/button_saying_cancel_in_corner_of_dialog"
+            app:layout_constraintTop_toBottomOf="@+id/view_at_the_top_of_posts_showing_three_buttons">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycle_view_to_show_icons_in_add_a_habit_dialog"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycle_view_to_show_icons_in_add_a_habit_dialog_bad_habits"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="invisible"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycle_view_to_show_icons_in_add_a_habit_dialog_good_habits"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="invisible"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <Button
+        android:id="@+id/button_saying_cancel_in_corner_of_dialog"
+        style="?android:attr/borderlessButtonStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="5dp"
+        android:layout_marginBottom="10dp"
+        android:backgroundTint="@color/white"
+        android:text="Cancel"
+        android:textColor="@color/fav"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <TextView
+        android:id="@+id/text_view_saying_scroll_to_see_more"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:text="Scroll to see more!!"
+        android:textColor="@color/fav"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/button_saying_cancel_in_corner_of_dialog" />
+</androidx.constraintlayout.widget.ConstraintLayout>

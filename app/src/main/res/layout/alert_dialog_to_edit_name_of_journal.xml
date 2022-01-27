@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:padding="16dp"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <EditText
+        android:id="@+id/edit_text_for_new_journal_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:ems="3"
+        android:gravity="center"
+        android:hint="size"
+        android:inputType="number"
+        android:maxLength="2"
+        android:text=""
+        android:textColorHint="@color/fav"
+        android:theme="@style/SwitchTheme"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/text_just_saying_or_in_the_middle"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Spinner
+        android:id="@+id/spinner_to_choose_size"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@+id/edit_text_for_new_journal_name"
+        app:layout_constraintEnd_toStartOf="@+id/text_just_saying_or_in_the_middle"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/edit_text_for_new_journal_name" />
+    <TextView
+        android:id="@+id/text_just_saying_or_in_the_middle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="OR"
+        android:textColor="@color/fav"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="@+id/edit_text_for_new_journal_name"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/edit_text_for_new_journal_name" />
+
+    <View
+        android:id="@+id/box_around_spinner"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@drawable/back_ground_for_text_box"
+        app:layout_constraintTop_toBottomOf="@+id/horizantal_straight_line_in_top"
+        app:layout_constraintBottom_toTopOf="@+id/horizantal_straight_line_in_bottom"
+        app:layout_constraintEnd_toStartOf="@+id/vertical_line_to_expand_the_edit_text_on_the_end"
+        app:layout_constraintStart_toEndOf="@+id/vertical_line_to_expand_the_edit_text"/>
+
+    <View
+        android:id="@+id/vertical_line_to_expand_the_edit_text"
+        android:layout_width="0.1dp"
+        android:layout_height="0dp"
+        android:background="@android:color/transparent"
+        android:layout_marginEnd="10dp"
+        app:layout_constraintBottom_toBottomOf="@+id/spinner_to_choose_size"
+        app:layout_constraintEnd_toStartOf="@+id/spinner_to_choose_size"
+        app:layout_constraintTop_toTopOf="@+id/spinner_to_choose_size" />
+
+    <View
+        android:id="@+id/vertical_line_to_expand_the_edit_text_on_the_end"
+        android:layout_width="0.1dp"
+        android:layout_height="0dp"
+        android:background="@android:color/transparent"
+        android:layout_marginStart="10dp"
+        app:layout_constraintBottom_toBottomOf="@+id/spinner_to_choose_size"
+        app:layout_constraintStart_toEndOf="@+id/spinner_to_choose_size"
+        app:layout_constraintTop_toTopOf="@+id/spinner_to_choose_size" />
+
+    <View
+        android:id="@+id/horizantal_straight_line_in_top"
+        android:layout_width="0dp"
+        android:layout_height="1.5dp"
+        android:background="@android:color/transparent"
+        android:layout_marginBottom="10dp"
+        app:layout_constraintBottom_toTopOf="@+id/spinner_to_choose_size"
+        app:layout_constraintEnd_toEndOf="@+id/spinner_to_choose_size"
+        app:layout_constraintStart_toStartOf="@+id/spinner_to_choose_size" />
+
+    <View
+        android:id="@+id/horizantal_straight_line_in_bottom"
+        android:layout_width="0dp"
+        android:layout_height="1.5dp"
+        android:background="@android:color/transparent"
+        android:layout_marginTop="10dp"
+        app:layout_constraintEnd_toEndOf="@+id/spinner_to_choose_size"
+        app:layout_constraintStart_toStartOf="@+id/spinner_to_choose_size"
+        app:layout_constraintTop_toBottomOf="@+id/spinner_to_choose_size" />
+</androidx.constraintlayout.widget.ConstraintLayout>
