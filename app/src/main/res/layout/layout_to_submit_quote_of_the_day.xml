@@ -1,0 +1,463 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:context=".submit_quote_of_the_day_activity">
+
+        <EditText
+            android:id="@+id/large_text_box_to_insert_quote_edit_text"
+            android:layout_width="0dp"
+            android:layout_height="150dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="36dp"
+            android:layout_marginEnd="15dp"
+            android:background="@drawable/back_ground_for_text_box"
+            android:gravity="start"
+            android:hint="ex. Don't Quit"
+            android:inputType="textMultiLine|textCapSentences"
+            android:overScrollMode="always"
+            android:paddingStart="10dp"
+            android:paddingTop="10dp"
+            android:paddingEnd="10dp"
+            android:paddingBottom="10dp"
+            android:scrollbarStyle="insideInset"
+            android:scrollbars="vertical"
+            android:textColor="@color/fav"
+            android:theme="@style/SwitchTheme"
+            app:layout_constraintEnd_toStartOf="@+id/paste_to_paste_quote_into_edit_text_button"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/insert_quote_submission_text_view">
+
+        </EditText>
+
+        <TextView
+            android:id="@+id/insert_quote_submission_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="40dp"
+            android:layout_marginEnd="8dp"
+            android:text="Insert quote below"
+            android:textColor="@color/fav"
+            android:textSize="22sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/submit_a_quote_title_in_the_top_of_fragment_text_view" />
+
+        <Button
+            android:id="@+id/paste_to_paste_quote_into_edit_text_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="20dp"
+            android:backgroundTint="@color/fav"
+            android:text="Paste"
+            android:textColor="@color/white"
+            app:layout_constraintBottom_toBottomOf="@+id/large_text_box_to_insert_quote_edit_text"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/large_text_box_to_insert_quote_edit_text" />
+
+        <TextView
+            android:id="@+id/who_said_the_quote_to_enter_name_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            android:text="Who said the quote?"
+            android:textColor="@color/fav"
+            android:textSize="22sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/large_text_box_to_insert_quote_edit_text" />
+
+        <EditText
+            android:id="@+id/enter_the_name_of_the_person_who_said_the_quote_edit_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="36dp"
+            android:layout_marginEnd="8dp"
+            android:backgroundTint="@color/fav"
+            android:ems="12"
+            android:hint="Name of the person"
+            android:inputType="text|textCapSentences"
+            android:textColor="@color/fav"
+            android:textColorHint="#7F607D8B"
+            android:theme="@style/SwitchTheme"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/who_said_the_quote_to_enter_name_text_view" />
+
+        <TextView
+            android:id="@+id/enter_your_name_submit_quote_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="40dp"
+            android:layout_marginEnd="8dp"
+            android:text="Your name"
+            android:textColor="@color/fav"
+            android:textSize="22sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/enter_the_name_of_the_person_who_said_the_quote_edit_text" />
+
+        <EditText
+            android:id="@+id/enter_your_own_name_when_submitting_quote_edit_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="40dp"
+            android:layout_marginEnd="8dp"
+            android:backgroundTint="@color/fav"
+            android:ems="12"
+            android:hint="Enter your name"
+            android:inputType="textPersonName"
+            android:textColor="@color/fav"
+            android:textColorHint="#7F607D8B"
+            android:theme="@style/SwitchTheme"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/i_want_to_be_visible_button_name" />
+
+        <TextView
+            android:id="@+id/display_number_two_to_submit_quote_of_day"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:text="2."
+            android:textColor="@color/fav"
+            android:textSize="30sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/who_said_the_quote_to_enter_name_text_view"
+            app:layout_constraintEnd_toStartOf="@+id/insert_quote_submission_text_view"
+            app:layout_constraintHorizontal_bias="0.3"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/who_said_the_quote_to_enter_name_text_view" />
+
+
+        <TextView
+            android:id="@+id/display_number_two_to_submit_quote_of_day3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:text="3."
+            android:textColor="@color/fav"
+            android:textSize="30sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/enter_your_name_submit_quote_text_view"
+            app:layout_constraintEnd_toStartOf="@+id/insert_quote_submission_text_view"
+            app:layout_constraintHorizontal_bias="0.3"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/enter_your_name_submit_quote_text_view" />
+
+        <TextView
+            android:id="@+id/display_number_two_to_submit_quote_of_day4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:text="4."
+            android:textColor="@color/fav"
+            android:textSize="30sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/review_and_submit_quote_after_finishing_text_view"
+            app:layout_constraintEnd_toStartOf="@+id/insert_quote_submission_text_view"
+            app:layout_constraintHorizontal_bias="0.3"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/review_and_submit_quote_after_finishing_text_view" />
+
+        <TextView
+            android:id="@+id/display_number_one_to_submit_quote_of_day"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:text="1."
+            android:textColor="@color/fav"
+            android:textSize="30sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/insert_quote_submission_text_view"
+            app:layout_constraintEnd_toStartOf="@+id/insert_quote_submission_text_view"
+            app:layout_constraintHorizontal_bias="0.3"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/insert_quote_submission_text_view" />
+
+        <TextView
+            android:id="@+id/warning_user_that_the_name_will_be_shown_to_all"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="Note: Entered name will be publicly shown."
+            android:textAlignment="center"
+            android:gravity="center"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/enter_your_own_name_when_submitting_quote_edit_text" />
+
+        <TextView
+            android:id="@+id/review_and_submit_quote_after_finishing_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="40dp"
+            android:layout_marginEnd="8dp"
+            android:text="Review &amp; Submt"
+            android:textColor="@color/fav"
+            android:textSize="22sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/warning_user_that_the_name_will_be_shown_to_all" />
+
+        <TextView
+            android:id="@+id/show_user_how_the_submit_text_looks_total"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginEnd="8dp"
+            android:text="This is how it looks:"
+            android:textColor="@color/fav"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.05"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/review_and_submit_quote_after_finishing_text_view" />
+
+        <TextView
+            android:id="@+id/submit_and_review_qoute_of_the_day_title_text_view2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginEnd="8dp"
+            android:text="Quote of the day"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.15"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/show_user_how_the_submit_text_looks_total" />
+
+        <TextView
+            android:id="@+id/the_quote_itself_show_for_review_and_edit_review_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="8dp"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:text="Please submit a quote"
+            android:textAlignment="center"
+            android:gravity="center"
+            android:textColor="@color/fav"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/submit_and_review_qoute_of_the_day_title_text_view2" />
+
+        <TextView
+            android:id="@+id/the_user_entered_name_of_the_guy_who_said_the_quote_review_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="8dp"
+            android:text="- Please submit a name"
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.9"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/the_quote_itself_show_for_review_and_edit_review_text_view" />
+
+        <TextView
+            android:id="@+id/name_of_the_submitter_of_the_quote_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginEnd="8dp"
+            android:text="Submitted by:  Please submit your name"
+            android:textColor="@color/black"
+            android:textSize="19sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.547"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/the_user_entered_name_of_the_guy_who_said_the_quote_review_text_view" />
+
+        <View
+            android:id="@+id/quote_horizantal_straight_line_4"
+            android:layout_width="0dp"
+            android:layout_height="1.5dp"
+            android:background="@color/fav"
+            app:layout_constraintBottom_toTopOf="@+id/transparent_boxes_diving_it_into_segments"
+            app:layout_constraintEnd_toEndOf="@+id/submit_a_quote_title_in_the_top_of_fragment_text_view"
+            app:layout_constraintStart_toStartOf="@+id/submit_a_quote_title_in_the_top_of_fragment_text_view"
+            app:layout_constraintTop_toBottomOf="@+id/submit_a_quote_title_in_the_top_of_fragment_text_view" />
+
+        <TextView
+            android:id="@+id/submit_a_quote_title_in_the_top_of_fragment_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="40dp"
+            android:layout_marginEnd="8dp"
+            android:text="Submit a quote and get featured!"
+            android:textAlignment="center"
+            android:gravity="center"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/submit_the_quote_after_done_reviewing_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginEnd="8dp"
+            android:backgroundTint="@color/fav"
+            android:text="Submit"
+            android:textColor="@color/white"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/name_of_the_submitter_of_the_quote_text_view" />
+
+        <View
+            android:id="@+id/transparent_boxes_diving_it_into_segments"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:background="@drawable/rectangle_with_opacity"
+            app:layout_constraintBottom_toTopOf="@+id/empty_view_for_padding2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/empty_view_for_padding1" />
+
+        <View
+            android:id="@+id/transparent_boxes_diving_it_into_segments2"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:background="@drawable/rectangle_with_opacity"
+            app:layout_constraintBottom_toTopOf="@+id/empty_view_for_padding4"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/empty_view_for_padding3" />
+
+        <View
+            android:id="@+id/empty_view_for_padding1"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginBottom="10dp"
+            android:background="@android:color/transparent"
+            app:layout_constraintBottom_toTopOf="@+id/insert_quote_submission_text_view"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <View
+            android:id="@+id/empty_view_for_padding2"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="10dp"
+            android:background="@android:color/transparent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/large_text_box_to_insert_quote_edit_text" />
+
+        <View
+            android:id="@+id/empty_view_for_padding3"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginBottom="10dp"
+            android:background="@android:color/transparent"
+            app:layout_constraintBottom_toTopOf="@+id/enter_your_name_submit_quote_text_view"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <View
+            android:id="@+id/empty_view_for_padding4"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="10dp"
+            android:background="@android:color/transparent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/warning_user_that_the_name_will_be_shown_to_all" />
+
+        <View
+            android:id="@+id/new_horizantal_straight_line_at_end"
+            android:layout_width="0dp"
+            android:layout_height="1.5dp"
+            android:background="@color/fav"
+            app:layout_constraintBottom_toTopOf="@+id/name_of_the_submitter_of_the_quote_text_view"
+            app:layout_constraintEnd_toEndOf="@+id/the_user_entered_name_of_the_guy_who_said_the_quote_review_text_view"
+            app:layout_constraintStart_toStartOf="@+id/submit_and_review_qoute_of_the_day_title_text_view2"
+            app:layout_constraintTop_toBottomOf="@+id/the_user_entered_name_of_the_guy_who_said_the_quote_review_text_view" />
+
+        <Button
+            android:id="@+id/i_want_to_be_visible_button_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="30dp"
+            android:text="visible"
+            android:background="@drawable/color_for_botton_on"
+            android:textColor="@color/white"
+            app:layout_constraintEnd_toStartOf="@+id/i_want_to_be_anonymous_button_name"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/enter_your_name_submit_quote_text_view" />
+
+        <Button
+            android:id="@+id/i_want_to_be_anonymous_button_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:layout_marginEnd="8dp"
+            android:text="  anonymous  "
+            android:background="@drawable/color_for_botton_off"
+            android:textColor="@color/fav"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/i_want_to_be_visible_button_name"
+            app:layout_constraintTop_toBottomOf="@+id/enter_your_name_submit_quote_text_view" />
+
+        <View
+            android:id="@+id/horizantal_straight_line_between_the_progress_and_quote"
+            android:layout_width="0dp"
+            android:layout_height="1.5dp"
+            android:background="@color/fav"
+            app:layout_constraintBottom_toTopOf="@+id/submit_and_review_qoute_of_the_day_title_text_view2"
+            app:layout_constraintEnd_toEndOf="@+id/the_user_entered_name_of_the_guy_who_said_the_quote_review_text_view"
+            app:layout_constraintStart_toStartOf="@+id/show_user_how_the_submit_text_looks_total"
+            app:layout_constraintTop_toBottomOf="@+id/show_user_how_the_submit_text_looks_total" />
+
+        <View
+            android:id="@+id/horizantal_line_to_expand_screen_lock"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="15dp"
+            android:background="@color/fav"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/submit_the_quote_after_done_reviewing_button" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/dialog_to_thank_user_for_purchase"
+    android:background="@drawable/whitelist_dialog_background">
+    <Button
+        android:id="@+id/ok_for_permission"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="5dp"
+        android:backgroundTint="@android:color/transparent"
+        android:stateListAnimator="@null"
+        android:text="@android:string/ok"
+        android:textColor="@color/fav"
+        android:layout_marginTop="15dp"
+        app:layout_constraintVertical_bias="1"
+        app:layout_constraintTop_toBottomOf="@+id/text_saying_gift_is_sent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <View
+        android:id="@+id/view_that_contains_title_of_dialog"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:background="@drawable/removing_corners_for_view"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/title_of_dialog"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Thank you kind user!!"
+        android:textColor="@color/white"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/view_that_contains_title_of_dialog"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/view_that_contains_title_of_dialog"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <View
+        android:id="@+id/show_the_award_image"
+        android:layout_width="143dp"
+        android:layout_height="151dp"
+        app:layout_constraintBottom_toTopOf="@+id/ok_for_permission"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/view_that_contains_title_of_dialog" />
+
+    <TextView
+        android:id="@+id/text_saying_gift_is_sent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:text="Your gift has been sent!!"
+        android:textColor="@color/fav"
+        android:textSize="15sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/show_the_award_image" />
+
+    <TextView
+        android:id="@+id/text_award_image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="1"
+        android:gravity="center_horizontal"
+        android:textColor="@color/fav"
+        android:textStyle="bold"
+        android:textSize="65sp"
+        app:layout_constraintBottom_toTopOf="@+id/ok_for_permission"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/view_that_contains_title_of_dialog" />
+
+    <TextView
+        android:id="@+id/text_saying_months_beside_award"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
+        android:textStyle="bold"
+        android:text="month"
+        android:textColor="@color/fav"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="@+id/text_award_image"
+        app:layout_constraintStart_toEndOf="@+id/text_award_image" />
+
+    <nl.dionsegijn.konfetti.KonfettiView
+        android:id="@+id/konfetti_in_gift_for_others"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/ok_for_permission"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/view_that_contains_title_of_dialog" />
+
+    <ProgressBar
+        android:id="@+id/progressBar_cyclic_for_the_gift_dialog"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:minWidth="40dp"
+        android:minHeight="40dp"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/view_that_contains_title_of_dialog" />
+</androidx.constraintlayout.widget.ConstraintLayout>

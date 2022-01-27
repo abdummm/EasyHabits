@@ -1,0 +1,354 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cold_shower_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        tools:context=".cold_shower">
+
+        <com.github.lzyzsd.circleprogress.ArcProgress
+            android:id="@+id/timer_progress_for_shower_count_down"
+            android:layout_width="300dp"
+            android:layout_height="300dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginTop="150dp"
+            android:background="@color/white"
+            android:rotation="180"
+            app:arc_angle="360"
+            app:arc_finished_color="@color/fav"
+            app:arc_max="10000"
+            app:arc_progress="10000"
+            app:arc_stroke_width="5dp"
+            app:arc_text_color="@color/white"
+            app:arc_unfinished_color="#ECEFF1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.554"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/button_for_back_to_emergency" />
+
+        <Button
+            android:id="@+id/five_mins_add_to_cold_shower"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/fav"
+            android:text="+5 min"
+            android:textColor="@color/white"
+            app:layout_constraintBottom_toBottomOf="@+id/one_mins_add_to_cold_shower"
+            app:layout_constraintEnd_toStartOf="@+id/one_mins_add_to_cold_shower"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/one_mins_add_to_cold_shower" />
+
+        <Button
+            android:id="@+id/one_mins_add_to_cold_shower"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/fav"
+            android:text="+1 min"
+            android:textColor="@color/white"
+            android:layout_marginTop="25dp"
+            app:layout_constraintEnd_toStartOf="@+id/fifteen_sec_add_to_cold_shower"
+            app:layout_constraintStart_toEndOf="@+id/five_mins_add_to_cold_shower"
+            app:layout_constraintTop_toBottomOf="@+id/child_to_hold_the_edits" />
+
+        <Button
+            android:id="@+id/fifteen_sec_add_to_cold_shower"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/fav"
+            android:text="+15 sec"
+            android:textColor="@color/white"
+            app:layout_constraintBottom_toBottomOf="@+id/one_mins_add_to_cold_shower"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/one_mins_add_to_cold_shower"
+            app:layout_constraintTop_toTopOf="@+id/one_mins_add_to_cold_shower" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/child_to_hold_the_edits"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:layout_marginTop="15dp"
+            app:layout_constraintEnd_toStartOf="@+id/vertical_line_two_to_expand_the_edit_test"
+            app:layout_constraintStart_toEndOf="@+id/vertical_line_to_expand_the_edit_text"
+            app:layout_constraintTop_toBottomOf="@+id/timer_progress_for_shower_count_down">
+
+
+            <EditText
+                android:id="@+id/editText_to_enter_min_for_shower"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ems="3"
+                android:hint="min"
+                android:inputType="number"
+                android:maxLength="2"
+                android:textAlignment="center"
+                android:textColor="@color/fav"
+                android:textColorHint="@color/fav"
+                android:theme="@style/SwitchTheme"
+                android:gravity="center"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/colon_between_two_times_clock"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/colon_between_two_times_clock"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:maxLength="2"
+                android:text=":"
+                android:textAlignment="center"
+                android:textColor="@color/fav"
+                android:textSize="22sp"
+                android:gravity="center"
+                app:layout_constraintBottom_toBottomOf="@+id/editText_to_enter_min_for_shower"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/editText_to_enter_min_for_shower" />
+
+            <EditText
+                android:id="@+id/editText_to_enter_sec_for_shower"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ems="3"
+                android:hint="sec"
+                android:inputType="number"
+                android:maxLength="2"
+                android:textAlignment="center"
+                android:textColor="@color/fav"
+                android:textColorHint="@color/fav"
+                android:theme="@style/SwitchTheme"
+                android:gravity="center"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/colon_between_two_times_clock"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <Button
+            android:id="@+id/Starting_timer_for_cold_shower_button"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/white"
+            android:text="Start Timer"
+            android:textAllCaps="false"
+            android:textColor="@color/fav"
+            android:textSize="18sp"
+            android:layout_marginTop="10dp"
+            app:layout_constraintEnd_toEndOf="@+id/horizantal_straight_line_cold_shower"
+            app:layout_constraintStart_toStartOf="@+id/horizantal_straight_line_cold_shower"
+            app:layout_constraintTop_toBottomOf="@+id/horizantal_straight_line_cold_shower"/>
+
+        <View
+            android:id="@+id/horizantal_straight_line_cold_shower"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:background="@color/fav"
+            android:layout_marginTop="25dp"
+            app:layout_constraintEnd_toEndOf="@+id/fifteen_sec_add_to_cold_shower"
+            app:layout_constraintStart_toStartOf="@+id/five_mins_add_to_cold_shower"
+            app:layout_constraintTop_toBottomOf="@+id/check_box_for_ringing"/>
+
+        <View
+            android:id="@+id/vertical_line_in_the_middle"
+            android:layout_width="0.1dp"
+            android:layout_height="0dp"
+            android:background="@android:color/transparent"
+            app:layout_constraintBottom_toBottomOf="@+id/Starting_timer_for_cold_shower_button"
+            app:layout_constraintEnd_toEndOf="@+id/check_box_for_ringing"
+            app:layout_constraintStart_toStartOf="@+id/check_box_for_ringing"
+            app:layout_constraintTop_toTopOf="@+id/Starting_timer_for_cold_shower_button" />
+
+
+        <Button
+            android:id="@+id/pause_timer_for_cold_shower"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:backgroundTint="@color/fav"
+            android:stateListAnimator="@null"
+            android:text="Pause timer"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="@+id/Starting_timer_for_cold_shower_button"
+            app:layout_constraintEnd_toStartOf="@+id/vertical_line_in_the_middle"
+            app:layout_constraintStart_toStartOf="@+id/horizantal_straight_line_cold_shower"
+            app:layout_constraintTop_toTopOf="@+id/Starting_timer_for_cold_shower_button" />
+
+        <Button
+            android:id="@+id/stop_timer_for_shower"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@android:color/holo_red_light"
+            android:stateListAnimator="@null"
+            android:text="Stop timer"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="@+id/Starting_timer_for_cold_shower_button"
+            app:layout_constraintEnd_toEndOf="@+id/horizantal_straight_line_cold_shower"
+            app:layout_constraintStart_toEndOf="@+id/vertical_line_in_the_middle"
+            app:layout_constraintTop_toTopOf="@+id/Starting_timer_for_cold_shower_button" />
+
+
+        <CheckBox
+            android:id="@+id/check_box_for_ringing"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="8dp"
+            android:buttonTint="@color/fav"
+            android:text="Ring for 15 seconds when done"
+            android:textColor="@color/fav"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/five_mins_add_to_cold_shower" />
+
+        <Button
+            android:id="@+id/button_for_back_to_emergency"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="15dp"
+            android:padding="30dp"
+            android:background="@drawable/round_arrow_back_24"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <View
+            android:id="@+id/vertical_line_to_expand_screen_lock"
+            android:layout_width="0.1dp"
+            android:layout_height="0dp"
+            android:background="@android:color/transparent"
+            app:layout_constraintBottom_toBottomOf="@+id/timer_progress_for_shower_count_down"
+            app:layout_constraintEnd_toEndOf="@+id/timer_progress_for_shower_count_down"
+            app:layout_constraintHorizontal_bias="0.29"
+            app:layout_constraintStart_toStartOf="@+id/timer_progress_for_shower_count_down"
+            app:layout_constraintTop_toTopOf="@+id/timer_progress_for_shower_count_down" />
+
+        <View
+            android:id="@+id/vertical_line_two_to_expand_screen_lock"
+            android:layout_width="0.1dp"
+            android:layout_height="0dp"
+            android:background="@android:color/transparent"
+            app:layout_constraintBottom_toBottomOf="@+id/timer_progress_for_shower_count_down"
+            app:layout_constraintEnd_toEndOf="@+id/timer_progress_for_shower_count_down"
+            app:layout_constraintHorizontal_bias="0.71"
+            app:layout_constraintStart_toStartOf="@+id/timer_progress_for_shower_count_down"
+            app:layout_constraintTop_toTopOf="@+id/timer_progress_for_shower_count_down" />
+
+        <View
+            android:id="@+id/vertical_line_to_expand_the_edit_text"
+            android:layout_width="0.1dp"
+            android:layout_height="0dp"
+            android:background="@android:color/transparent"
+            app:layout_constraintBottom_toBottomOf="@+id/timer_progress_for_shower_count_down"
+            app:layout_constraintEnd_toEndOf="@+id/timer_progress_for_shower_count_down"
+            app:layout_constraintHorizontal_bias="0.24"
+            app:layout_constraintStart_toStartOf="@+id/timer_progress_for_shower_count_down"
+            app:layout_constraintTop_toTopOf="@+id/timer_progress_for_shower_count_down" />
+
+        <View
+            android:id="@+id/vertical_line_two_to_expand_the_edit_test"
+            android:layout_width="0.1dp"
+            android:layout_height="0dp"
+            android:background="@android:color/transparent"
+            app:layout_constraintBottom_toBottomOf="@+id/timer_progress_for_shower_count_down"
+            app:layout_constraintEnd_toEndOf="@+id/timer_progress_for_shower_count_down"
+            app:layout_constraintHorizontal_bias="0.76"
+            app:layout_constraintStart_toStartOf="@+id/timer_progress_for_shower_count_down"
+            app:layout_constraintTop_toTopOf="@+id/timer_progress_for_shower_count_down" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/child_of_lock_screen"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        app:layout_constraintBottom_toBottomOf="@+id/timer_progress_for_shower_count_down"
+        app:layout_constraintEnd_toStartOf="@+id/vertical_line_two_to_expand_screen_lock"
+        app:layout_constraintStart_toEndOf="@+id/vertical_line_to_expand_screen_lock"
+        app:layout_constraintTop_toTopOf="@+id/timer_progress_for_shower_count_down">
+
+        <TextView
+            android:id="@+id/seconds_left_in_shower"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:maxLength="2"
+            android:text="00"
+            android:textColor="@color/fav"
+            android:textSize="45sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/semi_colon_in_the_progress"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/minutes_left_in_shower"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="00"
+            android:textColor="@color/fav"
+            android:textSize="45sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/semi_colon_in_the_progress"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/semi_colon_in_the_progress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=":"
+            android:textAlignment="center"
+            android:textColor="@color/fav"
+            android:textSize="35sp"
+            android:textStyle="bold"
+            android:gravity="center"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+        <TextView
+            android:id="@+id/saying_user_to_set_timer_of_cold_shower"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Set a timer for the cold shower"
+            android:textAlignment="center"
+            android:textColor="@color/fav"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            android:gravity="center"
+            app:layout_constraintBottom_toTopOf="@+id/timer_progress_for_shower_count_down"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/button_for_back_to_emergency"
+            app:layout_constraintVertical_bias="0.55" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

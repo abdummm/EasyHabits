@@ -1,0 +1,299 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/updating_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:context="com.easyhabitsapp2.android.button_fragment">
+
+        <TextView
+            android:id="@+id/did_you_watch_porn_textview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="25dp"
+            android:text="Did you watch playstation"
+            android:textColor="@color/fav"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/Your_streak_display_TextView_for_botton" />
+
+        <Button
+            android:id="@+id/yes_i_watched_porn_textview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/color_for_botton_off"
+            android:text="Yes"
+            android:textColor="@color/fav"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toStartOf="@+id/no_i_watched_porn_textview"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/did_you_watch_porn_textview" />
+
+        <Button
+            android:id="@+id/no_i_watched_porn_textview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/color_for_botton_off"
+            android:text="No"
+            android:textColor="@color/fav"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/yes_i_watched_porn_textview"
+            app:layout_constraintTop_toBottomOf="@+id/did_you_watch_porn_textview" />
+
+        <TextView
+            android:id="@+id/Your_streak_display_TextView_for_botton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#000000"
+            android:textSize="20sp"
+            android:layout_marginTop="15dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/button_for_back_to_emergency" />
+
+        <Button
+            android:id="@+id/choose_date_for_streak_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/color_for_botton_off"
+            android:text="  choose date  "
+            android:textColor="@color/fav"
+            app:layout_constraintEnd_toStartOf="@+id/set_restart_time_now"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/choose_date_to_restart_your_streak_textview" />
+
+        <Button
+            android:id="@+id/set_restart_time_now"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/color_for_botton_off"
+            android:text="  set as now  "
+            android:textColor="@color/fav"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/choose_date_for_streak_button"
+            app:layout_constraintTop_toBottomOf="@+id/choose_date_to_restart_your_streak_textview" />
+
+        <TextView
+            android:id="@+id/timer_to_restart_streak_textview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="25dp"
+            android:textAlignment="center"
+            android:gravity="center"
+            android:textColor="@color/fav"
+            android:textSize="20sp"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/choose_date_for_streak_button" />
+
+        <Switch
+            android:id="@+id/switch_to_restart_streak_option"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:checked="true"
+            android:theme="@style/SwitchTheme"
+            app:layout_constraintBottom_toBottomOf="@+id/Restart_streak_for_switch_textview"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.9"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/Restart_streak_for_switch_textview" />
+
+        <Button
+            android:id="@+id/suubmit_button_to_save_streak_data"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginEnd="8dp"
+            android:backgroundTint="@color/fav"
+            android:text="Submit"
+            android:textColor="@color/white"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/enter_how_you_feel_after_relapse" />
+
+        <Button
+            android:id="@+id/choose_relapse_reason"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/color_for_botton_off"
+            android:text="  Pick a reason  "
+            android:textColor="@color/fav"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/choose_reason_for_relapse_text" />
+
+        <TextView
+            android:id="@+id/Restart_streak_for_switch_textview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="Restart Streak"
+            android:textColor="@color/fav"
+            android:textSize="18sp"
+            android:layout_marginTop="25dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/choose_date_for_streak_button" />
+
+        <TextView
+            android:id="@+id/how_many_times_masturbaite"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="25dp"
+            android:text="How many times did you hack ?"
+            android:textColor="@color/fav"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/yes_i_watched_porn_textview" />
+
+        <TextView
+            android:id="@+id/choose_date_to_restart_your_streak_textview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="25dp"
+            android:layout_marginEnd="8dp"
+            android:text="Set date"
+            android:textColor="@color/fav"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/once_masturbate" />
+
+        <Button
+            android:id="@+id/none_masturbate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/color_for_botton_off"
+            android:text="None"
+            android:textColor="@color/fav"
+            app:layout_constraintEnd_toStartOf="@+id/once_masturbate"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/how_many_times_masturbaite" />
+
+        <Button
+            android:id="@+id/once_masturbate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/color_for_botton_off"
+            android:text="Once"
+            android:textColor="@color/fav"
+            app:layout_constraintEnd_toStartOf="@+id/custom_masturbate"
+            app:layout_constraintStart_toEndOf="@+id/none_masturbate"
+            app:layout_constraintTop_toBottomOf="@+id/how_many_times_masturbaite" />
+
+        <Button
+            android:id="@+id/custom_masturbate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/color_for_botton_off"
+            android:text="Custom"
+            android:textColor="@color/fav"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/once_masturbate"
+            app:layout_constraintTop_toBottomOf="@+id/how_many_times_masturbaite" />
+
+        <TextView
+            android:id="@+id/choose_reason_for_relapse_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="25dp"
+            android:layout_marginEnd="8dp"
+            android:text="Choose Reason"
+            android:textColor="@color/fav"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/Restart_streak_for_switch_textview" />
+
+        <EditText
+            android:id="@+id/enter_how_you_feel_after_relapse"
+            android:layout_width="0dp"
+            android:layout_height="150dp"
+            android:layout_marginTop="25dp"
+            android:background="@drawable/back_ground_for_text_box"
+            android:gravity="start"
+            android:hint="ex. It wasn't worth it"
+            android:inputType="textMultiLine|textCapSentences"
+            android:overScrollMode="always"
+            android:paddingStart="10dp"
+            android:paddingTop="10dp"
+            android:paddingEnd="10dp"
+            android:paddingBottom="10dp"
+            android:scrollbarStyle="insideInset"
+            android:scrollbars="vertical"
+            android:textColor="@color/fav"
+            android:theme="@style/SwitchTheme"
+            app:layout_constraintEnd_toEndOf="@+id/set_restart_time_now"
+            app:layout_constraintStart_toStartOf="@+id/choose_date_for_streak_button"
+            app:layout_constraintTop_toBottomOf="@+id/text_to_tell_user_to_tell_how_they_feel" />
+
+        <TextView
+            android:id="@+id/text_to_tell_user_to_tell_how_they_feel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="25dp"
+            android:layout_marginEnd="8dp"
+            android:text="Enter How You Feel"
+            android:textColor="@color/fav"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/choose_relapse_reason" />
+
+        <View
+            android:id="@+id/horizantal_line_to_expand_screen_lock"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="15dp"
+            android:background="@color/fav"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/suubmit_button_to_save_streak_data" />
+
+        <Button
+            android:id="@+id/button_for_back_to_emergency"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="15dp"
+            android:padding="30dp"
+            android:background="@drawable/round_arrow_back_24"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

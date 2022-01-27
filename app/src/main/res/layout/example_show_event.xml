@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardCornerRadius="5dp"
+    android:layout_width="match_parent"
+    app:layout_constraintBottom_toBottomOf="parent"
+    android:layout_marginBottom="5dp"
+    android:layout_height="wrap_content">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="4dp">
+
+        <Button
+            android:id="@+id/button_shadow_for_the_trash"
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@drawable/round_button_for_trash"
+            app:layout_constraintBottom_toBottomOf="@+id/showing_the_delete_button"
+            app:layout_constraintEnd_toEndOf="@+id/showing_the_delete_button"
+            app:layout_constraintStart_toStartOf="@+id/showing_the_delete_button"
+            app:layout_constraintTop_toTopOf="@+id/showing_the_delete_button" />
+
+        <TextView
+            android:id="@+id/text_beside_circle_color_in_show_event"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:text="Line 1"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            app:layout_constraintStart_toEndOf="@+id/view_to_show_color_in_show_events"
+            app:layout_constraintTop_toTopOf="@+id/view_to_show_color_in_show_events" />
+
+        <View
+            android:id="@+id/view_to_show_color_in_show_events"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:padding="2dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <View
+            android:id="@+id/showing_the_delete_button"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginEnd="12dp"
+            android:padding="2dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/text_for_description"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:text="Line 2"
+            android:textSize="15sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/view_to_show_color_in_show_events"
+            app:layout_goneMarginStart="8dp" />
+
+        <View
+            android:id="@+id/horizontal_line_under_buttons"
+            android:layout_width="0dp"
+            android:layout_height="0.1dp"
+            android:layout_marginEnd="5dp"
+            android:layout_marginStart="10dp"
+            android:background="@android:color/transparent"
+            app:layout_constraintBottom_toBottomOf="@+id/text_beside_circle_color_in_show_event"
+            app:layout_constraintEnd_toStartOf="@+id/button_shadow_for_the_trash"
+            app:layout_constraintStart_toEndOf="@+id/view_to_show_color_in_show_events"
+            app:layout_constraintTop_toTopOf="@+id/text_beside_circle_color_in_show_event" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraintLayout"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_margin="5dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/view_to_show_color_in_show_events"
+            app:layout_constraintStart_toStartOf="@+id/view_to_show_color_in_show_events"
+            app:layout_constraintTop_toTopOf="@+id/view_to_show_color_in_show_events">
+
+            <TextView
+                android:id="@+id/showing_the_hour_and_minutes_and_colors"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textAlignment="center"
+                android:textColor="@color/white"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/showing_am_or_pm_under_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="1dp"
+                android:gravity="center"
+                android:textAlignment="center"
+                android:textColor="@color/white"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/showing_the_hour_and_minutes_and_colors" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.cardview.widget.CardView>

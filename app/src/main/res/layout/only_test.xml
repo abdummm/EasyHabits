@@ -1,0 +1,558 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/home_scroll_view"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/home_fragment_id_for_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        tools:context="com.easyhabitsapp2.android.home_fragment">
+
+        <Button
+            android:id="@+id/emergency_button_home_fragment"
+            android:layout_width="212dp"
+            android:layout_height="79dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:backgroundTint="@android:color/holo_red_light"
+            android:text="Emergency"
+            android:textColor="#FFFFFF"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.065" />
+
+        <TextView
+            android:id="@+id/Your_streak_display_TextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:textAlignment="center"
+            android:textColor="#000000"
+            android:textSize="20sp"
+            android:gravity="center"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/emergency_button_home_fragment" />
+
+        <Button
+            android:id="@+id/update_bottom_home_fragment"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginEnd="8dp"
+            android:backgroundTint="#607D8B"
+            android:text="Update"
+            android:textColor="#FFFFFF"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.95"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/Your_streak_display_TextView" />
+
+        <TextView
+            android:id="@+id/time_until_streak_plus_one_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="25dp"
+            android:layout_marginEnd="8dp"
+            android:text="Time until your streak becomes: "
+            android:textAlignment="center"
+            android:textColor="#000000"
+            android:textSize="18sp"
+            android:gravity="center"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/update_bottom_home_fragment" />
+
+        <TextView
+            android:id="@+id/time_until_next_goal_happen_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginEnd="8dp"
+            android:text="Time until your next goal"
+            android:textAlignment="center"
+            android:textColor="#000000"
+            android:textSize="18sp"
+            android:gravity="center"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/minute_changing_to_display_streak_count_down" />
+
+        <View
+            android:id="@+id/view"
+            android:layout_width="1.5dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="0dp"
+            android:layout_marginEnd="8dp"
+            android:background="@color/fav"
+            app:layout_constraintBottom_toBottomOf="@+id/Minutes_to_countdown_plus_one_text_view"
+            app:layout_constraintLeft_toRightOf="@+id/Minutes_to_countdown_plus_one_text_view"
+            app:layout_constraintRight_toLeftOf="@+id/Seconds_to_countdown_plus_one_text_view"
+            app:layout_constraintTop_toTopOf="@+id/Minutes_to_countdown_plus_one_text_view" />
+
+        <View
+            android:id="@+id/view2"
+            android:layout_width="1.5dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:background="@color/fav"
+            app:layout_constraintBottom_toBottomOf="@+id/Minutes_to_countdown_plus_one_text_view"
+            app:layout_constraintEnd_toStartOf="@+id/Minutes_to_countdown_plus_one_text_view"
+            app:layout_constraintStart_toEndOf="@+id/Hours_to_countdown_plus_one_text_view"
+            app:layout_constraintTop_toTopOf="@+id/Minutes_to_countdown_plus_one_text_view" />
+
+        <TextView
+            android:id="@+id/Hours_to_countdown_plus_one_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="20dp"
+            android:text="Hours"
+            android:textColor="@color/fav"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toStartOf="@+id/Minutes_to_countdown_plus_one_text_view"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/time_until_streak_plus_one_text_view" />
+
+        <TextView
+            android:id="@+id/Minutes_to_countdown_plus_one_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="Minutes"
+            android:textColor="@color/fav"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toStartOf="@+id/Seconds_to_countdown_plus_one_text_view"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/Hours_to_countdown_plus_one_text_view"
+            app:layout_constraintTop_toBottomOf="@+id/time_until_streak_plus_one_text_view" />
+
+        <TextView
+            android:id="@+id/Seconds_to_countdown_plus_one_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="8dp"
+            android:text="Seconds"
+            android:textColor="@color/fav"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/Minutes_to_countdown_plus_one_text_view"
+            app:layout_constraintTop_toBottomOf="@+id/time_until_streak_plus_one_text_view" />
+
+        <TextView
+            android:id="@+id/hour_changing_to_display_streak_count_down"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="Loading.."
+            android:textColor="@color/fav"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toEndOf="@+id/Hours_to_countdown_plus_one_text_view"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="@+id/Hours_to_countdown_plus_one_text_view"
+            app:layout_constraintTop_toBottomOf="@+id/Hours_to_countdown_plus_one_text_view" />
+
+        <TextView
+            android:id="@+id/minute_changing_to_display_streak_count_down"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="Loading.."
+            android:textColor="@color/fav"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toEndOf="@+id/Minutes_to_countdown_plus_one_text_view"
+            app:layout_constraintStart_toStartOf="@+id/Minutes_to_countdown_plus_one_text_view"
+            app:layout_constraintTop_toBottomOf="@+id/Minutes_to_countdown_plus_one_text_view" />
+
+        <TextView
+            android:id="@+id/second_changing_to_display_streak_count_down"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="Loading.."
+            android:textColor="@color/fav"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toEndOf="@+id/Seconds_to_countdown_plus_one_text_view"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="@+id/Seconds_to_countdown_plus_one_text_view"
+            app:layout_constraintTop_toBottomOf="@+id/Seconds_to_countdown_plus_one_text_view" />
+
+        <TextView
+            android:id="@+id/days_for_next_goal_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="20dp"
+            android:text="Days"
+            android:textColor="@color/fav"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toStartOf="@+id/hours_for_next_goal_text_view"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/straight_line_1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/time_until_next_goal_happen_text_view" />
+
+        <TextView
+            android:id="@+id/hours_for_next_goal_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:gravity="center"
+            android:text="Hours"
+            android:textColor="@color/fav"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toStartOf="@+id/minutes_for_next_goal_text_view"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/days_for_next_goal_text_view"
+            app:layout_constraintTop_toBottomOf="@+id/time_until_next_goal_happen_text_view" />
+
+        <TextView
+            android:id="@+id/minutes_for_next_goal_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="Minutes"
+            android:textColor="@color/fav"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toStartOf="@+id/seconds_for_next_goal_text_view"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/hours_for_next_goal_text_view"
+            app:layout_constraintTop_toBottomOf="@+id/time_until_next_goal_happen_text_view" />
+
+        <TextView
+            android:id="@+id/seconds_for_next_goal_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="8dp"
+            android:text="Seconds"
+            android:textColor="@color/fav"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/minutes_for_next_goal_text_view"
+            app:layout_constraintTop_toBottomOf="@+id/time_until_next_goal_happen_text_view" />
+
+        <View
+            android:id="@+id/straight_line_1"
+            android:layout_width="1.5dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:background="@color/fav"
+            app:layout_constraintBottom_toBottomOf="@+id/minutes_for_next_goal_text_view"
+            app:layout_constraintEnd_toStartOf="@+id/hours_for_next_goal_text_view"
+            app:layout_constraintStart_toEndOf="@+id/days_for_next_goal_text_view"
+            app:layout_constraintTop_toTopOf="@+id/minutes_for_next_goal_text_view"
+            app:layout_constraintVertical_bias="0.0" />
+
+        <View
+            android:id="@+id/straight_line_2"
+            android:layout_width="1.5dp"
+            android:layout_height="0dp"
+            android:background="@color/fav"
+            app:layout_constraintBottom_toBottomOf="@+id/minutes_for_next_goal_text_view"
+            app:layout_constraintEnd_toStartOf="@+id/minutes_for_next_goal_text_view"
+            app:layout_constraintStart_toEndOf="@+id/hours_for_next_goal_text_view"
+            app:layout_constraintTop_toTopOf="@+id/minutes_for_next_goal_text_view"
+            app:layout_constraintVertical_bias="0.0" />
+
+        <View
+            android:id="@+id/straight_line_3"
+            android:layout_width="1.5dp"
+            android:layout_height="0dp"
+            android:background="@color/fav"
+            app:layout_constraintBottom_toBottomOf="@+id/minutes_for_next_goal_text_view"
+            app:layout_constraintLeft_toRightOf="@+id/minutes_for_next_goal_text_view"
+            app:layout_constraintRight_toLeftOf="@+id/seconds_for_next_goal_text_view"
+            app:layout_constraintTop_toTopOf="@+id/minutes_for_next_goal_text_view" />
+
+        <TextView
+            android:id="@+id/remaining_days_for_next_goal_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:gravity="center_horizontal"
+            android:text="Load.."
+            android:textColor="@color/fav"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toEndOf="@+id/days_for_next_goal_text_view"
+            app:layout_constraintStart_toStartOf="@+id/days_for_next_goal_text_view"
+            app:layout_constraintTop_toBottomOf="@+id/days_for_next_goal_text_view" />
+
+        <TextView
+            android:id="@+id/remaining_hours_for_next_goal_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:gravity="center_horizontal"
+            android:text="Load.."
+            android:textColor="@color/fav"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toEndOf="@+id/hours_for_next_goal_text_view"
+            app:layout_constraintStart_toStartOf="@+id/hours_for_next_goal_text_view"
+            app:layout_constraintTop_toBottomOf="@+id/hours_for_next_goal_text_view" />
+
+        <TextView
+            android:id="@+id/remaining_minutes_for_next_goal_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:gravity="center_horizontal"
+            android:text="Load.."
+            android:textColor="@color/fav"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toEndOf="@+id/minutes_for_next_goal_text_view"
+            app:layout_constraintStart_toStartOf="@+id/minutes_for_next_goal_text_view"
+            app:layout_constraintTop_toBottomOf="@+id/minutes_for_next_goal_text_view" />
+
+        <TextView
+            android:id="@+id/remaining_seconds_for_next_goal_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:gravity="center_horizontal"
+            android:text="Load.."
+            android:textColor="@color/fav"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toEndOf="@+id/seconds_for_next_goal_text_view"
+            app:layout_constraintStart_toStartOf="@+id/seconds_for_next_goal_text_view"
+            app:layout_constraintTop_toBottomOf="@+id/seconds_for_next_goal_text_view" />
+
+        <TextView
+            android:id="@+id/qoute_of_the_day_title_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginEnd="8dp"
+            android:text="Quote of the day"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.15"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/arc_progress_for_day" />
+
+        <TextView
+            android:id="@+id/Quote_of_the_day_home_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="8dp"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:text="Loading quote"
+            android:textAlignment="center"
+            android:textColor="@color/fav"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            android:gravity="center"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/qoute_of_the_day_title_text_view" />
+
+        <Button
+            android:id="@+id/submit_quote_button_home_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="25dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="30dp"
+            android:backgroundTint="@color/fav"
+            android:text="Submit a quote"
+            android:textColor="@color/white"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.93"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/name_of_the_submitter_of_the_quote_text_view" />
+
+        <View
+            android:id="@+id/horizantal_straight_line_1"
+            android:layout_width="0dp"
+            android:layout_height="1.5dp"
+            android:background="@color/fav"
+            app:layout_constraintBottom_toTopOf="@+id/text_above_daily_progress_arc_text_view"
+            app:layout_constraintEnd_toEndOf="@+id/time_until_next_goal_happen_text_view"
+            app:layout_constraintStart_toStartOf="@+id/time_until_next_goal_happen_text_view"
+            app:layout_constraintTop_toBottomOf="@+id/remaining_minutes_for_next_goal_text_view" />
+
+        <View
+            android:id="@+id/horizantal_straight_line_between_the_progress_and_quote"
+            android:layout_width="0dp"
+            android:layout_height="1.5dp"
+            android:background="@color/fav"
+            app:layout_constraintBottom_toTopOf="@+id/qoute_of_the_day_title_text_view"
+            app:layout_constraintEnd_toEndOf="@+id/arc_progress_for_goal"
+            app:layout_constraintStart_toStartOf="@+id/arc_progress_for_day"
+            app:layout_constraintTop_toBottomOf="@+id/arc_progress_for_day" />
+
+        <View
+            android:id="@+id/horizantal_straight_line_2"
+            android:layout_width="0dp"
+            android:layout_height="1.5dp"
+            android:background="@color/fav"
+            app:layout_constraintBottom_toTopOf="@+id/time_until_next_goal_happen_text_view"
+            app:layout_constraintEnd_toEndOf="@+id/time_until_next_goal_happen_text_view"
+            app:layout_constraintStart_toStartOf="@+id/time_until_next_goal_happen_text_view"
+            app:layout_constraintTop_toBottomOf="@+id/minute_changing_to_display_streak_count_down" />
+
+        <TextView
+            android:id="@+id/name_of_the_text_view_submitter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="8dp"
+            android:text="-Loading name"
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.9"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/Quote_of_the_day_home_text_view" />
+
+        <TextView
+            android:id="@+id/name_of_the_submitter_of_the_quote_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginEnd="8dp"
+            android:text="Submitted by: Loading name"
+            android:textColor="@color/black"
+            android:textSize="19sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/name_of_the_text_view_submitter" />
+
+        <View
+            android:id="@+id/horizantal_straight_line_3"
+            android:layout_width="0dp"
+            android:layout_height="1.5dp"
+            android:background="@color/fav"
+            app:layout_constraintBottom_toTopOf="@+id/name_of_the_submitter_of_the_quote_text_view"
+            app:layout_constraintEnd_toEndOf="@+id/name_of_the_text_view_submitter"
+            app:layout_constraintStart_toStartOf="@+id/qoute_of_the_day_title_text_view"
+            app:layout_constraintTop_toBottomOf="@+id/name_of_the_text_view_submitter" />
+
+        <com.github.lzyzsd.circleprogress.ArcProgress
+            android:id="@+id/arc_progress_for_day"
+            android:layout_width="130dp"
+            android:layout_height="130dp"
+            android:layout_marginTop="8dp"
+            android:background="@color/white"
+            app:arc_bottom_text_size="10dp"
+            app:arc_stroke_width="10dp"
+            app:arc_bottom_text="MEMORY"
+            app:arc_finished_color="@color/fav"
+            app:arc_progress="0"
+            app:arc_text_color="@color/fav"
+            app:arc_unfinished_color="#ECEFF1"
+            app:layout_constraintEnd_toStartOf="@+id/arc_progress_for_goal"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/text_above_daily_progress_arc_text_view" />
+
+
+        <com.github.lzyzsd.circleprogress.ArcProgress
+            android:id="@+id/arc_progress_for_goal"
+            android:layout_width="130dp"
+            android:layout_height="130dp"
+            android:layout_marginTop="8dp"
+            android:background="@color/white"
+            app:arc_bottom_text_size="10dp"
+            app:arc_stroke_width="10dp"
+            app:arc_bottom_text="MEMORY"
+            app:arc_finished_color="@color/fav"
+            app:arc_progress="0"
+            app:arc_text_color="@color/fav"
+            app:arc_unfinished_color="#ECEFF1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/arc_progress_for_day"
+            app:layout_constraintTop_toBottomOf="@+id/text_above_daily_progress_arc_text_view" />
+
+        <TextView
+            android:id="@+id/text_above_daily_progress_arc_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:text="Daily streak progress"
+            android:textColor="@color/fav"
+            android:textSize="17sp"
+            app:layout_constraintEnd_toEndOf="@+id/arc_progress_for_day"
+            app:layout_constraintStart_toStartOf="@+id/arc_progress_for_day"
+            app:layout_constraintTop_toBottomOf="@+id/remaining_days_for_next_goal_text_view" />
+
+        <TextView
+            android:id="@+id/text_above_goal_progress_arc_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:text="Goal progress"
+            android:textColor="@color/fav"
+            android:textSize="17sp"
+            app:layout_constraintEnd_toEndOf="@+id/arc_progress_for_goal"
+            app:layout_constraintStart_toStartOf="@+id/arc_progress_for_goal"
+            app:layout_constraintTop_toBottomOf="@+id/remaining_days_for_next_goal_text_view" />
+
+        <TextView
+            android:id="@+id/congratulations_text_when_the_timer_is_gone_daily"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="8dp"
+            android:text="Congratulations!!"
+            android:textSize="20sp"
+            android:textColor="@color/fav"
+            android:textStyle="bold"
+            android:visibility="invisible"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/Minutes_to_countdown_plus_one_text_view" />
+
+        <TextView
+            android:id="@+id/congratulations_text_when_the_timer_is_gone_goal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="8dp"
+            android:text="Congratulations!!"
+            android:textColor="@color/fav"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:visibility="invisible"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/days_for_next_goal_text_view" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

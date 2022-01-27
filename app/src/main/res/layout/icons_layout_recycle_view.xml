@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <View
+        android:id="@+id/thirty_three_in_good_habit_dialog"
+        android:layout_width="0.1dp"
+        android:layout_height="0dp"
+        android:background="@android:color/transparent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.33"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <View
+        android:id="@+id/sixty_six_in_good_habit_dialog"
+        android:layout_width="0.1dp"
+        android:layout_height="0dp"
+        android:background="@android:color/transparent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.66"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/first_button_in_list_to_choose_good_habit_icon_recycle_view"
+        style="?android:attr/borderlessButtonStyle"
+        android:layout_width="0dp"
+        android:layout_height="150dp"
+        android:drawablePadding="30dp"
+        app:layout_constraintEnd_toStartOf="@+id/thirty_three_in_good_habit_dialog"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/second_button_in_list_to_choose_good_habit_icon_recycle_view"
+        style="?android:attr/borderlessButtonStyle"
+        android:layout_width="0dp"
+        android:layout_height="150dp"
+        app:layout_constraintEnd_toStartOf="@+id/sixty_six_in_good_habit_dialog"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/thirty_three_in_good_habit_dialog"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/third_button_in_list_to_choose_good_habit_icon_recycle_view"
+        style="?android:attr/borderlessButtonStyle"
+        android:layout_width="0dp"
+        android:layout_height="150dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/sixty_six_in_good_habit_dialog"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <View
+        android:id="@+id/view_1_to_show_good_icon_recycle_view"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        app:layout_constraintBottom_toBottomOf="@+id/first_button_in_list_to_choose_good_habit_icon_recycle_view"
+        app:layout_constraintEnd_toEndOf="@+id/first_button_in_list_to_choose_good_habit_icon_recycle_view"
+        app:layout_constraintStart_toStartOf="@id/first_button_in_list_to_choose_good_habit_icon_recycle_view"
+        app:layout_constraintTop_toTopOf="@+id/first_button_in_list_to_choose_good_habit_icon_recycle_view" />
+
+    <View
+        android:id="@+id/view_2_to_show_good_icon_recycle_view"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        app:layout_constraintBottom_toBottomOf="@+id/second_button_in_list_to_choose_good_habit_icon_recycle_view"
+        app:layout_constraintEnd_toEndOf="@+id/second_button_in_list_to_choose_good_habit_icon_recycle_view"
+        app:layout_constraintStart_toStartOf="@id/second_button_in_list_to_choose_good_habit_icon_recycle_view"
+        app:layout_constraintTop_toTopOf="@+id/second_button_in_list_to_choose_good_habit_icon_recycle_view" />
+
+    <View
+        android:id="@+id/view_3_to_show_good_icon_recycle_view"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:backgroundTint="@color/fav"
+        app:layout_constraintBottom_toBottomOf="@+id/third_button_in_list_to_choose_good_habit_icon_recycle_view"
+        app:layout_constraintEnd_toEndOf="@+id/third_button_in_list_to_choose_good_habit_icon_recycle_view"
+        app:layout_constraintStart_toStartOf="@id/third_button_in_list_to_choose_good_habit_icon_recycle_view"
+        app:layout_constraintTop_toTopOf="@+id/third_button_in_list_to_choose_good_habit_icon_recycle_view" />
+
+    <TextView
+        android:id="@+id/text_1_for_good_habits_recycle_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="Fitness"
+        android:textColor="@color/fav"
+        app:layout_constraintEnd_toEndOf="@+id/first_button_in_list_to_choose_good_habit_icon_recycle_view"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/view_1_to_show_good_icon_recycle_view" />
+
+    <TextView
+        android:id="@+id/text_2_for_good_habits_recycle_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="Finance"
+        android:textColor="@color/fav"
+        app:layout_constraintEnd_toEndOf="@+id/second_button_in_list_to_choose_good_habit_icon_recycle_view"
+        app:layout_constraintStart_toStartOf="@+id/second_button_in_list_to_choose_good_habit_icon_recycle_view"
+        app:layout_constraintTop_toBottomOf="@+id/view_2_to_show_good_icon_recycle_view" />
+
+    <TextView
+        android:id="@+id/text_3_for_good_habits_recycle_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="Education"
+        android:textColor="@color/fav"
+        app:layout_constraintEnd_toEndOf="@+id/third_button_in_list_to_choose_good_habit_icon_recycle_view"
+        app:layout_constraintStart_toStartOf="@+id/third_button_in_list_to_choose_good_habit_icon_recycle_view"
+        app:layout_constraintTop_toBottomOf="@+id/view_3_to_show_good_icon_recycle_view" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

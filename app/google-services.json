@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "618342244367",
+    "firebase_url": "https://badhabitsapp-3adf2-default-rtdb.firebaseio.com",
+    "project_id": "badhabitsapp-3adf2",
+    "storage_bucket": "badhabitsapp-3adf2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:618342244367:android:063d6c9c479b2f7813c37a",
+        "android_client_info": {
+          "package_name": "com.easyhabitsapp.android"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "618342244367-tjupro9bteh5n50so0gh8sgmtiijsbtd.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.easyhabitsapp.android",
+            "certificate_hash": "103fd1f37cda6e30a17b8b134c039171f84fcc52"
+          }
+        },
+        {
+          "client_id": "618342244367-bmv2b1ll0nlpt6cci8ola5or0h1j7erj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAvt_Abb_-4eHw9uxvFULGugYjlQfwrcYc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "618342244367-bmv2b1ll0nlpt6cci8ola5or0h1j7erj.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

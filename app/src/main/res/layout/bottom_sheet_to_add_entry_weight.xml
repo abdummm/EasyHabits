@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/text_in_top_of_add_entry_bottom_sheet"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:text="Add Weight Entry"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/button_to_choose_date_in_bottom_sheet"
+        style="?android:attr/borderlessButtonStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:background="@drawable/ripple_for_all"
+        android:text="Set Date"
+        android:textColor="@color/fav"
+        app:layout_constraintTop_toBottomOf="@+id/text_in_top_of_add_entry_bottom_sheet" />
+
+    <EditText
+        android:id="@+id/enter_weight_in_bottom_cheet_under_date"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:backgroundTint="@color/fav"
+        android:gravity="center"
+        android:inputType="numberDecimal"
+        android:maxLength="5"
+        android:textColor="@color/fav"
+        android:theme="@style/SwitchTheme"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button_to_choose_date_in_bottom_sheet" />
+
+    <Button
+        android:id="@+id/button_ok_in_add_entry_sheet"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="ok"
+        android:layout_marginTop="15dp"
+        android:backgroundTint="@color/fav"
+        android:textColor="@color/white"
+        android:enabled="false"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/button_cancel_in_add_entry_sheet"
+        app:layout_constraintTop_toBottomOf="@+id/enter_weight_in_bottom_cheet_under_date" />
+
+    <Button
+        android:id="@+id/button_cancel_in_add_entry_sheet"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="cancel"
+        android:backgroundTint="@color/fav"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toBottomOf="@+id/button_ok_in_add_entry_sheet"
+        app:layout_constraintEnd_toStartOf="@+id/button_ok_in_add_entry_sheet"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/button_ok_in_add_entry_sheet" />
+</androidx.constraintlayout.widget.ConstraintLayout>

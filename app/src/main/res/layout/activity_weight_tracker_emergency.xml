@@ -1,0 +1,1060 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F7F7F7">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/hold_buy_premuim_in_weight_tracker"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <ScrollView
+        android:id="@+id/scroll_view_to_show_the_weight"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#F7F7F7"
+        android:fillViewport="true">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/weight_in_emergency"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:context="com.easyhabitsapp2.android.Weight_tracker_emergency">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/layou_to_show_screen_shot_in_good_habits"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="invisible"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <View
+                    android:id="@+id/view_all_gray_inside_screen_shot_inside_good_habits"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:background="#dfdfe5"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/text_saying_the_name_of_the_app_in_good_habits"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:gravity="center"
+                    android:text="Easy Habits"
+                    android:textAlignment="center"
+                    android:textColor="@color/fav"
+                    android:textSize="25sp"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageView
+                    android:id="@+id/view_to_pass_the_real_view_to_for_screen_shot"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/text_saying_the_name_of_the_app_in_good_habits" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.1dp"
+                    android:layout_marginTop="15dp"
+                    android:background="@android:color/transparent"
+                    app:layout_constraintTop_toBottomOf="@+id/view_to_pass_the_real_view_to_for_screen_shot" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <TextView
+                android:id="@+id/text_in_the_top_say_user_is_tough_weight"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="It's unbelievable how tough you are!!"
+                android:textAlignment="center"
+                android:textColor="@color/black"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="@+id/card_view_to_show_best_current_and_goal_weight_in_weight"
+                app:layout_constraintTop_toBottomOf="@+id/text_showing_name_in_weight" />
+
+            <TextView
+                android:id="@+id/text_showing_name_in_weight"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="Hey there"
+                android:textColor="@color/black"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="@+id/text_in_the_top_say_user_is_tough_weight"
+                app:layout_constraintTop_toBottomOf="@+id/back_button_in_the_journal_emergency" />
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/card_view_to_show_best_current_and_goal_weight_in_weight"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="30dp"
+                android:layout_marginEnd="15dp"
+                app:cardCornerRadius="10dp"
+                app:cardElevation="12dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/text_in_the_top_say_user_is_tough_weight">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/layout_to_show_the_stuff_inside_weight_card"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <TextView
+                        android:id="@+id/title_of_the_weights_card_in_weight"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:text="Weights"
+                        android:textColor="@color/black"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/text_saying_start_under_top_weight"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="20dp"
+                        android:text="Start"
+                        android:textColor="@color/black"
+                        android:textSize="18sp"
+                        app:layout_constraintEnd_toStartOf="@+id/text_saying_current_under_top_weight"
+                        app:layout_constraintHorizontal_bias="0.5"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/title_of_the_weights_card_in_weight" />
+
+                    <TextView
+                        android:id="@+id/text_saying_current_under_top_weight"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="20dp"
+                        android:text="Current"
+                        android:textColor="@color/black"
+                        android:textSize="18sp"
+                        app:layout_constraintEnd_toStartOf="@+id/text_saying_goal_under_top_weight"
+                        app:layout_constraintHorizontal_bias="0.5"
+                        app:layout_constraintStart_toEndOf="@+id/text_saying_start_under_top_weight"
+                        app:layout_constraintTop_toBottomOf="@+id/title_of_the_weights_card_in_weight" />
+
+                    <TextView
+                        android:id="@+id/text_saying_goal_under_top_weight"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="20dp"
+                        android:text="Goal"
+                        android:textColor="@color/black"
+                        android:textSize="18sp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.5"
+                        app:layout_constraintStart_toEndOf="@+id/text_saying_current_under_top_weight"
+                        app:layout_constraintTop_toBottomOf="@+id/title_of_the_weights_card_in_weight" />
+
+                    <TextView
+                        android:id="@+id/start_weight_under_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:text=""
+                        android:textColor="@color/fav"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        app:layout_constraintEnd_toEndOf="@+id/text_saying_start_under_top_weight"
+                        app:layout_constraintStart_toStartOf="@+id/text_saying_start_under_top_weight"
+                        app:layout_constraintTop_toBottomOf="@+id/text_saying_start_under_top_weight" />
+
+                    <TextView
+                        android:id="@+id/current_weight_under_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:text=""
+                        android:textColor="@color/fav"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        app:layout_constraintEnd_toEndOf="@+id/text_saying_current_under_top_weight"
+                        app:layout_constraintStart_toStartOf="@+id/text_saying_current_under_top_weight"
+                        app:layout_constraintTop_toBottomOf="@+id/text_saying_current_under_top_weight" />
+
+                    <TextView
+                        android:id="@+id/goal_weight_under_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:text=""
+                        android:textColor="@color/fav"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        app:layout_constraintEnd_toEndOf="@+id/text_saying_goal_under_top_weight"
+                        app:layout_constraintStart_toStartOf="@+id/text_saying_goal_under_top_weight"
+                        app:layout_constraintTop_toBottomOf="@+id/text_saying_goal_under_top_weight" />
+
+                    <Button
+                        android:id="@+id/button_to_share_current_goal_and_start_weight_in_weight"
+                        style="?android:attr/borderlessButtonStyle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="20dp"
+                        android:layout_marginEnd="5dp"
+                        android:layout_marginBottom="5dp"
+                        android:backgroundTint="@color/white"
+                        android:text="Share"
+                        android:textAllCaps="false"
+                        android:textColor="@color/fav"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/goal_weight_under_text" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/card_to_show_weight_graph_in_weights"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="30dp"
+                android:layout_marginEnd="15dp"
+                app:cardCornerRadius="10dp"
+                app:cardElevation="12dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/card_view_to_show_best_current_and_goal_weight_in_weight">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/layout_to_show_cards"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <TextView
+                        android:id="@+id/title_of_the_chart_in_weight_in_card"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:text="Weight Chart"
+                        android:textColor="@color/black"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <Spinner
+                        android:id="@+id/spinner_to_choose_dates_for_chart"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="50dp"
+                        android:layout_marginEnd="5dp"
+                        app:layout_constraintEnd_toEndOf="@+id/line_chart_to_draw_weight"
+                        app:layout_constraintStart_toStartOf="@+id/line_chart_to_draw_weight"
+                        app:layout_constraintTop_toBottomOf="@+id/title_of_the_chart_in_weight_in_card" />
+
+                    <Button
+                        android:id="@+id/add_entry_button_under_chart"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginEnd="10dp"
+                        android:backgroundTint="@color/fav"
+                        android:text="Add Entry"
+                        android:textColor="@color/white"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/line_chart_to_draw_weight" />
+
+                    <com.github.mikephil.charting.charts.LineChart
+                        android:id="@+id/line_chart_to_draw_weight"
+                        android:layout_width="match_parent"
+                        android:layout_height="300dp"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginEnd="10dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.0"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/spinner_to_choose_dates_for_chart" />
+
+                    <Button
+                        android:id="@+id/button_to_share_the_weight_chart_in_weight"
+                        style="?android:attr/borderlessButtonStyle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="20dp"
+                        android:layout_marginEnd="5dp"
+                        android:layout_marginBottom="5dp"
+                        android:backgroundTint="@color/white"
+                        android:text="Share"
+                        android:textAllCaps="false"
+                        android:textColor="@color/fav"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/add_entry_button_under_chart" />
+
+                    <TextView
+                        android:id="@+id/text_to_say_no_data_in_the_middle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="No data available for this time period"
+                        android:textAlignment="center"
+                        android:textColor="@color/fav"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        android:visibility="invisible"
+                        app:layout_constraintBottom_toBottomOf="@+id/line_chart_to_draw_weight"
+                        app:layout_constraintEnd_toEndOf="@+id/line_chart_to_draw_weight"
+                        app:layout_constraintStart_toStartOf="@+id/line_chart_to_draw_weight"
+                        app:layout_constraintTop_toTopOf="@+id/line_chart_to_draw_weight" />
+
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/card_to_show_gain_or_loss_in_weight"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="30dp"
+                android:layout_marginEnd="15dp"
+                app:cardCornerRadius="10dp"
+                app:cardElevation="12dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/card_to_show_weight_graph_in_weights">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/layout_inside_to_show_card_of_weight_gain_or_loss_in_weight"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <Button
+                        android:id="@+id/this_is_only_for_chart_iin_weight_in_gain_loss_in_weight"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:backgroundTint="@color/fav"
+                        android:elevation="20dp"
+                        android:outlineProvider="none"
+                        android:text="This chart is only available for premium users"
+                        android:textAllCaps="false"
+                        android:textColor="@color/white"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintVertical_bias="0.8" />
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/layout_containting_all_the_infor_for_weight_in_gain_loss_weight_loss"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <TextView
+                            android:id="@+id/title_of_the_weight_gain_or_loss"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:text="Gain / Loss"
+                            android:textColor="@color/black"
+                            android:textSize="18sp"
+                            android:textStyle="bold"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <TextView
+                            android:id="@+id/text_view_showing_the_change_weight"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:text=""
+                            android:textColor="@color/fav"
+                            android:textSize="22sp"
+                            android:textStyle="bold"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/title_of_the_weight_gain_or_loss" />
+
+                        <ProgressBar
+                            android:id="@+id/proress_bar_for_add_weight"
+                            style="?android:attr/progressBarStyleHorizontal"
+                            android:layout_width="0dp"
+                            android:layout_height="10dp"
+                            android:layout_marginStart="5dp"
+                            android:layout_marginTop="15dp"
+                            android:layout_marginEnd="10dp"
+                            android:progressDrawable="@drawable/round_corener_progress_bar_positive"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toEndOf="@+id/vertical_line_in_the_middle"
+                            app:layout_constraintTop_toBottomOf="@+id/text_view_showing_the_change_weight" />
+
+                        <ProgressBar
+                            android:id="@+id/progress_bar_to_lose_weight"
+                            style="?android:attr/progressBarStyleHorizontal"
+                            android:layout_width="0dp"
+                            android:layout_height="10dp"
+                            android:layout_marginStart="10dp"
+                            android:layout_marginTop="15dp"
+                            android:layout_marginEnd="5dp"
+                            android:progressDrawable="@drawable/round_corener_progress_bar_negative"
+                            android:rotation="180"
+                            app:layout_constraintEnd_toStartOf="@+id/vertical_line_in_the_middle"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/text_view_showing_the_change_weight" />
+
+                        <View
+                            android:id="@+id/vertical_line_in_the_middle"
+                            android:layout_width="0.1dp"
+                            android:layout_height="0dp"
+                            android:background="@android:color/transparent"
+                            app:layout_constraintBottom_toBottomOf="@+id/proress_bar_for_add_weight"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="@+id/proress_bar_for_add_weight" />
+
+                        <TextView
+                            android:id="@+id/text_view_above_progress_negative"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text=""
+                            android:textColor="#32CD32"
+                            android:textSize="18sp"
+                            app:layout_constraintBottom_toTopOf="@+id/progress_bar_to_lose_weight"
+                            app:layout_constraintStart_toStartOf="@+id/progress_bar_to_lose_weight" />
+
+                        <TextView
+                            android:id="@+id/text_view_under_progress_negative"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text=""
+                            android:textColor="#32CD32"
+                            android:textSize="16sp"
+                            app:layout_constraintStart_toStartOf="@+id/progress_bar_to_lose_weight"
+                            app:layout_constraintTop_toBottomOf="@+id/progress_bar_to_lose_weight" />
+
+                        <TextView
+                            android:id="@+id/text_view_above_progress_positive"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text=""
+                            android:textColor="@android:color/holo_red_light"
+                            android:textSize="18sp"
+                            app:layout_constraintBottom_toTopOf="@+id/proress_bar_for_add_weight"
+                            app:layout_constraintEnd_toEndOf="@+id/proress_bar_for_add_weight" />
+
+                        <TextView
+                            android:id="@+id/text_view_under_progress_positive"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text=""
+                            android:textColor="@android:color/holo_red_light"
+                            android:textSize="16sp"
+                            app:layout_constraintEnd_toEndOf="@+id/proress_bar_for_add_weight"
+                            app:layout_constraintTop_toBottomOf="@+id/proress_bar_for_add_weight" />
+
+                        <Button
+                            android:id="@+id/button_to_share_the_gain_loss_in_weight"
+                            style="?android:attr/borderlessButtonStyle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="20dp"
+                            android:layout_marginEnd="5dp"
+                            android:layout_marginBottom="5dp"
+                            android:backgroundTint="@color/white"
+                            android:text="Share"
+                            android:textAllCaps="false"
+                            android:textColor="@color/fav"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/text_view_under_progress_positive" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/card_to_show_bmi_in_the_weight_with_colrs"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="30dp"
+                android:layout_marginEnd="15dp"
+                app:cardCornerRadius="10dp"
+                app:cardElevation="12dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/card_to_show_gain_or_loss_in_weight">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/layout_inside_showing_card_bmi_with_three_colors"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <Button
+                        android:id="@+id/this_is_only_for_chart_iin_weight_in_bmi_weight"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:backgroundTint="@color/fav"
+                        android:elevation="20dp"
+                        android:outlineProvider="none"
+                        android:text="This chart is only available for premium users"
+                        android:textAllCaps="false"
+                        android:textColor="@color/white"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintVertical_bias="0.8" />
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/constraint_layout_showing_the_info_of_bmi"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <TextView
+                            android:id="@+id/title_of_the_weight_bmi_three_colors"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:text="BMI"
+                            android:textColor="@color/black"
+                            android:textSize="18sp"
+                            android:textStyle="bold"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <ProgressBar
+                            android:id="@+id/progress_bar_under_weight"
+                            style="?android:attr/progressBarStyleHorizontal"
+                            android:layout_width="0dp"
+                            android:layout_height="6dp"
+                            android:layout_marginStart="20dp"
+                            android:layout_marginTop="45dp"
+                            android:progress="100"
+                            android:progressDrawable="@drawable/progress_start_corner"
+                            app:layout_constraintEnd_toStartOf="@+id/vertical_line_one"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/text_view_showing_the_bmi_in_color_weight" />
+
+                        <ProgressBar
+                            android:id="@+id/progress_bar_right_weight"
+                            style="?android:attr/progressBarStyleHorizontal"
+                            android:layout_width="0dp"
+                            android:layout_height="6dp"
+                            android:progress="100"
+                            android:progressDrawable="@drawable/progress_middle_corner"
+                            app:layout_constraintBottom_toBottomOf="@+id/progress_bar_under_weight"
+                            app:layout_constraintEnd_toStartOf="@+id/vertical_line_two"
+                            app:layout_constraintStart_toEndOf="@+id/vertical_line_one"
+                            app:layout_constraintTop_toTopOf="@+id/progress_bar_under_weight" />
+
+                        <ProgressBar
+                            android:id="@+id/progress_bar_over_weight"
+                            style="?android:attr/progressBarStyleHorizontal"
+                            android:layout_width="0dp"
+                            android:layout_height="6dp"
+                            android:layout_marginEnd="20dp"
+                            android:progressDrawable="@drawable/progress_end_corner"
+                            app:layout_constraintBottom_toBottomOf="@+id/progress_bar_under_weight"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toEndOf="@+id/vertical_line_two"
+                            app:layout_constraintTop_toTopOf="@+id/progress_bar_under_weight" />
+
+                        <TextView
+                            android:id="@+id/text_view_showing_the_bmi_in_color_weight"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="12.5dp"
+                            android:text="24.2"
+                            android:textSize="25sp"
+                            app:layout_constraintEnd_toEndOf="@+id/location_above_bmi_weight"
+                            app:layout_constraintStart_toStartOf="@+id/location_above_bmi_weight"
+                            app:layout_constraintTop_toBottomOf="@+id/title_of_the_weight_bmi_three_colors" />
+
+                        <View
+                            android:id="@+id/vertical_line_one"
+                            android:layout_width="0.1dp"
+                            android:layout_height="0dp"
+                            android:background="#33b5e5"
+                            app:layout_constraintBottom_toBottomOf="@+id/progress_bar_under_weight"
+                            app:layout_constraintEnd_toEndOf="@+id/vertical_line_at_end"
+                            app:layout_constraintHorizontal_bias="0.303"
+                            app:layout_constraintStart_toStartOf="@+id/vertical_line_at_start"
+                            app:layout_constraintTop_toTopOf="@+id/progress_bar_under_weight" />
+
+                        <View
+                            android:id="@+id/vertical_line_two"
+                            android:layout_width="0.1dp"
+                            android:layout_height="0dp"
+                            android:background="@android:color/holo_red_light"
+                            app:layout_constraintBottom_toBottomOf="@+id/progress_bar_under_weight"
+                            app:layout_constraintEnd_toEndOf="@+id/vertical_line_at_end"
+                            app:layout_constraintHorizontal_bias="0.6969"
+                            app:layout_constraintStart_toStartOf="@+id/vertical_line_at_start"
+                            app:layout_constraintTop_toTopOf="@+id/progress_bar_under_weight" />
+
+                        <View
+                            android:id="@+id/vertical_line_at_start"
+                            android:layout_width="0.1dp"
+                            android:layout_height="0dp"
+                            android:layout_marginStart="20dp"
+                            android:background="@android:color/transparent"
+                            app:layout_constraintBottom_toBottomOf="@+id/progress_bar_under_weight"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="@+id/progress_bar_under_weight" />
+
+                        <View
+                            android:id="@+id/vertical_line_at_end"
+                            android:layout_width="0.1dp"
+                            android:layout_height="0dp"
+                            android:layout_marginEnd="20dp"
+                            android:background="@android:color/transparent"
+                            app:layout_constraintBottom_toBottomOf="@+id/progress_bar_under_weight"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="@+id/progress_bar_under_weight" />
+
+                        <View
+                            android:id="@+id/location_above_bmi_weight"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:background="@drawable/location_drawable_green"
+                            app:layout_constraintBottom_toTopOf="@+id/vertical_line_one"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent" />
+
+                        <TextView
+                            android:id="@+id/text_saying_number_between_low_and_medium"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="4.5dp"
+                            android:text="18.5"
+                            android:textSize="12sp"
+                            app:layout_constraintEnd_toEndOf="@+id/vertical_line_one"
+                            app:layout_constraintStart_toStartOf="@+id/vertical_line_one"
+                            app:layout_constraintTop_toBottomOf="@+id/progress_bar_under_weight" />
+
+                        <TextView
+                            android:id="@+id/text_saying_number_between_medium_and_high"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="4.5dp"
+                            android:text="25"
+                            android:textSize="12sp"
+                            app:layout_constraintEnd_toEndOf="@+id/vertical_line_two"
+                            app:layout_constraintStart_toStartOf="@+id/vertical_line_two"
+                            app:layout_constraintTop_toBottomOf="@+id/progress_bar_under_weight" />
+
+                        <Button
+                            android:id="@+id/button_to_share_the_bmi_across_the_three_colors"
+                            style="?android:attr/borderlessButtonStyle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="20dp"
+                            android:layout_marginEnd="5dp"
+                            android:layout_marginBottom="5dp"
+                            android:backgroundTint="@color/white"
+                            android:text="Share"
+                            android:textAllCaps="false"
+                            android:textColor="@color/fav"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/text_saying_number_between_medium_and_high" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/card_to_show_stats_in_weight"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="30dp"
+                android:layout_marginEnd="15dp"
+                app:cardCornerRadius="10dp"
+                app:cardElevation="12dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/card_to_show_bmi_in_the_weight_with_colrs">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/layout_to_show_many_stats_in_card"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <Button
+                        android:id="@+id/this_is_only_for_chart"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:backgroundTint="@color/fav"
+                        android:elevation="20dp"
+                        android:outlineProvider="none"
+                        android:text="This chart is only available for premium users"
+                        android:textAllCaps="false"
+                        android:textColor="@color/white"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/layout_to_blur_in_the_weight_tracker"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
+
+
+                        <TextView
+                            android:id="@+id/title_of_the_stats_in_the_weight"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:text="Stats"
+                            android:textColor="@color/black"
+                            android:textSize="18sp"
+                            android:textStyle="bold"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <TextView
+                            android:id="@+id/text_view_saying_normal_in_stats_weight"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="10dp"
+                            android:layout_marginTop="20dp"
+                            android:text="Normal weight (BMI)"
+                            android:textColor="@color/fav"
+                            android:textSize="16sp"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/title_of_the_stats_in_the_weight" />
+
+                        <TextView
+                            android:id="@+id/text_view_saying_the_actual_weight_beside_bmi"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="10dp"
+                            android:text="text"
+                            android:textColor="@color/fav"
+                            android:textSize="16sp"
+                            app:layout_constraintBottom_toBottomOf="@+id/text_view_saying_normal_in_stats_weight"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="@+id/text_view_saying_normal_in_stats_weight" />
+
+                        <View
+                            android:id="@+id/horizantal_straight_line_1"
+                            android:layout_width="0dp"
+                            android:layout_height="1.5dp"
+                            android:background="@color/fav"
+                            app:layout_constraintEnd_toEndOf="@+id/text_view_saying_the_actual_weight_beside_bmi"
+                            app:layout_constraintStart_toStartOf="@+id/text_view_saying_normal_in_stats_weight"
+                            app:layout_constraintTop_toBottomOf="@+id/text_view_saying_normal_in_stats_weight" />
+
+                        <TextView
+                            android:id="@+id/text_saying_entries_in_stats_weight"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="10dp"
+                            android:text="Entries"
+                            android:textColor="@color/fav"
+                            android:textSize="16sp"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/horizantal_straight_line_1" />
+
+                        <TextView
+                            android:id="@+id/text_view_saying_the_actula_entries_behing_line"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="10dp"
+                            android:text="text"
+                            android:textColor="@color/fav"
+                            android:textSize="16sp"
+                            app:layout_constraintBottom_toBottomOf="@+id/text_saying_entries_in_stats_weight"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="@+id/text_saying_entries_in_stats_weight" />
+
+                        <View
+                            android:id="@+id/horizantal_straight_line_2"
+                            android:layout_width="0dp"
+                            android:layout_height="1.5dp"
+                            android:background="@color/fav"
+                            app:layout_constraintEnd_toEndOf="@+id/text_view_saying_the_actula_entries_behing_line"
+                            app:layout_constraintStart_toStartOf="@+id/text_saying_entries_in_stats_weight"
+                            app:layout_constraintTop_toBottomOf="@+id/text_saying_entries_in_stats_weight" />
+
+                        <TextView
+                            android:id="@+id/text_saying_all_time_high_stats"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="10dp"
+                            android:text="All time high"
+                            android:textColor="@color/fav"
+                            android:textSize="16sp"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/horizantal_straight_line_2" />
+
+                        <TextView
+                            android:id="@+id/text_saying_all_time_high_stats_but_teh_actual_number"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="10dp"
+                            android:text="text"
+                            android:textColor="@color/fav"
+                            android:textSize="16sp"
+                            app:layout_constraintBottom_toBottomOf="@+id/text_saying_all_time_high_stats"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="@+id/text_saying_all_time_high_stats" />
+
+                        <View
+                            android:id="@+id/horizantal_straight_line_3"
+                            android:layout_width="0dp"
+                            android:layout_height="1.5dp"
+                            android:background="@color/fav"
+                            app:layout_constraintEnd_toEndOf="@+id/text_saying_all_time_high_stats_but_teh_actual_number"
+                            app:layout_constraintStart_toStartOf="@+id/text_saying_all_time_high_stats"
+                            app:layout_constraintTop_toBottomOf="@+id/text_saying_all_time_high_stats" />
+
+                        <TextView
+                            android:id="@+id/text_saying_all_time_low_stats"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="10dp"
+                            android:text="All time low"
+                            android:textColor="@color/fav"
+                            android:textSize="16sp"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/horizantal_straight_line_3" />
+
+                        <TextView
+                            android:id="@+id/text_saying_all_time_low_stats_but_thre_real_low"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="10dp"
+                            android:text="text"
+                            android:textColor="@color/fav"
+                            android:textSize="16sp"
+                            app:layout_constraintBottom_toBottomOf="@+id/text_saying_all_time_low_stats"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="@+id/text_saying_all_time_low_stats" />
+
+                        <View
+                            android:id="@+id/horizantal_straight_line_4"
+                            android:layout_width="0dp"
+                            android:layout_height="1.5dp"
+                            android:background="@color/fav"
+                            app:layout_constraintEnd_toEndOf="@+id/text_saying_all_time_low_stats_but_thre_real_low"
+                            app:layout_constraintStart_toStartOf="@+id/text_saying_all_time_low_stats"
+                            app:layout_constraintTop_toBottomOf="@+id/text_saying_all_time_low_stats" />
+
+                        <TextView
+                            android:id="@+id/this_week_gain_or_loss"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="10dp"
+                            android:text="This week gain/loss"
+                            android:textColor="@color/fav"
+                            android:textSize="16sp"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/horizantal_straight_line_4" />
+
+                        <TextView
+                            android:id="@+id/this_week_gain_or_loss_but_the_real_number"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="10dp"
+                            android:text="text"
+                            android:textColor="@color/fav"
+                            android:textSize="16sp"
+                            app:layout_constraintBottom_toBottomOf="@+id/this_week_gain_or_loss"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="@+id/this_week_gain_or_loss" />
+
+                        <View
+                            android:id="@+id/horizantal_straight_line_5"
+                            android:layout_width="0dp"
+                            android:layout_height="1.5dp"
+                            android:background="@color/fav"
+                            app:layout_constraintEnd_toEndOf="@+id/this_week_gain_or_loss_but_the_real_number"
+                            app:layout_constraintStart_toStartOf="@+id/this_week_gain_or_loss"
+                            app:layout_constraintTop_toBottomOf="@+id/this_week_gain_or_loss" />
+
+                        <TextView
+                            android:id="@+id/this_month_gain_or_loss"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="10dp"
+                            android:text="This month gain/loss"
+                            android:textColor="@color/fav"
+                            android:textSize="16sp"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/horizantal_straight_line_5" />
+
+                        <TextView
+                            android:id="@+id/this_month_gain_or_loss_but_the_real_number"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="10dp"
+                            android:text="text"
+                            android:textColor="@color/fav"
+                            android:textSize="16sp"
+                            app:layout_constraintBottom_toBottomOf="@+id/this_month_gain_or_loss"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="@+id/this_month_gain_or_loss" />
+
+                        <View
+                            android:id="@+id/horizantal_straight_line_6"
+                            android:layout_width="0dp"
+                            android:layout_height="1.5dp"
+                            android:background="@color/fav"
+                            app:layout_constraintEnd_toEndOf="@+id/this_month_gain_or_loss_but_the_real_number"
+                            app:layout_constraintStart_toStartOf="@+id/this_month_gain_or_loss"
+                            app:layout_constraintTop_toBottomOf="@+id/this_month_gain_or_loss" />
+
+                        <TextView
+                            android:id="@+id/total_gain_loss_but_only_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="10dp"
+                            android:text="Total gain/loss"
+                            android:textColor="@color/fav"
+                            android:textSize="16sp"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/horizantal_straight_line_6" />
+
+                        <TextView
+                            android:id="@+id/total_gain_loss_but_only_text_showing_real_number"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="10dp"
+                            android:text="text"
+                            android:textColor="@color/fav"
+                            android:textSize="16sp"
+                            app:layout_constraintBottom_toBottomOf="@+id/total_gain_loss_but_only_text"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="@+id/total_gain_loss_but_only_text" />
+
+                        <View
+                            android:id="@+id/horizantal_straight_line_7"
+                            android:layout_width="0dp"
+                            android:layout_height="1.5dp"
+                            android:background="@color/fav"
+                            app:layout_constraintEnd_toEndOf="@+id/total_gain_loss_but_only_text_showing_real_number"
+                            app:layout_constraintStart_toStartOf="@+id/total_gain_loss_but_only_text"
+                            app:layout_constraintTop_toBottomOf="@+id/total_gain_loss_but_only_text" />
+
+                        <Button
+                            android:id="@+id/button_to_share_stats_in_weight_card"
+                            style="?android:attr/borderlessButtonStyle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="20dp"
+                            android:layout_marginEnd="5dp"
+                            android:layout_marginBottom="5dp"
+                            android:backgroundTint="@color/white"
+                            android:text="Share"
+                            android:textAllCaps="false"
+                            android:textColor="@color/fav"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/total_gain_loss_but_only_text_showing_real_number" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.cardview.widget.CardView>
+
+            <View
+                android:id="@+id/back_button_in_the_journal_emergency"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="15dp"
+                android:background="@drawable/round_arrow_back_24"
+                android:elevation="100dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <Button
+                android:id="@+id/button_to_go_back_counter"
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="15dp"
+                android:background="@drawable/round_button_for_trash"
+                android:backgroundTint="#F7F7F7"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <Button
+                android:id="@+id/button_to_add_three_dots"
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:background="@drawable/round_button_for_trash"
+                android:backgroundTint="#F7F7F7"
+                app:layout_constraintBottom_toBottomOf="@+id/three_buttons_in_the_top_to_add"
+                app:layout_constraintEnd_toEndOf="@+id/three_buttons_in_the_top_to_add"
+                app:layout_constraintStart_toStartOf="@+id/three_buttons_in_the_top_to_add"
+                app:layout_constraintTop_toTopOf="@+id/three_buttons_in_the_top_to_add" />
+
+            <View
+                android:id="@+id/three_buttons_in_the_top_to_add"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginEnd="15dp"
+                android:background="@drawable/round_more_vert_24"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <View
+                android:id="@+id/id_at_the_end_of_the_bottom_of_weight_to_extend_botton"
+                android:layout_width="match_parent"
+                android:layout_height="0.1dp"
+                android:layout_marginTop="20dp"
+                android:background="@android:color/transparent"
+                app:layout_constraintTop_toBottomOf="@+id/card_to_show_stats_in_weight" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>

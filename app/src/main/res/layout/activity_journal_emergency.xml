@@ -1,0 +1,264 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Journal_emergency">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/hold_buy_premuim_fragment_container_in_journal"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <View
+        android:id="@+id/view_in_the_top_of_journal"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/white"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <Button
+        android:id="@+id/button_shadow_for_back_button_journal"
+        style="?android:attr/borderlessButtonStyle"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:background="@drawable/round_button_for_trash"
+        app:layout_constraintEnd_toEndOf="@+id/back_button_in_the_journal_emergency"
+        app:layout_constraintStart_toStartOf="@+id/back_button_in_the_journal_emergency"
+        app:layout_constraintTop_toTopOf="@+id/back_button_in_the_journal_emergency" />
+
+    <Button
+        android:id="@+id/button_shadow_for_text_size_button_journal"
+        style="?android:attr/borderlessButtonStyle"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:background="@drawable/round_button_for_trash"
+        app:layout_constraintBottom_toBottomOf="@+id/change_size_in_the_journal_emergency"
+        app:layout_constraintEnd_toEndOf="@+id/change_size_in_the_journal_emergency"
+        app:layout_constraintStart_toStartOf="@+id/change_size_in_the_journal_emergency"
+        app:layout_constraintTop_toTopOf="@+id/change_size_in_the_journal_emergency" />
+
+    <Button
+        android:id="@+id/button_shadow_for_color_button_journal"
+        style="?android:attr/borderlessButtonStyle"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:background="@drawable/round_button_for_trash"
+        app:layout_constraintBottom_toBottomOf="@+id/color_in_the_journal_emergency"
+        app:layout_constraintEnd_toEndOf="@+id/color_in_the_journal_emergency"
+        app:layout_constraintStart_toStartOf="@+id/color_in_the_journal_emergency"
+        app:layout_constraintTop_toTopOf="@+id/color_in_the_journal_emergency" />
+
+    <Button
+        android:id="@+id/button_shadow_for_highlight_button_journal"
+        style="?android:attr/borderlessButtonStyle"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:background="@drawable/round_button_for_trash"
+        app:layout_constraintBottom_toBottomOf="@+id/highlight_in_the_journal_emergency"
+        app:layout_constraintEnd_toEndOf="@+id/highlight_in_the_journal_emergency"
+        app:layout_constraintStart_toStartOf="@+id/highlight_in_the_journal_emergency"
+        app:layout_constraintTop_toTopOf="@+id/highlight_in_the_journal_emergency" />
+
+    <Button
+        android:id="@+id/button_shadow_for_bold_button_journal"
+        style="?android:attr/borderlessButtonStyle"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:background="@drawable/round_button_for_trash"
+        app:layout_constraintBottom_toBottomOf="@+id/set_text_to_bold_journal"
+        app:layout_constraintEnd_toEndOf="@+id/set_text_to_bold_journal"
+        app:layout_constraintStart_toStartOf="@+id/set_text_to_bold_journal"
+        app:layout_constraintTop_toTopOf="@+id/set_text_to_bold_journal" />
+
+    <Button
+        android:id="@+id/button_shadow_for_italic_button_journal"
+        style="?android:attr/borderlessButtonStyle"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:background="@drawable/round_button_for_trash"
+        app:layout_constraintBottom_toBottomOf="@+id/set_text_to_italic_journal"
+        app:layout_constraintEnd_toEndOf="@+id/set_text_to_italic_journal"
+        app:layout_constraintStart_toStartOf="@+id/set_text_to_italic_journal"
+        app:layout_constraintTop_toTopOf="@+id/set_text_to_italic_journal" />
+
+    <Button
+        android:id="@+id/button_shadow_for_under_line_button_journal"
+        style="?android:attr/borderlessButtonStyle"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:background="@drawable/round_button_for_trash"
+        app:layout_constraintBottom_toBottomOf="@+id/set_text_to_underline_journal"
+        app:layout_constraintEnd_toEndOf="@+id/set_text_to_underline_journal"
+        app:layout_constraintStart_toStartOf="@+id/set_text_to_underline_journal"
+        app:layout_constraintTop_toTopOf="@+id/set_text_to_underline_journal" />
+
+    <Button
+        android:id="@+id/button_shadow_for_strike_through_button_journal"
+        style="?android:attr/borderlessButtonStyle"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:background="@drawable/round_button_for_trash"
+        app:layout_constraintBottom_toBottomOf="@+id/set_text_to_strike_through_journal"
+        app:layout_constraintEnd_toEndOf="@+id/set_text_to_strike_through_journal"
+        app:layout_constraintStart_toStartOf="@+id/set_text_to_strike_through_journal"
+        app:layout_constraintTop_toTopOf="@+id/set_text_to_strike_through_journal" />
+
+
+    <Button
+        android:id="@+id/button_shadow_for_3_dots_button_journal"
+        style="?android:attr/borderlessButtonStyle"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:background="@drawable/round_button_for_trash"
+        app:layout_constraintBottom_toBottomOf="@+id/more_journal_in_emergency"
+        app:layout_constraintEnd_toEndOf="@+id/more_journal_in_emergency"
+        app:layout_constraintStart_toStartOf="@+id/more_journal_in_emergency"
+        app:layout_constraintTop_toTopOf="@+id/more_journal_in_emergency" />
+
+    <EditText
+        android:id="@+id/text_saying_title_of_the_journal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:background="@android:color/transparent"
+        android:text="My Journal"
+        app:layout_goneMarginStart="5dp"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:layout_marginStart="20dp"
+        android:paddingEnd="20dp"
+        android:textColor="@color/black"
+        android:textSize="22sp"
+        android:inputType="textNoSuggestions"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/view_in_the_top_of_journal" />
+
+    <View
+        android:id="@+id/back_button_in_the_journal_emergency"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_marginStart="5dp"
+        android:background="@drawable/round_arrow_back_24"
+        app:layout_constraintBottom_toBottomOf="@+id/view_in_the_top_of_journal"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/view_in_the_top_of_journal" />
+
+    <View
+        android:id="@+id/highlight_in_the_journal_emergency"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:background="@drawable/round_highlight_24"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintBottom_toBottomOf="@+id/view_in_the_top_of_journal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/view_in_the_top_of_journal" />
+
+    <View
+        android:id="@+id/color_in_the_journal_emergency"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginEnd="10dp"
+        android:background="@drawable/round_color_lens_24"
+        app:layout_constraintBottom_toBottomOf="@+id/view_in_the_top_of_journal"
+        app:layout_constraintEnd_toStartOf="@+id/highlight_in_the_journal_emergency"
+        app:layout_constraintTop_toTopOf="@+id/view_in_the_top_of_journal" />
+
+    <View
+        android:id="@+id/change_size_in_the_journal_emergency"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginEnd="10dp"
+        android:background="@drawable/round_format_size_24"
+        app:layout_constraintBottom_toBottomOf="@+id/view_in_the_top_of_journal"
+        app:layout_constraintEnd_toStartOf="@+id/color_in_the_journal_emergency"
+        app:layout_constraintTop_toTopOf="@+id/view_in_the_top_of_journal" />
+
+    <EditText
+        android:id="@+id/text_view_viewing_the_whole_journal"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="20dp"
+        android:background="@android:color/transparent"
+        android:gravity="top|start"
+        android:inputType="textNoSuggestions|textMultiLine"
+        android:text=""
+        android:textSize="18sp"
+        app:layout_constraintBottom_toTopOf="@+id/button_shadow_for_3_dots_button_journal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/text_saying_title_of_the_journal" />
+
+    <View
+        android:id="@+id/more_journal_in_emergency"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/round_more_vert_24"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/view_in_the_top_of_journal" />
+
+
+    <View
+        android:id="@+id/set_text_to_bold_journal"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginEnd="10dp"
+        android:background="@drawable/round_format_bold_24"
+        app:layout_constraintBottom_toBottomOf="@+id/view_in_the_top_of_journal"
+        app:layout_constraintEnd_toStartOf="@+id/change_size_in_the_journal_emergency"
+        app:layout_constraintTop_toTopOf="@+id/view_in_the_top_of_journal" />
+
+    <View
+        android:id="@+id/set_text_to_italic_journal"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginEnd="10dp"
+        android:background="@drawable/round_format_italic_24"
+        app:layout_constraintBottom_toBottomOf="@+id/view_in_the_top_of_journal"
+        app:layout_constraintEnd_toStartOf="@+id/set_text_to_bold_journal"
+        app:layout_constraintTop_toTopOf="@+id/view_in_the_top_of_journal" />
+
+    <View
+        android:id="@+id/set_text_to_underline_journal"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginEnd="10dp"
+        android:background="@drawable/round_format_underlined_24"
+        app:layout_constraintBottom_toBottomOf="@+id/view_in_the_top_of_journal"
+        app:layout_constraintEnd_toStartOf="@+id/set_text_to_italic_journal"
+        app:layout_constraintTop_toTopOf="@+id/view_in_the_top_of_journal" />
+
+    <View
+        android:id="@+id/set_text_to_strike_through_journal"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginEnd="10dp"
+        android:background="@drawable/round_strikethrough_s_24"
+        app:layout_constraintBottom_toBottomOf="@+id/view_in_the_top_of_journal"
+        app:layout_constraintEnd_toStartOf="@+id/set_text_to_underline_journal"
+        app:layout_constraintTop_toTopOf="@+id/view_in_the_top_of_journal" />
+
+    <TextView
+        android:id="@+id/last_edit_for_notes"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Last Edited"
+        android:textColor="@color/black"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/text_view_viewing_the_whole_journal" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

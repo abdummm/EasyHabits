@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/card_to_show_bad_habits_in_home_main"
+    app:cardCornerRadius="15dp"
+    android:layout_width="match_parent"
+    android:layout_margin="2.5dp"
+    app:layout_constraintBottom_toBottomOf="parent"
+    android:foreground="?android:attr/selectableItemBackground"
+    android:clickable="true"
+    android:layout_height="wrap_content"
+    android:focusable="true">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="4dp">
+
+        <TextView
+            android:id="@+id/text_view_in_card_saying_the_card"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:textSize="19sp"
+            android:textColor="@color/white"
+            android:layout_marginTop="10dp"
+            android:layout_marginStart="10dp"
+            android:textStyle="bold"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <View
+            android:id="@+id/arc_progress_for_day_in_card"
+            android:layout_width="110dp"
+            android:layout_height="110dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:background="@drawable/white_circle_background"
+            android:layout_marginEnd="10dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <View
+            android:id="@+id/set_up_the_icon_for_the_card"
+            android:layout_width="85dp"
+            android:layout_height="85dp"
+            app:layout_constraintEnd_toEndOf="@+id/arc_progress_for_day_in_card"
+            app:layout_constraintStart_toStartOf="@+id/arc_progress_for_day_in_card"
+            app:layout_constraintTop_toTopOf="@+id/arc_progress_for_day_in_card"
+            app:layout_constraintBottom_toBottomOf="@+id/arc_progress_for_day_in_card"/>
+
+        <TextView
+            android:id="@+id/text_saying_streak_in_card"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Streak: "
+            android:textSize="19sp"
+            android:textColor="@color/white"
+            android:layout_marginTop="5dp"
+            android:layout_marginStart="10dp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.cardview.widget.CardView>

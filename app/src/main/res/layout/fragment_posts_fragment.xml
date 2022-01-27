@@ -1,0 +1,624 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Posts_fragment">
+
+    <ScrollView
+        android:id="@+id/scroll_view_to_take_screen_show_in_good_habtis"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="false"
+        android:visibility="gone">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layou_to_show_screen_shot_in_good_habits"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <View
+                android:id="@+id/view_all_gray_inside_screen_shot_inside_good_habits"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:background="#dfdfe5"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/text_saying_the_name_of_the_app_in_good_habits"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:gravity="center"
+                android:text="Easy Habits"
+                android:textAlignment="center"
+                android:textColor="@color/fav"
+                android:textSize="25sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <View
+                android:id="@+id/view_with_white_back_ground_in_share_screen"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginStart="15dp"
+                android:layout_marginEnd="15dp"
+                android:layout_marginTop="15dp"
+                android:background="@drawable/white_round_rectangle"
+                app:layout_constraintTop_toBottomOf="@+id/text_saying_the_name_of_the_app_in_good_habits"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="@+id/view_under_the_body_to_extend"/>
+
+            <TextView
+                android:id="@+id/text_to_put_in_share"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginEnd="15dp"
+                android:gravity="start"
+                android:textAlignment="textStart"
+                android:textColor="@color/black"
+                android:textSize="21sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="@+id/view_with_white_back_ground_in_share_screen"
+                app:layout_constraintStart_toStartOf="@+id/view_with_white_back_ground_in_share_screen"
+                app:layout_constraintTop_toTopOf="@+id/view_with_white_back_ground_in_share_screen"
+                tools:text="Title" />
+
+            <View
+                android:id="@+id/thin_line_in_share"
+                android:layout_width="0dp"
+                android:layout_height="0.15dp"
+                android:background="@color/fav"
+                app:layout_constraintStart_toStartOf="@+id/view_with_white_back_ground_in_share_screen"
+                app:layout_constraintEnd_toEndOf="@+id/view_with_white_back_ground_in_share_screen"
+                android:layout_marginStart="15dp"
+                android:layout_marginEnd="15dp"
+                app:layout_constraintTop_toBottomOf="@+id/text_to_put_in_share"
+                android:layout_marginTop="15dp"/>
+
+            <TextView
+                android:id="@+id/text_body_to_put_in_share"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:gravity="start"
+                android:textAlignment="textStart"
+                android:textColor="@color/black"
+                android:layout_marginStart="15dp"
+                android:layout_marginEnd="15dp"
+                app:layout_constraintTop_toBottomOf="@+id/thin_line_in_share"
+                app:layout_constraintEnd_toEndOf="@+id/view_with_white_back_ground_in_share_screen"
+                app:layout_constraintStart_toStartOf="@+id/view_with_white_back_ground_in_share_screen"
+                tools:text="body" />
+
+            <View
+                android:id="@+id/view_under_the_body_to_extend"
+                android:layout_width="0.1dp"
+                android:layout_height="0.1dp"
+                android:layout_marginTop="12dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/text_body_to_put_in_share"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.1dp"
+                android:layout_marginTop="15dp"
+                android:background="@android:color/transparent"
+                app:layout_constraintTop_toBottomOf="@+id/view_with_white_back_ground_in_share_screen" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/view_the_three_kind_of_posts"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+    <View
+            android:id="@+id/thirty_three_percent_divider_for_buttons_in_top"
+            android:layout_width="1px"
+            android:layout_height="0dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.33"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <View
+            android:id="@+id/sixty_six_percent_divider_for_buttons_in_top"
+            android:layout_width="1px"
+            android:layout_height="0dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.66"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <View
+            android:id="@+id/view_at_the_top_of_posts_showing_three_buttons"
+            android:layout_width="match_parent"
+            android:layout_height="?android:attr/actionBarSize"
+            android:background="@color/fav"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/button_to_go_to_all_posts"
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_margin="5dp"
+            android:background="@drawable/ripple_rectangle_button_fav_white"
+            android:text="Feed"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/view_at_the_top_of_posts_showing_three_buttons"
+            app:layout_constraintEnd_toEndOf="@+id/thirty_three_percent_divider_for_buttons_in_top"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/button_to_go_to_your_posts"
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_margin="5dp"
+            android:background="@drawable/ripple_rectangle_button_fav_white"
+            android:text="Your Posts"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/view_at_the_top_of_posts_showing_three_buttons"
+            app:layout_constraintEnd_toEndOf="@+id/sixty_six_percent_divider_for_buttons_in_top"
+            app:layout_constraintStart_toStartOf="@+id/thirty_three_percent_divider_for_buttons_in_top"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/button_to_go_to_saved_posts"
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_margin="5dp"
+            android:background="@drawable/ripple_rectangle_button_fav_white"
+            android:text="Saved Posts"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/view_at_the_top_of_posts_showing_three_buttons"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/sixty_six_percent_divider_for_buttons_in_top"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <View
+            android:id="@+id/white_view_under_first_button_feed"
+            android:layout_width="0dp"
+            android:layout_height="4dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="5dp"
+            android:layout_marginBottom="5dp"
+            android:background="@drawable/round_corner_white_rectangle"
+            app:layout_constraintBottom_toBottomOf="@+id/view_at_the_top_of_posts_showing_three_buttons"
+            app:layout_constraintEnd_toEndOf="@+id/thirty_three_percent_divider_for_buttons_in_top"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <View
+            android:id="@+id/white_view_under_second_button_your_posts"
+            android:layout_width="0dp"
+            android:layout_height="4dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="5dp"
+            android:layout_marginBottom="5dp"
+            android:background="@drawable/round_corner_white_rectangle"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="@+id/view_at_the_top_of_posts_showing_three_buttons"
+            app:layout_constraintEnd_toEndOf="@+id/sixty_six_percent_divider_for_buttons_in_top"
+            app:layout_constraintStart_toStartOf="@+id/thirty_three_percent_divider_for_buttons_in_top" />
+
+        <View
+            android:id="@+id/white_view_under_third_button_saved_posts"
+            android:layout_width="0dp"
+            android:layout_height="4dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="5dp"
+            android:layout_marginBottom="5dp"
+            android:background="@drawable/round_corner_white_rectangle"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="@+id/view_at_the_top_of_posts_showing_three_buttons"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/sixty_six_percent_divider_for_buttons_in_top" />
+
+        <View
+            android:id="@+id/divider_between_first_two_buttons_posts"
+            android:layout_width="1dp"
+            android:layout_height="25dp"
+            android:layout_marginTop="12.5dp"
+            android:background="@color/white"
+            app:layout_constraintStart_toEndOf="@+id/button_to_go_to_all_posts"
+            app:layout_constraintEnd_toStartOf="@+id/button_to_go_to_your_posts"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <View
+            android:id="@+id/divider_between_second_two_buttons_posts"
+            android:layout_width="1dp"
+            android:layout_height="25dp"
+            android:layout_marginTop="12.5dp"
+            android:background="@color/white"
+            app:layout_constraintStart_toEndOf="@+id/button_to_go_to_your_posts"
+            app:layout_constraintEnd_toStartOf="@+id/button_to_go_to_saved_posts"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/flaoting_button_to_write_a_post_in_posts"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/fav"
+            android:clickable="true"
+            android:focusable="true"
+            android:src="@drawable/white_pencil"
+            app:useCompatPadding="true"
+            android:contentDescription="Write a post"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/view_the_posts_in_posts"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:visibility="visible"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/view_at_the_top_of_posts_showing_three_buttons">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recylce_view_to_show_all_posts"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:background="#f1f3f5"
+            android:overScrollMode="never"
+            app:layout_constraintTop_toBottomOf="@+id/view_at_the_top_under_the_three_choices_post"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+        <View
+            android:id="@+id/view_at_the_top_under_the_three_choices_post"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:background="@color/white"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+        <Button
+            android:id="@+id/filter_in_posts_category"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Filter"
+            android:drawableStart="@drawable/round_filter_list_24"
+            android:backgroundTint="@color/fav"
+            android:textColor="@color/white"
+            android:drawablePadding="10dp"
+            android:visibility="invisible"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/view_at_the_top_under_the_three_choices_post"
+            app:layout_constraintBottom_toBottomOf="@+id/view_at_the_top_under_the_three_choices_post"/>
+
+        <Button
+            android:id="@+id/button_at_post_to_choose_the_ranking"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_marginStart="10dp"
+            android:text="Hot"
+            android:textColor="@color/fav"
+            android:background="@drawable/ripple_for_all"
+            android:drawableEnd="@drawable/round_arrow_drop_down_24"
+            android:drawableStart="@drawable/baseline_local_fire_department_24"
+            android:drawablePadding="10dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/view_at_the_top_under_the_three_choices_post"
+            app:layout_constraintBottom_toBottomOf="@+id/view_at_the_top_under_the_three_choices_post"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/view_the_your_posts_in_posts"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:visibility="invisible"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/view_at_the_top_of_posts_showing_three_buttons">
+        <TextView
+            android:id="@+id/written_post_is_empty_in_posts"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textColor="@color/fav"
+            android:textSize="18sp"
+            android:text="You didn't write any posts yet. Start writing posts by clicking the button below and your posts will be shown here."
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:gravity="center"
+            android:textAlignment="center"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+        <TextView
+            android:id="@+id/written_comments_replies_is_empty_in_posts"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textColor="@color/fav"
+            android:textSize="18sp"
+            android:text="You didn't write any comments yet."
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:gravity="center"
+            android:textAlignment="center"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recylce_view_to_show_your_posts"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:background="#f1f3f5"
+            android:overScrollMode="never"
+            app:layout_constraintTop_toBottomOf="@+id/view_at_the_top_under_your_posts"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+        <View
+            android:id="@+id/view_at_the_top_under_your_posts"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:background="@color/white"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+        <View
+            android:id="@+id/line_in_the_middle_of_your_posts"
+            android:layout_width="1dp"
+            android:layout_height="25dp"
+            android:background="@color/fav"
+            app:layout_constraintTop_toTopOf="@+id/view_at_the_top_under_your_posts"
+            app:layout_constraintBottom_toBottomOf="@+id/view_at_the_top_under_your_posts"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <Button
+            android:id="@+id/button_to_see_your_posts_in_recycle_view_in_posts"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_margin="5dp"
+            android:text="Your Posts"
+            android:textAllCaps="false"
+            android:textStyle="bold"
+            android:textColor="@color/fav"
+            android:background="@drawable/fav_back_ground_for_rectangle_ripple"
+            style="?android:attr/borderlessButtonStyle"
+            app:layout_constraintTop_toTopOf="@+id/view_at_the_top_under_your_posts"
+            app:layout_constraintBottom_toBottomOf="@+id/view_at_the_top_under_your_posts"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/line_in_the_middle_of_your_posts"/>
+
+        <Button
+            android:id="@+id/button_to_see_your_comments_in_recycle_view_in_posts"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_margin="5dp"
+            android:text="Your Comments"
+            android:textAllCaps="false"
+            android:textStyle="bold"
+            android:textColor="@color/fav"
+            android:background="@drawable/fav_back_ground_for_rectangle_ripple"
+            style="?android:attr/borderlessButtonStyle"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/line_in_the_middle_of_your_posts"
+            app:layout_constraintTop_toTopOf="@+id/view_at_the_top_under_your_posts"
+            app:layout_constraintBottom_toBottomOf="@+id/view_at_the_top_under_your_posts"/>
+
+        <View
+            android:id="@+id/first_line_under_button_in_your_posts_button_in_posts"
+            android:layout_width="0dp"
+            android:layout_height="4dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="5dp"
+            android:layout_marginBottom="5dp"
+            android:background="@drawable/white_round_rectangle"
+            android:backgroundTint="@color/fav"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/line_in_the_middle_of_your_posts"
+            app:layout_constraintBottom_toBottomOf="@+id/view_at_the_top_under_your_posts"/>
+
+        <View
+            android:id="@+id/second_line_under_button_in_your_comments_button_in_posts"
+            android:layout_width="0dp"
+            android:layout_height="4dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="5dp"
+            android:layout_marginBottom="5dp"
+            android:background="@drawable/white_round_rectangle"
+            android:backgroundTint="@color/fav"
+            android:visibility="invisible"
+            app:layout_constraintStart_toEndOf="@+id/line_in_the_middle_of_your_posts"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="@+id/view_at_the_top_under_your_posts"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recylce_view_to_show_your_comments"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:background="#f1f3f5"
+            android:overScrollMode="never"
+            app:layout_constraintTop_toBottomOf="@+id/view_at_the_top_under_your_posts"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/view_the_saved_posts_in_posts"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:visibility="invisible"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/view_at_the_top_of_posts_showing_three_buttons">
+
+        <TextView
+            android:id="@+id/saved_post_is_empty_in_posts"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textColor="@color/fav"
+            android:textSize="18sp"
+            android:text="You didn't save any posts yet. Start saving posts and they will be shown here!!"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:gravity="center"
+            android:textAlignment="center"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+        <TextView
+            android:id="@+id/written_comments_replies_is_empty_in_save_posts"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textColor="@color/fav"
+            android:textSize="18sp"
+            android:text="You didn't save any comments yet."
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:gravity="center"
+            android:textAlignment="center"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recylce_view_to_show_saved_posts"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:background="#f1f3f5"
+            android:overScrollMode="never"
+            app:layout_constraintTop_toBottomOf="@+id/view_at_the_top_under_saved_posts"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+        <View
+            android:id="@+id/view_at_the_top_under_saved_posts"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:background="@color/white"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+        <View
+            android:id="@+id/line_in_the_middle_of_saved_posts"
+            android:layout_width="1dp"
+            android:layout_height="25dp"
+            android:background="@color/fav"
+            app:layout_constraintTop_toTopOf="@+id/view_at_the_top_under_saved_posts"
+            app:layout_constraintBottom_toBottomOf="@+id/view_at_the_top_under_saved_posts"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <Button
+            android:id="@+id/button_to_see_saved_posts_in_recycle_view_in_posts"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_margin="5dp"
+            android:text="Saved Posts"
+            android:textAllCaps="false"
+            android:textStyle="bold"
+            android:textColor="@color/fav"
+            android:background="@drawable/fav_back_ground_for_rectangle_ripple"
+            style="?android:attr/borderlessButtonStyle"
+            app:layout_constraintTop_toTopOf="@+id/view_at_the_top_under_saved_posts"
+            app:layout_constraintBottom_toBottomOf="@+id/view_at_the_top_under_saved_posts"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/line_in_the_middle_of_saved_posts"/>
+
+        <Button
+            android:id="@+id/button_to_see_your_comments_in_recycle_view_in_saved_posts"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_margin="5dp"
+            android:text="Saved Comments"
+            android:textAllCaps="false"
+            android:textStyle="bold"
+            android:textColor="@color/fav"
+            android:background="@drawable/fav_back_ground_for_rectangle_ripple"
+            style="?android:attr/borderlessButtonStyle"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/line_in_the_middle_of_saved_posts"
+            app:layout_constraintTop_toTopOf="@+id/view_at_the_top_under_saved_posts"
+            app:layout_constraintBottom_toBottomOf="@+id/view_at_the_top_under_saved_posts"/>
+
+        <View
+            android:id="@+id/first_line_under_button_in_saved_posts_button_in_posts"
+            android:layout_width="0dp"
+            android:layout_height="4dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="5dp"
+            android:layout_marginBottom="5dp"
+            android:background="@drawable/white_round_rectangle"
+            android:backgroundTint="@color/fav"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/line_in_the_middle_of_saved_posts"
+            app:layout_constraintBottom_toBottomOf="@+id/view_at_the_top_under_saved_posts"/>
+
+        <View
+            android:id="@+id/second_line_under_button_in_saved_comments_button_in_posts"
+            android:layout_width="0dp"
+            android:layout_height="4dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="5dp"
+            android:layout_marginBottom="5dp"
+            android:background="@drawable/white_round_rectangle"
+            android:backgroundTint="@color/fav"
+            android:visibility="invisible"
+            app:layout_constraintStart_toEndOf="@+id/line_in_the_middle_of_saved_posts"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="@+id/view_at_the_top_under_saved_posts"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recylce_view_to_show_saved_comments"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:background="#f1f3f5"
+            android:overScrollMode="never"
+            android:visibility="invisible"
+            app:layout_constraintTop_toBottomOf="@+id/view_at_the_top_under_saved_posts"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

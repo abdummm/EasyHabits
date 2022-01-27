@@ -1,0 +1,478 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/main_activity_constraint_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#FFFFFF"
+        tools:context="com.easyhabitsapp2.android.MainActivity">
+
+        <View
+            android:id="@+id/horizantal_line_behind_or_lock_screen"
+            android:layout_width="0dp"
+            android:layout_height="1.5dp"
+            android:layout_marginStart="30dp"
+            android:layout_marginEnd="30dp"
+            android:background="@color/fav"
+            app:layout_constraintBottom_toBottomOf="@+id/text_saying_or_used_in_the_main_act"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/text_saying_or_used_in_the_main_act" />
+
+        <EditText
+            android:id="@+id/enter_name_edittext"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:backgroundTint="@color/fav"
+            android:ellipsize="start"
+            android:ems="12"
+            android:gravity="center_horizontal"
+            android:hint="Enter your preferred name"
+            android:inputType="textPersonName"
+            android:textColorHint="@color/fav"
+            android:theme="@style/SwitchTheme"
+            android:textColor="@color/fav"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/asking_user_to_enter_name_text_view_main_activity" />
+
+        <EditText
+            android:id="@+id/enter_streak_edittext"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:backgroundTint="@color/fav"
+            android:ems="12"
+            android:gravity="center_horizontal"
+            android:hint="Enter your current streak"
+            android:inputType="number"
+            android:textColorHint="@color/fav"
+            android:theme="@style/SwitchTheme"
+            android:textColor="@color/fav"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/text_asking_when_was_the_last_time_user_hacked" />
+
+        <Button
+            android:id="@+id/submit_data_first_time_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="400dp"
+            android:layout_marginEnd="5dp"
+            android:layout_marginBottom="5dp"
+            android:backgroundTint="#607D8B"
+            android:text="Finish"
+            android:textColor="@color/white"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/collecting_goals_from_the_first_time" />
+
+        <TextView
+            android:id="@+id/collecting_goals_from_the_first_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="50dp"
+            android:layout_marginEnd="8dp"
+            android:text="Goals:"
+            android:textColor="@color/fav"
+            android:textSize="22sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/empty_view_for_padding2_main_activity" />
+
+        <EditText
+            android:id="@+id/goal1_enter_for_first_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="10dp"
+            android:ems="3"
+            android:inputType="number"
+            android:theme="@style/SwitchTheme"
+            android:gravity="right"
+            android:textColor="@color/fav"
+            app:layout_constraintBottom_toTopOf="@+id/goal2_enter_for_first_time"
+            app:layout_constraintEnd_toStartOf="@+id/display_days_next_to_goal1_text_view"
+            app:layout_constraintTop_toBottomOf="@+id/collecting_goals_from_the_first_time" />
+
+        <EditText
+            android:id="@+id/goal2_enter_for_first_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="10dp"
+            android:ems="3"
+            android:inputType="number"
+            android:theme="@style/SwitchTheme"
+            android:gravity="right"
+            android:textColor="@color/fav"
+            app:layout_constraintBottom_toTopOf="@+id/goal3_enter_for_first_time"
+            app:layout_constraintEnd_toStartOf="@+id/display_days_next_to_goal2_text_view"
+            app:layout_constraintTop_toBottomOf="@+id/goal1_enter_for_first_time" />
+
+        <EditText
+            android:id="@+id/goal3_enter_for_first_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="3"
+            android:inputType="number"
+            android:theme="@style/SwitchTheme"
+            android:layout_marginEnd="10dp"
+            android:gravity="right"
+            android:textColor="@color/fav"
+            app:layout_constraintBottom_toTopOf="@+id/goal4_enter_for_first_time"
+            app:layout_constraintEnd_toStartOf="@+id/display_days_next_to_goal3_text_view"
+            app:layout_constraintTop_toBottomOf="@+id/goal2_enter_for_first_time" />
+
+        <EditText
+            android:id="@+id/goal4_enter_for_first_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="10dp"
+            android:ems="3"
+            android:inputType="number"
+            android:theme="@style/SwitchTheme"
+            android:gravity="right"
+            android:textColor="@color/fav"
+            app:layout_constraintBottom_toTopOf="@+id/goal5_enter_for_first_time"
+            app:layout_constraintEnd_toStartOf="@+id/display_days_next_to_goal4_text_view"
+            app:layout_constraintTop_toBottomOf="@+id/goal3_enter_for_first_time" />
+
+        <EditText
+            android:id="@+id/goal5_enter_for_first_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="10dp"
+            android:ems="3"
+            android:inputType="number"
+            android:theme="@style/SwitchTheme"
+            android:gravity="right"
+            android:textColor="@color/fav"
+            app:layout_constraintBottom_toTopOf="@+id/submit_data_first_time_button"
+            app:layout_constraintEnd_toStartOf="@+id/display_days_next_to_goal5_text_view"
+            app:layout_constraintTop_toBottomOf="@+id/goal4_enter_for_first_time" />
+
+        <TextView
+            android:id="@+id/display_the_word_goal1_first_time_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="Goal 1"
+            android:textSize="18sp"
+            android:textColor="@color/fav"
+            app:layout_constraintHorizontal_bias="0.1"
+            app:layout_constraintBottom_toBottomOf="@+id/goal1_enter_for_first_time"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/goal1_enter_for_first_time" />
+
+        <TextView
+            android:id="@+id/display_the_word_goal2_first_time_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:text="Goal 2"
+            android:textSize="18sp"
+            android:textColor="@color/fav"
+            app:layout_constraintBottom_toBottomOf="@+id/goal2_enter_for_first_time"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/goal2_enter_for_first_time" />
+
+        <TextView
+            android:id="@+id/display_the_word_goal3_first_time_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:text="Goal 3"
+            android:textSize="18sp"
+            android:textColor="@color/fav"
+            app:layout_constraintHorizontal_bias="0.1"
+            app:layout_constraintBottom_toBottomOf="@+id/goal3_enter_for_first_time"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/goal3_enter_for_first_time" />
+
+        <TextView
+            android:id="@+id/display_the_word_goal4_first_time_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:text="Goal 4"
+            android:textSize="18sp"
+            android:textColor="@color/fav"
+            app:layout_constraintBottom_toBottomOf="@+id/goal4_enter_for_first_time"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/goal4_enter_for_first_time" />
+
+        <TextView
+            android:id="@+id/display_the_word_goal5_first_time_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:text="Goal 5"
+            android:textSize="18sp"
+            android:textColor="@color/fav"
+            app:layout_constraintHorizontal_bias="0.1"
+            app:layout_constraintBottom_toBottomOf="@+id/goal5_enter_for_first_time"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/goal5_enter_for_first_time" />
+
+        <TextView
+            android:id="@+id/display_days_next_to_goal1_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:text="days"
+            android:textColor="@color/fav"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toBottomOf="@+id/goal1_enter_for_first_time"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.9"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/goal1_enter_for_first_time" />
+
+        <TextView
+            android:id="@+id/display_days_next_to_goal2_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:text="days"
+            android:textSize="20sp"
+            android:textColor="@color/fav"
+            app:layout_constraintBottom_toBottomOf="@+id/goal2_enter_for_first_time"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.9"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/goal2_enter_for_first_time" />
+
+        <TextView
+            android:id="@+id/display_days_next_to_goal3_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:text="days"
+            android:textSize="20sp"
+            android:textColor="@color/fav"
+            app:layout_constraintBottom_toBottomOf="@+id/goal3_enter_for_first_time"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.9"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/goal3_enter_for_first_time" />
+
+        <TextView
+            android:id="@+id/display_days_next_to_goal4_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:text="days"
+            android:textSize="20sp"
+            android:textColor="@color/fav"
+            app:layout_constraintBottom_toBottomOf="@+id/goal4_enter_for_first_time"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.9"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/goal4_enter_for_first_time" />
+
+        <TextView
+            android:id="@+id/display_days_next_to_goal5_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:text="days"
+            android:textSize="20sp"
+            android:textColor="@color/fav"
+            app:layout_constraintBottom_toBottomOf="@+id/goal5_enter_for_first_time"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.9"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/goal5_enter_for_first_time" />
+
+        <TextView
+            android:id="@+id/text_asking_when_was_the_last_time_user_hacked"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="50dp"
+            android:text="Date of last relapse"
+            android:textAlignment="center"
+            android:gravity="center"
+            android:textColor="@color/fav"
+            android:textSize="22sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/enter_name_edittext" />
+
+        <TextView
+            android:id="@+id/text_saying_or_used_in_the_main_act"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginEnd="8dp"
+            android:text="OR"
+            android:textColor="@color/fav"
+            android:textSize="25sp"
+            android:background="@color/white"
+            android:paddingStart="12dp"
+            android:paddingEnd="12dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/enter_streak_edittext" />
+
+
+        <Button
+            android:id="@+id/button_that_will_open_time_user_hacked"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:background="@drawable/color_for_botton_off"
+            android:text="  Choose date  "
+            android:textColor="@color/fav"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/text_saying_or_used_in_the_main_act" />
+
+        <TextView
+            android:id="@+id/asking_user_to_enter_name_text_view_main_activity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="100dp"
+            android:layout_marginEnd="8dp"
+            android:text="Enter your preferred name"
+            android:textAlignment="center"
+            android:gravity="center"
+            android:textColor="@color/fav"
+            android:textSize="22sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/number_one_in_main_activity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="1."
+            android:textColor="@color/fav"
+            android:textSize="30sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/asking_user_to_enter_name_text_view_main_activity"
+            app:layout_constraintEnd_toStartOf="@+id/asking_user_to_enter_name_text_view_main_activity"
+            app:layout_constraintHorizontal_bias="0.3"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/asking_user_to_enter_name_text_view_main_activity" />
+
+        <TextView
+            android:id="@+id/number_one_in_main_activity2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="3."
+            android:textColor="@color/fav"
+            android:textSize="30sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/collecting_goals_from_the_first_time"
+            app:layout_constraintEnd_toStartOf="@+id/asking_user_to_enter_name_text_view_main_activity"
+            app:layout_constraintHorizontal_bias="0.3"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/collecting_goals_from_the_first_time" />
+
+        <TextView
+            android:id="@+id/number_two_in_main_activity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="2."
+            android:textColor="@color/fav"
+            android:textSize="30sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/text_asking_when_was_the_last_time_user_hacked"
+            app:layout_constraintEnd_toStartOf="@+id/asking_user_to_enter_name_text_view_main_activity"
+            app:layout_constraintHorizontal_bias="0.3"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/text_asking_when_was_the_last_time_user_hacked" />
+
+        <View
+            android:id="@+id/empty_view_for_padding1_main_activity"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginBottom="10dp"
+            android:background="@android:color/transparent"
+            app:layout_constraintBottom_toTopOf="@+id/text_asking_when_was_the_last_time_user_hacked"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <View
+            android:id="@+id/empty_view_for_padding2_main_activity"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="10dp"
+            android:background="@android:color/transparent"
+            app:layout_constraintTop_toBottomOf="@+id/button_that_will_open_time_user_hacked"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/showing_the_date_to_the_user"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="8dp"
+            android:text="Date: "
+            android:textColor="@color/fav"
+            android:textSize="18sp"
+            android:visibility="gone"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/button_that_will_open_time_user_hacked" />
+
+        <View
+            android:id="@+id/transparent_boxes_diving_it_into_segments"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:background="@drawable/rectangle_with_opacity"
+            app:layout_constraintBottom_toTopOf="@+id/empty_view_for_padding2_main_activity"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/empty_view_for_padding1_main_activity" />
+
+        <Button
+            android:id="@+id/button_for_back_in_main"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Back"
+            android:layout_marginStart="5dp"
+            android:textColor="@color/white"
+            android:backgroundTint="@color/fav"
+            app:layout_constraintBottom_toBottomOf="@+id/submit_data_first_time_button"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/submit_data_first_time_button" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

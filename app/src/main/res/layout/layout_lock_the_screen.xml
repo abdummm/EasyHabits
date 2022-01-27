@@ -1,0 +1,388 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/hold_buy_premuim_fragment_container_in_lock_screen"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ScrollView
+        android:id="@+id/scroll_view_id_in_lock_the_screen_activity"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/id_for_lock_screen_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:context="com.easyhabitsapp2.android.Locking_the_screen">
+
+            <com.github.lzyzsd.circleprogress.ArcProgress
+                android:id="@+id/progress_for_lock_circle"
+                android:layout_width="220dp"
+                android:layout_height="220dp"
+                android:layout_marginTop="100dp"
+                android:background="@color/white"
+                android:rotation="180"
+                app:arc_angle="360"
+                app:arc_finished_color="@color/fav"
+                app:arc_max="100000"
+                app:arc_progress="100000"
+                app:arc_stroke_width="5dp"
+                app:arc_text_color="@color/white"
+                app:arc_unfinished_color="#ECEFF1"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <View
+                android:id="@+id/horizantal_line_behind_or_lock_screen"
+                android:layout_width="0dp"
+                android:layout_height="1.5dp"
+                android:background="@color/fav"
+                app:layout_constraintBottom_toBottomOf="@+id/or_text_asking_between_buttons_and_progress_bar"
+                app:layout_constraintEnd_toEndOf="@+id/add_one_minutes_under_the_lock"
+                app:layout_constraintStart_toStartOf="@+id/add_fifteen_minutes_under_the_lock"
+                app:layout_constraintTop_toTopOf="@+id/or_text_asking_between_buttons_and_progress_bar" />
+
+            <Button
+                android:id="@+id/add_fifteen_minutes_under_the_lock"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="25dp"
+                android:backgroundTint="@color/fav"
+                android:text="+15 min"
+                android:textColor="@color/white"
+                app:layout_constraintEnd_toStartOf="@+id/add_five_minutes_under_the_lock"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/edit_text_for_hours_under_progress" />
+
+            <Button
+                android:id="@+id/add_five_minutes_under_the_lock"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="25dp"
+                android:backgroundTint="@color/fav"
+                android:text="+5 min"
+                android:textColor="@color/white"
+                app:layout_constraintEnd_toStartOf="@+id/add_one_minutes_under_the_lock"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/add_fifteen_minutes_under_the_lock"
+                app:layout_constraintTop_toBottomOf="@+id/edit_text_for_hours_under_progress" />
+
+            <Button
+                android:id="@+id/add_one_minutes_under_the_lock"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="25dp"
+                android:backgroundTint="@color/fav"
+                android:text="+1 min"
+                android:textColor="@color/white"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/add_five_minutes_under_the_lock"
+                app:layout_constraintTop_toBottomOf="@+id/edit_text_for_hours_under_progress" />
+
+            <Button
+                android:id="@+id/turn_on_the_lock_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:backgroundTint="@color/fav"
+                android:text="Start"
+                android:textColor="@color/white"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/add_other_apps_to_white_list_lock_button"
+                app:layout_constraintTop_toBottomOf="@+id/check_box_to_ring_when_lock_is_done" />
+
+            <Button
+                android:id="@+id/add_other_apps_to_white_list_lock_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/color_for_botton_off"
+                android:text="  Whitelist?  "
+                android:textColor="@color/fav"
+                app:layout_constraintBottom_toBottomOf="@+id/turn_on_the_lock_button"
+                app:layout_constraintEnd_toStartOf="@+id/turn_on_the_lock_button"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/turn_on_the_lock_button" />
+
+            <CheckBox
+                android:id="@+id/check_box_to_ring_when_lock_is_done"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="25dp"
+                android:text="Ring for 15 seconds when done"
+                android:textColor="@color/fav"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/seekBar_for_time_lock" />
+
+            <EditText
+                android:id="@+id/edit_text_for_hours_under_progress"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="8dp"
+                android:ems="3"
+                android:gravity="center"
+                android:hint="hours"
+                android:inputType="number"
+                android:maxLength="1"
+                android:textColor="@color/fav"
+                android:textColorHint="@color/fav"
+                app:layout_constraintEnd_toStartOf="@+id/semi_colon_under_progress"
+                app:layout_constraintHorizontal_bias="0.92"
+                app:layout_constraintStart_toStartOf="@+id/progress_for_lock_circle"
+                app:layout_constraintTop_toBottomOf="@+id/progress_for_lock_circle" />
+
+            <EditText
+                android:id="@+id/edit_text_for_minutes_under_progress"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="8dp"
+                android:ems="3"
+                android:gravity="center"
+                android:hint="mins"
+                android:inputType="number"
+                android:maxLength="2"
+                android:textColor="@color/fav"
+                android:textColorHint="@color/fav"
+                app:layout_constraintEnd_toEndOf="@+id/progress_for_lock_circle"
+                app:layout_constraintHorizontal_bias="0.08"
+                app:layout_constraintStart_toEndOf="@+id/semi_colon_under_progress"
+                app:layout_constraintTop_toBottomOf="@+id/progress_for_lock_circle" />
+
+            <SeekBar
+                android:id="@+id/seekBar_for_time_lock"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:max="90"
+                app:layout_constraintEnd_toEndOf="@+id/horizantal_line_behind_or_lock_screen"
+                app:layout_constraintStart_toStartOf="@+id/horizantal_line_behind_or_lock_screen"
+                app:layout_constraintTop_toBottomOf="@+id/minutes_besides_edit_text_above_seekbar" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/child_of_lock_screen"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
+                app:layout_constraintBottom_toBottomOf="@+id/progress_for_lock_circle"
+                app:layout_constraintEnd_toStartOf="@+id/vertical_line_two_to_expand_screen_lock"
+                app:layout_constraintStart_toEndOf="@+id/vertical_line_to_expand_screen_lock"
+                app:layout_constraintTop_toTopOf="@+id/progress_for_lock_circle">
+
+
+                <TextView
+                    android:id="@+id/lock_minutes_to_end"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:maxLength="2"
+                    android:text="00"
+                    android:textColor="@color/fav"
+                    android:textSize="45sp"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/semi_colon_in_the_progress"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/lock_hours_to_end"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="00"
+                    android:textColor="@color/fav"
+                    android:textSize="45sp"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/semi_colon_in_the_progress"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/semi_colon_in_the_progress"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text=":"
+                    android:textAlignment="center"
+                    android:textColor="@color/fav"
+                    android:textSize="35sp"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <TextView
+                android:id="@+id/text_telling_user_to_choose_time_for_lock_down"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="31dp"
+                android:layout_marginEnd="8dp"
+                android:gravity="center"
+                android:text="Set phone lock time"
+                android:textAlignment="center"
+                android:textColor="@color/fav"
+                android:textSize="22sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toTopOf="@+id/progress_for_lock_circle"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/semi_colon_under_progress"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:text=":"
+                android:textColor="@color/fav"
+                android:textSize="22sp"
+                app:layout_constraintBottom_toBottomOf="@+id/edit_text_for_hours_under_progress"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/edit_text_for_hours_under_progress" />
+
+
+            <TextView
+                android:id="@+id/or_text_asking_between_buttons_and_progress_bar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:background="@color/white"
+                android:paddingStart="12dp"
+                android:paddingEnd="12dp"
+                android:text="OR"
+                android:textColor="@color/fav"
+                android:textSize="25sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/add_five_minutes_under_the_lock" />
+
+            <TextView
+                android:id="@+id/minutes_besides_edit_text_above_seekbar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:text="0 minutes"
+                android:textColor="@color/fav"
+                android:textSize="27sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/or_text_asking_between_buttons_and_progress_bar" />
+
+            <View
+                android:id="@+id/horizantal_line_to_expand_screen_lock"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginTop="30dp"
+                android:background="@color/fav"
+                app:layout_constraintEnd_toEndOf="@+id/add_one_minutes_under_the_lock"
+                app:layout_constraintStart_toStartOf="@+id/add_fifteen_minutes_under_the_lock"
+                app:layout_constraintTop_toBottomOf="@+id/turn_on_the_lock_button" />
+
+            <Button
+                android:id="@+id/button_to_stop_the_timer_lock"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="20dp"
+                android:backgroundTint="@color/fav"
+                android:text="Stop"
+                android:textColor="@color/white"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/check_box_to_ring_when_lock_is_done" />
+
+            <Button
+                android:id="@+id/button_for_back_to_emergency"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="15dp"
+                android:background="@drawable/round_arrow_back_24"
+                android:padding="30dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <Button
+                android:id="@+id/button_to_open_one_minute_emergency"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="25dp"
+                android:backgroundTint="@color/fav"
+                android:text="1 minute emergency"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:visibility="invisible"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/check_box_to_ring_when_lock_is_done" />
+
+            <View
+                android:id="@+id/vertical_line_to_expand_screen_lock"
+                android:layout_width="0.1dp"
+                android:layout_height="0dp"
+                android:background="@android:color/transparent"
+                app:layout_constraintBottom_toBottomOf="@+id/progress_for_lock_circle"
+                app:layout_constraintEnd_toEndOf="@+id/progress_for_lock_circle"
+                app:layout_constraintHorizontal_bias="0.22"
+                app:layout_constraintStart_toStartOf="@+id/progress_for_lock_circle"
+                app:layout_constraintTop_toTopOf="@+id/progress_for_lock_circle" />
+
+            <View
+                android:id="@+id/vertical_line_two_to_expand_screen_lock"
+                android:layout_width="0.1dp"
+                android:layout_height="0dp"
+                android:background="@android:color/transparent"
+                app:layout_constraintBottom_toBottomOf="@+id/progress_for_lock_circle"
+                app:layout_constraintEnd_toEndOf="@+id/progress_for_lock_circle"
+                app:layout_constraintHorizontal_bias="0.78"
+                app:layout_constraintStart_toStartOf="@+id/progress_for_lock_circle"
+                app:layout_constraintTop_toTopOf="@+id/progress_for_lock_circle" />
+
+            <Button
+                android:id="@+id/button_to_stop_sound"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:backgroundTint="@android:color/holo_red_light"
+                android:text="Stop"
+                android:textAllCaps="true"
+                android:textColor="@color/white"
+                android:visibility="invisible"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/progress_for_lock_circle" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/card_to_show_bad_habits_in_home_main"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="2.5dp"
+    android:clickable="true"
+    android:focusable="true"
+    android:foreground="?android:attr/selectableItemBackground"
+    app:cardCornerRadius="15dp"
+    app:layout_constraintBottom_toBottomOf="parent">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="4dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/not_mood_tracker_in_the_card"
+            android:layout_width="match_parent"
+            android:layout_height="126dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <View
+                android:id="@+id/arc_progress_for_day_in_card"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginBottom="8dp"
+                android:background="@drawable/white_circle_background"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <View
+                android:id="@+id/set_up_the_icon_for_the_card"
+                android:layout_width="65dp"
+                android:layout_height="65dp"
+                app:layout_constraintBottom_toBottomOf="@+id/arc_progress_for_day_in_card"
+                app:layout_constraintEnd_toEndOf="@+id/arc_progress_for_day_in_card"
+                app:layout_constraintStart_toStartOf="@+id/arc_progress_for_day_in_card"
+                app:layout_constraintTop_toTopOf="@+id/arc_progress_for_day_in_card" />
+
+            <TextView
+                android:id="@+id/text_saying_streak_in_card"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="5dp"
+                android:text="Streak: "
+                android:textColor="@color/white"
+                android:textSize="19sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/mood_tracker_in_the_card"
+            android:layout_width="match_parent"
+            android:layout_height="126dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <View
+                android:id="@+id/back_ground_white_photo"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_marginStart="15dp"
+                android:background="@drawable/white_circle_background"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <Button
+                android:id="@+id/very_bad_mood_button_in_habits"
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_width="42dp"
+                android:layout_height="42dp"
+                android:background="@drawable/ripple_for_all_circle"
+                app:layout_constraintBottom_toBottomOf="@+id/very_bad_mood_in_habits"
+                app:layout_constraintEnd_toEndOf="@+id/very_bad_mood_in_habits"
+                app:layout_constraintStart_toStartOf="@+id/very_bad_mood_in_habits"
+                app:layout_constraintTop_toTopOf="@+id/very_bad_mood_in_habits" />
+
+            <Button
+                android:id="@+id/bad_mood_button_in_habits"
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_width="42dp"
+                android:layout_height="42dp"
+                android:background="@drawable/ripple_for_all_circle"
+                app:layout_constraintBottom_toBottomOf="@+id/bad_mood_in_habits"
+                app:layout_constraintEnd_toEndOf="@+id/bad_mood_in_habits"
+                app:layout_constraintStart_toStartOf="@+id/bad_mood_in_habits"
+                app:layout_constraintTop_toTopOf="@+id/bad_mood_in_habits" />
+
+            <Button
+                android:id="@+id/ok_mood_button_in_habits"
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_width="42dp"
+                android:layout_height="42dp"
+                android:background="@drawable/ripple_for_all_circle"
+                app:layout_constraintBottom_toBottomOf="@+id/ok_mood_in_habits"
+                app:layout_constraintEnd_toEndOf="@+id/ok_mood_in_habits"
+                app:layout_constraintStart_toStartOf="@+id/ok_mood_in_habits"
+                app:layout_constraintTop_toTopOf="@+id/ok_mood_in_habits" />
+
+            <Button
+                android:id="@+id/good_mood_button_in_habits"
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_width="42dp"
+                android:layout_height="42dp"
+                android:background="@drawable/ripple_for_all_circle"
+                app:layout_constraintBottom_toBottomOf="@+id/good_mood_in_habits"
+                app:layout_constraintEnd_toEndOf="@+id/good_mood_in_habits"
+                app:layout_constraintStart_toStartOf="@+id/good_mood_in_habits"
+                app:layout_constraintTop_toTopOf="@+id/good_mood_in_habits" />
+
+            <Button
+                android:id="@+id/very_good_mood_button_in_habits"
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_width="42dp"
+                android:layout_height="42dp"
+                android:background="@drawable/ripple_for_all_circle"
+                app:layout_constraintBottom_toBottomOf="@+id/very_good_mood_in_habits"
+                app:layout_constraintEnd_toEndOf="@+id/very_good_mood_in_habits"
+                app:layout_constraintStart_toStartOf="@+id/very_good_mood_in_habits"
+                app:layout_constraintTop_toTopOf="@+id/very_good_mood_in_habits" />
+
+            <View
+                android:id="@+id/set_icon_for_card_in_home_mood"
+                android:layout_width="65dp"
+                android:layout_height="65dp"
+                android:background="@drawable/happy_face_navy"
+                app:layout_constraintBottom_toBottomOf="@+id/back_ground_white_photo"
+                app:layout_constraintEnd_toEndOf="@+id/back_ground_white_photo"
+                app:layout_constraintStart_toStartOf="@+id/back_ground_white_photo"
+                app:layout_constraintTop_toTopOf="@+id/back_ground_white_photo" />
+
+            <TextView
+                android:id="@+id/saying_text_mood_tracker"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="20dp"
+                android:text="Mood Tracker"
+                android:textColor="@color/white"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toEndOf="@+id/back_ground_white_photo"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <View
+                android:id="@+id/very_bad_mood_in_habits"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginStart="15dp"
+                android:background="@drawable/round_sentiment_very_dissatisfied_24"
+                app:layout_constraintBottom_toBottomOf="@+id/back_ground_white_photo"
+                app:layout_constraintEnd_toStartOf="@+id/bad_mood_in_habits"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/back_ground_white_photo" />
+
+            <View
+                android:id="@+id/bad_mood_in_habits"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="@drawable/round_mood_bad_24"
+                app:layout_constraintBottom_toBottomOf="@+id/very_bad_mood_in_habits"
+                app:layout_constraintEnd_toStartOf="@+id/ok_mood_in_habits"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/very_bad_mood_in_habits"
+                app:layout_constraintTop_toTopOf="@+id/very_bad_mood_in_habits" />
+
+            <View
+                android:id="@+id/ok_mood_in_habits"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="@drawable/round_face_24"
+                app:layout_constraintBottom_toBottomOf="@+id/bad_mood_in_habits"
+                app:layout_constraintEnd_toStartOf="@+id/good_mood_in_habits"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/bad_mood_in_habits"
+                app:layout_constraintTop_toTopOf="@+id/bad_mood_in_habits" />
+
+            <View
+                android:id="@+id/good_mood_in_habits"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="@drawable/round_mood_24"
+                app:layout_constraintBottom_toBottomOf="@+id/ok_mood_in_habits"
+                app:layout_constraintEnd_toStartOf="@+id/very_good_mood_in_habits"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/ok_mood_in_habits"
+                app:layout_constraintTop_toTopOf="@+id/ok_mood_in_habits" />
+
+            <View
+                android:id="@+id/very_good_mood_in_habits"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginEnd="10dp"
+                android:background="@drawable/round_sentiment_very_satisfied_24"
+                app:layout_constraintBottom_toBottomOf="@+id/good_mood_in_habits"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/good_mood_in_habits"
+                app:layout_constraintTop_toTopOf="@+id/good_mood_in_habits" />
+
+            <TextView
+                android:id="@+id/text_saying_thanks_for_your_input"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Today's input has been recorded"
+                android:textColor="@color/white"
+                android:textSize="17sp"
+                android:textStyle="bold"
+                android:visibility="invisible"
+                app:layout_constraintBottom_toBottomOf="@+id/very_bad_mood_button_in_habits"
+                app:layout_constraintEnd_toEndOf="@+id/very_good_mood_button_in_habits"
+                app:layout_constraintStart_toStartOf="@+id/very_bad_mood_button_in_habits"
+                app:layout_constraintTop_toTopOf="@+id/very_bad_mood_button_in_habits" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.cardview.widget.CardView>
+

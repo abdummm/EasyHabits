@@ -1,0 +1,455 @@
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/chat_fragment_layout_id"
+    tools:context=".chat_fragment">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layout_in_top_with_menu"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:id="@+id/three_dot_button_listen_in_chat_to_view_more_things"
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_marginEnd="8dp"
+            android:background="@drawable/round_fav_background"
+            android:visibility="invisible"
+            android:elevation="5dp"
+            android:outlineProvider="none"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/view_at_the_top_in_chat_of_chat"
+            app:layout_constraintBottom_toBottomOf="@+id/view_at_the_top_in_chat_of_chat"/>
+
+        <View
+            android:id="@+id/three_dot_id_in_chat_to_view_more_things"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:background="@drawable/three_dots_but_colored_white"
+            android:elevation="10dp"
+            android:outlineProvider="none"
+            android:visibility="invisible"
+            app:layout_constraintStart_toStartOf="@+id/three_dot_button_listen_in_chat_to_view_more_things"
+            app:layout_constraintEnd_toEndOf="@+id/three_dot_button_listen_in_chat_to_view_more_things"
+            app:layout_constraintBottom_toBottomOf="@+id/three_dot_button_listen_in_chat_to_view_more_things"
+            app:layout_constraintTop_toTopOf="@+id/three_dot_button_listen_in_chat_to_view_more_things"/>
+
+        <Button
+            android:id="@+id/button_to_gift_in_chat_real_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="15dp"
+            android:text="Gift"
+            android:drawableStart="@drawable/round_card_giftcard_24"
+            android:drawablePadding="10dp"
+            android:backgroundTint="@color/white"
+            android:textColor="@color/fav"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="@+id/view_at_the_top_in_chat_of_chat"
+            app:layout_constraintEnd_toStartOf="@+id/three_dot_button_listen_in_chat_to_view_more_things"
+            app:layout_constraintTop_toTopOf="@+id/view_at_the_top_in_chat_of_chat" />
+
+        <Button
+            android:id="@+id/button_to_back_in_chat_visible_after_chat"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:background="@drawable/ripple_button_fav_any_circle"
+            android:elevation="5dp"
+            android:outlineProvider="none"
+            android:visibility="invisible"
+            android:layout_marginStart="8dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="@+id/view_at_the_top_in_chat_of_chat"/>
+
+        <View
+            android:id="@+id/back_view_white_in_chat"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:background="@drawable/back_button_white"
+            android:elevation="10dp"
+            android:outlineProvider="none"
+            android:visibility="invisible"
+            app:layout_constraintTop_toTopOf="@+id/button_to_back_in_chat_visible_after_chat"
+            app:layout_constraintStart_toStartOf="@+id/button_to_back_in_chat_visible_after_chat"
+            app:layout_constraintEnd_toEndOf="@+id/button_to_back_in_chat_visible_after_chat"
+            app:layout_constraintBottom_toBottomOf="@+id/button_to_back_in_chat_visible_after_chat"/>
+
+        <View
+            android:id="@+id/view_at_the_top_in_chat_of_chat"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@color/fav"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/text_showing_the_timer_beside_end_chat"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:textColor="@color/white"
+            android:layout_marginEnd="10dp"
+            app:layout_constraintBottom_toBottomOf="@+id/view_at_the_top_in_chat_of_chat"
+            app:layout_constraintEnd_toStartOf="@+id/button_to_gift_in_chat_real_time"
+            app:layout_constraintTop_toTopOf="@+id/view_at_the_top_in_chat_of_chat" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+    <TextView
+        android:id="@+id/text_saying_start_session"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Get to chat with a random fellow user!!"
+        android:textStyle="bold"
+        android:textSize="22sp"
+        android:textColor="@color/black"
+        android:layout_marginTop="40dp"
+        android:textAlignment="center"
+        android:gravity="center"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/button_to_start_seesion_in_chat"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/fav"
+        android:text="Start Session"
+        android:textColor="@color/white"
+        app:layout_constraintVertical_bias="0.85"
+        app:layout_constraintBottom_toTopOf="@+id/text_view_saying_messages_are_not_stored_chat"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/text_telling_user_they_can_change_spinner" />
+
+    <View
+        android:id="@+id/horizantal_straight_line_in_top"
+        android:layout_width="0dp"
+        android:layout_height="1.5dp"
+        android:background="@color/fav"
+        android:layout_marginTop="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/text_saying_start_session" />
+
+    <View
+        android:id="@+id/chat_get_example_in_chat"
+        android:layout_width="80dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/chat_get_message"
+        android:layout_marginStart="15dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/horizantal_straight_line_in_top" />
+
+    <TextView
+        android:id="@+id/text_saying_start_example_hello"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Hello :)"
+        android:textColor="@color/fav"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/chat_get_example_in_chat"
+        app:layout_constraintEnd_toEndOf="@+id/chat_get_example_in_chat"
+        app:layout_constraintStart_toStartOf="@+id/chat_get_example_in_chat"
+        app:layout_constraintTop_toTopOf="@+id/chat_get_example_in_chat" />
+
+    <View
+        android:id="@+id/chat_send_example_in_chat"
+        android:layout_width="80dp"
+        android:layout_height="40dp"
+        android:layout_marginEnd="15dp"
+        android:background="@drawable/chat_send_message"
+        android:layout_marginTop="15dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/chat_get_example_in_chat" />
+
+    <TextView
+        android:id="@+id/text_saying_secomd_example_hey"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Hey !!"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/chat_send_example_in_chat"
+        app:layout_constraintEnd_toEndOf="@+id/chat_send_example_in_chat"
+        app:layout_constraintStart_toStartOf="@+id/chat_send_example_in_chat"
+        app:layout_constraintTop_toTopOf="@+id/chat_send_example_in_chat" />
+
+    <View
+        android:id="@+id/horizantal_straight_line_in_bottom"
+        android:layout_width="0dp"
+        android:layout_height="1.5dp"
+        android:layout_marginTop="20dp"
+        android:background="@color/fav"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/chat_send_example_in_chat" />
+
+    <TextView
+        android:id="@+id/text_view_saying_messages_are_not_stored_chat"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:text="Note: Messages are not stored and are deleted at the end of each day."
+        android:textAlignment="center"
+        android:gravity="center"
+        android:textColor="@color/fav"
+        android:layout_marginBottom="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/searching_for_a_user_text_in_chat"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:text="Searching for a user"
+        android:textAlignment="center"
+        android:gravity="center"
+        android:textColor="@color/fav"
+        android:textSize="25sp"
+        android:textStyle="bold"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.33" />
+
+    <View
+        android:id="@+id/rotating_glass_in_chat_loading"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:layout_margin="50dp"
+        android:background="@drawable/round_hourglass_bottom_24"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toTopOf="@+id/button_to_start_seesion_in_chat"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/searching_for_a_user_text_in_chat" />
+
+    <View
+        android:id="@+id/view_at_the_bottom_in_chat_of_chat"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/white"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <View
+        android:id="@+id/send_view_circle_white_chat"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="5dp"
+        android:layout_marginBottom="5dp"
+        android:background="@drawable/z_dark_green"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintDimensionRatio="W,1:1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/view_at_the_bottom_in_chat_of_chat" />
+
+    <View
+        android:id="@+id/bottom_of_color_fav_above_white_chat"
+        android:layout_width="match_parent"
+        android:layout_height="5dp"
+        android:background="@color/fav"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toTopOf="@+id/view_at_the_bottom_in_chat_of_chat"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <View
+        android:id="@+id/text_box_for_edit_box"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="4dp"
+        android:background="@drawable/chat_text_box"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="@+id/view_at_the_bottom_in_chat_of_chat"
+        app:layout_constraintEnd_toStartOf="@+id/send_view_circle_white_chat"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/view_at_the_bottom_in_chat_of_chat" />
+
+    <Button
+        android:id="@+id/ripple_send_button_chat"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="5dp"
+        android:layout_marginBottom="5dp"
+        android:background="@drawable/ripple_button_round_grey"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintDimensionRatio="W,1:1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/view_at_the_bottom_in_chat_of_chat" />
+
+    <View
+        android:id="@+id/send_button_in_chat_white"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@drawable/round_send_24"
+        android:layout_marginTop="6dp"
+        android:layout_marginBottom="6dp"
+        android:layout_marginStart="7.5dp"
+        android:layout_marginEnd="4.5dp"
+        android:elevation="100dp"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="@+id/send_view_circle_white_chat"
+        app:layout_constraintEnd_toEndOf="@+id/send_view_circle_white_chat"
+        app:layout_constraintStart_toStartOf="@+id/send_view_circle_white_chat"
+        app:layout_constraintTop_toTopOf="@+id/send_view_circle_white_chat" />
+
+    <EditText
+        android:id="@+id/edit_text_to_enter_chat_t_send_messages"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:visibility="invisible"
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="5dp"
+        app:layout_constraintBottom_toBottomOf="@+id/text_box_for_edit_box"
+        app:layout_constraintEnd_toEndOf="@+id/text_box_for_edit_box"
+        app:layout_constraintStart_toStartOf="@+id/text_box_for_edit_box"
+        app:layout_constraintTop_toTopOf="@+id/text_box_for_edit_box" />
+
+    <TextView
+        android:id="@+id/text_telling_the_user_to_choose_a_habit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:text="Choose a habit to chat about!"
+        android:textAlignment="center"
+        android:gravity="center"
+        android:textColor="@color/black"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/horizantal_straight_line_in_bottom" />
+
+    <Spinner
+        android:id="@+id/spinner_to_choose_chat_to_talk_about"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="25dp"
+        android:layout_marginEnd="30dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/text_telling_the_user_to_choose_a_habit" />
+
+    <View
+        android:id="@+id/left_of_chat_spinner"
+        android:layout_width="0.1dp"
+        android:layout_height="0.1dp"
+        android:background = "@android:color/transparent"
+        app:layout_constraintEnd_toStartOf="@+id/spinner_to_choose_chat_to_talk_about"
+        app:layout_constraintTop_toTopOf="@+id/spinner_to_choose_chat_to_talk_about"
+        app:layout_constraintBottom_toBottomOf="@+id/spinner_to_choose_chat_to_talk_about"/>
+
+    <View
+        android:id="@+id/right_of_chat_spinner"
+        android:layout_width="0.1dp"
+        android:layout_height="0.1dp"
+        android:background = "@android:color/transparent"
+        app:layout_constraintStart_toEndOf="@+id/spinner_to_choose_chat_to_talk_about"
+        app:layout_constraintTop_toTopOf="@+id/spinner_to_choose_chat_to_talk_about"
+        app:layout_constraintBottom_toBottomOf="@+id/spinner_to_choose_chat_to_talk_about"/>
+
+    <View
+        android:id="@+id/top_of_chat_spinner"
+        android:layout_width="0.1dp"
+        android:layout_height="0.1dp"
+        android:background = "@android:color/transparent"
+        app:layout_constraintStart_toStartOf="@+id/spinner_to_choose_chat_to_talk_about"
+        app:layout_constraintEnd_toEndOf="@+id/spinner_to_choose_chat_to_talk_about"
+        app:layout_constraintBottom_toTopOf="@+id/spinner_to_choose_chat_to_talk_about"/>
+
+    <View
+        android:id="@+id/bottom_of_chat_spinner"
+        android:layout_width="0.1dp"
+        android:layout_height="0.1dp"
+        android:background = "@android:color/transparent"
+        app:layout_constraintStart_toStartOf="@+id/spinner_to_choose_chat_to_talk_about"
+        app:layout_constraintEnd_toEndOf="@+id/spinner_to_choose_chat_to_talk_about"
+        app:layout_constraintTop_toBottomOf="@+id/spinner_to_choose_chat_to_talk_about"/>
+
+    <View
+        android:id="@+id/box_around_spinner_chat"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@drawable/back_ground_for_text_box"
+        app:layout_constraintStart_toEndOf="@+id/left_of_chat_spinner"
+        app:layout_constraintEnd_toStartOf="@+id/right_of_chat_spinner"
+        app:layout_constraintTop_toBottomOf="@+id/top_of_chat_spinner"
+        app:layout_constraintBottom_toTopOf="@+id/bottom_of_chat_spinner"/>
+
+    <TextView
+        android:id="@+id/text_telling_user_they_can_change_spinner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:layout_marginTop="10dp"
+        android:text="Click on the habit name to change it"
+        android:textAlignment="center"
+        android:gravity="center"
+        android:textColor="@color/fav"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/spinner_to_choose_chat_to_talk_about" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycle_view_for_chat_in_chat_fragment"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toTopOf="@+id/bottom_of_color_fav_above_white_chat"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/layout_in_top_with_menu" />
+
+    <TextView
+        android:id="@+id/text_view_saying_be_nice_to_the_start"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:textColor="@color/fav"
+        android:visibility="invisible"
+        android:textAlignment="center"
+        android:gravity="center"
+        android:text="Hey!! You have been connected to a stranger.\n Remember to be nice and have fun!!"
+        app:layout_constraintBottom_toTopOf="@+id/bottom_of_color_fav_above_white_chat"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

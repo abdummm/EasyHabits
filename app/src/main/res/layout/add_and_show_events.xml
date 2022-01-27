@@ -1,0 +1,424 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/id_for_the_parent_parent_layout"
+    android:background="@drawable/whitelist_dialog_background">
+
+    <View
+        android:id="@+id/view_at_the_top_having_the_title"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:background="@drawable/removing_corners_for_view"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/text_showing_title_in_white"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Events"
+        android:textColor="@color/white"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/view_at_the_top_having_the_title"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/view_at_the_top_having_the_title"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/ok_button_on_the_right_events"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="15dp"
+        android:layout_marginBottom="10dp"
+        android:backgroundTint="@color/white"
+        android:stateListAnimator="@null"
+        android:text="@android:string/ok"
+        android:textColor="@color/fav"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <Button
+        android:id="@+id/cancel_button_on_the_left_events"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:backgroundTint="@color/white"
+        android:stateListAnimator="@null"
+        android:text="@android:string/cancel"
+        android:textColor="@color/fav"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/ok_button_on_the_right_events" />
+
+    <Button
+        android:id="@+id/add_events_button_inside_dialog"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/color_for_botton_off"
+        android:text="  Add Events  "
+        android:textColor="@color/fav"
+        app:layout_constraintEnd_toStartOf="@+id/show_events_button_inside_dialog"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/view_at_the_top_having_the_title" />
+
+    <Button
+        android:id="@+id/show_events_button_inside_dialog"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/color_for_botton_off"
+        android:text="  Show Events  "
+        android:textColor="@color/fav"
+        app:layout_constraintBottom_toBottomOf="@+id/add_events_button_inside_dialog"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/add_events_button_inside_dialog"
+        app:layout_constraintTop_toTopOf="@+id/add_events_button_inside_dialog" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/show_events_layout_in_dialog"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        app:layout_constraintBottom_toTopOf="@+id/ok_button_on_the_right_events"
+        app:layout_constraintTop_toBottomOf="@+id/add_events_button_inside_dialog">
+
+        <TextView
+            android:id="@+id/events_for_a_certain_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:text="Events for Date"
+            android:textAlignment="center"
+            android:textColor="@color/fav"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:gravity="center"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/text_telling_no_events_today"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="- No events today -"
+            android:textAlignment="center"
+            android:textColor="@color/fav"
+            android:textSize="20sp"
+            android:layout_marginTop="20dp"
+            android:visibility="invisible"
+            android:textStyle="bold"
+            android:gravity="center"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/events_for_a_certain_date" />
+
+        <TextView
+            android:id="@+id/text_telling_upcoming_events"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="Upcoming Events"
+            android:textAlignment="center"
+            android:textColor="@color/fav"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/events_for_a_certain_date" />
+
+        <TextView
+            android:id="@+id/text_telling_no_upcoming_events"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="- No upcoming events -"
+            android:textAlignment="center"
+            android:textColor="@color/fav"
+            android:textSize="20sp"
+            android:visibility="invisible"
+            android:layout_marginBottom="20dp"
+            android:textStyle="bold"
+            android:gravity="center"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            tools:layout_editor_absoluteY="365dp" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/today_events_recycle_view"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:padding="4dp"
+            android:scrollbars="vertical"
+            android:background="#BCC8CE"
+            app:layout_constraintBottom_toTopOf="@+id/text_telling_upcoming_events"
+            app:layout_constraintTop_toBottomOf="@+id/events_for_a_certain_date" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/upcoming_events_recycle_view"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:padding="4dp"
+            android:scrollbars="vertical"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:background="#BCC8CE"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/text_telling_upcoming_events" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <ScrollView
+        android:id="@+id/scroll_add_view"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:fillViewport="false"
+        app:layout_constraintBottom_toTopOf="@+id/ok_button_on_the_right_events"
+        app:layout_constraintTop_toBottomOf="@+id/add_events_button_inside_dialog">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/add_events_layout_in_dialog"
+            android:focusable="true"
+            android:visibility="gone"
+            android:focusableInTouchMode="true"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <Spinner
+                android:id="@+id/spinner_to_choose_the_color_event"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/text_telling_to_enter_color_of_event" />
+
+            <TextView
+                android:id="@+id/text_telling_to_enter_name_of_event"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:text="Type the name of event"
+                android:textAlignment="center"
+                android:textColor="@color/fav"
+                android:textSize="22sp"
+                android:gravity="center"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <EditText
+                android:id="@+id/enter_the_name_of_the_event_you_want_to_add"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:ems="10"
+                android:inputType="textPersonName"
+                android:hint="Name of the event"
+                android:textColor="@color/fav"
+                android:theme="@style/SwitchTheme"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/text_telling_to_enter_name_of_event" />
+
+            <TextView
+                android:id="@+id/text_telling_me_to_add_details_to_event"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:text="Description of the events"
+                android:textAlignment="center"
+                android:textColor="@color/fav"
+                android:textSize="22sp"
+                android:gravity="center"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/enter_the_name_of_the_event_you_want_to_add" />
+
+            <EditText
+                android:id="@+id/enter_the_description_of_the_edit_text"
+                android:layout_width="0dp"
+                android:layout_height="120dp"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/back_ground_for_text_box"
+                android:gravity="start"
+                android:hint="(optional)"
+                android:inputType="textMultiLine|textCapSentences"
+                android:overScrollMode="always"
+                android:paddingStart="10dp"
+                android:paddingTop="10dp"
+                android:paddingEnd="10dp"
+                android:paddingBottom="10dp"
+                android:scrollbarStyle="insideInset"
+                android:scrollbars="vertical"
+                android:textColor="@color/fav"
+                android:theme="@style/SwitchTheme"
+                app:layout_constraintEnd_toEndOf="@+id/button_to_set_as_all_day"
+                app:layout_constraintStart_toStartOf="@+id/button_to_set_specific_time"
+                app:layout_constraintTop_toBottomOf="@+id/text_telling_me_to_add_details_to_event" />
+
+            <TextView
+                android:id="@+id/text_telling_to_enter_color_of_event"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:text="Enter the color of the event"
+                android:textAlignment="center"
+                android:textColor="@color/fav"
+                android:textSize="22sp"
+                android:gravity="center"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/enter_the_description_of_the_edit_text" />
+
+            <Button
+                android:id="@+id/button_to_set_specific_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/color_for_botton_off"
+                android:text="  Certain Time  "
+                android:textColor="@color/fav"
+                app:layout_constraintEnd_toStartOf="@+id/button_to_set_as_all_day"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/text_telling_to_choose_date" />
+
+            <Button
+                android:id="@+id/button_to_set_as_all_day"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/color_for_botton_on"
+                android:text="All day"
+                android:textColor="@color/white"
+                app:layout_constraintBottom_toBottomOf="@+id/button_to_set_specific_time"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/button_to_set_specific_time"
+                app:layout_constraintTop_toTopOf="@+id/button_to_set_specific_time" />
+
+            <TextView
+                android:id="@+id/text_telling_to_choose_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:text="Enter the time"
+                android:textAlignment="center"
+                android:textColor="@color/fav"
+                android:textSize="22sp"
+                android:gravity="center"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/spinner_to_choose_the_color_event" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/layout_only_for_reminder_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:textAlignment="center"
+                android:gravity="center"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/button_to_set_specific_time">
+
+                <CheckBox
+                    android:id="@+id/check_box_asking_to_show_notification"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Remind me at "
+                    android:textColor="@color/fav"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <EditText
+                    android:id="@+id/hour_for_the_reminder_beside_check_box"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ems="2"
+                    android:inputType="number"
+                    android:maxLength="2"
+                    android:text="8"
+                    android:textAlignment="center"
+                    android:textColor="@color/fav"
+                    android:textColorHint="@color/fav"
+                    android:theme="@style/SwitchTheme"
+                    android:gravity="center"
+                    app:layout_constraintBottom_toBottomOf="@+id/check_box_asking_to_show_notification"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toEndOf="@+id/check_box_asking_to_show_notification"
+                    app:layout_constraintTop_toTopOf="@+id/check_box_asking_to_show_notification" />
+
+                <TextView
+                    android:id="@+id/colon_between_two_times_clock"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:maxLength="2"
+                    android:text=":"
+                    android:textAlignment="center"
+                    android:textColor="@color/fav"
+                    android:textSize="22sp"
+                    android:gravity="center"
+                    app:layout_constraintBottom_toBottomOf="@+id/hour_for_the_reminder_beside_check_box"
+                    app:layout_constraintStart_toEndOf="@+id/hour_for_the_reminder_beside_check_box"
+                    app:layout_constraintTop_toTopOf="@+id/hour_for_the_reminder_beside_check_box" />
+
+                <EditText
+                    android:id="@+id/minute_for_the_reminder_beside_check_box"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:ems="2"
+                    android:inputType="number"
+                    android:maxLength="2"
+                    android:text="00"
+                    android:textAlignment="center"
+                    android:textColor="@color/fav"
+                    android:textColorHint="@color/fav"
+                    android:theme="@style/SwitchTheme"
+                    android:gravity="center"
+                    app:layout_constraintBottom_toBottomOf="@+id/check_box_asking_to_show_notification"
+                    app:layout_constraintStart_toEndOf="@+id/colon_between_two_times_clock"
+                    app:layout_constraintTop_toTopOf="@+id/check_box_asking_to_show_notification" />
+
+                <Spinner
+                    android:id="@+id/am_or_pm_spinner"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/minute_for_the_reminder_beside_check_box"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <View
+                android:id="@+id/horizontal_line_under_buttons"
+                android:layout_width="0dp"
+                android:layout_height="0.1dp"
+                android:background="@android:color/transparent"
+                android:layout_marginTop="20dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/button_to_set_specific_time" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/give_coins_layout"
+    tools:context=".Give_coins">
+
+    <View
+        android:id="@+id/bar_at_the_top_of_give_coins"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:background="@color/fav"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/button_to_back_in_buy_more_coins"
+        style="?android:attr/borderlessButtonStyle"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_marginStart="5dp"
+        android:background="@drawable/back_button_white"
+        app:layout_constraintBottom_toBottomOf="@+id/bar_at_the_top_of_give_coins"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/text_at_bar_give_coins_buy_more_coins"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Buy Some Coins!!"
+        android:textColor="@color/white"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/bar_at_the_top_of_give_coins"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/bar_at_the_top_of_give_coins" />
+
+    <View
+        android:id="@+id/twenty_percent_view_buy_coins"
+        android:layout_width="0.1dp"
+        android:layout_height="0.1dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.15"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <View
+        android:id="@+id/eighty_percent_view_buy_coins"
+        android:layout_width="0.1dp"
+        android:layout_height="0.1dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.85"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/buy_first_thing_coins_buy_coins"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:background="@drawable/round_rectangle_fav_color"
+        android:text="400 coins"
+        android:textStyle="bold"
+        android:textColor="@color/white"
+        android:textSize="18sp"
+        style="?android:attr/borderlessButtonStyle"
+        android:elevation="3dp"
+        app:layout_constraintBottom_toTopOf="@+id/buy_second_thing_coins_buy_coins"
+        app:layout_constraintEnd_toEndOf="@+id/eighty_percent_view_buy_coins"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="@+id/twenty_percent_view_buy_coins"
+        app:layout_constraintTop_toBottomOf="@+id/bar_at_the_top_of_give_coins" />
+
+    <Button
+        android:id="@+id/buy_second_thing_coins_buy_coins"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:background="@drawable/round_rectangle_fav_color"
+        android:text="1500 coins"
+        android:textStyle="bold"
+        android:textColor="@color/white"
+        android:textSize="18sp"
+        style="?android:attr/borderlessButtonStyle"
+        android:elevation="3dp"
+        app:layout_constraintBottom_toTopOf="@+id/buy_third_thing_coins_buy_coins"
+        app:layout_constraintEnd_toEndOf="@+id/eighty_percent_view_buy_coins"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="@+id/twenty_percent_view_buy_coins"
+        app:layout_constraintTop_toBottomOf="@+id/buy_first_thing_coins_buy_coins" />
+
+    <Button
+        android:id="@+id/buy_third_thing_coins_buy_coins"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:background="@drawable/round_rectangle_fav_color"
+        android:text="3600 coins"
+        android:textStyle="bold"
+        android:textColor="@color/white"
+        android:textSize="18sp"
+        style="?android:attr/borderlessButtonStyle"
+        android:elevation="3dp"
+        app:layout_constraintBottom_toTopOf="@+id/buy_fourth_thing_coins_buy_coins"
+        app:layout_constraintEnd_toEndOf="@+id/eighty_percent_view_buy_coins"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="@+id/twenty_percent_view_buy_coins"
+        app:layout_constraintTop_toBottomOf="@+id/buy_second_thing_coins_buy_coins" />
+
+    <Button
+        android:id="@+id/buy_fourth_thing_coins_buy_coins"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:background="@drawable/round_rectangle_fav_color"
+        android:text="8400 coins"
+        android:textStyle="bold"
+        android:textColor="@color/white"
+        android:textSize="18sp"
+        style="?android:attr/borderlessButtonStyle"
+        android:elevation="3dp"
+        app:layout_constraintBottom_toTopOf="@+id/buy_fifth_thing_coins_buy_coins"
+        app:layout_constraintEnd_toEndOf="@+id/eighty_percent_view_buy_coins"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="@+id/twenty_percent_view_buy_coins"
+        app:layout_constraintTop_toBottomOf="@+id/buy_third_thing_coins_buy_coins" />
+
+    <Button
+        android:id="@+id/buy_fifth_thing_coins_buy_coins"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:background="@drawable/round_rectangle_fav_color"
+        android:text="16000 coins"
+        android:textStyle="bold"
+        android:textColor="@color/white"
+        android:textSize="18sp"
+        style="?android:attr/borderlessButtonStyle"
+        android:elevation="3dp"
+        app:layout_constraintBottom_toTopOf="@+id/buy_sixth_thing_coins_buy_coins"
+        app:layout_constraintEnd_toEndOf="@+id/eighty_percent_view_buy_coins"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="@+id/twenty_percent_view_buy_coins"
+        app:layout_constraintTop_toBottomOf="@+id/buy_fourth_thing_coins_buy_coins" />
+
+    <Button
+        android:id="@+id/buy_sixth_thing_coins_buy_coins"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:background="@drawable/round_rectangle_fav_color"
+        android:text="40000 coins"
+        android:textStyle="bold"
+        android:textColor="@color/white"
+        android:textSize="18sp"
+        style="?android:attr/borderlessButtonStyle"
+        android:elevation="3dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/eighty_percent_view_buy_coins"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="@+id/twenty_percent_view_buy_coins"
+        app:layout_constraintTop_toBottomOf="@+id/buy_fifth_thing_coins_buy_coins" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
