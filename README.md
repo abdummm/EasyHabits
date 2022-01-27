@@ -1,7 +1,7 @@
 # EasyHabits
 Easy habits is an android app that helps you get rid of bad habits and replace them with good ones. It also has a mood tracker, a chat section and an area to post.
 
-To View code [GO HERE](EasyHabits/app/src/main/java/com/easyhabitsapp/android/)
+To view code: [GO HERE](https://github.com/abdummm/EasyHabits/tree/master/app/src/main/java/com/easyhabitsapp/android)
 
 Track your habits            |  Watch your streaks | Get detailed information
 :-------------------------:|:-------------------------: | :-------------------------:
