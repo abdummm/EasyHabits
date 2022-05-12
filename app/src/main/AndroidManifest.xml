@@ -12,7 +12,6 @@
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
-    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
     <uses-permission android:name="android.permission.QUERY_ALL_PACKAGES" />
 
     <application
@@ -26,27 +25,31 @@
         android:supportsRtl="false"
         android:theme="@style/AppTheme"
         tools:replace="allowBackup">
-        <activity android:name="com.easyhabitsapp.android.Add_bad_habits_in_home_button" />
-        <activity android:name="com.easyhabitsapp.android.Weight_tracker_emergency" />
-        <activity android:name="com.easyhabitsapp.android.phone_usage_emergency" />
-        <activity android:name="com.easyhabitsapp.android.Pushups_emergency" />
-        <activity android:name="com.easyhabitsapp.android.Motivational_quotes" />
-        <activity android:name="com.easyhabitsapp.android.Counter_activity" />
-        <activity android:name="com.easyhabitsapp.android.Journal_emergency" />
-        <activity android:name="com.easyhabitsapp.android.Second_screen_to_choose_emergency" />
-        <activity android:name="com.easyhabitsapp.android.Which_habit_do_i_choose" />
+        <activity android:name="com.easyhabitsapp.android.Add_bad_habits_in_home_button" android:exported="true"/>
+        <activity android:name="com.easyhabitsapp.android.Weight_tracker_emergency" android:exported="true"/>
+        <activity android:name="com.easyhabitsapp.android.phone_usage_emergency" android:exported="true"/>
+        <activity android:name="com.easyhabitsapp.android.Pushups_emergency" android:exported="true"/>
+        <activity android:name="com.easyhabitsapp.android.Motivational_quotes" android:exported="true"/>
+        <activity android:name="com.easyhabitsapp.android.Counter_activity" android:exported="true" />
+        <activity android:name="com.easyhabitsapp.android.Journal_emergency" android:exported="true"/>
+        <activity android:name="com.easyhabitsapp.android.Second_screen_to_choose_emergency" android:exported="true"/>
+        <activity android:name="com.easyhabitsapp.android.Which_habit_do_i_choose" android:exported="true"/>
         <activity
             android:name="com.easyhabitsapp.android.Cold_shower_activity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:exported="true"/>
         <activity
             android:name="com.easyhabitsapp.android.Locking_the_screen"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:exported="true"/>
         <activity
             android:name="com.easyhabitsapp.android.First_screen"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:exported="true"/>
         <activity
             android:name="com.easyhabitsapp.android.MainActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:exported="true"/>
 
         <service
             android:name="com.easyhabitsapp.android.Lock_phone_service"
@@ -59,7 +62,8 @@
             android:screenOrientation="portrait" />
         <activity
             android:name="com.easyhabitsapp.android.Before_main_activity"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

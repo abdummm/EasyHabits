@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -64,9 +65,10 @@ public class habits_fragment extends Fragment {
                 list_for_habits.add(new Example_item_emergency(Color.parseColor("#000075"),"Mood tracker",return_the_icon("happy_face_navy"),false));
             }
             list_for_habits.add(new Example_item_emergency(Color.parseColor("#2ea8b6"),"Journal",return_the_icon("round_edit_24")));
-            list_for_habits.add(new Example_item_emergency(Color.parseColor("#f66b55"),"Lock Phone",return_the_icon("round_screen_lock_portrait_24")));
+            //list_for_habits.add(new Example_item_emergency(Color.parseColor("#f66b55"),"Lock Phone",return_the_icon("round_screen_lock_portrait_24")));
             list_for_habits.add(new Example_item_emergency(Color.parseColor("#cc4545"),"Weight Tracker",return_the_icon("round_local_dining_24")));
             list_for_habits.add(new Example_item_emergency(Color.parseColor("#5757e7"),"Counter",return_the_icon("round_add_circle_24")));
+            list_for_habits.add(new Example_item_emergency(Color.parseColor("#f66b55"),"More Coming Soon...",return_the_icon("round_add_circle_24")));
             Adapter_for_emergency adapter = new Adapter_for_emergency(list_for_habits);
             adapter.set_on_item_click_listener_for_mood(new Adapter_for_emergency.OnItemClickListener() {
                 @Override
@@ -92,10 +94,10 @@ public class habits_fragment extends Fragment {
                             Intent intent = new Intent(getActivity(), Journal_emergency.class);
                             startActivity(intent);
                             getActivity().overridePendingTransition(0, 0);
-                        } else if (which.equals("Lock Phone")) {
+                        /*} else if (which.equals("Lock Phone")) {
                             Intent intent = new Intent(getActivity(), Locking_the_screen.class);
                             startActivity(intent);
-                            getActivity().overridePendingTransition(0, 0);
+                            getActivity().overridePendingTransition(0, 0);*/
                         } else if (which.equals("Weight Tracker")) {
                             Intent intent = new Intent(getActivity(), Weight_tracker_emergency.class);
                             startActivity(intent);
@@ -104,6 +106,8 @@ public class habits_fragment extends Fragment {
                             Intent intent = new Intent(getActivity(), Counter_activity.class);
                             startActivity(intent);
                             getActivity().overridePendingTransition(0, 0);
+                        } else if (which.equals("More Coming Soon...")) {
+                            Toast.makeText(getActivity(), "More tools are coming soon", Toast.LENGTH_SHORT).show();
                         }
                     }
                 }
