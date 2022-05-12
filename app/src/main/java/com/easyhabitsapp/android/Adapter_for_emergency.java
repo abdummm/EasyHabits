@@ -54,13 +54,21 @@ public class Adapter_for_emergency extends RecyclerView.Adapter<Adapter_for_emer
         if(current_item.getText().equals("Mood tracker")){
             holder.not_mood_tracker_in_the_card.setVisibility(View.GONE);
             holder.mood_tracker_in_the_card.setVisibility(View.VISIBLE);
+            holder.layout_saying_more_comming_soon_in_card.setVisibility(View.GONE);
             holder.card_to_show_bad_habits_in_home_main.setCardBackgroundColor(current_item.getColor());
             set_the_on_button_click_listen(holder);
             set_entry_today(holder,current_item.isEntry_today());
             holder.text_saying_thanks_for_your_input.setText("Today's input has been recorded");
-        } else {
+        } else if(current_item.getText().equals("More Coming Soon...")){
+            holder.layout_saying_more_comming_soon_in_card.setVisibility(View.VISIBLE);
+            holder.not_mood_tracker_in_the_card.setVisibility(View.GONE);
+            holder.mood_tracker_in_the_card.setVisibility(View.GONE);
+            holder.card_to_show_bad_habits_in_home_main.setCardBackgroundColor(current_item.getColor());
+        }
+        else {
             holder.not_mood_tracker_in_the_card.setVisibility(View.VISIBLE);
             holder.mood_tracker_in_the_card.setVisibility(View.GONE);
+            holder.layout_saying_more_comming_soon_in_card.setVisibility(View.GONE);
             holder.card_to_show_bad_habits_in_home_main.setCardBackgroundColor(current_item.getColor());
             holder.text_saying_streak_in_card.setText(current_item.getText());
             set_the_icon(current_item.getDrawable(),holder,current_item.getColor());
@@ -100,6 +108,7 @@ public class Adapter_for_emergency extends RecyclerView.Adapter<Adapter_for_emer
         public View ok_mood_in_habits;
         public View good_mood_in_habits;
         public View very_good_mood_in_habits;
+        public ConstraintLayout layout_saying_more_comming_soon_in_card;
         public ExampleViewHolder(@NonNull View itemView) {
             super(itemView);
             text_saying_streak_in_card = itemView.findViewById(R.id.text_saying_streak_in_card);
@@ -118,6 +127,7 @@ public class Adapter_for_emergency extends RecyclerView.Adapter<Adapter_for_emer
             ok_mood_in_habits = itemView.findViewById(R.id.ok_mood_in_habits);
             good_mood_in_habits = itemView.findViewById(R.id.good_mood_in_habits);
             very_good_mood_in_habits = itemView.findViewById(R.id.very_good_mood_in_habits);
+            layout_saying_more_comming_soon_in_card = itemView.findViewById(R.id.layout_saying_more_comming_soon_in_card);
         }
     }
 

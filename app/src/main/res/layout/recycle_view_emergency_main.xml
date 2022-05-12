@@ -17,6 +17,30 @@
         android:layout_margin="4dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layout_saying_more_comming_soon_in_card"
+            android:layout_width="match_parent"
+            android:layout_height="126dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:id="@+id/text_saying_soon_in_card"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="More Coming Soon..."
+                android:textColor="@color/white"
+                android:textSize="19sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/not_mood_tracker_in_the_card"
             android:layout_width="match_parent"
             android:layout_height="126dp"

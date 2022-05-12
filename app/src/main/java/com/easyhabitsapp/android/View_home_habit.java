@@ -8668,13 +8668,17 @@ public class View_home_habit extends Fragment implements PopupMenu.OnMenuItemCli
             TextView text_asking_did_you_relapse_in_share = getView().findViewById(R.id.text_asking_did_you_relapse_in_share);
             ConstraintLayout calender_in_stats = getView().findViewById(R.id.calender_in_stats);
             if (which == 0) {
-                if(return_the_information_from_save(7).equals("yes/no")){
-                    button_saying_yes_under_calender_in_good_habits.setVisibility(View.GONE);
-                    button_saying_no_under_calender_in_good_habits.setVisibility(View.GONE);
-                } else if(return_the_information_from_save(7).equals("amount")){
+                if(return_the_information_from_save(6).equals("bad")){
 
-                } else if (return_the_information_from_save(7).equals("timer")){
+                } else {
+                    if(return_the_information_from_save(7).equals("yes/no")){
+                        button_saying_yes_under_calender_in_good_habits.setVisibility(View.GONE);
+                        button_saying_no_under_calender_in_good_habits.setVisibility(View.GONE);
+                    } else if(return_the_information_from_save(7).equals("amount")){
 
+                    } else if (return_the_information_from_save(7).equals("timer")){
+
+                    }
                 }
                 text_asking_did_you_relapse_in_share.setVisibility(View.GONE);
                 ConstraintLayout constraintLayout = getView().findViewById(R.id.layout_containting_the_calender);
