@@ -211,7 +211,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:gravity="center"
-                    android:text="Yes/No example: Did you read today?\nAmount: How many pages did you read today?\nTimer: How many minutes did you read today?"
+                    android:text="Yes/No example: Did you read today?\nAmount: How many pages did you read today?\nTimer: For how many minutes did you read today?"
                     android:textAlignment="center"
                     android:textColor="@color/fav"
                     android:textSize="14.5sp"

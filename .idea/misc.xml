@@ -3,6 +3,15 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="app/src/main/res/drawable/arrow_down_down_vote_card.xml" value="0.1645" />
+        <entry key="app/src/main/res/drawable/ic_round_remove_24.xml" value="0.1645" />
+        <entry key="app/src/main/res/drawable/rectangle_with_opacity.xml" value="0.1645" />
+        <entry key="app/src/main/res/drawable/remove-48px.xml" value="0.195" />
+        <entry key="app/src/main/res/drawable/removing_corners_for_view.xml" value="0.1645" />
+        <entry key="app/src/main/res/drawable/round_add_24.xml" value="0.1645" />
+        <entry key="app/src/main/res/drawable/round_brush_24.xml" value="0.1645" />
+        <entry key="app/src/main/res/drawable/round_corener_progress_bar_negative.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/fragment_add_a_habit.xml" value="0.15520833333333334" />
         <entry key="app/src/main/res/layout/fragment_habits_fragment.xml" value="0.17572463768115942" />
         <entry key="app/src/main/res/layout/fragment_view_home_habit.xml" value="0.20425724637681159" />
         <entry key="app/src/main/res/layout/recycle_view_emergency_main.xml" value="0.1528045654296875" />

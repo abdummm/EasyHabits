@@ -1452,39 +1452,58 @@
                         android:ems="5"
                         android:layout_marginTop="15dp"
                         android:visibility="gone"
+                        android:text="0"
+                        android:gravity="center"
+                        android:textAlignment="center"
                         app:layout_constraintTop_toBottomOf="@+id/text_asking_did_you_relapse_in_share"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"/>
 
+                    <Button
+                        style="?android:attr/borderlessButtonStyle"
+                        android:id="@+id/negative_button_beside_amount_in_view_habit"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:visibility="gone"
+                        android:background="@drawable/ripple_for_all_circle"
+                        app:layout_constraintStart_toStartOf="@+id/negative_view_beside_amount_in_view_habit"
+                        app:layout_constraintEnd_toEndOf="@+id/negative_view_beside_amount_in_view_habit"
+                        app:layout_constraintTop_toTopOf="@+id/negative_view_beside_amount_in_view_habit"
+                        app:layout_constraintBottom_toBottomOf="@+id/negative_view_beside_amount_in_view_habit"/>
+
+                    <Button
+                        style="?android:attr/borderlessButtonStyle"
+                        android:id="@+id/positive_button_beside_amount_in_view_habit"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:visibility="gone"
+                        android:background="@drawable/ripple_for_all_circle"
+                        app:layout_constraintStart_toStartOf="@+id/positive_view_beside_amount_in_view_habit"
+                        app:layout_constraintEnd_toEndOf="@+id/positive_view_beside_amount_in_view_habit"
+                        app:layout_constraintTop_toTopOf="@+id/positive_view_beside_amount_in_view_habit"
+                        app:layout_constraintBottom_toBottomOf="@+id/positive_view_beside_amount_in_view_habit"/>
+
                     <View
                         android:id="@+id/negative_view_beside_amount_in_view_habit"
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
                         android:layout_marginEnd="15dp"
                         android:visibility="gone"
+                        android:background="@drawable/ic_round_remove_24"
                         app:layout_constraintEnd_toStartOf="@+id/how_many_times_did_you_do_this_habit_edit_text"
                         app:layout_constraintTop_toTopOf="@+id/how_many_times_did_you_do_this_habit_edit_text"
                         app:layout_constraintBottom_toBottomOf="@+id/how_many_times_did_you_do_this_habit_edit_text"/>
 
                     <View
                         android:id="@+id/positive_view_beside_amount_in_view_habit"
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
                         android:layout_marginStart="15dp"
                         android:visibility="gone"
+                        android:background="@drawable/round_add_24"
                         app:layout_constraintStart_toEndOf="@+id/how_many_times_did_you_do_this_habit_edit_text"
                         app:layout_constraintTop_toTopOf="@+id/how_many_times_did_you_do_this_habit_edit_text"
                         app:layout_constraintBottom_toBottomOf="@+id/how_many_times_did_you_do_this_habit_edit_text"/>
-
-                    <Button
-                        android:id="@+id/negative_button_beside_amount_in_view_habit"
-                        android:layout_width="25dp"
-                        android:layout_height="25dp"
-                        android:visibility="gone"
-                        app:layout_constraintStart_toStartOf="@+id/negative_view_beside_amount_in_view_habit"
-                        app:layout_constraintEnd_toEndOf="@+id/negative_view_beside_amount_in_view_habit"
-                        app:layout_constraintTop_toTopOf="@+id/negative_view_beside_amount_in_view_habit"
-                        app:layout_constraintBottom_toBottomOf="@+id/negative_view_beside_amount_in_view_habit"/>
 
 
                     <Button
