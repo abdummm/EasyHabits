@@ -67,6 +67,9 @@ public class habits_data_class implements Serializable {
     @ColumnInfo(name = "relapse_amount_timer")
     private HashMap<Long,Integer> relapse_amount_timer;
 
+    @ColumnInfo(name = "relapse_amount")
+    private HashMap<Long,Integer> relapse_amount;
+
     public String getNotifications_freq_extra() {
         return notifications_freq_extra;
     }
@@ -217,5 +220,13 @@ public class habits_data_class implements Serializable {
 
     public void setRelapse_amount_timer(HashMap<Long, Integer> relapse_amount_timer) {
         this.relapse_amount_timer = relapse_amount_timer;
+    }
+
+    public HashMap<Long, Integer> getRelapse_amount() {
+        return relapse_amount;
+    }
+
+    public void setRelapse_amount(HashMap<Long, Integer> relapse_amount) {
+        this.relapse_amount = relapse_amount;
     }
 }

@@ -667,8 +667,10 @@ public class add_a_habit extends Fragment {
             }
             ArrayList<Long> relapse = new ArrayList<>();
             habits_data_class.setRelapse(relapse);
-            HashMap<Long,Integer> hasmap = new HashMap<>();
+            HashMap<Long, Integer> hasmap = new HashMap<>();
+            HashMap<Long, Integer> amount_hashmap = new HashMap<>();
             habits_data_class.setRelapse_amount_timer(hasmap);
+            habits_data_class.setRelapse_amount(amount_hashmap);
             Room_database_habits database_habits = Room_database_habits.getInstance(getContext());
             database_habits.dao_for_habits_data().insert(habits_data_class);
         }
@@ -709,7 +711,7 @@ public class add_a_habit extends Fragment {
                 if (spinner_saying_minutes_or_hours.getSelectedItemPosition() == 0) {
                     habits_data_class.setExtra_type_info(Integer.parseInt(edit_text_to_enter_time_in_add_habit.getText().toString()));
                 } else {
-                    habits_data_class.setExtra_type_info(Integer.parseInt(edit_text_to_enter_time_in_add_habit.getText().toString())*60);
+                    habits_data_class.setExtra_type_info(Integer.parseInt(edit_text_to_enter_time_in_add_habit.getText().toString()) * 60);
                 }
             }
 
@@ -763,8 +765,10 @@ public class add_a_habit extends Fragment {
             ArrayList<Long> relapse = new ArrayList<>();
             habits_data_class.setRelapse(relapse);
 
-            HashMap<Long,Integer> hasmap = new HashMap<>();
+            HashMap<Long, Integer> hasmap = new HashMap<>();
+            HashMap<Long, Integer> amount_hashmap = new HashMap<>();
             habits_data_class.setRelapse_amount_timer(hasmap);
+            habits_data_class.setRelapse_amount(amount_hashmap);
             Room_database_habits database_habits = Room_database_habits.getInstance(getContext());
             database_habits.dao_for_habits_data().insert(habits_data_class);
         }
@@ -1053,6 +1057,22 @@ public class add_a_habit extends Fragment {
                                     }
                                     if (!sunday) {
                                         show_which_days_are_chosen_add_a_habit.setText("Everyday except Sunday");
+                                    }
+                                } else if (text.length() == 2) {
+                                    if(text.equals("Mo")){
+                                        show_which_days_are_chosen_add_a_habit.setText("Monday");
+                                    }else if(text.equals("Tu")){
+                                        show_which_days_are_chosen_add_a_habit.setText("Tuesday");
+                                    }else if(text.equals("We")){
+                                        show_which_days_are_chosen_add_a_habit.setText("Wednesday");
+                                    }else if(text.equals("Th")){
+                                        show_which_days_are_chosen_add_a_habit.setText("Thursday");
+                                    }else if(text.equals("Fr")){
+                                        show_which_days_are_chosen_add_a_habit.setText("Friday");
+                                    }else if(text.equals("Sa")){
+                                        show_which_days_are_chosen_add_a_habit.setText("Saturday");
+                                    }else if(text.equals("Su")){
+                                        show_which_days_are_chosen_add_a_habit.setText("Sunday");
                                     }
                                 } else {
                                     boolean monday = false;
