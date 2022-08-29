@@ -972,7 +972,7 @@ public class edit_bad_habits extends Fragment {
             Button button_to_submit_good_habit_in_habits = getView().findViewById(R.id.button_to_submit_good_habit_in_habits);
             Button Bad_habit_button_in_add_a_habit = getView().findViewById(R.id.Bad_habit_button_in_add_a_habit);
             Button good_habit_button_in_add_a_habit = getView().findViewById(R.id.good_habit_button_in_add_a_habit);
-            final add_a_habit add_a_habit = (add_a_habit) getActivity().getSupportFragmentManager().findFragmentByTag("add a habit");
+            final edit_bad_habits edit_bad_habits = (edit_bad_habits) getActivity().getSupportFragmentManager().findFragmentByTag("edit bad habit");
             final home_fragment home_fragment = (com.easyhabitsapp.android.home_fragment) getActivity().getSupportFragmentManager().findFragmentByTag("home");
             button_to_submit_good_habit_in_habits.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -983,9 +983,9 @@ public class edit_bad_habits extends Fragment {
                         } else {
                             save_the_data_good();
                         }
-                        if (add_a_habit != null) {
+                        if (edit_bad_habits != null) {
                             if (getActivity() != null && home_fragment != null) {
-                                getActivity().getSupportFragmentManager().beginTransaction().show(home_fragment).remove(add_a_habit).commit();
+                                getActivity().getSupportFragmentManager().beginTransaction().show(home_fragment).remove(edit_bad_habits).commit();
                             }
                         }
                     }
