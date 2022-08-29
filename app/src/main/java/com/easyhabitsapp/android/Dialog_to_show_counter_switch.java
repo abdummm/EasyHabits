@@ -29,6 +29,7 @@ public class Dialog_to_show_counter_switch extends DialogFragment {
         this.mview = rootView;
         if (getDialog() != null) {
             getDialog().setCanceledOnTouchOutside(false);
+            getDialog().setCancelable(false);
         }
         TextView title_of_dialog_white_list = mview.findViewById(R.id.title_of_dialog_white_list);
         title_of_dialog_white_list.setText("Switch Counters");

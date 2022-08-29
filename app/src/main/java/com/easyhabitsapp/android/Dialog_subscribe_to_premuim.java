@@ -44,6 +44,7 @@ public class Dialog_subscribe_to_premuim extends DialogFragment {
         }
         if (getDialog() != null) {
             getDialog().setCanceledOnTouchOutside(false);
+            getDialog().setCancelable(false);
         }
         return rootView;
     }

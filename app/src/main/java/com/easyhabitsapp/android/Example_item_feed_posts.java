@@ -296,11 +296,12 @@ public class Example_item_feed_posts {
         return m_firebaseFirestore;
     }
     public boolean are_me_signed_with_google(){
-        if(FirebaseAuth.getInstance().getCurrentUser() != null && FirebaseAuth.getInstance().getCurrentUser().getIdToken(false).getResult().getSignInProvider().equals("google.com")){
+        /*if(FirebaseAuth.getInstance().getCurrentUser() != null && FirebaseAuth.getInstance().getCurrentUser().getIdToken(false).getResult().getSignInProvider().equals("google.com")){
             return true;
         } else {
             return false;
-        }
+        }*/
+        return true;
     }
     public boolean is_this_reported(){
         return was_this_reported;

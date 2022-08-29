@@ -105,7 +105,7 @@ public class Write_comment_for_post extends Fragment {
             set_the_title(bundle.getString("title"));
         }
         x_button_listen();
-        add_category_button_lsiten();
+//        add_category_button_lsiten();
     }
 
     private void set_the_title(String text) {
@@ -117,6 +117,7 @@ public class Write_comment_for_post extends Fragment {
 
     private void post_button_listen(final String document_id, final String mode) {
         if (getView() != null) {
+            TextView add_comment_id_in_full_comment = getView().findViewById(R.id.add_comment_id_in_full_comment);
             Button button_to_post_comment_in_full_comment_view = getView().findViewById(R.id.button_to_post_comment_in_full_comment_view);
             final EditText edit_text_to_enter_comment_in_full_view = getView().findViewById(R.id.edit_text_to_enter_comment_in_full_view);
             button_to_post_comment_in_full_comment_view.setOnClickListener(new View.OnClickListener() {
@@ -128,15 +129,18 @@ public class Write_comment_for_post extends Fragment {
                     } else if (edit_text_to_enter_comment_in_full_view.getText().toString().trim().length() > 40000) {
                         Toast toast = Toast.makeText(getContext(), "Comment is too long", Toast.LENGTH_SHORT);
                         toast.show();
-                    } else if (category_global.isEmpty()) {
+                    }/* else if (category_global.isEmpty()) {
                         Toast toast = Toast.makeText(getContext(), "Please choose a category by pressing the \"Choose Category\"", Toast.LENGTH_SHORT);
                         toast.show();
-                    } else {
+                    }*/ else {
                         if (mode.equals("comment")) {
+                            add_comment_id_in_full_comment.setText("Add a comment");
                             add_the_comment(document_id, edit_text_to_enter_comment_in_full_view.getText().toString().trim());
                         } else if (mode.equals("reply")) {
+                            add_comment_id_in_full_comment.setText("Add a reply");
                             add_a_reply(edit_text_to_enter_comment_in_full_view.getText().toString().trim(), position_of_comment, document_id);
                         } else if (mode.equals("reply_to_reply")) {
+                            add_comment_id_in_full_comment.setText("Add a reply");
                             String combine = edit_text_to_enter_comment_in_full_view.getText().toString().trim();
                             combine = combine.replace("@".concat(name_of_the_reply),"").trim();
                             if(combine.length() == 0){
@@ -156,7 +160,7 @@ public class Write_comment_for_post extends Fragment {
     private void add_the_comment(String document_id, final String body_of_the_comment) {
         if (getView() != null) {
             final DocumentReference sfDocRef = firebaseFirestore.collection("posts").document(document_id);
-            final CheckBox check_box_to_ask_add_streak_to_comment_in_add_a_comment = getView().findViewById(R.id.check_box_to_ask_add_streak_to_comment_in_add_a_comment);
+            //final CheckBox check_box_to_ask_add_streak_to_comment_in_add_a_comment = getView().findViewById(R.id.check_box_to_ask_add_streak_to_comment_in_add_a_comment);
             firebaseFirestore.runTransaction(new Transaction.Function<Void>() {
                 @Override
                 public Void apply(@NotNull Transaction transaction) throws FirebaseFirestoreException {
@@ -187,15 +191,15 @@ public class Write_comment_for_post extends Fragment {
                     map.put("reports", reports);
 
 
-                    if (check_box_to_ask_add_streak_to_comment_in_add_a_comment.getVisibility() == View.VISIBLE && check_box_to_ask_add_streak_to_comment_in_add_a_comment.isChecked()) {
+                    /*if (check_box_to_ask_add_streak_to_comment_in_add_a_comment.getVisibility() == View.VISIBLE && check_box_to_ask_add_streak_to_comment_in_add_a_comment.isChecked()) {
                         map.put("streak", streak_global);
                     } else {
                         map.put("streak", -1L);
-                    }
+                    }*/
 
                     map.put("user_id", firebaseUser.getUid());
 
-                    map.put("category", category_global);
+//                    map.put("category", category_global);
 
                     map.put("date", Timestamp.now());
 
@@ -220,11 +224,12 @@ public class Write_comment_for_post extends Fragment {
                     if (getActivity() != null) {
                         Show_full_post old_fragment = (Show_full_post) getActivity().getSupportFragmentManager().findFragmentByTag("show full post");
                         if (old_fragment != null) {
-                            if (check_box_to_ask_add_streak_to_comment_in_add_a_comment.getVisibility() == View.VISIBLE && check_box_to_ask_add_streak_to_comment_in_add_a_comment.isChecked()) {
+                            /*if (check_box_to_ask_add_streak_to_comment_in_add_a_comment.getVisibility() == View.VISIBLE && check_box_to_ask_add_streak_to_comment_in_add_a_comment.isChecked()) {
                                 old_fragment.add_new_comment(body_of_the_comment, awards, false, up_vote_list, array_list_with_down_vote, reports, streak_global, firebaseUser.getUid(), replies, position_of_comment_to_save, Timestamp.now(), category_global, array_list_comments, name);
                             } else {
                                 old_fragment.add_new_comment(body_of_the_comment, awards, false, up_vote_list, array_list_with_down_vote, reports, -1L, firebaseUser.getUid(), replies, position_of_comment_to_save, Timestamp.now(), category_global, array_list_comments, name);
-                            }
+                            }*/
+                            old_fragment.add_new_comment(body_of_the_comment, awards, false, up_vote_list, array_list_with_down_vote, reports, -1L, firebaseUser.getUid(), replies, position_of_comment_to_save, Timestamp.now(), "", array_list_comments, name);
                             getActivity().getSupportFragmentManager().beginTransaction().remove(Write_comment_for_post.this).show(old_fragment).commit();
                         }
                     }
@@ -254,7 +259,7 @@ public class Write_comment_for_post extends Fragment {
     public void x_or_back_was_pressed() {
         if (getView() != null && getActivity() != null) {
             EditText edit_text_to_enter_comment_in_full_view = getView().findViewById(R.id.edit_text_to_enter_comment_in_full_view);
-            if (!edit_text_to_enter_comment_in_full_view.getText().toString().trim().isEmpty() && !edit_text_to_enter_comment_in_full_view.getText().toString().trim().equals("@".concat(name_of_the_reply))) {
+            if (!edit_text_to_enter_comment_in_full_view.getText().toString().trim().isEmpty() && name_of_the_reply!=null &&!edit_text_to_enter_comment_in_full_view.getText().toString().trim().equals("@".concat(name_of_the_reply))) {
                 new AlertDialog.Builder(getContext())
                         .setTitle("Discard comment")
                         .setMessage("Are you sure you want to discard this comment?")
@@ -311,7 +316,7 @@ public class Write_comment_for_post extends Fragment {
         }
     }
 
-    private void add_category_button_lsiten() {
+    /*private void add_category_button_lsiten() {
         if (getView() != null) {
             Button choose_categpry_button_in_write_a_comment_to_add = getView().findViewById(R.id.choose_categpry_button_in_write_a_comment_to_add);
             choose_categpry_button_in_write_a_comment_to_add.setOnClickListener(new View.OnClickListener() {
@@ -323,20 +328,20 @@ public class Write_comment_for_post extends Fragment {
                 }
             });
         }
-    }
+    }*/
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         switch (requestCode) {
             case 1001:
                 category_global = data.getStringExtra("habit_name");
-                make_the_check_box_visisble_or_no();
-                rename_button();
+                //make_the_check_box_visisble_or_no();
+                //rename_button();
                 break;
         }
     }
 
-    private void make_the_check_box_visisble_or_no() {
+    /*private void make_the_check_box_visisble_or_no() {
         if (getView() != null) {
             CheckBox check_box_to_ask_add_streak_to_comment_in_add_a_comment = getView().findViewById(R.id.check_box_to_ask_add_streak_to_comment_in_add_a_comment);
             int value = check_if_cat_already_exists();
@@ -354,9 +359,9 @@ public class Write_comment_for_post extends Fragment {
                 check_box_to_ask_add_streak_to_comment_in_add_a_comment.setVisibility(View.INVISIBLE);
             }
         }
-    }
+    }*/
 
-    private int check_if_cat_already_exists() {
+    /*private int check_if_cat_already_exists() {
         if (getActivity() != null && getContext() != null) {
             SharedPreferences sharedPreferences = getActivity().getSharedPreferences("list_of_the_bad_habits", getContext().MODE_PRIVATE);
             String bad_habits = sharedPreferences.getString("Bad_habits", "");
@@ -376,9 +381,9 @@ public class Write_comment_for_post extends Fragment {
         } else {
             return -1;
         }
-    }
+    }*/
 
-    private int return_the_streak(String name, String real_time) {
+    /*private int return_the_streak(String name, String real_time) {
         SharedPreferences sharedPreferences = getActivity().getSharedPreferences("bad_habits_relapses", MODE_PRIVATE);
         String old = sharedPreferences.getString(name.toLowerCase(), "");
         String[] split_the_dates = old.split("split_here_small");
@@ -389,14 +394,14 @@ public class Write_comment_for_post extends Fragment {
             old_time = Long.parseLong(real_time);
         }
         return (int) TimeUnit.MILLISECONDS.toDays(System.currentTimeMillis() - old_time);
-    }
+    }*/
 
-    private void rename_button() {
+    /*private void rename_button() {
         if (getView() != null) {
             Button choose_categpry_button_in_write_a_comment_to_add = getView().findViewById(R.id.choose_categpry_button_in_write_a_comment_to_add);
             choose_categpry_button_in_write_a_comment_to_add.setText(category_global);
         }
-    }
+    }*/
 
     private String first_letter_capital(String sentence) {
         return sentence.substring(0, 1).toUpperCase() + sentence.substring(1);
@@ -405,7 +410,7 @@ public class Write_comment_for_post extends Fragment {
     private void add_a_reply(final String body, final int position_of_comment, String document_id) {
         if (getView() != null) {
             final DocumentReference sfDocRef = firebaseFirestore.collection("posts").document(document_id);
-            final CheckBox check_box_to_ask_add_streak_to_comment_in_add_a_comment = getView().findViewById(R.id.check_box_to_ask_add_streak_to_comment_in_add_a_comment);
+            //final CheckBox check_box_to_ask_add_streak_to_comment_in_add_a_comment = getView().findViewById(R.id.check_box_to_ask_add_streak_to_comment_in_add_a_comment);
             firebaseFirestore.runTransaction(new Transaction.Function<Void>() {
                 @Override
                 public Void apply(@NotNull Transaction transaction) throws FirebaseFirestoreException {
@@ -437,15 +442,15 @@ public class Write_comment_for_post extends Fragment {
                     map.put("reports", reports);
 
 
-                    if (check_box_to_ask_add_streak_to_comment_in_add_a_comment.getVisibility() == View.VISIBLE && check_box_to_ask_add_streak_to_comment_in_add_a_comment.isChecked()) {
+                    /*if (check_box_to_ask_add_streak_to_comment_in_add_a_comment.getVisibility() == View.VISIBLE && check_box_to_ask_add_streak_to_comment_in_add_a_comment.isChecked()) {
                         map.put("streak", streak_global);
                     } else {
                         map.put("streak", -1L);
-                    }
+                    }*/
 
                     map.put("user_id", firebaseUser.getUid());
 
-                    map.put("category", category_global);
+                    //map.put("category", category_global);
 
                     map.put("date", Timestamp.now());
                     name = return_the_name();
@@ -468,11 +473,12 @@ public class Write_comment_for_post extends Fragment {
                     if (getActivity() != null) {
                         Show_full_post old_fragment = (Show_full_post) getActivity().getSupportFragmentManager().findFragmentByTag("show full post");
                         if (old_fragment != null) {
-                            if (check_box_to_ask_add_streak_to_comment_in_add_a_comment.getVisibility() == View.VISIBLE && check_box_to_ask_add_streak_to_comment_in_add_a_comment.isChecked()) {
+                            /*if (check_box_to_ask_add_streak_to_comment_in_add_a_comment.getVisibility() == View.VISIBLE && check_box_to_ask_add_streak_to_comment_in_add_a_comment.isChecked()) {
                                 old_fragment.reply_to_the_comment(repleis_inside_array_list, recycle_view_position,position_of_comment, position_of_reply);
                             } else {
                                 old_fragment.reply_to_the_comment(repleis_inside_array_list, recycle_view_position,position_of_comment, position_of_reply);
-                            }
+                            }*/
+                            old_fragment.reply_to_the_comment(repleis_inside_array_list, recycle_view_position,position_of_comment, position_of_reply);
                             getActivity().getSupportFragmentManager().beginTransaction().remove(Write_comment_for_post.this).show(old_fragment).commit();
                         }
                     }

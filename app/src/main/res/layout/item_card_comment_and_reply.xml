@@ -64,7 +64,7 @@
                 app:layout_constraintStart_toEndOf="@+id/circle_between_name_and_time_in_card_comment_reply_card"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <View
+            <!--<View
                 android:id="@+id/circle_between_time_and_cat_in_card_comment_reply"
                 android:layout_width="5dp"
                 android:layout_height="5dp"
@@ -106,7 +106,7 @@
                 android:textSize="12sp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toEndOf="@+id/circle_between_time_and_cat_in_streak_in_post_comment_reply"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent" />-->
 
             <TextView
                 android:id="@+id/title_for_post_in_posts_to_show_for_public"

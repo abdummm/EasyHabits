@@ -64,7 +64,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <View
-                android:id="@+id/circle_between_time_and_cat_in_card"
+                android:id="@+id/circle_between_time_and_dev_in_card"
                 android:layout_width="5dp"
                 android:layout_height="5dp"
                 android:layout_marginStart="5dp"
@@ -73,7 +73,7 @@
                 app:layout_constraintStart_toEndOf="@+id/text_at_top_left_of_card_to_show_time"
                 app:layout_constraintTop_toTopOf="@+id/text_at_top_left_of_card_to_show_time" />
 
-            <TextView
+            <!--<TextView
                 android:id="@+id/text_at_the_top_showing_what_category_this_is_in"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -83,9 +83,9 @@
                 android:textSize="12sp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toEndOf="@+id/circle_between_time_and_cat_in_card"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent" />-->
 
-            <View
+            <!--<View
                 android:id="@+id/circle_between_time_and_cat_in_streak_in_post"
                 android:layout_width="5dp"
                 android:layout_height="5dp"
@@ -93,9 +93,9 @@
                 android:background="@drawable/circle_colored_fav_for_journal"
                 app:layout_constraintBottom_toBottomOf="@+id/text_at_top_left_of_card_to_show_time"
                 app:layout_constraintStart_toEndOf="@+id/text_at_the_top_showing_what_category_this_is_in"
-                app:layout_constraintTop_toTopOf="@+id/text_at_top_left_of_card_to_show_time" />
+                app:layout_constraintTop_toTopOf="@+id/text_at_top_left_of_card_to_show_time" />-->
 
-            <TextView
+            <!--<TextView
                 android:id="@+id/text_at_the_top_showing_how_much_is_the_streak"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -105,9 +105,9 @@
                 android:textSize="12sp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toEndOf="@+id/circle_between_time_and_cat_in_streak_in_post"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent" />-->
 
-            <View
+            <!--<View
                 android:id="@+id/circle_between_the_streak_and_the_dev_icon"
                 android:layout_width="5dp"
                 android:layout_height="5dp"
@@ -115,7 +115,7 @@
                 android:background="@drawable/circle_colored_fav_for_journal"
                 app:layout_constraintBottom_toBottomOf="@+id/text_at_top_left_of_card_to_show_time"
                 app:layout_constraintStart_toEndOf="@+id/text_at_the_top_showing_how_much_is_the_streak"
-                app:layout_constraintTop_toTopOf="@+id/text_at_top_left_of_card_to_show_time" />
+                app:layout_constraintTop_toTopOf="@+id/text_at_top_left_of_card_to_show_time" />-->
 
             <TextView
                 android:id="@+id/text_view_saying_i_am_the_dev_of_the_app"
@@ -128,7 +128,7 @@
                 android:layout_marginTop="5dp"
                 android:textStyle="bold"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/circle_between_the_streak_and_the_dev_icon"/>
+                app:layout_constraintStart_toEndOf="@+id/circle_between_time_and_dev_in_card"/>
 
             <View
                 android:id="@+id/view_at_the_top_of_the_dev_object"

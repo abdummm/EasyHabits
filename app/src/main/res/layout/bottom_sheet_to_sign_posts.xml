@@ -10,39 +10,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
-        android:text="Sign in to be able to write posts!!"
+        android:text="Sign in with google"
         android:textColor="@color/black"
         android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
-    <EditText
-        android:id="@+id/edit_text_to_enter_name_for_account_in_online_post"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:layout_marginStart="30dp"
-        android:layout_marginEnd="30dp"
-        android:hint="Enter your name"
-        android:gravity="center"
-        android:theme="@style/SwitchTheme"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/text_saying_sign_in_without_writing_posts" />
-
-    <TextView
-        android:id="@+id/text_view_under_edit_text_saying_name_is_visible"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Please note that your name will be visible online"
-        android:textColor="@color/black"
-        android:textSize="11sp"
-        android:layout_marginTop="5dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edit_text_to_enter_name_for_account_in_online_post" />
 
     <CheckBox
         android:id="@+id/text_box_sating_i_agree_to_terms_and_services"
@@ -59,7 +33,7 @@
         android:textColorLink="#007bff"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/text_view_under_edit_text_saying_name_is_visible" />
+        app:layout_constraintTop_toBottomOf="@+id/text_saying_sign_in_without_writing_posts" />
     <Button
         android:id="@+id/sign_in_with_google_in_posts"
         android:layout_marginTop="12dp"

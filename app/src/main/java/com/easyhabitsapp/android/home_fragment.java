@@ -24,6 +24,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -87,8 +90,8 @@ public class home_fragment extends Fragment {
                 text_saying_you_dont_have_any_habits_in_home.setVisibility(View.INVISIBLE);
                 recycle_view_to_set_up_habits_in_home.setVisibility(View.VISIBLE);
                 ArrayList<Item_for_home_habits> list_for_habits = new ArrayList<>();
-                for (habits_data_class big_split : list) {
-                    list_for_habits.add(new Item_for_home_habits(return_the_icon(big_split.getIcon()), 10, big_split.getName_of_the_habit(), Color.parseColor(big_split.getColor())));
+                for (int i = 0;i<list.size();i++) {
+                    list_for_habits.add(new Item_for_home_habits(return_the_icon(list.get(i).getIcon()), calculate_all_the_streaks(i), list.get(i).getName_of_the_habit(), Color.parseColor(list.get(i).getColor())));
                 }
                 Item_for_bad_habit_adapter adapter = new Item_for_bad_habit_adapter(list_for_habits);
                 recycle_view_to_set_up_habits_in_home.setLayoutManager(linearLayoutManager);
@@ -243,7 +246,18 @@ public class home_fragment extends Fragment {
         return resources.getDrawable(resourceId, null);
     }
 
-    private int return_the_streak(ArrayList<Long> relapse, Long start_date) {
+    /*private int return_the_streak(String good_or_bad, String yes_no_amount_timer, String type, ArrayList<Long> relapse, Long start_date) {
+        if(good_or_bad.equals("bad")){
+            
+        } else if(good_or_bad.equals("good")){
+            if(yes_no_amount_timer.equals("yes/no")){
+                
+            } else if(yes_no_amount_timer.equals("amount")){
+
+            } else if(yes_no_amount_timer.equals("timer")){
+
+            }
+        }
         long time;
         if (relapse == null || relapse.isEmpty()) {
             time = System.currentTimeMillis() - start_date;
@@ -254,5 +268,566 @@ public class home_fragment extends Fragment {
             time = 0;
         }
         return (int) TimeUnit.MILLISECONDS.toDays(time);
+    }*/
+
+    private int calculate_all_the_streaks(int value_for_position) {
+        ArrayList<Integer> days_of_months_good_habit = add_the_days_per_month_to_the_calender(value_for_position);
+        HashMap<Long,Integer> hash_map_amount = return_relapse_amount(value_for_position);
+        ArrayList<Integer> each_streak_lengths = new ArrayList<>();
+        ArrayList<Long> relapse = return_relapses(value_for_position);
+        ArrayList<Long> filter_list = new ArrayList<>();
+        ArrayList<Long> filter_list_at_midnight = new ArrayList<>();
+        long time_minus_24 = Simplify_the_time.return_time_in_midnight(System.currentTimeMillis()) - TimeUnit.DAYS.toMillis(1);
+        long time_today = Simplify_the_time.return_time_in_midnight(System.currentTimeMillis());
+        if (return_the_information_from_save(6,value_for_position).equals("bad")) {
+            if (relapse.size() > 1) {
+                {
+                    long difference = Math.max(Simplify_the_time.return_time_in_midnight(relapse.get(0)) - Simplify_the_time.return_time_in_midnight(Long.parseLong(return_the_information_from_save(2,value_for_position))), 0);
+                    each_streak_lengths.add((int) TimeUnit.MILLISECONDS.toDays(difference));
+                }
+                for (int i = 1; i < relapse.size(); i++) {
+                    long difference = Math.max(Simplify_the_time.return_time_in_midnight(relapse.get(i)) - Simplify_the_time.return_time_in_midnight(relapse.get(i - 1)) - TimeUnit.DAYS.toMillis(1), 0);
+                    each_streak_lengths.add((int) TimeUnit.MILLISECONDS.toDays(difference));
+                }
+                long difference = Math.max(time_minus_24 - Simplify_the_time.return_time_in_midnight(relapse.get(relapse.size() - 1)), 0);
+                each_streak_lengths.add((int) TimeUnit.MILLISECONDS.toDays(difference));
+            } else if (relapse.size() == 1) {
+                {
+                    long difference = Math.max(Simplify_the_time.return_time_in_midnight(relapse.get(0)) - Simplify_the_time.return_time_in_midnight(Long.parseLong(return_the_information_from_save(2,value_for_position))), 0);
+                    each_streak_lengths.add((int) TimeUnit.MILLISECONDS.toDays(difference));
+                }
+                long difference = Math.max(time_minus_24 - Simplify_the_time.return_time_in_midnight(relapse.get(0)), 0);
+                each_streak_lengths.add((int) TimeUnit.MILLISECONDS.toDays(difference));
+            } else {
+                long difference = Math.max(time_today - Simplify_the_time.return_time_in_midnight(Long.parseLong(return_the_information_from_save(2,value_for_position))), 0);
+                each_streak_lengths.add((int) TimeUnit.MILLISECONDS.toDays(difference));
+            }
+        } else {
+            if (return_the_information_from_save(7,value_for_position).equals("yes/no")) {
+                filter_list = return_relapses(value_for_position);
+                if (return_the_information_from_save(8,value_for_position).equals("everyday")) {
+                    long start_date = Simplify_the_time.return_time_in_midnight(Long.parseLong(return_the_information_from_save(2,value_for_position)));
+                    long difference = Simplify_the_time.return_time_in_midnight(time_today) - Simplify_the_time.return_time_in_midnight(start_date) + TimeUnit.DAYS.toMillis(1);
+                    Calendar calendar = Calendar.getInstance();
+                    int sum = 0;
+                    if (difference % TimeUnit.DAYS.toMillis(1) != 0) {
+                        difference = difference + (TimeUnit.DAYS.toMillis(1) - (difference % TimeUnit.DAYS.toMillis(1)));
+                    }
+                    for (int i = 0; i < TimeUnit.MILLISECONDS.toDays(difference); i++) {
+                        calendar.setTimeInMillis(Simplify_the_time.return_time_in_midnight(Simplify_the_time.return_time_in_midnight(start_date) + TimeUnit.DAYS.toMillis(i)));
+                        int index = Collections.binarySearch(relapse, Simplify_the_time.return_time_in_midnight(calendar.getTimeInMillis()));
+                        if (index >= 0) {
+                            sum++;
+                        } else {
+                            each_streak_lengths.add(sum);
+                            sum = 0;
+                        }
+                    }
+                    if (sum >= 0) {
+                        each_streak_lengths.add(sum);
+                    }
+                } else if (return_the_information_from_save(8,value_for_position).equals("daysperweek")) {
+                    long start_date = Simplify_the_time.return_time_in_midnight(Long.parseLong(return_the_information_from_save(2,value_for_position)));
+                    long difference = Simplify_the_time.return_time_in_midnight(time_today) - Simplify_the_time.return_time_in_midnight(start_date) + TimeUnit.DAYS.toMillis(1);
+                    Calendar calendar = Calendar.getInstance();
+                    int sum = 0;
+                    for (int i = 0; i < filter_list.size(); i++) {
+                        filter_list_at_midnight.add(Simplify_the_time.return_time_in_midnight(filter_list.get(i)));
+                    }
+                    if (difference % TimeUnit.DAYS.toMillis(1) != 0) {
+                        difference = difference + (TimeUnit.DAYS.toMillis(1) - (difference % TimeUnit.DAYS.toMillis(1)));
+                    }
+                    for (int i = 0; i < TimeUnit.MILLISECONDS.toDays(difference); i++) {
+                        calendar.setTimeInMillis(Simplify_the_time.return_time_in_midnight(Simplify_the_time.return_time_in_midnight(start_date) + TimeUnit.DAYS.toMillis(i)));
+                        if (calendar.get(Calendar.DAY_OF_WEEK) == Calendar.MONDAY) {
+                            if (return_the_information_from_save(10,value_for_position).contains("Mo")) {
+                                if (filter_list_at_midnight.contains(Simplify_the_time.return_time_in_midnight(Simplify_the_time.return_time_in_midnight(start_date) + TimeUnit.DAYS.toMillis(i)))) {
+                                    sum++;
+                                } else {
+                                    each_streak_lengths.add(sum);
+                                    sum = 0;
+                                }
+                            } else {
+                                sum++;
+                            }
+                        } else if (calendar.get(Calendar.DAY_OF_WEEK) == Calendar.TUESDAY) {
+                            if (return_the_information_from_save(10,value_for_position).contains("Tu")) {
+                                if (filter_list_at_midnight.contains(Simplify_the_time.return_time_in_midnight(Simplify_the_time.return_time_in_midnight(start_date) + TimeUnit.DAYS.toMillis(i)))) {
+                                    sum++;
+                                } else {
+                                    each_streak_lengths.add(sum);
+                                    sum = 0;
+                                }
+                            } else {
+                                sum++;
+                            }
+                        } else if (calendar.get(Calendar.DAY_OF_WEEK) == Calendar.WEDNESDAY) {
+                            if (return_the_information_from_save(10,value_for_position).contains("We")) {
+                                if (filter_list_at_midnight.contains(Simplify_the_time.return_time_in_midnight(Simplify_the_time.return_time_in_midnight(start_date) + TimeUnit.DAYS.toMillis(i)))) {
+                                    sum++;
+                                } else {
+                                    each_streak_lengths.add(sum);
+                                    sum = 0;
+                                }
+                            } else {
+                                sum++;
+                            }
+                        } else if (calendar.get(Calendar.DAY_OF_WEEK) == Calendar.THURSDAY) {
+                            if (return_the_information_from_save(10,value_for_position).contains("Th")) {
+                                if (filter_list_at_midnight.contains(Simplify_the_time.return_time_in_midnight(Simplify_the_time.return_time_in_midnight(start_date) + TimeUnit.DAYS.toMillis(i)))) {
+                                    sum++;
+                                } else {
+                                    each_streak_lengths.add(sum);
+                                    sum = 0;
+                                }
+                            } else {
+                                sum++;
+                            }
+                        } else if (calendar.get(Calendar.DAY_OF_WEEK) == Calendar.FRIDAY) {
+                            if (return_the_information_from_save(10,value_for_position).contains("Fr")) {
+                                if (filter_list_at_midnight.contains(Simplify_the_time.return_time_in_midnight(Simplify_the_time.return_time_in_midnight(start_date) + TimeUnit.DAYS.toMillis(i)))) {
+                                    sum++;
+                                } else {
+                                    each_streak_lengths.add(sum);
+                                    sum = 0;
+                                }
+                            } else {
+                                sum++;
+                            }
+                        } else if (calendar.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY) {
+                            if (return_the_information_from_save(10,value_for_position).contains("Sa")) {
+                                if (filter_list_at_midnight.contains(Simplify_the_time.return_time_in_midnight(Simplify_the_time.return_time_in_midnight(start_date) + TimeUnit.DAYS.toMillis(i)))) {
+                                    sum++;
+                                } else {
+                                    each_streak_lengths.add(sum);
+                                    sum = 0;
+                                }
+                            } else {
+                                sum++;
+                            }
+                        } else if (calendar.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY) {
+                            if (return_the_information_from_save(10,value_for_position).contains("Su")) {
+                                if (filter_list_at_midnight.contains(Simplify_the_time.return_time_in_midnight(Simplify_the_time.return_time_in_midnight(start_date) + TimeUnit.DAYS.toMillis(i)))) {
+                                    sum++;
+                                } else {
+                                    each_streak_lengths.add(sum);
+                                    sum = 0;
+                                }
+                            } else {
+                                sum++;
+                            }
+                        }
+                    }
+                    if (sum >= 0) {
+                        each_streak_lengths.add(sum);
+                    }
+                } else if (return_the_information_from_save(8,value_for_position).equals("everyndays")) {
+                    long start_date = Simplify_the_time.return_time_in_midnight(Long.parseLong(return_the_information_from_save(2,value_for_position)));
+                    long difference = Simplify_the_time.return_time_in_midnight(time_today) - Simplify_the_time.return_time_in_midnight(start_date) + TimeUnit.DAYS.toMillis(1);
+                    Calendar calendar = Calendar.getInstance();
+                    int sum = 0;
+                    for (int i = 0; i < filter_list.size(); i++) {
+                        filter_list_at_midnight.add(Simplify_the_time.return_time_in_midnight(filter_list.get(i)));
+                    }
+                    if (difference % TimeUnit.DAYS.toMillis(1) != 0) {
+                        difference = difference + (TimeUnit.DAYS.toMillis(1) - (difference % TimeUnit.DAYS.toMillis(1)));
+                    }
+                    for (int i = 0; i < TimeUnit.MILLISECONDS.toDays(difference); i++) {
+                        calendar.setTimeInMillis(Simplify_the_time.return_time_in_midnight(Simplify_the_time.return_time_in_midnight(start_date) + TimeUnit.DAYS.toMillis(i)));
+                        int index = Collections.binarySearch(relapse, Simplify_the_time.return_time_in_midnight(calendar.getTimeInMillis()));
+                        if (index >= 0) {
+                            sum++;
+                        } else {
+                            if (relapse.size() > 0) {
+                                index = (-index) - 2;
+                                if (index < 0) {
+                                    each_streak_lengths.add(sum);
+                                    sum = 0;
+                                } else {
+                                    long last_relapse = relapse.get(index);
+                                    if (Simplify_the_time.return_time_in_midnight(calendar.getTimeInMillis()) - Simplify_the_time.return_time_in_midnight(last_relapse) >= Long.parseLong(return_the_information_from_save(10,value_for_position)) * TimeUnit.DAYS.toMillis(1)) {
+                                        each_streak_lengths.add(sum);
+                                        sum = 0;
+                                    } else {
+                                        sum++;
+                                    }
+                                }
+                            } else {
+                                each_streak_lengths.add(sum);
+                                sum = 0;
+                            }
+                        }
+                    }
+                    if (sum >= 0) {
+                        each_streak_lengths.add(sum);
+                    }
+                } else if (return_the_information_from_save(8,value_for_position).equals("dayspermonth")) {
+                    Calendar calender = Calendar.getInstance();
+                    long start_date = Simplify_the_time.return_time_in_midnight(Long.parseLong(return_the_information_from_save(2,value_for_position)));
+                    long difference = Simplify_the_time.return_time_in_midnight(time_today) - Simplify_the_time.return_time_in_midnight(start_date) + TimeUnit.DAYS.toMillis(1);
+                    int sum = 0;
+                    for (int i = 0; i < filter_list.size(); i++) {
+                        filter_list_at_midnight.add(Simplify_the_time.return_time_in_midnight(filter_list.get(i)));
+                    }
+                    if (difference % TimeUnit.DAYS.toMillis(1) != 0) {
+                        difference = difference + (TimeUnit.DAYS.toMillis(1) - (difference % TimeUnit.DAYS.toMillis(1)));
+                    }
+                    for (int i = 0; i < TimeUnit.MILLISECONDS.toDays(difference); i++) {
+                        calender.setTimeInMillis(Simplify_the_time.return_time_in_midnight(Simplify_the_time.return_time_in_midnight(start_date) + TimeUnit.DAYS.toMillis(i)));
+                        int day_of_the_month = calender.get(Calendar.DAY_OF_MONTH);
+                        if (!days_of_months_good_habit.contains(day_of_the_month)) {
+                            sum++;
+                        } else {
+                            int index = Collections.binarySearch(relapse, Simplify_the_time.return_time_in_midnight(calender.getTimeInMillis()));
+                            if (index >= 0) {
+                                sum++;
+                            } else {
+                                each_streak_lengths.add(sum);
+                                sum = 0;
+                            }
+                        }
+                    }
+                    if (sum >= 0) {
+                        each_streak_lengths.add(sum);
+                    }
+                }
+            } else if (return_the_information_from_save(7,value_for_position).equals("amount")) {
+                if (return_the_information_from_save(8,value_for_position).equals("everyday")) {
+                    long start_date = Simplify_the_time.return_time_in_midnight(Long.parseLong(return_the_information_from_save(2,value_for_position)));
+                    long difference = Simplify_the_time.return_time_in_midnight(time_today) - Simplify_the_time.return_time_in_midnight(start_date) + TimeUnit.DAYS.toMillis(1);
+                    Calendar calendar = Calendar.getInstance();
+                    int sum = 0;
+                    if (difference % TimeUnit.DAYS.toMillis(1) != 0) {
+                        difference = difference + (TimeUnit.DAYS.toMillis(1) - (difference % TimeUnit.DAYS.toMillis(1)));
+                    }
+                    for (int i = 0; i < TimeUnit.MILLISECONDS.toDays(difference); i++) {
+                        calendar.setTimeInMillis(Simplify_the_time.return_time_in_midnight(Simplify_the_time.return_time_in_midnight(start_date) + TimeUnit.DAYS.toMillis(i)));
+                        if (hash_map_amount.containsKey(Simplify_the_time.return_time_in_midnight(calendar.getTimeInMillis()))) {
+                            int value = hash_map_amount.get(Simplify_the_time.return_time_in_midnight(calendar.getTimeInMillis()));
+                            if (value >= Integer.parseInt(return_the_information_from_save(9,value_for_position))) {
+                                sum++;
+                            } else {
+                                each_streak_lengths.add(sum);
+                                sum = 0;
+                            }
+                        } else {
+                            each_streak_lengths.add(sum);
+                            sum = 0;
+                        }
+                    }
+                    if (sum >= 0) {
+                        each_streak_lengths.add(sum);
+                    }
+                } else if (return_the_information_from_save(8,value_for_position).equals("daysperweek")) {
+                    long start_date = Simplify_the_time.return_time_in_midnight(Long.parseLong(return_the_information_from_save(2,value_for_position)));
+                    long difference = Simplify_the_time.return_time_in_midnight(time_today) - Simplify_the_time.return_time_in_midnight(start_date) + TimeUnit.DAYS.toMillis(1);
+                    Calendar calendar = Calendar.getInstance();
+                    int sum = 0;
+                    if (difference % TimeUnit.DAYS.toMillis(1) != 0) {
+                        difference = difference + (TimeUnit.DAYS.toMillis(1) - (difference % TimeUnit.DAYS.toMillis(1)));
+                    }
+                    for (int i = 0; i < TimeUnit.MILLISECONDS.toDays(difference); i++) {
+                        calendar.setTimeInMillis(Simplify_the_time.return_time_in_midnight(Simplify_the_time.return_time_in_midnight(start_date) + TimeUnit.DAYS.toMillis(i)));
+                        if (calendar.get(Calendar.DAY_OF_WEEK) == Calendar.MONDAY) {
+                            if (return_the_information_from_save(10,value_for_position).contains("Mo")) {
+                                if (hash_map_amount.containsKey(Simplify_the_time.return_time_in_midnight(Simplify_the_time.return_time_in_midnight(start_date) + TimeUnit.DAYS.toMillis(i)))) {
+                                    int value = hash_map_amount.get(Simplify_the_time.return_time_in_midnight(Simplify_the_time.return_time_in_midnight(Simplify_the_time.return_time_in_midnight(start_date) + TimeUnit.DAYS.toMillis(i))));
+                                    if (value >= Integer.parseInt(return_the_information_from_save(9,value_for_position))) {
+                                        sum++;
+                                    } else {
+                                        each_streak_lengths.add(sum);
+                                        sum = 0;
+                                    }
+                                } else {
+                                    each_streak_lengths.add(sum);
+                                    sum = 0;
+                                }
+                            } else {
+                                sum++;
+                            }
+                        } else if (calendar.get(Calendar.DAY_OF_WEEK) == Calendar.TUESDAY) {
+                            if (return_the_information_from_save(10,value_for_position).contains("Tu")) {
+                                if (hash_map_amount.containsKey(Simplify_the_time.return_time_in_midnight(Simplify_the_time.return_time_in_midnight(start_date) + TimeUnit.DAYS.toMillis(i)))) {
+                                    int value = hash_map_amount.get(Simplify_the_time.return_time_in_midnight(Simplify_the_time.return_time_in_midnight(Simplify_the_time.return_time_in_midnight(start_date) + TimeUnit.DAYS.toMillis(i))));
+                                    if (value >= Integer.parseInt(return_the_information_from_save(9,value_for_position))) {
+                                        sum++;
+                                    } else {
+                                        each_streak_lengths.add(sum);
+                                        sum = 0;
+                                    }
+                                } else {
+                                    each_streak_lengths.add(sum);
+                                    sum = 0;
+                                }
+                            } else {
+                                sum++;
+                            }
+                        } else if (calendar.get(Calendar.DAY_OF_WEEK) == Calendar.WEDNESDAY) {
+                            if (return_the_information_from_save(10,value_for_position).contains("We")) {
+                                if (hash_map_amount.containsKey(Simplify_the_time.return_time_in_midnight(Simplify_the_time.return_time_in_midnight(start_date) + TimeUnit.DAYS.toMillis(i)))) {
+                                    int value = hash_map_amount.get(Simplify_the_time.return_time_in_midnight(Simplify_the_time.return_time_in_midnight(Simplify_the_time.return_time_in_midnight(start_date) + TimeUnit.DAYS.toMillis(i))));
+                                    if (value >= Integer.parseInt(return_the_information_from_save(9,value_for_position))) {
+                                        sum++;
+                                    } else {
+                                        each_streak_lengths.add(sum);
+                                        sum = 0;
+                                    }
+                                } else {
+                                    each_streak_lengths.add(sum);
+                                    sum = 0;
+                                }
+                            } else {
+                                sum++;
+                            }
+                        } else if (calendar.get(Calendar.DAY_OF_WEEK) == Calendar.THURSDAY) {
+                            if (return_the_information_from_save(10,value_for_position).contains("Th")) {
+                                if (hash_map_amount.containsKey(Simplify_the_time.return_time_in_midnight(Simplify_the_time.return_time_in_midnight(start_date) + TimeUnit.DAYS.toMillis(i)))) {
+                                    int value = hash_map_amount.get(Simplify_the_time.return_time_in_midnight(Simplify_the_time.return_time_in_midnight(Simplify_the_time.return_time_in_midnight(start_date) + TimeUnit.DAYS.toMillis(i))));
+                                    if (value >= Integer.parseInt(return_the_information_from_save(9,value_for_position))) {
+                                        sum++;
+                                    } else {
+                                        each_streak_lengths.add(sum);
+                                        sum = 0;
+                                    }
+                                } else {
+                                    each_streak_lengths.add(sum);
+                                    sum = 0;
+                                }
+                            } else {
+                                sum++;
+                            }
+                        } else if (calendar.get(Calendar.DAY_OF_WEEK) == Calendar.FRIDAY) {
+                            if (return_the_information_from_save(10,value_for_position).contains("Fr")) {
+                                if (hash_map_amount.containsKey(Simplify_the_time.return_time_in_midnight(Simplify_the_time.return_time_in_midnight(start_date) + TimeUnit.DAYS.toMillis(i)))) {
+                                    int value = hash_map_amount.get(Simplify_the_time.return_time_in_midnight(Simplify_the_time.return_time_in_midnight(Simplify_the_time.return_time_in_midnight(start_date) + TimeUnit.DAYS.toMillis(i))));
+                                    if (value >= Integer.parseInt(return_the_information_from_save(9,value_for_position))) {
+                                        sum++;
+                                    } else {
+                                        each_streak_lengths.add(sum);
+                                        sum = 0;
+                                    }
+                                } else {
+                                    each_streak_lengths.add(sum);
+                                    sum = 0;
+                                }
+                            } else {
+                                sum++;
+                            }
+                        } else if (calendar.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY) {
+                            if (return_the_information_from_save(10,value_for_position).contains("Sa")) {
+                                if (hash_map_amount.containsKey(Simplify_the_time.return_time_in_midnight(Simplify_the_time.return_time_in_midnight(start_date) + TimeUnit.DAYS.toMillis(i)))) {
+                                    int value = hash_map_amount.get(Simplify_the_time.return_time_in_midnight(Simplify_the_time.return_time_in_midnight(Simplify_the_time.return_time_in_midnight(start_date) + TimeUnit.DAYS.toMillis(i))));
+                                    if (value >= Integer.parseInt(return_the_information_from_save(9,value_for_position))) {
+                                        sum++;
+                                    } else {
+                                        each_streak_lengths.add(sum);
+                                        sum = 0;
+                                    }
+                                } else {
+                                    each_streak_lengths.add(sum);
+                                    sum = 0;
+                                }
+                            } else {
+                                sum++;
+                            }
+                        } else if (calendar.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY) {
+                            if (return_the_information_from_save(10,value_for_position).contains("Su")) {
+                                if (hash_map_amount.containsKey(Simplify_the_time.return_time_in_midnight(Simplify_the_time.return_time_in_midnight(start_date) + TimeUnit.DAYS.toMillis(i)))) {
+                                    int value = hash_map_amount.get(Simplify_the_time.return_time_in_midnight(Simplify_the_time.return_time_in_midnight(Simplify_the_time.return_time_in_midnight(start_date) + TimeUnit.DAYS.toMillis(i))));
+                                    if (value >= Integer.parseInt(return_the_information_from_save(9,value_for_position))) {
+                                        sum++;
+                                    } else {
+                                        each_streak_lengths.add(sum);
+                                        sum = 0;
+                                    }
+                                } else {
+                                    each_streak_lengths.add(sum);
+                                    sum = 0;
+                                }
+                            } else {
+                                sum++;
+                            }
+                        }
+                    }
+                    if (sum >= 0) {
+                        each_streak_lengths.add(sum);
+                    }
+                } else if (return_the_information_from_save(8,value_for_position).equals("everyndays")) {
+                    long start_date = Simplify_the_time.return_time_in_midnight(Long.parseLong(return_the_information_from_save(2,value_for_position)));
+                    long difference = Simplify_the_time.return_time_in_midnight(time_today) - Simplify_the_time.return_time_in_midnight(start_date) + TimeUnit.DAYS.toMillis(1);
+                    Calendar calendar = Calendar.getInstance();
+                    int sum = 0;
+                    if (difference % TimeUnit.DAYS.toMillis(1) != 0) {
+                        difference = difference + (TimeUnit.DAYS.toMillis(1) - (difference % TimeUnit.DAYS.toMillis(1)));
+                    }
+                    for (int i = 0; i < TimeUnit.MILLISECONDS.toDays(difference); i++) {
+                        calendar.setTimeInMillis(Simplify_the_time.return_time_in_midnight(Simplify_the_time.return_time_in_midnight(start_date) + TimeUnit.DAYS.toMillis(i)));
+                        if (hash_map_amount.containsKey(Simplify_the_time.return_time_in_midnight(calendar.getTimeInMillis())) && is_amount_good_for_streak(Simplify_the_time.return_time_in_midnight(calendar.getTimeInMillis()),value_for_position,hash_map_amount)) {
+                            sum++;
+                        } else {
+                            if (hash_map_amount.containsKey(Simplify_the_time.return_time_in_midnight(calendar.getTimeInMillis())) && is_amount_good_for_streak(Simplify_the_time.return_time_in_midnight(calendar.getTimeInMillis()),value_for_position,hash_map_amount)) {
+                                sum++;
+                            } else {
+                                if (hash_map_amount.size() > 0) {
+                                    long milli = Simplify_the_time.return_time_in_midnight(calendar.getTimeInMillis());
+                                    for (int j = 1; j < Integer.parseInt(return_the_information_from_save(10,value_for_position)); j++) {
+                                        if (hash_map_amount.containsKey(milli - TimeUnit.DAYS.toMillis(j)) && hash_map_amount.get(milli - TimeUnit.DAYS.toMillis(j)) >= Integer.parseInt(return_the_information_from_save(9,value_for_position))) {
+                                            sum++;
+                                        }
+                                    }
+                                    each_streak_lengths.add(sum);
+                                    sum = 0;
+                                } else {
+                                    each_streak_lengths.add(sum);
+                                    sum = 0;
+                                }
+                            }
+                        }
+                    }
+                    if (sum >= 0) {
+                        each_streak_lengths.add(sum);
+                    }
+                } else if (return_the_information_from_save(8,value_for_position).equals("dayspermonth")) {
+                    Calendar calender = Calendar.getInstance();
+                    long start_date = Simplify_the_time.return_time_in_midnight(Long.parseLong(return_the_information_from_save(2,value_for_position)));
+                    long difference = Simplify_the_time.return_time_in_midnight(time_today) - Simplify_the_time.return_time_in_midnight(start_date) + TimeUnit.DAYS.toMillis(1);
+                    int sum = 0;
+                    if (difference % TimeUnit.DAYS.toMillis(1) != 0) {
+                        difference = difference + (TimeUnit.DAYS.toMillis(1) - (difference % TimeUnit.DAYS.toMillis(1)));
+                    }
+                    for (int i = 0; i < TimeUnit.MILLISECONDS.toDays(difference); i++) {
+                        calender.setTimeInMillis(Simplify_the_time.return_time_in_midnight(Simplify_the_time.return_time_in_midnight(start_date) + TimeUnit.DAYS.toMillis(i)));
+                        int day_of_the_month = calender.get(Calendar.DAY_OF_MONTH);
+                        if (!days_of_months_good_habit.contains(day_of_the_month)) {
+                            sum++;
+                        } else {
+                            if (hash_map_amount.containsKey(Simplify_the_time.return_time_in_midnight(calender.getTimeInMillis())) && is_amount_good_for_streak(Simplify_the_time.return_time_in_midnight(calender.getTimeInMillis()),value_for_position,hash_map_amount)) {
+                                sum++;
+                            } else {
+                                each_streak_lengths.add(sum);
+                                sum = 0;
+                            }
+                        }
+                    }
+                    if (sum >= 0) {
+                        each_streak_lengths.add(sum);
+                    }
+                }
+            } else if (return_the_information_from_save(7,value_for_position).equals("timer")) {
+
+            }
+        }
+        //each_streak_lengths.removeAll(Collections.singleton(0));
+        return each_streak_lengths.get(each_streak_lengths.size()-1);
+    }
+
+    private String return_the_information_from_save(int which,int value_for_position) {
+        Room_database_habits room_database_habits = Room_database_habits.getInstance(getContext());
+        List<habits_data_class> list = room_database_habits.dao_for_habits_data().getAll();
+        habits_data_class habits_data_class = list.get(value_for_position);
+        if (which == 1) {
+            return habits_data_class.getName_of_the_habit();
+        }
+        if (which == 2) {
+            return String.valueOf(habits_data_class.getLast_relapse());
+        }
+        if (which == 3) {
+            return String.valueOf(habits_data_class.getGoal());
+        }
+        if (which == 4) {
+            return habits_data_class.getColor();
+        }
+        if (which == 5) {
+            return String.valueOf(habits_data_class.getId());
+        }
+        if (which == 6) {
+            return String.valueOf(habits_data_class.getBad_or_good_habit());
+        }
+        if (which == 7) {
+            return String.valueOf(habits_data_class.getType_of_the_habit());
+        }
+        if (which == 8) {
+            return String.valueOf(habits_data_class.getHabits_freq());
+        }
+        if (which == 9) {
+            return String.valueOf(habits_data_class.getExtra_type_info());
+        }
+        if (which == 10) {
+            return habits_data_class.getHabits_freq_extra();
+        }
+        return ""; // cant be otherwise
+    }
+
+    private ArrayList<Long> return_relapses(int value_for_position) {
+        Room_database_habits room_database_habits = Room_database_habits.getInstance(getContext());
+        List<habits_data_class> list = room_database_habits.dao_for_habits_data().getAll();
+        habits_data_class habits_data_class = list.get(value_for_position);
+        if (habits_data_class.getRelapse() == null) {
+            return new ArrayList<>();
+        } else {
+            return habits_data_class.getRelapse();
+        }
+    }
+
+    private  ArrayList<Integer> add_the_days_per_month_to_the_calender(int value_for_position) {
+        ArrayList<Integer> days_of_months_good_habit = new ArrayList<>();
+        if (return_the_information_from_save(6,value_for_position).equals("good") && return_the_information_from_save(8,value_for_position).equals("dayspermonth")) {
+            String[] split_numbers = return_the_information_from_save(10,value_for_position).split("_");
+            for (int i = 0; i < split_numbers.length; i++) {
+                days_of_months_good_habit.add(Integer.parseInt(split_numbers[i]));
+            }
+        }
+        return days_of_months_good_habit;
+    }
+    private HashMap<Long, Integer> return_relapse_amount(int value_for_position) {
+        Room_database_habits room_database_habits = Room_database_habits.getInstance(getContext());
+        List<habits_data_class> list = room_database_habits.dao_for_habits_data().getAll();
+        habits_data_class habits_data_class = list.get(value_for_position);
+        if (habits_data_class.getRelapse_amount() == null) {
+            return new HashMap<Long, Integer>();
+        } else {
+            return habits_data_class.getRelapse_amount();
+        }
+    }
+    private boolean is_amount_good_for_streak(long time,int value_for_position,HashMap<Long,Integer> hash_map_amount) {
+        time = Simplify_the_time.return_time_in_midnight(time);
+        if (hash_map_amount != null && hash_map_amount.containsKey(time)) {
+            int amount_int = hash_map_amount.get(time);
+            if (amount_int >= Integer.parseInt(return_the_information_from_save(9,value_for_position))) {
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
+    }
+
+    public void open_a_habit(int id) {
+        if (getActivity() != null) {
+            View_home_habit new_fragment = new View_home_habit();
+            home_fragment old_fragment = (home_fragment) getActivity().getSupportFragmentManager().findFragmentByTag("home");
+            View_home_habit check_fragment = (View_home_habit) getActivity().getSupportFragmentManager().findFragmentByTag("view home");
+            if (check_fragment != null) {
+                getActivity().getSupportFragmentManager().beginTransaction().remove(check_fragment).commit();
+            }
+            if (old_fragment != null) {
+                Bundle args = new Bundle();
+                args.putInt("which_position", return_value_position_from_id(id));
+                new_fragment.setArguments(args);
+                getActivity().getSupportFragmentManager().beginTransaction().hide(old_fragment).add(R.id.fragment_container, new_fragment, "view home").show(new_fragment).commit();
+            }
+        }
+    }
+
+    private int return_value_position_from_id(int id){
+        Room_database_habits database_habits = Room_database_habits.getInstance(getContext());
+        List<habits_data_class> list = database_habits.dao_for_habits_data().getAll();
+        for(int i = 0;i< list.size();i++){
+            if(list.get(i).getId() == id){
+                return i;
+            }
+        }
+        return 0;
     }
 }

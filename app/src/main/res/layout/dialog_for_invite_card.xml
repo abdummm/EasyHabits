@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/dialog_to_invite_or_enter_invite"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/whitelist_dialog_background">
+
+    <Button
+        android:id="@+id/ok_for_permission"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="5dp"
+        android:background="?android:attr/selectableItemBackground"
+        android:text="@android:string/ok"
+        android:textColor="@color/fav"
+        android:layout_marginTop="15dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/text_view_saying_you_will_get_premuim_in_get_your_invite_code_dialog" />
+
+    <View
+        android:id="@+id/view_that_contains_title_of_dialog"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:background="@drawable/removing_corners_for_view"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/title_of_dialog"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Get your invite code"
+        android:textColor="@color/white"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/view_that_contains_title_of_dialog"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/view_that_contains_title_of_dialog"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/cancel_for_permission"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="?android:attr/selectableItemBackground"
+        android:text="@android:string/cancel"
+        android:textColor="@color/fav"
+        app:layout_constraintBottom_toBottomOf="@+id/ok_for_permission"
+        app:layout_constraintEnd_toStartOf="@+id/ok_for_permission"
+        app:layout_constraintTop_toTopOf="@+id/ok_for_permission" />
+
+    <Button
+        android:id="@+id/get_your_invite_code_button_in_dialog"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="  Get Your \n  invite code  "
+        android:layout_marginTop="30dp"
+        android:background="@drawable/color_for_botton_on"
+        android:textColor="@color/white"
+        app:layout_constraintEnd_toStartOf="@+id/enter_friend_invite_code_button_in_dialog"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/view_that_contains_title_of_dialog" />
+
+    <Button
+        android:id="@+id/enter_friend_invite_code_button_in_dialog"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="  Enter invite code  "
+        android:background="@drawable/color_for_botton_off"
+        android:textColor="@color/fav"
+        app:layout_constraintBottom_toBottomOf="@+id/get_your_invite_code_button_in_dialog"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/get_your_invite_code_button_in_dialog"
+        app:layout_constraintTop_toTopOf="@+id/get_your_invite_code_button_in_dialog" />
+
+    <TextView
+        android:id="@+id/text_saying_your_invite_code_in_dialog_setting"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="Invite code"
+        android:textAlignment="center"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:layout_marginTop="30dp"
+        android:paddingStart="10dp"
+        android:paddingEnd="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/get_your_invite_code_button_in_dialog" />
+
+    <Button
+        android:id="@+id/copy_code_button_in_get_or_send_invite_code_dialog"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Copy code"
+        android:backgroundTint="@color/fav"
+        android:textColor="@color/white"
+        android:layout_marginTop="12dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/text_saying_your_invite_code_in_dialog_setting" />
+
+    <TextView
+        android:id="@+id/text_view_saying_you_will_get_premuim_in_get_your_invite_code_dialog"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:paddingStart="20dp"
+        android:paddingEnd="20dp"
+        android:layout_marginTop="15dp"
+        android:text="Get 6 months of premium for free when someone uses your invite code. They will also get 6 months of premium!"
+        android:textAlignment="center"
+        android:textColor="@color/fav"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/copy_code_button_in_get_or_send_invite_code_dialog" />
+
+    <EditText
+        android:id="@+id/edit_text_to_enter_the_invite_code_in_dialog"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:hint="Enter invite code"
+        android:layout_marginTop="30dp"
+        android:textAlignment="center"
+        android:gravity="center"
+        android:textColor="@color/fav"
+        android:theme="@style/SwitchTheme"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/get_your_invite_code_button_in_dialog" />
+
+    <TextView
+        android:id="@+id/text_saying_get_premuim_if_you_enter_friend_invite_code_dialog"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:paddingStart="20dp"
+        android:paddingEnd="20dp"
+        android:layout_marginTop="15dp"
+        android:text="Get 6 months of premium for free when you enter your friend's invite code. They will also get 6 month of premium!"
+        android:textAlignment="center"
+        android:textColor="@color/fav"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/edit_text_to_enter_the_invite_code_in_dialog" />
+
+    <ProgressBar
+        android:id="@+id/progressBar_cyclic_for_the_gift_dialog"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:minWidth="40dp"
+        android:minHeight="40dp"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toTopOf="@+id/ok_for_permission"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/view_that_contains_title_of_dialog" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

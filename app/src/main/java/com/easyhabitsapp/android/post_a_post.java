@@ -33,6 +33,7 @@ import android.text.style.StrikethroughSpan;
 import android.text.style.StyleSpan;
 import android.text.style.UnderlineSpan;
 import android.util.Base64;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -72,7 +73,7 @@ public class post_a_post extends Fragment {
     private FirebaseFirestore database = FirebaseFirestore.getInstance();
     private Bitmap public_bitmap;
     private FirebaseUser currentFirebaseUser;
-    private String category_global;
+    private String category_global = "All";
     private int streak_global;
     private FirebaseFunctions firebaseFunctions;
 
@@ -98,7 +99,7 @@ public class post_a_post extends Fragment {
         watching_text_title();
         add_a_photo_button_lsiten();
         make_keyboard_button_be_next();
-        choose_cat_button_listen();
+        //choose_cat_button_listen();
     }
 
     private void back_button_listen() {
@@ -636,8 +637,8 @@ public class post_a_post extends Fragment {
                 break;
             case 1001:
                 category_global = data.getStringExtra("habit_name");
-                make_the_check_box_visisble_or_no();
-                rename_button();
+                //make_the_check_box_visisble_or_no();
+                //rename_button();
                 break;
             case 951:
                 if (resultCode == Activity.RESULT_OK && data != null && data.getData() != null) {
@@ -669,27 +670,41 @@ public class post_a_post extends Fragment {
             post_button_int_the_bottom_right.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if ((text_view_viewing_the_whole_post.getText().toString().equals("") && text_view_viewing_the_whole_post.getVisibility() == View.VISIBLE) || text_saying_title_of_the_post.getText().toString().equals("")) {
-                        if (text_saying_title_of_the_post.getText().toString().equals("")) {
-                            text_saying_title_of_the_post.setError("Can't be empty");
-                            Toast toast = Toast.makeText(getActivity(), "Title can't be empty", Toast.LENGTH_SHORT);
-                            toast.show();
-                        } else if (text_view_viewing_the_whole_post.getText().toString().equals("") && text_view_viewing_the_whole_post.getVisibility() == View.VISIBLE) {
-                            text_view_viewing_the_whole_post.setError("Can't be empty");
-                            Toast toast = Toast.makeText(getActivity(), "Body can't be empty", Toast.LENGTH_SHORT);
-                            toast.show();
-                        }
-                    } else if (!isNetworkAvailable()) {
-                        Toast toast = Toast.makeText(getActivity(), "Phone not connected to the internet", Toast.LENGTH_SHORT);
-                        toast.show();
-                    } else if (category_global == null) {
-                        Toast toast = Toast.makeText(getActivity(), "Please choose a category by pressing the \"Choose Category\" button,", Toast.LENGTH_LONG);
-                        toast.show();
-                    } else {
-                        post_the_information(category_global);
-                    }
+                    post_button_was_clicked();
                 }
             });
+        }
+    }
+
+    private void post_button_was_clicked() {
+        if (getView() != null) {
+            final EditText text_saying_title_of_the_post = getView().findViewById(R.id.text_saying_title_of_the_post);
+            final EditText text_view_viewing_the_whole_post = getView().findViewById(R.id.text_view_viewing_the_whole_post);
+            if ((text_view_viewing_the_whole_post.getText().toString().equals("") && text_view_viewing_the_whole_post.getVisibility() == View.VISIBLE) || text_saying_title_of_the_post.getText().toString().equals("")) {
+                if (text_saying_title_of_the_post.getText().toString().equals("")) {
+                    text_saying_title_of_the_post.setError("Can't be empty");
+                    Toast toast = Toast.makeText(getActivity(), "Title can't be empty", Toast.LENGTH_SHORT);
+                    toast.show();
+                } else if (text_view_viewing_the_whole_post.getText().toString().equals("") && text_view_viewing_the_whole_post.getVisibility() == View.VISIBLE) {
+                    text_view_viewing_the_whole_post.setError("Can't be empty");
+                    Toast toast = Toast.makeText(getActivity(), "Body can't be empty", Toast.LENGTH_SHORT);
+                    toast.show();
+                }
+            } else if (!isNetworkAvailable()) {
+                Toast toast = Toast.makeText(getActivity(), "Phone not connected to the internet", Toast.LENGTH_SHORT);
+                toast.show();
+            } else if (return_the_name().equals("no_name_found_135")) {
+                Dialog_to_make_the_user_enter_their_name dialog_to_make_the_user_enter_their_name = new Dialog_to_make_the_user_enter_their_name();
+                dialog_to_make_the_user_enter_their_name.set_card_clicked_reply(new Dialog_to_make_the_user_enter_their_name.name_is_done() {
+                    @Override
+                    public void name_is_done() {
+                        post_button_was_clicked();
+                    }
+                });
+                dialog_to_make_the_user_enter_their_name.show(getParentFragmentManager(), "");
+            } else {
+                post_the_information();
+            }
         }
     }
 
@@ -729,12 +744,12 @@ public class post_a_post extends Fragment {
     }
 
 
-    private void post_the_information(final String category) {
+    private void post_the_information() {
         if (getView() != null) {
             EditText text_saying_title_of_the_post = getView().findViewById(R.id.text_saying_title_of_the_post);
             EditText text_view_viewing_the_whole_post = getView().findViewById(R.id.text_view_viewing_the_whole_post);
             final ImageView image_view_showing_the_photo_befoore_posting_it_in_posts = getView().findViewById(R.id.image_view_showing_the_photo_befoore_posting_it_in_posts);
-            final CheckBox check_box_to_check_show_streak_or_no = getView().findViewById(R.id.check_box_to_check_show_streak_or_no);
+            //final CheckBox check_box_to_check_show_streak_or_no = getView().findViewById(R.id.check_box_to_check_show_streak_or_no);
             String body;
             final boolean image;
             if (image_view_showing_the_photo_befoore_posting_it_in_posts.getVisibility() == View.VISIBLE) {
@@ -777,7 +792,7 @@ public class post_a_post extends Fragment {
             Map<String, Object> post_objects = new HashMap<>();
             ArrayList<String> report_list = new ArrayList<>();
             post_objects.put("userid", currentFirebaseUser.getUid());
-            post_objects.put("category", category);
+            //post_objects.put("category", category);
             post_objects.put("title", title);
             post_objects.put("body", body);
             post_objects.put("span", span);
@@ -793,13 +808,13 @@ public class post_a_post extends Fragment {
             post_objects.put("dev", false);
             post_objects.put("name", return_the_name());
             //post_objects.put("last_updated", FieldValue.serverTimestamp());
-            if (check_box_to_check_show_streak_or_no.getVisibility() == View.VISIBLE && check_box_to_check_show_streak_or_no.isChecked()) {
+            /*if (check_box_to_check_show_streak_or_no.getVisibility() == View.VISIBLE && check_box_to_check_show_streak_or_no.isChecked()) {
                 post_objects.put("streak", streak_global);
             } else {
                 post_objects.put("streak", -1);
-            }
+            }*/
             Dialog_custom_loading dialog_custom_loading = new Dialog_custom_loading("Posting...");
-            dialog_custom_loading.show(getParentFragmentManager(),"");
+            dialog_custom_loading.show(getParentFragmentManager(), "");
             firebaseFunctions = FirebaseFunctions.getInstance();
             firebaseFunctions
                     .getHttpsCallable("put_a_post")
@@ -813,14 +828,15 @@ public class post_a_post extends Fragment {
                                 toast.show();
                             } else if (String.valueOf(task.getResult().getData()).contains("success id: ")) {
                                 dialog_custom_loading.loaded();
-                                String id = String.valueOf(task.getResult().getData()).replace("success id: ","");
+                                String id = String.valueOf(task.getResult().getData()).replace("success id: ", "");
                                 Toast toast = Toast.makeText(getActivity(), "Success", Toast.LENGTH_SHORT);
                                 toast.show();
-                                if (check_box_to_check_show_streak_or_no.getVisibility() == View.VISIBLE && check_box_to_check_show_streak_or_no.isChecked()) {
-                                    save_the_id(title, body_to_save, span, System.currentTimeMillis(), category, streak_global, id);
+                                /*if (check_box_to_check_show_streak_or_no.getVisibility() == View.VISIBLE && check_box_to_check_show_streak_or_no.isChecked()) {
+                                    save_the_id(title, body_to_save, span, System.currentTimeMillis(), "", streak_global, id);
                                 } else {
-                                    save_the_id(title, body_to_save, span, System.currentTimeMillis(), category, -1, id);
-                                }
+                                    save_the_id(title, body_to_save, span, System.currentTimeMillis(), "", -1, id);
+                                }*/
+                                save_the_id(title, body_to_save, span, System.currentTimeMillis(), "", -1, id);
                                 update_your_posts_from_another_fragment();
                                 post_a_post old_fragment = (post_a_post) getActivity().getSupportFragmentManager().findFragmentByTag("write a post");
                                 Posts_fragment new_fragment = (Posts_fragment) getActivity().getSupportFragmentManager().findFragmentByTag("posts");
@@ -831,12 +847,12 @@ public class post_a_post extends Fragment {
                             return "result";
                         }
                     }).addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull @NotNull Exception e) {
-                    Toast toast = Toast.makeText(getActivity(), "Error can't publish post", Toast.LENGTH_LONG);
-                    toast.show();
-                }
-            });
+                        @Override
+                        public void onFailure(@NonNull @NotNull Exception e) {
+                            Toast toast = Toast.makeText(getActivity(), "Error can't publish post", Toast.LENGTH_LONG);
+                            toast.show();
+                        }
+                    });
 
             /*final String id = database.collection("posts").document().getId();
             database.collection("posts").document(id)
@@ -948,9 +964,9 @@ public class post_a_post extends Fragment {
             title = title.replace("big_divide", "").replace("small_split", "");
             body = body.replace("big_divide", "").replace("small_split", "");
             if (old != null && !old.isEmpty()) {
-                myEdit.putString("posts", old.concat(return_the_name()).concat("small_split").concat(title).concat("small_split").concat(body).concat("small_split").concat(span).concat("small_split").concat(String.valueOf(time)).concat("small_split").concat(category).concat("small_split").concat(String.valueOf(streak)).concat("small_split").concat(id).concat("big_divide"));
+                myEdit.putString("posts", old.concat(return_the_name()).concat("small_split").concat(title).concat("small_split").concat(body).concat("small_split").concat(span).concat("small_split").concat(String.valueOf(time)).concat("small_split").concat(id).concat("big_divide"));
             } else {
-                myEdit.putString("posts", return_the_name().concat("small_split").concat(title).concat("small_split").concat(body).concat("small_split").concat(span).concat("small_split").concat(String.valueOf(time)).concat("small_split").concat(category).concat("small_split").concat(String.valueOf(streak)).concat("small_split").concat(id).concat("big_divide"));
+                myEdit.putString("posts", return_the_name().concat("small_split").concat(title).concat("small_split").concat(body).concat("small_split").concat(span).concat("small_split").concat(String.valueOf(time)).concat("small_split").concat(id).concat("big_divide"));
             }
             myEdit.commit();
 
@@ -1075,7 +1091,7 @@ public class post_a_post extends Fragment {
         return out.toByteArray();
     }
 
-    private void choose_cat_button_listen() {
+    /*private void choose_cat_button_listen() {
         if (getView() != null) {
             Button button_to_choose_category_in_the_place_where_you_write_the_post = getView().findViewById(R.id.button_to_choose_category_in_the_place_where_you_write_the_post);
             button_to_choose_category_in_the_place_where_you_write_the_post.setOnClickListener(new View.OnClickListener() {
@@ -1087,9 +1103,9 @@ public class post_a_post extends Fragment {
                 }
             });
         }
-    }
+    }*/
 
-    private int check_if_cat_already_exists() {
+    /*private int check_if_cat_already_exists() {
         if (getActivity() != null) {
             SharedPreferences sharedPreferences = getActivity().getSharedPreferences("list_of_the_bad_habits", getContext().MODE_PRIVATE);
             String bad_habits = sharedPreferences.getString("Bad_habits", "");
@@ -1098,7 +1114,6 @@ public class post_a_post extends Fragment {
                 for (String big_split : split_bad_habits) {
                     String[] small_split = big_split.split("split_here_bad_habits");
                     if (small_split[0].equals(category_global)) {
-
                         return return_the_streak(small_split[1], small_split[2]);
                     }
                 }
@@ -1109,9 +1124,9 @@ public class post_a_post extends Fragment {
         } else {
             return -1;
         }
-    }
+    }*/
 
-    private int return_the_streak(String name, String real_time) {
+    /*private int return_the_streak(String name, String real_time) {
         SharedPreferences sharedPreferences = getActivity().getSharedPreferences("bad_habits_relapses", MODE_PRIVATE);
         String old = sharedPreferences.getString(name.toLowerCase(), "");
         String[] split_the_dates = old.split("split_here_small");
@@ -1122,10 +1137,10 @@ public class post_a_post extends Fragment {
             old_time = Long.parseLong(real_time);
         }
         return (int) TimeUnit.MILLISECONDS.toDays(System.currentTimeMillis() - old_time);
-    }
+    }*/
 
 
-    private void make_the_check_box_visisble_or_no() {
+    /*private void make_the_check_box_visisble_or_no() {
         if (getView() != null) {
             CheckBox check_box_to_check_show_streak_or_no = getView().findViewById(R.id.check_box_to_check_show_streak_or_no);
             int value = check_if_cat_already_exists();
@@ -1142,14 +1157,14 @@ public class post_a_post extends Fragment {
                 check_box_to_check_show_streak_or_no.setVisibility(View.INVISIBLE);
             }
         }
-    }
+    }*/
 
-    private void rename_button() {
+    /*private void rename_button() {
         if (getView() != null) {
             Button button_to_choose_category_in_the_place_where_you_write_the_post = getView().findViewById(R.id.button_to_choose_category_in_the_place_where_you_write_the_post);
             button_to_choose_category_in_the_place_where_you_write_the_post.setText(category_global);
         }
-    }
+    }*/
 
     private void update_your_posts_from_another_fragment() {
         if (getActivity() != null) {
@@ -1163,7 +1178,7 @@ public class post_a_post extends Fragment {
     private String return_the_name() {
         if (getActivity() != null) {
             SharedPreferences sh = getActivity().getSharedPreferences("name_online_for_post", MODE_PRIVATE);
-            return sh.getString("name", "Name");
+            return sh.getString("name", "no_name_found_135");
         } else {
             return "Name";
         }

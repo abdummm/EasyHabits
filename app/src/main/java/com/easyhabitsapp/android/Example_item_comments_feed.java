@@ -35,6 +35,7 @@ public class Example_item_comments_feed {
     private boolean is_this_switched = false;
     private int index_of_comment_switched;
     private boolean is_this_an_archived_comment = false;
+    private String my_user_id;
 
     private String title_of_the_main_post;
     private String body_of_the_main_post;
@@ -341,5 +342,9 @@ public class Example_item_comments_feed {
 
     public void setReplies(ArrayList<HashMap<String, Object>> replies) {
         this.replies = replies;
+    }
+
+    public String return_my_user_id(){
+        return firebaseUser.getUid();
     }
 }

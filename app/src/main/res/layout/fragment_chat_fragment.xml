@@ -126,11 +126,10 @@
         android:backgroundTint="@color/fav"
         android:text="Start Session"
         android:textColor="@color/white"
-        app:layout_constraintVertical_bias="0.85"
+        android:layout_marginBottom="30dp"
         app:layout_constraintBottom_toTopOf="@+id/text_view_saying_messages_are_not_stored_chat"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/text_telling_user_they_can_change_spinner" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <View
         android:id="@+id/horizantal_straight_line_in_top"
@@ -205,7 +204,7 @@
 
         android:paddingStart="16dp"
         android:paddingEnd="16dp"
-        android:text="Note: Messages are not stored and are deleted at the end of each day."
+        android:text="Note: Messages are not stored and are deleted at the end of each session."
         android:textAlignment="center"
         android:gravity="center"
         android:textColor="@color/fav"
@@ -338,7 +337,7 @@
         app:layout_constraintStart_toStartOf="@+id/text_box_for_edit_box"
         app:layout_constraintTop_toTopOf="@+id/text_box_for_edit_box" />
 
-    <TextView
+    <!--<TextView
         android:id="@+id/text_telling_the_user_to_choose_a_habit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -362,6 +361,8 @@
         android:layout_marginStart="30dp"
         android:layout_marginTop="25dp"
         android:layout_marginEnd="30dp"
+        android:textAlignment="center"
+        android:gravity="center"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/text_telling_the_user_to_choose_a_habit" />
@@ -425,7 +426,7 @@
         android:textColor="@color/fav"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/spinner_to_choose_chat_to_talk_about" />
+        app:layout_constraintTop_toBottomOf="@+id/spinner_to_choose_chat_to_talk_about" />-->
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycle_view_for_chat_in_chat_fragment"

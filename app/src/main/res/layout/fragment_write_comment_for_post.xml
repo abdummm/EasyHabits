@@ -98,7 +98,7 @@
         android:gravity="start|top"
         android:background="@android:color/transparent"
         android:layout_marginEnd="15dp"
-        app:layout_constraintTop_toBottomOf="@+id/choose_categpry_button_in_write_a_comment_to_add"
+        app:layout_constraintTop_toBottomOf="@+id/horizantal_line_at_the_top_below_the_x_button"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="@+id/text_saying_the_title_or_body_of_post_in_comments"
         app:layout_constraintEnd_toEndOf="parent"/>
@@ -125,7 +125,7 @@
         app:layout_constraintStart_toStartOf="@+id/button_to_show_full_post_in_write_a_comment"
         app:layout_constraintEnd_toEndOf="@+id/button_to_show_full_post_in_write_a_comment"/>
 
-    <Button
+    <!--<Button
         android:id="@+id/choose_categpry_button_in_write_a_comment_to_add"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -153,7 +153,7 @@
         app:layout_constraintEnd_toEndOf="@+id/edit_text_to_enter_comment_in_full_view"
         app:layout_constraintStart_toEndOf="@+id/choose_categpry_button_in_write_a_comment_to_add"
         app:layout_constraintTop_toTopOf="@+id/choose_categpry_button_in_write_a_comment_to_add" />
-
+-->
     <TextView
         android:id="@+id/text_with_name_of_reply"
         android:layout_width="wrap_content"

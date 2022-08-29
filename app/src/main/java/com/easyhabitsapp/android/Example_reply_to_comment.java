@@ -33,6 +33,7 @@ public class Example_reply_to_comment {
     private boolean am_i_loading = false;
     private String document_id;
     private boolean is_this_saved;
+    private String my_user_id;
 
     private String title_of_the_main_post;
     private String body_of_the_main_post;
@@ -86,7 +87,7 @@ public class Example_reply_to_comment {
             up_vote_list = (ArrayList<String>) map.get("up_vote_list");
             down_vote_list = (ArrayList<String>) map.get("down_vote_list");
             reports = (ArrayList<String>) map.get("reports");
-            streak =  (int) ((long) map.get("streak"));
+            streak =  -1;
             user_id = (String) map.get("user_id");
             this.firebaseFirestore = firebaseFirestore;
             this.firebaseUser = firebaseUser;
@@ -339,5 +340,9 @@ public class Example_reply_to_comment {
 
     public void setReply_position(int reply_position) {
         this.reply_position = reply_position;
+    }
+
+    public String return_my_user_id(){
+        return firebaseUser.getUid();
     }
 }

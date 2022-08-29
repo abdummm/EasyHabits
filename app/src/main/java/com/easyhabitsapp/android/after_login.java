@@ -265,8 +265,11 @@ public class after_login extends AppCompatActivity {
     private void check_extra() {
         Intent intent = getIntent();
         boolean data = intent.getBooleanExtra("Start_the_emergency_true", false);
+        int id = intent.getIntExtra("open_habit",-1);
         if (data) {
             getSupportFragmentManager().beginTransaction().hide(home_fragment).show(habits_fragment).commitNow();
+        } else if(id != -1){
+            home_fragment.open_a_habit(id);
         }
     }
 

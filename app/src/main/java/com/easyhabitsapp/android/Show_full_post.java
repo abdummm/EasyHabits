@@ -142,9 +142,9 @@ public class Show_full_post extends Fragment {
             position = bundle.getInt("position");
             m_title = bundle.getString("title");
             m_body = bundle.getString("body");
-            m_category = bundle.getString("category");
+           // m_category = bundle.getString("category");
             m_time = (Date) bundle.getSerializable("time");
-            m_streak = bundle.getInt("streak");
+            //m_streak = bundle.getInt("streak");
             m_span = bundle.getString("span");
             m_image = bundle.getBoolean("image");
             m_user_id =  FirebaseAuth.getInstance().getCurrentUser().getUid();
@@ -171,6 +171,7 @@ public class Show_full_post extends Fragment {
             name_of_the_user = bundle.getString("name_of_posted");
             what_is_the_type_of_this = bundle.getString("what_is_the_type_of_this", "normal");
             real_user_id = bundle.getString("user_id");
+            Log.w("test123",what_is_the_type_of_this);
             if (what_is_the_type_of_this.equals("normal")) {
                 if (position == -1) {
                     position_of_comment = bundle.getInt("comment_position", 0);
@@ -333,16 +334,8 @@ public class Show_full_post extends Fragment {
                 set_the_text_at_the_top();
                 set_the_bar_color_under_title();
                 set_up_the_name(name_of_the_user);
-                //make_the_text_saying_no_comments_visible();
+                make_the_text_saying_no_comments_visible();
                 all_buttons_listen_for_old_post();
-                set_up_comment_recycle_view();
-                String body_of_the_comment = bundle.getString("body_comment");
-                String name_of_the_comment = bundle.getString("name_comment");
-                Date time_of_the_comment = (Date) bundle.getSerializable("time_comment");
-                String category_comment = bundle.getString("category_comment");
-                int streak_of_the_comment = bundle.getInt("streak_comment");
-                int position_of_comment = bundle.getInt("position_of_comment");
-                add_the_comment_saved(body_of_the_comment, name_of_the_comment, time_of_the_comment, category_comment, streak_of_the_comment, false, position_of_comment);
                 save_button_click_listen();
             } else if (what_is_the_type_of_this.equals("saved_post_offline_comment")) {
                 set_the_four_text_at_top(m_time.getTime(), m_category, m_streak, false);
@@ -404,16 +397,17 @@ public class Show_full_post extends Fragment {
     private void set_the_four_text_at_top(long time, String category, int streak, boolean dev) {
         if (getView() != null) {
             TextView text_at_top_left_of_card_to_show_time = getView().findViewById(R.id.text_at_top_left_of_card_to_show_time);
-            TextView text_at_the_top_showing_what_category_this_is_in = getView().findViewById(R.id.text_at_the_top_showing_what_category_this_is_in);
-            TextView text_at_the_top_showing_how_much_is_the_streak = getView().findViewById(R.id.text_at_the_top_showing_how_much_is_the_streak);
-            View circle_between_time_and_cat_in_streak_in_post = getView().findViewById(R.id.circle_between_time_and_cat_in_streak_in_post);
+            //TextView text_at_the_top_showing_what_category_this_is_in = getView().findViewById(R.id.text_at_the_top_showing_what_category_this_is_in);
+            //TextView text_at_the_top_showing_how_much_is_the_streak = getView().findViewById(R.id.text_at_the_top_showing_how_much_is_the_streak);
+            //View circle_between_time_and_cat_in_streak_in_post = getView().findViewById(R.id.circle_between_time_and_cat_in_streak_in_post);
             ConstraintLayout layout_inside_nested_layout_for_comments_in_full_post = getView().findViewById(R.id.layout_inside_nested_layout_for_comments_in_full_post);
-            View circle_between_the_streak_and_the_dev_icon = getView().findViewById(R.id.circle_between_the_streak_and_the_dev_icon);
+            //View circle_between_the_streak_and_the_dev_icon = getView().findViewById(R.id.circle_between_the_streak_and_the_dev_icon);
             View view_behind_i_am_the_dev_of_the_text = getView().findViewById(R.id.view_behind_i_am_the_dev_of_the_text);
             TextView text_view_saying_i_am_the_dev_of_the_app = getView().findViewById(R.id.text_view_saying_i_am_the_dev_of_the_app);
+            View circle_between_time_and_dev_in_card = getView().findViewById(R.id.circle_between_time_and_dev_in_card);
             text_at_top_left_of_card_to_show_time.setText(return_time_at_top(time));
-            text_at_the_top_showing_what_category_this_is_in.setText(category);
-            if (streak < 0) {
+            //text_at_the_top_showing_what_category_this_is_in.setText(category);
+            /*if (streak < 0) {
                 text_at_the_top_showing_how_much_is_the_streak.setVisibility(View.INVISIBLE);
                 circle_between_time_and_cat_in_streak_in_post.setVisibility(View.INVISIBLE);
                 ConstraintSet constraintSet = new ConstraintSet();
@@ -426,11 +420,11 @@ public class Show_full_post extends Fragment {
                 } else {
                     text_at_the_top_showing_how_much_is_the_streak.setText(String.valueOf(streak).concat(" days"));
                 }
-            }
+            }*/
             if (!dev) {
                 view_behind_i_am_the_dev_of_the_text.setVisibility(View.INVISIBLE);
                 text_view_saying_i_am_the_dev_of_the_app.setVisibility(View.INVISIBLE);
-                circle_between_the_streak_and_the_dev_icon.setVisibility(View.INVISIBLE);
+                circle_between_time_and_dev_in_card.setVisibility(View.INVISIBLE);
             }
         }
     }
@@ -705,7 +699,7 @@ public class Show_full_post extends Fragment {
                             if (was_this_reported) {
                                 Toast toast = Toast.makeText(getActivity(), "Already reported", Toast.LENGTH_SHORT);
                                 toast.show();
-                            } else if (FirebaseAuth.getInstance().getCurrentUser() != null && FirebaseAuth.getInstance().getCurrentUser().getIdToken(false).getResult().getSignInProvider().equals("google.com")) {
+                            } else if (am_i_signed_in_with_google()) {
                                 new AlertDialog.Builder(getContext())
                                         .setTitle("Report post?")
                                         .setMessage("Are you sure you want to report this post?")
@@ -854,9 +848,9 @@ public class Show_full_post extends Fragment {
             body = body.replace("big_divide", "").replace("small_split", "");
             String save_me;
             if (old != null && !old.isEmpty()) {
-                save_me = old.concat(name_of_the_user).concat("small_split").concat(title).concat("small_split").concat(body).concat("small_split").concat(span).concat("small_split").concat(String.valueOf(time)).concat("small_split").concat(category).concat("small_split").concat(String.valueOf(streak)).concat("small_split").concat(document_id).concat("big_divide");
+                save_me = old.concat(name_of_the_user).concat("small_split").concat(title).concat("small_split").concat(body).concat("small_split").concat(span).concat("small_split").concat(String.valueOf(time)).concat("small_split").concat(document_id).concat("big_divide");
             } else {
-                save_me = name_of_the_user.concat("small_split").concat(title).concat("small_split").concat(body).concat("small_split").concat(span).concat("small_split").concat(String.valueOf(time)).concat("small_split").concat(category).concat("small_split").concat(String.valueOf(streak)).concat("small_split").concat(document_id).concat("big_divide");
+                save_me = name_of_the_user.concat("small_split").concat(title).concat("small_split").concat(body).concat("small_split").concat(span).concat("small_split").concat(String.valueOf(time)).concat("small_split").concat(document_id).concat("big_divide");
             }
             myEdit.putString("posts", save_me);
             myEdit.commit();
@@ -873,7 +867,7 @@ public class Show_full_post extends Fragment {
                 String save_me = "";
                 for (int i = 0; i < big_split.length; i++) {
                     String[] small_split = big_split[i].split("small_split");
-                    if (!small_split[7].equals(document_id)) {
+                    if (!small_split[5].equals(document_id)) {
                         save_me = save_me.concat(big_split[i]).concat("big_divide");
                     }
                 }
@@ -893,7 +887,7 @@ public class Show_full_post extends Fragment {
                     if (am_i_loading_up_voote_down_vote_from_fire_base) {
                         Toast toast = Toast.makeText(getContext(), "You are up voting and down voting too quickly!!", Toast.LENGTH_SHORT);
                         toast.show();
-                    } else if (FirebaseAuth.getInstance().getCurrentUser() != null && FirebaseAuth.getInstance().getCurrentUser().getIdToken(false).getResult().getSignInProvider().equals("google.com")) {
+                    } else if (am_i_signed_in_with_google()) {
                         upvote_or_down_vote_was_clicked = true;
                         int mode;
                         if (m_upvotes.contains(m_user_id)) {
@@ -976,7 +970,7 @@ public class Show_full_post extends Fragment {
                     if (am_i_loading_up_voote_down_vote_from_fire_base) {
                         Toast toast = Toast.makeText(getContext(), "You are up voting and down voting too quickly!!", Toast.LENGTH_SHORT);
                         toast.show();
-                    } else if (FirebaseAuth.getInstance().getCurrentUser() != null && FirebaseAuth.getInstance().getCurrentUser().getIdToken(false).getResult().getSignInProvider().equals("google.com")) {
+                    } else if (am_i_signed_in_with_google()) {
                         upvote_or_down_vote_was_clicked = true;
                         int mode;
                         if (m_upvotes.contains(m_user_id)) {
@@ -1384,19 +1378,19 @@ public class Show_full_post extends Fragment {
                     ArrayList<String> up_vote_list = (ArrayList<String>) map.get("up_vote_list");
                     ArrayList<String> down_vote_list = (ArrayList<String>) map.get("down_vote_list");
                     ArrayList<String> report_list = (ArrayList<String>) map.get("reports");
-                    long streak = (long) map.get("streak");
+                    //long streak = (long) map.get("streak");
                     String user_id = (String) map.get("user_id");
                     ArrayList<HashMap<String, Object>> replies = (ArrayList<HashMap<String, Object>>) map.get("replies");
                     // firebase firestore
                     //document id
                     //position
                     // map with time
-                    String category = (String) map.get("category");
+                    //String category = (String) map.get("category");
                     Timestamp date = (Timestamp) map.get("date");
                     //fire base user
                     int position_of_real = (int) map.get("position_of_real");
                     String name = (String) map.get("name");
-                    example_list.add(new Example_item_comments_feed(body, awards, dev, up_vote_list, down_vote_list, report_list, (int) streak, user_id, replies, m_firebaseFirestore, position_of_real, m_document_id, date.toDate(), category, FirebaseAuth.getInstance().getCurrentUser(), name, m_title, m_body, m_span, m_time, m_category, m_streak, name_of_the_user));
+                    example_list.add(new Example_item_comments_feed(body, awards, dev, up_vote_list, down_vote_list, report_list, -1, user_id, replies, m_firebaseFirestore, position_of_real, m_document_id, date.toDate(), "", FirebaseAuth.getInstance().getCurrentUser(), name, m_title, m_body, m_span, m_time, m_category, m_streak, name_of_the_user));
                     adapter.notifyDataSetChanged();
                 }
             }
@@ -1644,7 +1638,7 @@ public class Show_full_post extends Fragment {
     private void set_the_text_at_the_top() {
         if (getView() != null) {
             TextView text_putting_the_title_of_post_in_bar_in_post_full_detail = getView().findViewById(R.id.text_putting_the_title_of_post_in_bar_in_post_full_detail);
-            text_putting_the_title_of_post_in_bar_in_post_full_detail.setText(m_category);
+            text_putting_the_title_of_post_in_bar_in_post_full_detail.setText(first_letter_capital(m_title));
         }
     }
 
@@ -1690,11 +1684,11 @@ public class Show_full_post extends Fragment {
                                 int position, Timestamp date, String
                                         category, ArrayList<HashMap<String, Object>> comments, String name_of_the_user) {
         if (getView() != null) {
-            put_the_comment_in_your_comments(body, position, name_of_the_user, date.toDate().getTime(), category, streak);
+            put_the_comment_in_your_comments(body, position, name_of_the_user, date.toDate().getTime());
             TextView text_telling_the_number_of_comments_in_card_in_post = getView().findViewById(R.id.text_telling_the_number_of_comments_in_card_in_post);
             TextView text_saying_the_the_comments_are_empty = getView().findViewById(R.id.text_saying_the_the_comments_are_empty);
             RecyclerView recycle_view_to_show_the_comments = getView().findViewById(R.id.recycle_view_to_show_the_comments);
-            example_list.add(0, new Example_item_comments_feed(body, awards, dev, up_vote_list, down_vote_list, report_list, (int) streak, user_id, replies, m_firebaseFirestore, position, m_document_id, date.toDate(), category, FirebaseAuth.getInstance().getCurrentUser(), name_of_the_user, m_title, m_body, m_span, m_time, m_category, m_streak, this.name_of_the_user));
+            example_list.add(0, new Example_item_comments_feed(body, awards, dev, up_vote_list, down_vote_list, report_list, -1, user_id, replies, m_firebaseFirestore, position, m_document_id, date.toDate(), ""/*was category*/, FirebaseAuth.getInstance().getCurrentUser(), name_of_the_user, m_title, m_body, m_span, m_time, m_category, m_streak, this.name_of_the_user));
             adapter.notifyDataSetChanged();
             m_comments = comments;
             int number_of_comments = Integer.parseInt(text_telling_the_number_of_comments_in_card_in_post.getText().toString()) + 1;
@@ -1721,8 +1715,7 @@ public class Show_full_post extends Fragment {
     }
 
     private void put_the_comment_in_your_comments(String body_of_the_comment,
-                                                  int position_of_the_comment, String name_of_the_comment, long time_of_the_comment, String
-                                                          category, long streak_of_the_comment) {
+                                                  int position_of_the_comment, String name_of_the_comment, long time_of_the_comment) {
         if (getActivity() != null) {
             SharedPreferences sharedPreferences = getActivity().getSharedPreferences("your_comments", MODE_PRIVATE);
             String old = sharedPreferences.getString("your_comments", "");
@@ -1732,7 +1725,7 @@ public class Show_full_post extends Fragment {
             String m_body = this.m_body.replace("small_split", "").replace("big_divide", "");
             body_of_the_comment = body_of_the_comment.replace("small_split", "").replace("big_divide", "");
             name_of_the_comment = name_of_the_comment.replace("small_split", "").replace("big_divide", "");
-            String save_me = m_document_id.concat("small_split").concat(name_of_the_user).concat("small_split").concat(m_title).concat("small_split").concat(m_body).concat("small_split").concat(m_span).concat("small_split").concat(String.valueOf(m_time.getTime())).concat("small_split").concat(m_category).concat("small_split").concat(String.valueOf(m_streak)).concat("small_split").concat(body_of_the_comment).concat("small_split").concat(String.valueOf(position_of_the_comment)).concat("small_split").concat(name_of_the_comment).concat("small_split").concat(String.valueOf(time_of_the_comment)).concat("small_split").concat(category).concat("small_split").concat(String.valueOf(streak_of_the_comment)).concat("big_divide");
+            String save_me = m_document_id.concat("small_split").concat(name_of_the_user).concat("small_split").concat(m_title).concat("small_split").concat(m_body).concat("small_split").concat(m_span).concat("small_split").concat(String.valueOf(m_time.getTime())).concat("small_split").concat(body_of_the_comment).concat("small_split").concat(String.valueOf(position_of_the_comment)).concat("small_split").concat(name_of_the_comment).concat("small_split").concat(String.valueOf(time_of_the_comment)).concat("big_divide");
             myEdit.putString("your_comments", old.concat(save_me));
             myEdit.commit();
         }
@@ -1745,8 +1738,8 @@ public class Show_full_post extends Fragment {
             String body_of_the_reply = (String) map.get("body");
             String name_of_the_reply = (String) map.get("name");
             long time_of_the_reply = ((Timestamp) map.get("date")).toDate().getTime();
-            String category_reply = (String) map.get("category");
-            long streak_of_the_reply = (long) map.get("streak");
+            //String category_reply = (String) map.get("category");
+            //long streak_of_the_reply = (long) map.get("streak");
 
             SharedPreferences sharedPreferences = getActivity().getSharedPreferences("your_comments", MODE_PRIVATE);
             String old = sharedPreferences.getString("your_comments", "");
@@ -1758,18 +1751,19 @@ public class Show_full_post extends Fragment {
             name_of_the_comment = name_of_the_comment.replace("small_split", "").replace("big_divide", "");
             body_of_the_reply = body_of_the_reply.replace("small_split", "").replace("big_divide", "");
             name_of_the_reply = name_of_the_reply.replace("small_split", "").replace("big_divide", "");
-            String save_me = m_document_id.concat("small_split").concat(name_of_the_user).concat("small_split").concat(m_title).concat("small_split").concat(m_body).concat("small_split").concat(m_span).concat("small_split").concat(String.valueOf(m_time.getTime())).concat("small_split").concat(m_category).concat("small_split").concat(String.valueOf(m_streak)).concat("small_split").concat(body_of_the_comment).concat("small_split").concat(String.valueOf(position_of_the_comment)).concat("small_split").concat(name_of_the_comment).concat("small_split").concat(String.valueOf(time_of_the_comment)).concat("small_split").concat(category).concat("small_split").concat(String.valueOf(streak_of_the_comment)).concat("small_split").concat(body_of_the_reply).concat("small_split").concat(String.valueOf(position_of_the_reply)).concat("small_split").concat(name_of_the_reply).concat("small_split").concat(String.valueOf(time_of_the_reply)).concat("small_split").concat(category_reply).concat("small_split").concat(String.valueOf(streak_of_the_reply)).concat("big_divide");
+            String save_me = m_document_id.concat("small_split").concat(name_of_the_user).concat("small_split").concat(m_title).concat("small_split").concat(m_body).concat("small_split").concat(m_span).concat("small_split").concat(String.valueOf(m_time.getTime())).concat("small_split").concat(body_of_the_comment).concat("small_split").concat(String.valueOf(position_of_the_comment)).concat("small_split").concat(name_of_the_comment).concat("small_split").concat(String.valueOf(time_of_the_comment)).concat("small_split").concat(body_of_the_reply).concat("small_split").concat(String.valueOf(position_of_the_reply)).concat("small_split").concat(name_of_the_reply).concat("small_split").concat(String.valueOf(time_of_the_reply)).concat("big_divide");
             myEdit.putString("your_comments", old.concat(save_me));
             myEdit.commit();
         }
     }
 
     private boolean am_i_signed_in_with_google() {
-        if (FirebaseAuth.getInstance().getCurrentUser() != null && FirebaseAuth.getInstance().getCurrentUser().getIdToken(false).getResult().getSignInProvider().equals("google.com")) {
+        /*if (FirebaseAuth.getInstance().getCurrentUser() != null && FirebaseAuth.getInstance().getCurrentUser().getIdToken(false).getResult().getSignInProvider().equals("google.com")) {
             return true;
         } else {
             return false;
-        }
+        }*/
+        return true;
     }
 
     private int return_position_of_comment() {
@@ -1791,19 +1785,19 @@ public class Show_full_post extends Fragment {
         ArrayList<String> up_vote_list = (ArrayList<String>) map.get("up_vote_list");
         ArrayList<String> down_vote_list = (ArrayList<String>) map.get("down_vote_list");
         ArrayList<String> report_list = (ArrayList<String>) map.get("reports");
-        long streak = (long) map.get("streak");
+//        long streak = (long) map.get("streak");
         String user_id = (String) map.get("user_id");
         ArrayList<HashMap<String, Object>> replies = (ArrayList<HashMap<String, Object>>) map.get("replies");
         // firebase firestore
         //document id
         //position
         // map with time
-        String category = (String) map.get("category");
+//        String category = (String) map.get("category");
         Timestamp date = (Timestamp) map.get("date");
         //fire base user
         int position_of_real = (int) map.get("position_of_real");
         String name = (String) map.get("name");
-        example_list.add(0, new Example_item_comments_feed(body, awards, dev, up_vote_list, down_vote_list, report_list, (int) streak, user_id, replies, m_firebaseFirestore, position_of_real, m_document_id, date.toDate(), category, FirebaseAuth.getInstance().getCurrentUser(), name, m_title, m_body, m_span, m_time, m_category, m_streak, name_of_the_user));
+        example_list.add(0, new Example_item_comments_feed(body, awards, dev, up_vote_list, down_vote_list, report_list, -1, user_id, replies, m_firebaseFirestore, position_of_real, m_document_id, date.toDate(), "", FirebaseAuth.getInstance().getCurrentUser(), name, m_title, m_body, m_span, m_time, m_category, m_streak, name_of_the_user));
         adapter.notifyDataSetChanged();
     }
 
@@ -1815,7 +1809,7 @@ public class Show_full_post extends Fragment {
         ArrayList<String> up_vote_list = (ArrayList<String>) map.get("up_vote_list");
         ArrayList<String> down_vote_list = (ArrayList<String>) map.get("down_vote_list");
         ArrayList<String> report_list = (ArrayList<String>) map.get("reports");
-        long streak = (long) map.get("streak");
+//        long streak = (long) map.get("streak");
         String user_id = (String) map.get("user_id");
         ArrayList<HashMap<String, Object>> replies = (ArrayList<HashMap<String, Object>>) map.get("replies");
         HashMap<String, Object> reply_location = replies.get(position_of_reply);
@@ -1827,12 +1821,12 @@ public class Show_full_post extends Fragment {
         //document id
         //position
         // map with time
-        String category = (String) map.get("category");
+//        String category = (String) map.get("category");
         Timestamp date = (Timestamp) map.get("date");
         //fire base user
         int position_of_real = (int) map.get("position_of_real");
         String name = (String) map.get("name");
-        example_list.add(0, new Example_item_comments_feed(body, awards, dev, up_vote_list, down_vote_list, report_list, (int) streak, user_id, replies, m_firebaseFirestore, position_of_real, m_document_id, date.toDate(), category, FirebaseAuth.getInstance().getCurrentUser(), name, m_title, m_body, m_span, m_time, m_category, m_streak, name_of_the_user, index));
+        example_list.add(0, new Example_item_comments_feed(body, awards, dev, up_vote_list, down_vote_list, report_list, (int) -1, user_id, replies, m_firebaseFirestore, position_of_real, m_document_id, date.toDate(), "", FirebaseAuth.getInstance().getCurrentUser(), name, m_title, m_body, m_span, m_time, m_category, m_streak, name_of_the_user, index));
         adapter.notifyDataSetChanged();
     }
 
@@ -1949,7 +1943,7 @@ public class Show_full_post extends Fragment {
             button_to_watch_gift_in_card_in_post.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if (are_me_signed_with_google()) {
+                    if (am_i_signed_in_with_google()) {
                         Bottom_sheet_to_give_coins bottom_sheet_to_give_coins = new Bottom_sheet_to_give_coins(position, real_user_id, m_document_id, m_awards, "show");
                         bottom_sheet_to_give_coins.set_update_gift(new Bottom_sheet_to_give_coins.update_gift_listen() {
                             @Override
@@ -1977,7 +1971,7 @@ public class Show_full_post extends Fragment {
             button_showing_rippl_for_gift_in_view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if (are_me_signed_with_google()) {
+                    if (am_i_signed_in_with_google()) {
                         Bottom_sheet_to_give_coins bottom_sheet_to_give_coins = new Bottom_sheet_to_give_coins(position, real_user_id, m_document_id, m_awards, "show");
                         bottom_sheet_to_give_coins.set_update_gift(new Bottom_sheet_to_give_coins.update_gift_listen() {
                             @Override
@@ -2002,14 +1996,6 @@ public class Show_full_post extends Fragment {
                     }
                 }
             });
-        }
-    }
-
-    private boolean are_me_signed_with_google() {
-        if (FirebaseAuth.getInstance().getCurrentUser() != null && FirebaseAuth.getInstance().getCurrentUser().getIdToken(false).getResult().getSignInProvider().equals("google.com")) {
-            return true;
-        } else {
-            return false;
         }
     }
 }

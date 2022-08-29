@@ -120,8 +120,8 @@ public class Adapter_for_comment_post extends RecyclerView.Adapter<Adapter_for_c
             save_button_listen_archived_your_comment(holder, current_item);
             set_time(holder, current_item);
             set_the_dev(holder, current_item);
-            set_category(holder, current_item);
-            set_streak(holder, current_item);
+//            set_category(holder, current_item);
+//            set_streak(holder, current_item);
             set_up_awards(holder, current_item);
             set_body(holder, current_item);
             set_likes(holder, current_item);
@@ -137,8 +137,8 @@ public class Adapter_for_comment_post extends RecyclerView.Adapter<Adapter_for_c
             save_button_listen(holder, current_item);
             set_time(holder, current_item);
             set_the_dev(holder, current_item);
-            set_category(holder, current_item);
-            set_streak(holder, current_item);
+//            set_category(holder, current_item);
+//            set_streak(holder, current_item);
             set_up_awards(holder, current_item);
             set_body(holder, current_item);
             set_likes(holder, current_item);
@@ -175,10 +175,11 @@ public class Adapter_for_comment_post extends RecyclerView.Adapter<Adapter_for_c
         public TextView text_at_top_left_of_card_to_show_time_comment;
         public TextView text_view_saying_i_am_the_dev_of_the_app_comment;
         public View view_behind_i_am_the_dev_of_the_text_comment;
-        public TextView text_at_the_top_showing_what_category_this_is_in_comment;
-        public TextView text_at_the_top_showing_how_much_is_the_streak_comment;
-        public View circle_between_the_streak_and_the_dev_icon_comment;
-        public View circle_between_time_and_cat_in_streak_in_post_comment;
+        //public TextView text_at_the_top_showing_what_category_this_is_in_comment;
+        //public TextView text_at_the_top_showing_how_much_is_the_streak_comment;
+        //public View circle_between_the_streak_and_the_dev_icon_comment;
+        //public View circle_between_time_and_cat_in_streak_in_post_comment;
+        public View circle_between_time_and_dev_in_card_comment;
         public TextView actual_text_to_show_post_in_card_comment;
         public TextView plat_text_beside_the_award_posts_comment;
         public TextView plat_text_beside_the_gold_award_posts_comment;
@@ -214,10 +215,10 @@ public class Adapter_for_comment_post extends RecyclerView.Adapter<Adapter_for_c
             text_at_top_left_of_card_to_show_time_comment = itemView.findViewById(R.id.text_at_top_left_of_card_to_show_time_comment);
             text_view_saying_i_am_the_dev_of_the_app_comment = itemView.findViewById(R.id.text_view_saying_i_am_the_dev_of_the_app_comment);
             view_behind_i_am_the_dev_of_the_text_comment = itemView.findViewById(R.id.view_behind_i_am_the_dev_of_the_text_comment);
-            text_at_the_top_showing_what_category_this_is_in_comment = itemView.findViewById(R.id.text_at_the_top_showing_what_category_this_is_in_comment);
-            text_at_the_top_showing_how_much_is_the_streak_comment = itemView.findViewById(R.id.text_at_the_top_showing_how_much_is_the_streak_comment);
-            circle_between_the_streak_and_the_dev_icon_comment = itemView.findViewById(R.id.circle_between_the_streak_and_the_dev_icon_comment);
-            circle_between_time_and_cat_in_streak_in_post_comment = itemView.findViewById(R.id.circle_between_time_and_cat_in_streak_in_post_comment);
+            //text_at_the_top_showing_what_category_this_is_in_comment = itemView.findViewById(R.id.text_at_the_top_showing_what_category_this_is_in_comment);
+            //text_at_the_top_showing_how_much_is_the_streak_comment = itemView.findViewById(R.id.text_at_the_top_showing_how_much_is_the_streak_comment);
+            //circle_between_the_streak_and_the_dev_icon_comment = itemView.findViewById(R.id.circle_between_the_streak_and_the_dev_icon_comment);
+            //circle_between_time_and_cat_in_streak_in_post_comment = itemView.findViewById(R.id.circle_between_time_and_cat_in_streak_in_post_comment);
             actual_text_to_show_post_in_card_comment = itemView.findViewById(R.id.actual_text_to_show_post_in_card_comment);
             plat_text_beside_the_award_posts_comment = itemView.findViewById(R.id.plat_text_beside_the_award_posts_comment);
             plat_text_beside_the_gold_award_posts_comment = itemView.findViewById(R.id.plat_text_beside_the_gold_award_posts_comment);
@@ -244,6 +245,7 @@ public class Adapter_for_comment_post extends RecyclerView.Adapter<Adapter_for_c
             recylce_view_insode_each_comment_showing_replies = itemView.findViewById(R.id.recylce_view_insode_each_comment_showing_replies);
             text_name_in_the_card_of_the_post_user_name = itemView.findViewById(R.id.text_name_in_the_card_of_the_post_user_name);
             button_to_watch_gift_in_card_in_post_comment = itemView.findViewById(R.id.button_to_watch_gift_in_card_in_post_comment);
+            circle_between_time_and_dev_in_card_comment = itemView.findViewById(R.id.circle_between_time_and_dev_in_card_comment);
         }
     }
 
@@ -266,7 +268,7 @@ public class Adapter_for_comment_post extends RecyclerView.Adapter<Adapter_for_c
                         Toast.makeText(holder.constriant_inside_card_inside_post_feed_comment.getContext(), "Can't report archived comments", Toast.LENGTH_SHORT).show();
                     } else {
                         if (am_i_signed_in_with_google(current_item)) {
-                            if (current_item.isReported() || current_item.getReport_list().contains(current_item.getUser_id())) {
+                            if (current_item.isReported() || current_item.getReport_list().contains(current_item.return_my_user_id())) {
                                 Toast toast = Toast.makeText(holder.constriant_inside_card_inside_post_feed_comment.getContext(), "Already reported", Toast.LENGTH_SHORT);
                                 toast.show();
                             } else {
@@ -304,7 +306,7 @@ public class Adapter_for_comment_post extends RecyclerView.Adapter<Adapter_for_c
                 DocumentSnapshot snapshot = transaction.get(sfDocRef);
                 ArrayList<HashMap<String, Object>> comments = (ArrayList<HashMap<String, Object>>) snapshot.get("comments");
                 ArrayList<String> reports_list = (ArrayList<String>) comments.get(current_item.getPosition()).get("reports");
-                reports_list.add(current_item.getUser_id());
+                reports_list.add(current_item.return_my_user_id());
                 transaction.update(sfDocRef, "comments", comments, "type", "comment");
 
                 // Success
@@ -362,18 +364,18 @@ public class Adapter_for_comment_post extends RecyclerView.Adapter<Adapter_for_c
         String body_of_the_main_post = current_item.getBody_of_the_main_post().replace("small_split", "").replace("big_divide", "");
         String span_the_main = current_item.getSpan_of_the_main_post();
         long time_the_main = current_item.getTime_of_the_main_post().getTime();
-        String category_of_the_main = current_item.getCategory_of_the_main_post();
-        long streak_of_the_main_post = current_item.getStreak_of_the_main_post();
+//        String category_of_the_main = current_item.getCategory_of_the_main_post();
+//        long streak_of_the_main_post = current_item.getStreak_of_the_main_post();
 
         // comment information
         String body_of_the_comment = current_item.getBody().replace("small_split", "").replace("big_divide", "");
         String position_of_the_comment = String.valueOf(current_item.getPosition());
         String name_of_the_comment = current_item.getName().replace("small_split", "").replace("big_divide", "");
         long time_of_the_comment = current_item.getTime().getTime();
-        String category = current_item.getCategory();
-        long streak_of_the_comment = current_item.getStreak();
+//        String category = current_item.getCategory();
+//        long streak_of_the_comment = current_item.getStreak();
 
-        String all = document_id.concat("small_split").concat(name_in_the_main).concat("small_split").concat(title_of_the_main).concat("small_split").concat(body_of_the_main_post).concat("small_split").concat(span_the_main).concat("small_split").concat(String.valueOf(time_the_main)).concat("small_split").concat(category_of_the_main).concat("small_split").concat(String.valueOf(streak_of_the_main_post)).concat("small_split").concat(body_of_the_comment).concat("small_split").concat(position_of_the_comment).concat("small_split").concat(name_of_the_comment).concat("small_split").concat(String.valueOf(time_of_the_comment)).concat("small_split").concat(category).concat("small_split").concat(String.valueOf(streak_of_the_comment)).concat("big_divide");
+        String all = document_id.concat("small_split").concat(name_in_the_main).concat("small_split").concat(title_of_the_main).concat("small_split").concat(body_of_the_main_post).concat("small_split").concat(span_the_main).concat("small_split").concat(String.valueOf(time_the_main)).concat("small_split").concat(body_of_the_comment).concat("small_split").concat(position_of_the_comment).concat("small_split").concat(name_of_the_comment).concat("small_split").concat(String.valueOf(time_of_the_comment)).concat("big_divide");
         if (old != null && !old.isEmpty()) {
             myEdit.putString("saved_comments", old.concat(all));
         } else {
@@ -395,17 +397,17 @@ public class Adapter_for_comment_post extends RecyclerView.Adapter<Adapter_for_c
         String body_of_the_main_post = current_item.getBody_of_the_main_post().replace("small_split", "").replace("big_divide", "");
         String span_the_main = current_item.getSpan_of_the_main_post();
         long time_the_main = current_item.getTime_of_the_main_post().getTime();
-        String category_of_the_main = current_item.getCategory_of_the_main_post();
-        long streak_of_the_main_post = current_item.getStreak_of_the_main_post();
+//        String category_of_the_main = current_item.getCategory_of_the_main_post();
+//        long streak_of_the_main_post = current_item.getStreak_of_the_main_post();
 
         // comment information
         String body_of_the_comment = current_item.getBody().replace("small_split", "").replace("big_divide", "");
         String position_of_the_comment = String.valueOf(current_item.getPosition());
         String name_of_the_comment = current_item.getName().replace("small_split", "").replace("big_divide", "");
         long time_of_the_comment = current_item.getTime().getTime();
-        String category = current_item.getCategory();
-        long streak_of_the_comment = current_item.getStreak();
-        String remove_all = document_id.concat("small_split").concat(name_in_the_main).concat("small_split").concat(title_of_the_main).concat("small_split").concat(body_of_the_main_post).concat("small_split").concat(span_the_main).concat("small_split").concat(String.valueOf(time_the_main)).concat("small_split").concat(category_of_the_main).concat("small_split").concat(String.valueOf(streak_of_the_main_post)).concat("small_split").concat(body_of_the_comment).concat("small_split").concat(position_of_the_comment).concat("small_split").concat(name_of_the_comment).concat("small_split").concat(String.valueOf(time_of_the_comment)).concat("small_split").concat(category).concat("small_split").concat(String.valueOf(streak_of_the_comment));
+//        String category = current_item.getCategory();
+//        long streak_of_the_comment = current_item.getStreak();
+        String remove_all = document_id.concat("small_split").concat(name_in_the_main).concat("small_split").concat(title_of_the_main).concat("small_split").concat(body_of_the_main_post).concat("small_split").concat(span_the_main).concat("small_split").concat(String.valueOf(time_the_main)).concat("small_split").concat(body_of_the_comment).concat("small_split").concat(position_of_the_comment).concat("small_split").concat(name_of_the_comment).concat("small_split").concat(String.valueOf(time_of_the_comment));
         if (old != null && !old.isEmpty()) {
             String save_me = "";
             String[] big_spit = old.split("big_divide");
@@ -430,17 +432,17 @@ public class Adapter_for_comment_post extends RecyclerView.Adapter<Adapter_for_c
         String body_of_the_main_post = current_item.getBody_of_the_main_post().replace("small_split", "").replace("big_divide", "");
         String span_the_main = current_item.getSpan_of_the_main_post();
         long time_the_main = current_item.getTime_of_the_main_post().getTime();
-        String category_of_the_main = current_item.getCategory_of_the_main_post();
-        long streak_of_the_main_post = current_item.getStreak_of_the_main_post();
+//        String category_of_the_main = current_item.getCategory_of_the_main_post();
+//        long streak_of_the_main_post = current_item.getStreak_of_the_main_post();
 
         // comment information
         String body_of_the_comment = current_item.getBody().replace("small_split", "").replace("big_divide", "");
         String position_of_the_comment = String.valueOf(current_item.getPosition());
         String name_of_the_comment = current_item.getName().replace("small_split", "").replace("big_divide", "");
         long time_of_the_comment = current_item.getTime().getTime();
-        String category = current_item.getCategory();
-        long streak_of_the_comment = current_item.getStreak();
-        String remove_all = document_id.concat("small_split").concat(name_in_the_main).concat("small_split").concat(title_of_the_main).concat("small_split").concat(body_of_the_main_post).concat("small_split").concat(span_the_main).concat("small_split").concat(String.valueOf(time_the_main)).concat("small_split").concat(category_of_the_main).concat("small_split").concat(String.valueOf(streak_of_the_main_post)).concat("small_split").concat(body_of_the_comment).concat("small_split").concat(position_of_the_comment).concat("small_split").concat(name_of_the_comment).concat("small_split").concat(String.valueOf(time_of_the_comment)).concat("small_split").concat(category).concat("small_split").concat(String.valueOf(streak_of_the_comment));
+//        String category = current_item.getCategory();
+//        long streak_of_the_comment = current_item.getStreak();
+        String remove_all = document_id.concat("small_split").concat(name_in_the_main).concat("small_split").concat(title_of_the_main).concat("small_split").concat(body_of_the_main_post).concat("small_split").concat(span_the_main).concat("small_split").concat(String.valueOf(time_the_main)).concat("small_split").concat(body_of_the_comment).concat("small_split").concat(position_of_the_comment).concat("small_split").concat(name_of_the_comment).concat("small_split").concat(String.valueOf(time_of_the_comment));
         if (old != null && !old.isEmpty()) {
             String[] big_spit = old.split("big_divide");
             for (int i = 0; i < big_spit.length; i++) {
@@ -488,25 +490,25 @@ public class Adapter_for_comment_post extends RecyclerView.Adapter<Adapter_for_c
         if (current_item.isIs_this_an_archived_comment()) {
             holder.view_behind_i_am_the_dev_of_the_text_comment.setVisibility(View.INVISIBLE);
             holder.text_view_saying_i_am_the_dev_of_the_app_comment.setVisibility(View.INVISIBLE);
-            holder.circle_between_the_streak_and_the_dev_icon_comment.setVisibility(View.INVISIBLE);
+            holder.circle_between_time_and_dev_in_card_comment.setVisibility(View.INVISIBLE);
         } else {
             if (current_item.isDev()) {
                 holder.view_behind_i_am_the_dev_of_the_text_comment.setVisibility(View.VISIBLE);
                 holder.text_view_saying_i_am_the_dev_of_the_app_comment.setVisibility(View.VISIBLE);
-                holder.circle_between_the_streak_and_the_dev_icon_comment.setVisibility(View.VISIBLE);
+                holder.circle_between_time_and_dev_in_card_comment.setVisibility(View.VISIBLE);
             } else {
                 holder.view_behind_i_am_the_dev_of_the_text_comment.setVisibility(View.INVISIBLE);
                 holder.text_view_saying_i_am_the_dev_of_the_app_comment.setVisibility(View.INVISIBLE);
-                holder.circle_between_the_streak_and_the_dev_icon_comment.setVisibility(View.INVISIBLE);
+                holder.circle_between_time_and_dev_in_card_comment.setVisibility(View.INVISIBLE);
             }
         }
     }
 
-    private void set_category(final ExampleViewHolder holder, final Example_item_comments_feed current_item) {
+    /*private void set_category(final ExampleViewHolder holder, final Example_item_comments_feed current_item) {
         holder.text_at_the_top_showing_what_category_this_is_in_comment.setText(current_item.getCategory());
-    }
+    }*/
 
-    private void set_streak(final ExampleViewHolder holder, final Example_item_comments_feed current_item) {
+    /*private void set_streak(final ExampleViewHolder holder, final Example_item_comments_feed current_item) {
         if (current_item.getStreak() < 0) {
             holder.text_at_the_top_showing_how_much_is_the_streak_comment.setVisibility(View.INVISIBLE);
             holder.circle_between_time_and_cat_in_streak_in_post_comment.setVisibility(View.INVISIBLE);
@@ -524,7 +526,7 @@ public class Adapter_for_comment_post extends RecyclerView.Adapter<Adapter_for_c
                 holder.text_at_the_top_showing_how_much_is_the_streak_comment.setText(String.valueOf(current_item.getStreak()).concat(" days"));
             }
         }
-    }
+    }*/
 
     private static float convertDpToPixel(float dp, Context context) {
         return dp * ((float) context.getResources().getDisplayMetrics().densityDpi / DisplayMetrics.DENSITY_DEFAULT);
@@ -679,10 +681,10 @@ public class Adapter_for_comment_post extends RecyclerView.Adapter<Adapter_for_c
     }
 
     private void color_the_up_vote_down_vote_at_start(final ExampleViewHolder holder, final Example_item_comments_feed current_item) {
-        if (current_item.isUpvoted() || (!current_item.isWas_this_touched() && current_item.getUp_vote_list().contains(current_item.getUser_id()))) {
+        if (current_item.isUpvoted() || (!current_item.isWas_this_touched() && current_item.getUp_vote_list().contains(current_item.return_my_user_id()))) {
             color_the_up_vote_down_vote(1, holder, current_item);
         }
-        if (current_item.isDown_vote() || (!current_item.isWas_this_touched() && current_item.getDown_vote_list().contains(current_item.getUser_id()))) {
+        if (current_item.isDown_vote() || (!current_item.isWas_this_touched() && current_item.getDown_vote_list().contains(current_item.return_my_user_id()))) {
             color_the_up_vote_down_vote(2, holder, current_item);
         }
     }
@@ -780,18 +782,19 @@ public class Adapter_for_comment_post extends RecyclerView.Adapter<Adapter_for_c
     }
 
     private boolean am_i_signed_in_with_google(final Example_item_comments_feed current_item) {
-        if (current_item.getFirebaseUser() != null && current_item.getFirebaseUser().getIdToken(false).getResult().getSignInProvider().equals("google.com")) {
+        /*if (current_item.getFirebaseUser() != null && current_item.getFirebaseUser().getIdToken(false).getResult().getSignInProvider().equals("google.com")) {
             return true;
         } else {
             return false;
-        }
+        }*/
+        return true;
     }
 
     private void up_vote_was_clicked(@NonNull final ExampleViewHolder holder, final Example_item_comments_feed current_item) {
         int mode;
-        if (current_item.getUp_vote_list().contains(current_item.getUser_id())) {
+        if (current_item.getUp_vote_list().contains(current_item.return_my_user_id())) {
             mode = 1;
-        } else if (current_item.getDown_vote_list().contains(current_item.getUser_id())) {
+        } else if (current_item.getDown_vote_list().contains(current_item.return_my_user_id())) {
             mode = 2;
         } else {
             mode = 3;
@@ -862,9 +865,9 @@ public class Adapter_for_comment_post extends RecyclerView.Adapter<Adapter_for_c
 
     private void down_vote_was_cliclked(@NonNull final ExampleViewHolder holder, final Example_item_comments_feed current_item) {
         int mode;
-        if (current_item.getUp_vote_list().contains(current_item.getUser_id())) {
+        if (current_item.getUp_vote_list().contains(current_item.return_my_user_id())) {
             mode = 1;
-        } else if (current_item.getDown_vote_list().contains(current_item.getUser_id())) {
+        } else if (current_item.getDown_vote_list().contains(current_item.return_my_user_id())) {
             mode = 2;
         } else {
             mode = 3;
@@ -942,7 +945,7 @@ public class Adapter_for_comment_post extends RecyclerView.Adapter<Adapter_for_c
                 ArrayList<Map<String, Object>> array_list_of_map = (ArrayList<Map<String, Object>>) snapshot.get("comments");
                 Map<String, Object> map = array_list_of_map.get(current_item.getPosition());
                 ArrayList<String> arrayList_with_upvote = (ArrayList<String>) map.get("up_vote_list");
-                arrayList_with_upvote.add(current_item.getUser_id());
+                arrayList_with_upvote.add(current_item.return_my_user_id());
                 transaction.update(sfDocRef, "comments", array_list_of_map, "type", "comment");
                 // Success
                 return null;
@@ -976,7 +979,7 @@ public class Adapter_for_comment_post extends RecyclerView.Adapter<Adapter_for_c
                 ArrayList<Map<String, Object>> array_list_of_map = (ArrayList<Map<String, Object>>) snapshot.get("comments");
                 Map<String, Object> map = array_list_of_map.get(current_item.getPosition());
                 ArrayList<String> arrayList_with_upvote = (ArrayList<String>) map.get("up_vote_list");
-                arrayList_with_upvote.remove(current_item.getUser_id());
+                arrayList_with_upvote.remove(current_item.return_my_user_id());
                 map.put("up_vote_list", arrayList_with_upvote);
                 Log.w("arrayarray", String.valueOf(current_item.getPosition()));
                 transaction.update(sfDocRef, "comments", array_list_of_map, "type", "comment");
@@ -1015,7 +1018,7 @@ public class Adapter_for_comment_post extends RecyclerView.Adapter<Adapter_for_c
                 ArrayList<Map<String, Object>> array_list_of_map = (ArrayList<Map<String, Object>>) snapshot.get("comments");
                 Map<String, Object> map = array_list_of_map.get(current_item.getPosition());
                 ArrayList<String> arrayList_with_upvote = (ArrayList<String>) map.get("down_vote_list");
-                arrayList_with_upvote.add(current_item.getUser_id());
+                arrayList_with_upvote.add(current_item.return_my_user_id());
                 transaction.update(sfDocRef, "comments", array_list_of_map, "type", "comment");
                 // Success
                 return null;
@@ -1049,7 +1052,7 @@ public class Adapter_for_comment_post extends RecyclerView.Adapter<Adapter_for_c
                 ArrayList<Map<String, Object>> array_list_of_map = (ArrayList<Map<String, Object>>) snapshot.get("comments");
                 Map<String, Object> map = array_list_of_map.get(current_item.getPosition());
                 ArrayList<String> arrayList_with_upvote = (ArrayList<String>) map.get("down_vote_list");
-                arrayList_with_upvote.remove(current_item.getUser_id());
+                arrayList_with_upvote.remove(current_item.return_my_user_id());
                 transaction.update(sfDocRef, "comments", array_list_of_map, "type", "comment");
 
                 // Success
@@ -1218,7 +1221,7 @@ public class Adapter_for_comment_post extends RecyclerView.Adapter<Adapter_for_c
         holder.button_to_watch_gift_in_card_in_post_comment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                gift_button_listen_listener.gift_was_clicked(current_item.getDocument_id(), current_item.getDocument_id(), current_item.getPosition(), -100, current_item.getAwards());
+                gift_button_listen_listener.gift_was_clicked(current_item.getUser_id(), current_item.getDocument_id(), current_item.getPosition(), -100, current_item.getAwards());
             }
         });
     }

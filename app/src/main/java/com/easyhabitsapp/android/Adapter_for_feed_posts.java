@@ -191,10 +191,10 @@ public class Adapter_for_feed_posts extends RecyclerView.Adapter<Adapter_for_fee
             }
             holder.text_telling_the_number_of_comments_in_card_in_post.setText(String.valueOf(current_item.getM_number_of_comments()));
             holder.text_at_top_left_of_card_to_show_time.setText(return_time_at_top(current_item.getM_time()));
-            holder.text_at_the_top_showing_what_category_this_is_in.setText(current_item.get_m_category());
+            //holder.text_at_the_top_showing_what_category_this_is_in.setText(current_item.get_m_category());
 
             //hide the streak
-            if (current_item.getM_streak() < 0) {
+            /*if (current_item.getM_streak() < 0) {
                 holder.text_at_the_top_showing_how_much_is_the_streak.setVisibility(View.INVISIBLE);
                 holder.circle_between_time_and_cat_in_streak_in_post.setVisibility(View.INVISIBLE);
                 ConstraintLayout constraintLayout = holder.constriant_inside_card_inside_post_feed;
@@ -210,7 +210,7 @@ public class Adapter_for_feed_posts extends RecyclerView.Adapter<Adapter_for_fee
                 } else {
                     holder.text_at_the_top_showing_how_much_is_the_streak.setText(String.valueOf(current_item.getM_streak()).concat(" days"));
                 }
-            }
+            }*/
 
             // put the awards
             long plat_award = current_item.getM_awards().get(0);
@@ -338,8 +338,8 @@ public class Adapter_for_feed_posts extends RecyclerView.Adapter<Adapter_for_fee
             holder.title_for_post_in_posts_to_show_for_public.setText(make_first_letter_cap(current_item.getM_title()));
             holder.actual_text_to_show_post_in_card.setText(first_letter_capital(current_item.getM_body()));
             holder.text_at_top_left_of_card_to_show_time.setText(return_time_at_top(current_item.getM_time()));
-            holder.text_at_the_top_showing_what_category_this_is_in.setText(current_item.get_m_category());
-            if (current_item.getM_streak() < 0) {
+            //holder.text_at_the_top_showing_what_category_this_is_in.setText(current_item.get_m_category());
+            /*if (current_item.getM_streak() < 0) {
                 holder.text_at_the_top_showing_how_much_is_the_streak.setVisibility(View.INVISIBLE);
                 holder.circle_between_time_and_cat_in_streak_in_post.setVisibility(View.INVISIBLE);
                 ConstraintLayout constraintLayout = holder.constriant_inside_card_inside_post_feed;
@@ -355,7 +355,7 @@ public class Adapter_for_feed_posts extends RecyclerView.Adapter<Adapter_for_fee
                 } else {
                     holder.text_at_the_top_showing_how_much_is_the_streak.setText(String.valueOf(current_item.getM_streak()).concat(" days"));
                 }
-            }
+            }*/
             holder.text_showing_the_number_of_up_votes.setText("1");
             holder.text_telling_the_number_of_comments_in_card_in_post.setText("0");
 
@@ -454,9 +454,10 @@ public class Adapter_for_feed_posts extends RecyclerView.Adapter<Adapter_for_fee
         public TextView text_showing_the_number_of_up_votes;
         public TextView text_telling_the_number_of_comments_in_card_in_post;
         public TextView text_at_top_left_of_card_to_show_time;
-        public TextView text_at_the_top_showing_what_category_this_is_in;
-        public TextView text_at_the_top_showing_how_much_is_the_streak;
-        public View circle_between_time_and_cat_in_streak_in_post;
+        //public TextView text_at_the_top_showing_what_category_this_is_in;
+        //public TextView text_at_the_top_showing_how_much_is_the_streak;
+        //public View circle_between_time_and_cat_in_streak_in_post;
+        public View circle_between_time_and_dev_in_card;
 
         public View start_part_of_the_grey_part_in_post_award;
         public View middle_part_of_the_grey_part_in_post_award;
@@ -483,7 +484,7 @@ public class Adapter_for_feed_posts extends RecyclerView.Adapter<Adapter_for_fee
         public CardView card_showing_the_non_loading;
         public ConstraintLayout main_layout_in_posts_in_card_in_item;
         public Button button_to_watch_three_dot_in_card_in_post_in_top;
-        public View circle_between_the_streak_and_the_dev_icon;
+        //public View circle_between_the_streak_and_the_dev_icon;
         public Button button_to_watch_share_in_card_in_post_in_top;
         public TextView text_saying_name_in_feed_post_recylce_view_card;
         public TextView text_view_saying_i_am_the_dev_of_the_app;
@@ -504,9 +505,9 @@ public class Adapter_for_feed_posts extends RecyclerView.Adapter<Adapter_for_fee
             text_showing_the_number_of_up_votes = itemView.findViewById(R.id.text_showing_the_number_of_up_votes);
             text_telling_the_number_of_comments_in_card_in_post = itemView.findViewById(R.id.text_telling_the_number_of_comments_in_card_in_post);
             text_at_top_left_of_card_to_show_time = itemView.findViewById(R.id.text_at_top_left_of_card_to_show_time);
-            text_at_the_top_showing_what_category_this_is_in = itemView.findViewById(R.id.text_at_the_top_showing_what_category_this_is_in);
-            text_at_the_top_showing_how_much_is_the_streak = itemView.findViewById(R.id.text_at_the_top_showing_how_much_is_the_streak);
-            circle_between_time_and_cat_in_streak_in_post = itemView.findViewById(R.id.circle_between_time_and_cat_in_streak_in_post);
+//            text_at_the_top_showing_what_category_this_is_in = itemView.findViewById(R.id.text_at_the_top_showing_what_category_this_is_in);
+//            text_at_the_top_showing_how_much_is_the_streak = itemView.findViewById(R.id.text_at_the_top_showing_how_much_is_the_streak);
+//            circle_between_time_and_cat_in_streak_in_post = itemView.findViewById(R.id.circle_between_time_and_cat_in_streak_in_post);
             start_part_of_the_grey_part_in_post_award = itemView.findViewById(R.id.start_part_of_the_grey_part_in_post_award);
             middle_part_of_the_grey_part_in_post_award = itemView.findViewById(R.id.middle_part_of_the_grey_part_in_post_award);
             end_part_of_the_grey_part_in_post_award = itemView.findViewById(R.id.end_part_of_the_grey_part_in_post_award);
@@ -531,7 +532,7 @@ public class Adapter_for_feed_posts extends RecyclerView.Adapter<Adapter_for_fee
             card_showing_the_non_loading = itemView.findViewById(R.id.card_showing_the_non_loading);
             main_layout_in_posts_in_card_in_item = itemView.findViewById(R.id.main_layout_in_posts_in_card_in_item);
             button_to_watch_three_dot_in_card_in_post_in_top = itemView.findViewById(R.id.button_to_watch_three_dot_in_card_in_post_in_top);
-            circle_between_the_streak_and_the_dev_icon = itemView.findViewById(R.id.circle_between_the_streak_and_the_dev_icon);
+            //circle_between_the_streak_and_the_dev_icon = itemView.findViewById(R.id.circle_between_the_streak_and_the_dev_icon);
             button_to_watch_share_in_card_in_post_in_top = itemView.findViewById(R.id.button_to_watch_share_in_card_in_post_in_top);
             text_saying_name_in_feed_post_recylce_view_card = itemView.findViewById(R.id.text_saying_name_in_feed_post_recylce_view_card);
             text_view_saying_i_am_the_dev_of_the_app = itemView.findViewById(R.id.text_view_saying_i_am_the_dev_of_the_app);
@@ -541,6 +542,7 @@ public class Adapter_for_feed_posts extends RecyclerView.Adapter<Adapter_for_fee
             view_at_the_end_of_the_dev_object = itemView.findViewById(R.id.view_at_the_end_of_the_dev_object);
             view_behind_i_am_the_dev_of_the_text = itemView.findViewById(R.id.view_behind_i_am_the_dev_of_the_text);
             button_to_watch_gift_in_card_in_post = itemView.findViewById(R.id.button_to_watch_gift_in_card_in_post);
+            circle_between_time_and_dev_in_card = itemView.findViewById(R.id.circle_between_time_and_dev_in_card);
         }
     }
 
@@ -824,9 +826,9 @@ public class Adapter_for_feed_posts extends RecyclerView.Adapter<Adapter_for_fee
         body = body.replace("big_divide", "").replace("small_split", "");
         String save_me;
         if (old != null && !old.isEmpty()) {
-            save_me = old.concat(name).concat("small_split").concat(title).concat("small_split").concat(body).concat("small_split").concat(span).concat("small_split").concat(String.valueOf(time)).concat("small_split").concat(category).concat("small_split").concat(String.valueOf(streak)).concat("small_split").concat(document_id).concat("big_divide");
+            save_me = old.concat(name).concat("small_split").concat(title).concat("small_split").concat(body).concat("small_split").concat(span).concat("small_split").concat(String.valueOf(time)).concat("small_split").concat(document_id).concat("big_divide");
         } else {
-            save_me = name.concat("small_split").concat(title).concat("small_split").concat(body).concat("small_split").concat(span).concat("small_split").concat(String.valueOf(time)).concat("small_split").concat(category).concat("small_split").concat(String.valueOf(streak)).concat("small_split").concat(document_id).concat("big_divide");
+            save_me = name.concat("small_split").concat(title).concat("small_split").concat(body).concat("small_split").concat(span).concat("small_split").concat(String.valueOf(time)).concat("small_split").concat(document_id).concat("big_divide");
         }
         myEdit.putString("posts", save_me);
         myEdit.commit();
@@ -841,7 +843,7 @@ public class Adapter_for_feed_posts extends RecyclerView.Adapter<Adapter_for_fee
             String save_me = "";
             for (int i = 0; i < big_split.length; i++) {
                 String[] small_split = big_split[i].split("small_split");
-                if (!small_split[7].equals(document_id)) {
+                if (!small_split[5].equals(document_id)) {
                     save_me = save_me.concat(big_split[i]).concat("big_divide");
                 }
             }
@@ -857,7 +859,7 @@ public class Adapter_for_feed_posts extends RecyclerView.Adapter<Adapter_for_fee
             String[] big_split = old.split("big_divide");
             for (int i = 0; i < big_split.length; i++) {
                 String[] small_split = big_split[i].split("small_split");
-                if (small_split[7].equals(document_id)) {
+                if (small_split[5].equals(document_id)) {
                     return true;
                 }
             }
@@ -1246,7 +1248,7 @@ public class Adapter_for_feed_posts extends RecyclerView.Adapter<Adapter_for_fee
 
     private void set_is_this_by_dev(boolean mode,@NonNull final ExampleViewHolder holder, final Example_item_feed_posts current_item){
         if(mode){
-            holder.circle_between_the_streak_and_the_dev_icon.setVisibility(View.VISIBLE);
+            holder.circle_between_time_and_dev_in_card.setVisibility(View.VISIBLE);
             holder.text_view_saying_i_am_the_dev_of_the_app.setVisibility(View.VISIBLE);
             holder.view_at_the_top_of_the_dev_object.setVisibility(View.VISIBLE);
             holder.view_at_the_bottom_of_the_dev_object.setVisibility(View.VISIBLE);
@@ -1254,7 +1256,7 @@ public class Adapter_for_feed_posts extends RecyclerView.Adapter<Adapter_for_fee
             holder.view_at_the_end_of_the_dev_object.setVisibility(View.VISIBLE);
             holder.view_behind_i_am_the_dev_of_the_text.setVisibility(View.VISIBLE);
         } else {
-            holder.circle_between_the_streak_and_the_dev_icon.setVisibility(View.INVISIBLE);
+            holder.circle_between_time_and_dev_in_card.setVisibility(View.INVISIBLE);
             holder.text_view_saying_i_am_the_dev_of_the_app.setVisibility(View.INVISIBLE);
             holder.view_at_the_top_of_the_dev_object.setVisibility(View.INVISIBLE);
             holder.view_at_the_bottom_of_the_dev_object.setVisibility(View.INVISIBLE);

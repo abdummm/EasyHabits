@@ -32,6 +32,7 @@
     private boolean is_this_coin = false;
     private int coins;
     private boolean ready_to_dismiss = false;
+    private boolean ready = false;
 
     public Dialog_thank_user_for_purchase(int award, boolean is_this_an_award, int gift) {
         this.award = award;
@@ -44,15 +45,32 @@
         this.coins = coins;
     }
 
+     public Dialog_thank_user_for_purchase(int award, boolean is_this_an_award, int gift,boolean ready) {
+         this.award = award;
+         this.is_this_an_award = is_this_an_award;
+         this.gift = gift;
+         this.ready = ready;
+     }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.dialog_thank_user_for_purchase, container);
         this.mview = rootView;
-        set_the_views(0);
-        ok_button_listen();
+        TextView title_of_dialog = mview.findViewById(R.id.title_of_dialog);
+        TextView text_saying_gift_is_sent = mview.findViewById(R.id.text_saying_gift_is_sent);
+        if(ready){
+            title_of_dialog.setText("Congratulations!!");
+            text_saying_gift_is_sent.setText("You and your friend received 6 month of premium!!");
+            loaded();
+            ok_button_listen();
+        } else {
+            set_the_views(0);
+            ok_button_listen();
+        }
         if (getDialog() != null) {
             getDialog().setCanceledOnTouchOutside(false);
+            getDialog().setCancelable(false);
         }
         return rootView;
     }

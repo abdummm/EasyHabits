@@ -59,6 +59,7 @@ public class Dialog_asking_which_habit extends DialogFragment {
         if (tag == null || tag.equals("tag")) {
             bad_habits.add(new Bad_habit_example_item("Custom"));
         }
+        bad_habits.add(new Bad_habit_example_item("All"));
         bad_habits.add(new Bad_habit_example_item("Video games"));
         bad_habits.add(new Bad_habit_example_item("Social media"));
         bad_habits.add(new Bad_habit_example_item("Impulsive shopping"));
@@ -89,95 +90,9 @@ public class Dialog_asking_which_habit extends DialogFragment {
         recycle_to_show_bad_habits_only.setAdapter(adapter);
         adapter.setOnItemClickListener(new Bad_habit_adapter.OnItemClickListener2() {
             @Override
-            public void onItemClick(int position) {
-                String save_me = "";
-                if (tag == null || tag.equals("tag")) {
-                    if (position == 0) {
-                        save_me = "Custom";
-                    } else if (position == 1) {
-                        save_me = "Video games";
-                    } else if (position == 2) {
-                        save_me = "Social media";
-                    } else if (position == 3) {
-                        save_me = "Impulsive shopping";
-                    } else if (position == 4) {
-                        save_me = "Porn / masturbating";
-                    } else if (position == 5) {
-                        save_me = "Smoking / Vaping";
-                    } else if (position == 6) {
-                        save_me = "Weed / Marijuana";
-                    } else if (position == 7) {
-                        save_me = "Alcohol";
-                    } else if (position == 8) {
-                        save_me = "Drugs";
-                    } else if (position == 9) {
-                        save_me = "Cursing";
-                    } else if (position == 10) {
-                        save_me = "Procrastination";
-                    } else if (position == 11) {
-                        save_me = "Lying";
-                    } else if (position == 12) {
-                        save_me = "Coffee";
-                    } else if (position == 13) {
-                        save_me = "Fast food";
-                    } else if (position == 14) {
-                        save_me = "Sugar";
-                    } else if (position == 15) {
-                        save_me = "Over eating";
-                    } else if (position == 16) {
-                        save_me = "Gambling";
-                    } else if (position == 17) {
-                        save_me = "Self harm";
-                    } else if (position == 18) {
-                        save_me = "Over working";
-                    } else if (position == 19) {
-                        save_me = "Over sleeping";
-                    }
-                } else {
-                    if (position == 0) {
-                        save_me = "Video games";
-                    } else if (position == 1) {
-                        save_me = "Social media";
-                    } else if (position == 2) {
-                        save_me = "Impulsive shopping";
-                    } else if (position == 3) {
-                        save_me = "Porn / masturbating";
-                    } else if (position == 4) {
-                        save_me = "Smoking / Vaping";
-                    } else if (position == 5) {
-                        save_me = "Weed / Marijuana";
-                    } else if (position == 6) {
-                        save_me = "Alcohol";
-                    } else if (position == 7) {
-                        save_me = "Drugs";
-                    } else if (position == 8) {
-                        save_me = "Cursing";
-                    } else if (position == 9) {
-                        save_me = "Procrastination";
-                    } else if (position == 10) {
-                        save_me = "Lying";
-                    } else if (position == 11) {
-                        save_me = "Coffee";
-                    } else if (position == 12) {
-                        save_me = "Fast food";
-                    } else if (position == 13) {
-                        save_me = "Sugar";
-                    } else if (position == 14) {
-                        save_me = "Over eating";
-                    } else if (position == 15) {
-                        save_me = "Gambling";
-                    } else if (position == 16) {
-                        save_me = "Self harm";
-                    } else if (position == 17) {
-                        save_me = "Over working";
-                    } else if (position == 18) {
-                        save_me = "Over sleeping";
-                    } else  if (position == 19) {
-                        save_me = "Custom";
-                    }
-                }
+            public void onItemClick(String habit) {
                 if (getActivity() != null) {
-                    Intent i = new Intent().putExtra("habit_name", save_me);
+                    Intent i = new Intent().putExtra("habit_name", habit);
                     if (getTargetFragment() != null) {
                         getTargetFragment().onActivityResult(getTargetRequestCode(), Activity.RESULT_OK, i);
                     }

@@ -330,7 +330,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <View
-                android:id="@+id/circle_between_time_and_cat_in_card"
+                android:id="@+id/circle_between_time_and_dev_in_card"
                 android:layout_width="5dp"
                 android:layout_height="5dp"
                 android:layout_marginStart="5dp"
@@ -341,7 +341,7 @@
                 app:layout_constraintStart_toEndOf="@+id/text_at_top_left_of_card_to_show_time"
                 app:layout_constraintTop_toTopOf="@+id/text_at_top_left_of_card_to_show_time" />
 
-            <TextView
+            <!--<TextView
                 android:id="@+id/text_at_the_top_showing_what_category_this_is_in"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -392,7 +392,7 @@
                 app:layout_constraintBottom_toBottomOf="@+id/text_at_top_left_of_card_to_show_time"
                 app:layout_constraintStart_toEndOf="@+id/text_at_the_top_showing_how_much_is_the_streak"
                 app:layout_constraintTop_toTopOf="@+id/text_at_top_left_of_card_to_show_time" />
-
+-->
             <View
                 android:id="@+id/view_at_the_top_of_the_dev_object"
                 android:layout_width="0.1dp"
@@ -452,7 +452,7 @@
                 android:text="DEV"
                 android:textColor="@color/white"
                 android:textStyle="bold"
-                app:layout_constraintStart_toEndOf="@+id/circle_between_the_streak_and_the_dev_icon"
+                app:layout_constraintStart_toEndOf="@+id/circle_between_time_and_dev_in_card"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <View

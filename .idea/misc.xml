@@ -4,16 +4,53 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="app/src/main/res/drawable/arrow_down_down_vote_card.xml" value="0.1645" />
+        <entry key="app/src/main/res/drawable/back_button_white.xml" value="0.194" />
+        <entry key="app/src/main/res/drawable/ic_round_add_24.xml" value="0.194" />
         <entry key="app/src/main/res/drawable/ic_round_remove_24.xml" value="0.1645" />
+        <entry key="app/src/main/res/drawable/magic_button.xml" value="0.11" />
+        <entry key="app/src/main/res/drawable/magic_button_24.xml" value="0.1415" />
+        <entry key="app/src/main/res/drawable/magic_button_48px.xml" value="0.1415" />
+        <entry key="app/src/main/res/drawable/nearby_share_24px.xml" value="0.1415" />
+        <entry key="app/src/main/res/drawable/outline_login_24.xml" value="0.194" />
         <entry key="app/src/main/res/drawable/rectangle_with_opacity.xml" value="0.1645" />
         <entry key="app/src/main/res/drawable/remove-48px.xml" value="0.195" />
         <entry key="app/src/main/res/drawable/removing_corners_for_view.xml" value="0.1645" />
         <entry key="app/src/main/res/drawable/round_add_24.xml" value="0.1645" />
         <entry key="app/src/main/res/drawable/round_brush_24.xml" value="0.1645" />
         <entry key="app/src/main/res/drawable/round_corener_progress_bar_negative.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable/round_local_cafe_24.xml" value="0.194" />
+        <entry key="app/src/main/res/drawable/round_login_24.xml" value="0.1415" />
+        <entry key="app/src/main/res/layout/activity_before_main__activity.xml" value="0.15520833333333334" />
+        <entry key="app/src/main/res/layout/activity_counter_activity.xml" value="0.18697916666666667" />
+        <entry key="app/src/main/res/layout/bottom_sheet_coutner.xml" value="0.19114583333333332" />
+        <entry key="app/src/main/res/layout/bottom_sheet_to_choose_good_habit_color.xml" value="0.19114583333333332" />
+        <entry key="app/src/main/res/layout/bottom_sheet_to_choose_sorting_method_posts.xml" value="0.19114583333333332" />
+        <entry key="app/src/main/res/layout/bottom_sheet_to_sign_posts.xml" value="0.18697916666666667" />
+        <entry key="app/src/main/res/layout/dialog_custom_laoding.xml" value="0.18697916666666667" />
+        <entry key="app/src/main/res/layout/dialog_for_good_habit_reminder.xml" value="0.21614583333333334" />
+        <entry key="app/src/main/res/layout/dialog_for_invite_card.xml" value="0.23229675292968752" />
+        <entry key="app/src/main/res/layout/dialog_fragment_to_show_full_comment_post.xml" value="0.21614583333333334" />
+        <entry key="app/src/main/res/layout/dialog_subscribe_to_premuim.xml" value="0.21614583333333334" />
+        <entry key="app/src/main/res/layout/dialog_thank_user_for_purchase.xml" value="0.21614583333333334" />
+        <entry key="app/src/main/res/layout/dialog_to_ask_award.xml" value="0.18697916666666667" />
+        <entry key="app/src/main/res/layout/dialog_to_make_the_user_enter_their_name.xml" value="0.10112457275390627" />
+        <entry key="app/src/main/res/layout/enter_color_for_journal_bottom_sheet.xml" value="0.19114583333333332" />
         <entry key="app/src/main/res/layout/fragment_add_a_habit.xml" value="0.15520833333333334" />
+        <entry key="app/src/main/res/layout/fragment_chat_fragment.xml" value="0.1367816091954023" />
+        <entry key="app/src/main/res/layout/fragment_edit_bad_habits.xml" value="0.1390625" />
         <entry key="app/src/main/res/layout/fragment_habits_fragment.xml" value="0.17572463768115942" />
+        <entry key="app/src/main/res/layout/fragment_mood_tracker.xml" value="0.15579710144927536" />
+        <entry key="app/src/main/res/layout/fragment_posts_fragment.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/fragment_settings_fragment.xml" value="0.18843841552734375" />
+        <entry key="app/src/main/res/layout/fragment_show_full_post.xml" value="0.1" />
         <entry key="app/src/main/res/layout/fragment_view_home_habit.xml" value="0.20425724637681159" />
+        <entry key="app/src/main/res/layout/fragment_write_comment_for_post.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/item_card_comment_and_reply.xml" value="0.1767823402926048" />
+        <entry key="app/src/main/res/layout/item_for_comment_post.xml" value="0.3624282836914063" />
+        <entry key="app/src/main/res/layout/item_for_comment_reply.xml" value="0.36271327405297016" />
+        <entry key="app/src/main/res/layout/item_post_feed.xml" value="0.24355025230903427" />
+        <entry key="app/src/main/res/layout/layout_to_show_list_of_habits.xml" value="0.18697916666666667" />
+        <entry key="app/src/main/res/layout/post_a_post_fragment.xml" value="0.29339294433593754" />
         <entry key="app/src/main/res/layout/recycle_view_emergency_main.xml" value="0.1528045654296875" />
       </map>
     </option>

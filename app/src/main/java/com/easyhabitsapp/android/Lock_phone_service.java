@@ -61,7 +61,7 @@ public class Lock_phone_service extends Service {
         super.onCreate();
         is_the_activity_running = false;
         Intent notificationIntent = new Intent(this, Locking_the_screen.class);
-        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, PendingIntent.FLAG_IMMUTABLE);
         Notification notification = new NotificationCompat.Builder(this, "lock_phone_service_channel")
                 .setContentTitle("Phone is locked")
                 .setContentText("locking phone")
@@ -119,7 +119,7 @@ public class Lock_phone_service extends Service {
 
     private void set_the_service_text() {
         Intent notificationIntent = new Intent(this, Locking_the_screen.class);
-        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, PendingIntent.FLAG_IMMUTABLE);
         Notification notification = new NotificationCompat.Builder(this, "lock_phone_service_channel")
                 .setContentTitle("Phone is locked")
                 .setContentText(Get_the_time.open_the_file(this))

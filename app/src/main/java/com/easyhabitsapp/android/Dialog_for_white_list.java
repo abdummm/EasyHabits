@@ -78,6 +78,7 @@ public class Dialog_for_white_list extends DialogFragment {
         clear_list_button();
         if(getDialog()!=null) {
             getDialog().setCanceledOnTouchOutside(false);
+            getDialog().setCancelable(false);
         }
         return rootView;
     }

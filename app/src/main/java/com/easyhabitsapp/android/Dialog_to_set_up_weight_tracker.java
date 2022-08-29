@@ -36,6 +36,7 @@ public class Dialog_to_set_up_weight_tracker extends DialogFragment implements D
         this.mview = rootView;
         if (getDialog() != null) {
             getDialog().setCanceledOnTouchOutside(false);
+            getDialog().setCancelable(false);
         }
         set_up_the_hints();
         imperial_and_kilo_button_listen();

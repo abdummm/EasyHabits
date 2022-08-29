@@ -28,6 +28,7 @@ public class Dialog_to_show_journals_to_switch extends DialogFragment {
         this.mview = rootView;
         if (getDialog() != null) {
             getDialog().setCanceledOnTouchOutside(false);
+            getDialog().setCancelable(false);
         }
         set_up_the_recycle();
         button_cancel_listen();

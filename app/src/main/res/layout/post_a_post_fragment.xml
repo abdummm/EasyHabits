@@ -30,6 +30,7 @@
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:background="@drawable/round_button_for_trash"
+        android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="@+id/change_size_in_the_post_emergency"
         app:layout_constraintEnd_toEndOf="@+id/change_size_in_the_post_emergency"
         app:layout_constraintStart_toStartOf="@+id/change_size_in_the_post_emergency"
@@ -41,6 +42,7 @@
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:background="@drawable/round_button_for_trash"
+        android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="@+id/color_in_the_post_emergency"
         app:layout_constraintEnd_toEndOf="@+id/color_in_the_post_emergency"
         app:layout_constraintStart_toStartOf="@+id/color_in_the_post_emergency"
@@ -52,6 +54,7 @@
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:background="@drawable/round_button_for_trash"
+        android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="@+id/highlight_in_the_post_emergency"
         app:layout_constraintEnd_toEndOf="@+id/highlight_in_the_post_emergency"
         app:layout_constraintStart_toStartOf="@+id/highlight_in_the_post_emergency"
@@ -63,6 +66,7 @@
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:background="@drawable/round_button_for_trash"
+        android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="@+id/set_text_to_bold_post"
         app:layout_constraintEnd_toEndOf="@+id/set_text_to_bold_post"
         app:layout_constraintStart_toStartOf="@+id/set_text_to_bold_post"
@@ -74,6 +78,7 @@
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:background="@drawable/round_button_for_trash"
+        android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="@+id/set_text_to_italic_post"
         app:layout_constraintEnd_toEndOf="@+id/set_text_to_italic_post"
         app:layout_constraintStart_toStartOf="@+id/set_text_to_italic_post"
@@ -85,6 +90,7 @@
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:background="@drawable/round_button_for_trash"
+        android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="@+id/set_text_to_underline_post"
         app:layout_constraintEnd_toEndOf="@+id/set_text_to_underline_post"
         app:layout_constraintStart_toStartOf="@+id/set_text_to_underline_post"
@@ -96,6 +102,7 @@
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:background="@drawable/round_button_for_trash"
+        android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="@+id/set_text_to_strike_through_post"
         app:layout_constraintEnd_toEndOf="@+id/set_text_to_strike_through_post"
         app:layout_constraintStart_toStartOf="@+id/set_text_to_strike_through_post"
@@ -121,7 +128,7 @@
         android:textSize="22sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button_to_choose_category_in_the_place_where_you_write_the_post"
+        app:layout_constraintTop_toBottomOf="@+id/view_in_the_top_of_post"
         app:layout_goneMarginStart="5dp" />
 
     <View
@@ -140,6 +147,7 @@
         android:layout_height="30dp"
         android:layout_marginEnd="8dp"
         android:background="@drawable/round_highlight_24"
+        android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="@+id/view_in_the_top_of_post"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/view_in_the_top_of_post" />
@@ -150,6 +158,7 @@
         android:layout_height="30dp"
         android:layout_marginEnd="10dp"
         android:background="@drawable/round_color_lens_24"
+        android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="@+id/view_in_the_top_of_post"
         app:layout_constraintEnd_toStartOf="@+id/highlight_in_the_post_emergency"
         app:layout_constraintTop_toTopOf="@+id/view_in_the_top_of_post" />
@@ -160,6 +169,7 @@
         android:layout_height="30dp"
         android:layout_marginEnd="10dp"
         android:background="@drawable/round_format_size_24"
+        android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="@+id/view_in_the_top_of_post"
         app:layout_constraintEnd_toStartOf="@+id/color_in_the_post_emergency"
         app:layout_constraintTop_toTopOf="@+id/view_in_the_top_of_post" />
@@ -190,6 +200,7 @@
         android:layout_height="30dp"
         android:layout_marginEnd="10dp"
         android:background="@drawable/round_format_bold_24"
+        android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="@+id/view_in_the_top_of_post"
         app:layout_constraintEnd_toStartOf="@+id/change_size_in_the_post_emergency"
         app:layout_constraintTop_toTopOf="@+id/view_in_the_top_of_post" />
@@ -200,6 +211,7 @@
         android:layout_height="30dp"
         android:layout_marginEnd="10dp"
         android:background="@drawable/round_format_italic_24"
+        android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="@+id/view_in_the_top_of_post"
         app:layout_constraintEnd_toStartOf="@+id/set_text_to_bold_post"
         app:layout_constraintTop_toTopOf="@+id/view_in_the_top_of_post" />
@@ -210,6 +222,7 @@
         android:layout_height="30dp"
         android:layout_marginEnd="10dp"
         android:background="@drawable/round_format_underlined_24"
+        android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="@+id/view_in_the_top_of_post"
         app:layout_constraintEnd_toStartOf="@+id/set_text_to_italic_post"
         app:layout_constraintTop_toTopOf="@+id/view_in_the_top_of_post" />
@@ -220,6 +233,7 @@
         android:layout_height="30dp"
         android:layout_marginEnd="10dp"
         android:background="@drawable/round_strikethrough_s_24"
+        android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="@+id/view_in_the_top_of_post"
         app:layout_constraintEnd_toStartOf="@+id/set_text_to_underline_post"
         app:layout_constraintTop_toTopOf="@+id/view_in_the_top_of_post" />
@@ -270,13 +284,13 @@
         app:layout_constraintStart_toStartOf="@+id/text_view_viewing_the_whole_post"
         app:layout_constraintTop_toTopOf="@+id/text_view_viewing_the_whole_post" />
 
-    <Button
+    <!--<Button
         android:id="@+id/button_to_choose_category_in_the_place_where_you_write_the_post"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:backgroundTint="@color/fav"
-        android:text="Choose Category"
+        android:text="Add a Category"
         android:textAllCaps="false"
         android:textColor="@color/white"
         app:layout_constraintStart_toStartOf="@+id/text_saying_title_of_the_post"
@@ -297,6 +311,6 @@
         app:layout_constraintEnd_toEndOf="@+id/text_saying_title_of_the_post"
         app:layout_constraintStart_toEndOf="@+id/button_to_choose_category_in_the_place_where_you_write_the_post"
         app:layout_constraintTop_toTopOf="@+id/button_to_choose_category_in_the_place_where_you_write_the_post" />
-
+-->
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -18,6 +18,7 @@ import android.text.TextUtils;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -45,12 +46,15 @@ import com.android.billingclient.api.SkuDetailsResponseListener;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreSettings;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.functions.FirebaseFunctions;
 import com.google.firebase.functions.HttpsCallableResult;
 
@@ -61,6 +65,7 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 
 /**
@@ -111,6 +116,12 @@ public class Settings_fragment extends Fragment {
         upgrade_subscription_button_listen();
         sign_in_setting();
         hide_sign_in_button();
+        enter_invite_code_listen();
+        get_invite_code_listen();
+        hide_refer();
+        check_refer_online();
+        change_my_name_button_listen();
+        set_the_text_of_change_my_name_button();
     }
 
     private void rate_app_button_listen() {
@@ -785,7 +796,8 @@ public class Settings_fragment extends Fragment {
             List<Purchase> purhcases = billingClient.queryPurchases(BillingClient.SkuType.SUBS).getPurchasesList();
             if (purhcases != null && purhcases.size() > 0) {
                 if (purhcases.get(0).getSku().contains("1_year_subscription")) {
-                    upgrade_susbcription_in_setting_premuim.setText("Downgrade to monthly billing");
+                    //upgrade_susbcription_in_setting_premuim.setText("Downgrade to monthly billing");
+                    upgrade_susbcription_in_setting_premuim.setVisibility(View.GONE);
                     token = purhcases.get(0).getPurchaseToken();
                 } else if (purhcases.get(0).getSku().contains("1_month_subscription")) {
                     upgrade_susbcription_in_setting_premuim.setText("upgrade to yearly billing");
@@ -801,9 +813,23 @@ public class Settings_fragment extends Fragment {
             button_saying_sign_in_with_firebase_settings.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Bottom_sheet_to_sing_in_to_write_posts bottom_sheet_to_sing_in_to_write_posts = new Bottom_sheet_to_sing_in_to_write_posts();
-                    bottom_sheet_to_sing_in_to_write_posts.setTargetFragment(Settings_fragment.this, 254);
-                    bottom_sheet_to_sing_in_to_write_posts.show(getActivity().getSupportFragmentManager(), "tag");
+                    if(return_the_name().equals("no_name_found_135")){
+                        Dialog_to_make_the_user_enter_their_name dialog_to_make_the_user_enter_their_name = new Dialog_to_make_the_user_enter_their_name();
+                        dialog_to_make_the_user_enter_their_name.set_card_clicked_reply(new Dialog_to_make_the_user_enter_their_name.name_is_done() {
+                            @Override
+                            public void name_is_done() {
+                                Bottom_sheet_to_sing_in_to_write_posts bottom_sheet_to_sing_in_to_write_posts = new Bottom_sheet_to_sing_in_to_write_posts();
+                                bottom_sheet_to_sing_in_to_write_posts.setTargetFragment(Settings_fragment.this, 254);
+                                bottom_sheet_to_sing_in_to_write_posts.show(getActivity().getSupportFragmentManager(), "tag");
+                            }
+                        });
+                        dialog_to_make_the_user_enter_their_name.show(getParentFragmentManager(),"");
+                    } else {
+                        Bottom_sheet_to_sing_in_to_write_posts bottom_sheet_to_sing_in_to_write_posts = new Bottom_sheet_to_sing_in_to_write_posts();
+                        bottom_sheet_to_sing_in_to_write_posts.setTargetFragment(Settings_fragment.this, 254);
+                        bottom_sheet_to_sing_in_to_write_posts.show(getActivity().getSupportFragmentManager(), "tag");
+                    }
+                    //Toast.makeText(getContext(),"Coming soon...",Toast.LENGTH_LONG).show();
                 }
             });
         }
@@ -831,14 +857,14 @@ public class Settings_fragment extends Fragment {
                 ConstraintLayout constraintLayout = getView().findViewById(R.id.setting_parent_layout);
                 ConstraintSet constraintSet = new ConstraintSet();
                 constraintSet.clone(constraintLayout);
-                constraintSet.connect(R.id.button_saying_rate_in_settings, ConstraintSet.TOP, R.id.text_saying_setting_in_setting_tab, ConstraintSet.BOTTOM, (int) convertDpToPixel(10f, getContext()));
+                constraintSet.connect(R.id.button_saying_rate_in_settings, ConstraintSet.TOP, R.id.button_saying_enter_invite_code, ConstraintSet.BOTTOM, 0);
                 constraintSet.applyTo(constraintLayout);
             } else {
                 button_saying_sign_in_with_firebase_settings.setVisibility(View.VISIBLE);
                 ConstraintLayout constraintLayout = getView().findViewById(R.id.setting_parent_layout);
                 ConstraintSet constraintSet = new ConstraintSet();
                 constraintSet.clone(constraintLayout);
-                constraintSet.connect(R.id.button_saying_sign_in_with_firebase_settings, ConstraintSet.TOP, R.id.text_saying_setting_in_setting_tab, ConstraintSet.BOTTOM, (int) convertDpToPixel(10f, getContext()));
+                constraintSet.connect(R.id.button_saying_sign_in_with_firebase_settings, ConstraintSet.TOP, R.id.button_saying_enter_invite_code, ConstraintSet.BOTTOM, 0);
                 constraintSet.connect(R.id.button_saying_rate_in_settings, ConstraintSet.TOP, R.id.button_saying_sign_in_with_firebase_settings, ConstraintSet.BOTTOM, 0);
                 constraintSet.applyTo(constraintLayout);
             }
@@ -857,7 +883,175 @@ public class Settings_fragment extends Fragment {
             if (bundle != null) {
                 String text = bundle.getString("sign_in", "anonymous");
                 hide_sign_in_button();
+                check_the_gift_then_update_the_text();
+                check_refer_online();
             }
+        }
+    }
+
+    private void enter_invite_code_listen() {
+        if (getView() != null) {
+            Button button_saying_enter_invite_code = getView().findViewById(R.id.button_saying_enter_invite_code);
+            button_saying_enter_invite_code.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Dialog_for_invite_card dialog_for_invite_card = new Dialog_for_invite_card("enter invite code",FirebaseAuth.getInstance().getCurrentUser().getUid());
+                    dialog_for_invite_card.set_up_everything_is_ok(new Dialog_for_invite_card.everything_is_ok() {
+                        @Override
+                        public void everything_is_ok() {
+                            button_saying_enter_invite_code.setVisibility(View.GONE);
+                            dialog_for_invite_card.dismiss();
+                            Dialog_thank_user_for_purchase dialog_thank_user_for_purchase = new Dialog_thank_user_for_purchase(0, false, 6,true);
+                            dialog_thank_user_for_purchase.show(getActivity().getSupportFragmentManager(), "");
+                            check_the_gift_then_update_the_text();
+                        }
+                    });
+                    dialog_for_invite_card.show(getParentFragmentManager(),"");
+                }
+            });
+        }
+    }
+
+    private void get_invite_code_listen(){
+        if(getView()!=null){
+            Button button_saying_enter_invite_code = getView().findViewById(R.id.button_saying_enter_invite_code);
+            Button button_saying_get_my_invite_code = getView().findViewById(R.id.button_saying_get_my_invite_code);
+            button_saying_get_my_invite_code.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Dialog_for_invite_card dialog_for_invite_card = new Dialog_for_invite_card("get your invite code",FirebaseAuth.getInstance().getCurrentUser().getUid());
+                    dialog_for_invite_card.set_up_everything_is_ok(new Dialog_for_invite_card.everything_is_ok() {
+                        @Override
+                        public void everything_is_ok() {
+                            button_saying_enter_invite_code.setVisibility(View.GONE);
+                            dialog_for_invite_card.dismiss();
+                            Dialog_thank_user_for_purchase dialog_thank_user_for_purchase = new Dialog_thank_user_for_purchase(0, false, 6,true);
+                            dialog_thank_user_for_purchase.show(getActivity().getSupportFragmentManager(), "");
+                            check_the_gift_then_update_the_text();
+                        }
+                    });
+                    dialog_for_invite_card.show(getParentFragmentManager(),"");
+                }
+            });
+        }
+    }
+
+    private void hide_refer(){
+        if(getView()!=null){
+            Button button_saying_enter_invite_code = getView().findViewById(R.id.button_saying_enter_invite_code);
+            SharedPreferences sh = getActivity().getSharedPreferences("did_i_register_my_code", MODE_PRIVATE);
+            if(sh.getBoolean("register",false)){
+                button_saying_enter_invite_code.setVisibility(View.GONE);
+            }
+        }
+    }
+
+    private void check_refer_online() {
+        if (getActivity() != null && getView()!=null) {
+            Button button_saying_enter_invite_code = getView().findViewById(R.id.button_saying_enter_invite_code);
+            SharedPreferences sh = getActivity().getSharedPreferences("did_i_register_my_code", MODE_PRIVATE);
+            if (!sh.getBoolean("register",false)) {
+                DocumentReference docRef = firebaseFirestore.collection("redeem_refer").document(FirebaseAuth.getInstance().getCurrentUser().getUid());
+                docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if (task.isSuccessful()) {
+                            DocumentSnapshot document = task.getResult();
+                            if (document.exists()) {
+                                SharedPreferences sharedPreferences = getActivity().getSharedPreferences("did_i_register_my_code",MODE_PRIVATE);
+                                SharedPreferences.Editor myEdit = sharedPreferences.edit();
+                                myEdit.putBoolean("register", true);
+                                myEdit.commit();
+                                button_saying_enter_invite_code.setVisibility(View.GONE);
+                            }
+                        } else {
+                            //error
+                        }
+                    }
+                });
+            }
+        }
+    }
+
+    private String return_the_name() {
+        if (getActivity() != null) {
+            SharedPreferences sh = getActivity().getSharedPreferences("name_online_for_post", MODE_PRIVATE);
+            return sh.getString("name", "no_name_found_135");
+        } else {
+            return "Name";
+        }
+    }
+
+    private void change_my_name_button_listen(){
+        if(getView()!=null){
+            Button button_to_change_name_in_settings = getView().findViewById(R.id.button_to_change_name_in_settings);
+            button_to_change_name_in_settings.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    SharedPreferences sharedPreferences = getActivity().getSharedPreferences("name_online_for_post", MODE_PRIVATE);
+                    String name = sharedPreferences.getString("name", "");
+                    long last_attempt = sharedPreferences.getLong("last_changed",0);
+                    if(name.equals("")){
+                        Dialog_to_make_the_user_enter_their_name dialog_to_make_the_user_enter_their_name = new Dialog_to_make_the_user_enter_their_name();
+                        dialog_to_make_the_user_enter_their_name.show(getParentFragmentManager(),"");
+                    } else {
+                        if((System.currentTimeMillis() - last_attempt) >= TimeUnit.DAYS.toMillis(3)){
+                            Dialog_to_make_the_user_enter_their_name dialog_to_make_the_user_enter_their_name = new Dialog_to_make_the_user_enter_their_name("Note: You can only change it once every 3 days","Change your username");
+                            dialog_to_make_the_user_enter_their_name.show(getParentFragmentManager(),"");
+                        } else {
+                            Toast.makeText(getContext(),"You can't change your name more than once every 3 days",Toast.LENGTH_LONG).show();
+                        }
+                    }
+                }
+            });
+        }
+    }
+
+    private void set_the_text_of_change_my_name_button() {
+        if (getView() != null) {
+            Button button_to_change_name_in_settings = getView().findViewById(R.id.button_to_change_name_in_settings);
+            if (return_the_name().equals("no_name_found_135")) {
+                button_to_change_name_in_settings.setText("Set my name");
+            }
+        }
+    }
+
+    private void check_the_gift_then_update_the_text() {
+        FirebaseFirestoreSettings settings = new FirebaseFirestoreSettings.Builder().setPersistenceEnabled(true).build();
+        firebaseFirestore.setFirestoreSettings(settings);
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("is_user_gifted", MODE_PRIVATE);
+        SharedPreferences.Editor myEdit = sharedPreferences.edit();
+        if (FirebaseAuth.getInstance().getCurrentUser() == null) {
+            myEdit.putBoolean("premuim", false);
+        } else {
+            //if (sharedPreferences.getLong("last_checked", 0) < System.currentTimeMillis() - 86400000L || run_anyways) {
+            firebaseFirestore.collection("gifts").document(FirebaseAuth.getInstance().getCurrentUser().getUid()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                    if (task.isSuccessful()) {
+                        DocumentSnapshot document = task.getResult();
+                        if (document.exists()) {
+                            long time = document.getLong("time");
+                            if (time > System.currentTimeMillis() - 86400000L) {
+                                myEdit.putBoolean("premuim", true);
+                                myEdit.putLong("premuim_until", time+86400000L);
+                                myEdit.commit();
+                            } else {
+                                myEdit.putBoolean("premuim", false);
+                                myEdit.commit();
+                            }
+                        } else {
+                            myEdit.putBoolean("premuim", false);
+                            myEdit.commit();
+                        }
+                        set_the_premuim_in_text();
+                    } else {
+                        //fail
+                    }
+                }
+            });
+            //myEdit.putLong("last_checked", System.currentTimeMillis());
+            //}
         }
     }
 }

@@ -44,6 +44,7 @@ public class Dialog_view_history_for_weight_tracker extends DialogFragment {
         this.mview = rootView;
         if (getDialog() != null) {
             getDialog().setCanceledOnTouchOutside(false);
+            getDialog().setCancelable(false);
         }
         set_up_the_recycle_view();
         ok_button_listen();

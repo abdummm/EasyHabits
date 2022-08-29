@@ -53,8 +53,8 @@ public class Adapter_for_comment_reply extends RecyclerView.Adapter<Adapter_for_
         card_click_listen(holder, current_item);
         set_up_date(holder, current_item);
         set_the_name(holder, current_item);
-        set_category(holder,current_item);
-        set_streak(holder,current_item);
+//        set_category(holder,current_item);
+//        set_streak(holder,current_item);
 
     }
 
@@ -79,9 +79,9 @@ public class Adapter_for_comment_reply extends RecyclerView.Adapter<Adapter_for_
         public CardView card_showing_the_non_loading_comment_reply;
         public TextView name_of_the_replier_in_card_in_reply;
         public TextView text_at_top_left_of_card_to_show_time_comment_reply;
-        public TextView text_at_the_top_showing_what_category_this_is_in_comment_reply;
-        public TextView text_at_the_top_showing_how_much_is_the_streak_comment_reply;
-        public View circle_between_time_and_cat_in_streak_in_post_comment_reply;
+//        public TextView text_at_the_top_showing_what_category_this_is_in_comment_reply;
+//        public TextView text_at_the_top_showing_how_much_is_the_streak_comment_reply;
+//        public View circle_between_time_and_cat_in_streak_in_post_comment_reply;
 
         public ExampleViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -90,9 +90,9 @@ public class Adapter_for_comment_reply extends RecyclerView.Adapter<Adapter_for_
             card_showing_the_non_loading_comment_reply = itemView.findViewById(R.id.card_showing_the_non_loading_comment_reply);
             name_of_the_replier_in_card_in_reply = itemView.findViewById(R.id.name_of_the_replier_in_card_in_reply);
             text_at_top_left_of_card_to_show_time_comment_reply = itemView.findViewById(R.id.text_at_top_left_of_card_to_show_time_comment_reply);
-            text_at_the_top_showing_what_category_this_is_in_comment_reply = itemView.findViewById(R.id.text_at_the_top_showing_what_category_this_is_in_comment_reply);
-            text_at_the_top_showing_how_much_is_the_streak_comment_reply = itemView.findViewById(R.id.text_at_the_top_showing_how_much_is_the_streak_comment_reply);
-            circle_between_time_and_cat_in_streak_in_post_comment_reply = itemView.findViewById(R.id.circle_between_time_and_cat_in_streak_in_post_comment_reply);
+//            text_at_the_top_showing_what_category_this_is_in_comment_reply = itemView.findViewById(R.id.text_at_the_top_showing_what_category_this_is_in_comment_reply);
+//            text_at_the_top_showing_how_much_is_the_streak_comment_reply = itemView.findViewById(R.id.text_at_the_top_showing_how_much_is_the_streak_comment_reply);
+//            circle_between_time_and_cat_in_streak_in_post_comment_reply = itemView.findViewById(R.id.circle_between_time_and_cat_in_streak_in_post_comment_reply);
         }
     }
 
@@ -117,9 +117,9 @@ public class Adapter_for_comment_reply extends RecyclerView.Adapter<Adapter_for_
             @Override
             public void onClick(View view) {
                 if (current_item.getComment_or_reply().equals("comment")) {
-                    card_was_clicked_comment_listen.card_is_clicked_comment(current_item.getDocument_id(),current_item.getName_in_the_main(), current_item.getTitle_of_the_main(), current_item.getBody_of_the_main_post(), current_item.getSpan_the_main(), current_item.getTime_the_main(), current_item.getCategory_of_the_main(), current_item.getStreak_of_the_main_post(), current_item.getBody_of_the_comment(), current_item.getPosition_of_the_comment(), current_item.getName_of_the_comment(), current_item.getTime_of_the_comment(), current_item.getCategory(), current_item.getStreak_of_the_comment());
+                    card_was_clicked_comment_listen.card_is_clicked_comment(current_item.getDocument_id(),current_item.getName_in_the_main(), current_item.getTitle_of_the_main(), current_item.getBody_of_the_main_post(), current_item.getSpan_the_main(), current_item.getTime_the_main(), "", -1, current_item.getBody_of_the_comment(), current_item.getPosition_of_the_comment(), current_item.getName_of_the_comment(), current_item.getTime_of_the_comment(), "", -1);
                 } else if (current_item.getComment_or_reply().equals("reply")) {
-                    card_was_clicked_reply_listen.card_is_clicked_replly(current_item.getDocument_id(),current_item.getName_in_the_main(), current_item.getTitle_of_the_main(), current_item.getBody_of_the_main_post(), current_item.getSpan_the_main(), current_item.getTime_the_main(), current_item.getCategory_of_the_main(), current_item.getStreak_of_the_main_post(), current_item.getBody_of_the_comment(), current_item.getPosition_of_the_comment(), current_item.getName_of_the_comment(), current_item.getTime_of_the_comment(), current_item.getCategory(), current_item.getStreak_of_the_comment(), current_item.getBody_of_the_reply(), current_item.getPosition_of_the_reply(), current_item.getName_of_the_reply(), current_item.getTime_of_the_reply(), current_item.getCategory_reply(), current_item.getStreak_of_the_reply());
+                    card_was_clicked_reply_listen.card_is_clicked_replly(current_item.getDocument_id(),current_item.getName_in_the_main(), current_item.getTitle_of_the_main(), current_item.getBody_of_the_main_post(), current_item.getSpan_the_main(), current_item.getTime_the_main(), "", -1, current_item.getBody_of_the_comment(), current_item.getPosition_of_the_comment(), current_item.getName_of_the_comment(), current_item.getTime_of_the_comment(), "", -1, current_item.getBody_of_the_reply(), current_item.getPosition_of_the_reply(), current_item.getName_of_the_reply(), current_item.getTime_of_the_reply(), "", -1);
                 }
             }
         });
@@ -167,15 +167,15 @@ public class Adapter_for_comment_reply extends RecyclerView.Adapter<Adapter_for_
         }
     }
 
-    private void set_category(final ExampleViewHolder holder, final Example_item_for_comments_replies current_item) {
+    /*private void set_category(final ExampleViewHolder holder, final Example_item_for_comments_replies current_item) {
         if (current_item.getComment_or_reply().equals("comment")) {
             holder.text_at_the_top_showing_what_category_this_is_in_comment_reply.setText(current_item.getCategory());
         } else if (current_item.getComment_or_reply().equals("reply")) {
             holder.text_at_the_top_showing_what_category_this_is_in_comment_reply.setText(current_item.getCategory_reply());
         }
-    }
+    }*/
 
-    private void set_streak(final ExampleViewHolder holder, final Example_item_for_comments_replies current_item){
+   /* private void set_streak(final ExampleViewHolder holder, final Example_item_for_comments_replies current_item){
         if (current_item.getComment_or_reply().equals("comment")) {
             if(current_item.getStreak_of_the_comment() != -1){
                 holder.text_at_the_top_showing_how_much_is_the_streak_comment_reply.setText(String.valueOf(current_item.getStreak_of_the_comment()));
@@ -195,5 +195,5 @@ public class Adapter_for_comment_reply extends RecyclerView.Adapter<Adapter_for_
                 holder.text_at_the_top_showing_how_much_is_the_streak_comment_reply.setVisibility(View.INVISIBLE);
             }
         }
-    }
+    }*/
 }

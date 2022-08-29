@@ -15,6 +15,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -221,6 +222,7 @@ public class Posts_fragment extends Fragment {
             flaoting_button_to_write_a_post_in_posts.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    /*
                     Am_i_paid am_i_paid = new Am_i_paid(getContext());
                     if (am_i_paid.did_user_pay()) {
                         if (how_is_user_logged_in().equals("google")) {
@@ -255,6 +257,16 @@ public class Posts_fragment extends Fragment {
                         if (old_fragment != null) {
                             getActivity().getSupportFragmentManager().beginTransaction().hide(old_fragment).add(R.id.fragment_container, buy_premuim, "buy premium").show(buy_premuim).commit();
                         }
+                    }
+                     */
+                    post_a_post new_fragment = new post_a_post();
+                    Posts_fragment old_fragment = (Posts_fragment) getActivity().getSupportFragmentManager().findFragmentByTag("posts");
+                    post_a_post check_fragment = (post_a_post) getActivity().getSupportFragmentManager().findFragmentByTag("write a post");
+                    if (check_fragment != null) {
+                        getActivity().getSupportFragmentManager().beginTransaction().remove(check_fragment).commit();
+                    }
+                    if (old_fragment != null) {
+                        getActivity().getSupportFragmentManager().beginTransaction().hide(old_fragment).add(R.id.fragment_container, new_fragment, "write a post").show(new_fragment).commit();
                     }
                 }
             });
@@ -339,7 +351,7 @@ public class Posts_fragment extends Fragment {
     private void sign_in_anonymous() {
         if (getActivity() != null) {
             if (FirebaseAuth.getInstance().getCurrentUser() == null) {
-                FirebaseAuth.getInstance().signInAnonymously()
+                /*FirebaseAuth.getInstance().signInAnonymously()
                         .addOnCompleteListener(getActivity(), new OnCompleteListener<AuthResult>() {
                             @Override
                             public void onComplete(@NonNull Task<AuthResult> task) {
@@ -352,7 +364,7 @@ public class Posts_fragment extends Fragment {
                                     Toast.makeText(getActivity(), "Can't sign in. Please try again", Toast.LENGTH_SHORT).show();
                                 }
                             }
-                        });
+                        });*/
             } else {
                 set_up_the_recylce_view();
                 load_into_recylce_view(firebase_loading_limit, false, true);
@@ -373,9 +385,9 @@ public class Posts_fragment extends Fragment {
                             for (DocumentSnapshot snapshot : snapshots) {
                                 String title = snapshot.getString("title");
                                 String body = snapshot.getString("body");
-                                String categorry = (String) snapshot.get("category");
+//                                String categorry = (String) snapshot.get("category");
                                 Date time = snapshot.getTimestamp("time_posted").toDate();
-                                long streak = (long) snapshot.get("streak");
+//                                long streak = (long) snapshot.get("streak");
                                 String span = snapshot.getString("span");
                                 String user_id = (String) snapshot.get("userid");
                                 ArrayList<HashMap<String, Object>> comments = (ArrayList<HashMap<String, Object>>) snapshot.get("comments");
@@ -387,7 +399,7 @@ public class Posts_fragment extends Fragment {
                                 boolean is_this_dev = (boolean) snapshot.get("dev");
                                 Map<String, Timestamp> map_with_time_for_comments = (Map<String, Timestamp>) snapshot.get("map_with_time");
                                 String name_of_poster = snapshot.getString("name");
-                                example_list.add(new Example_item_feed_posts(title, body, streak, false, categorry, time, user_id, span, comments, awards, document_id, true, up_vote_list, down_vote_list, FirebaseAuth.getInstance().getCurrentUser(), is_this_loading, firebaseFirestore, reports, list_of_all_seen_posts_to_pass_for_the_adapter, is_this_dev, map_with_time_for_comments, name_of_poster));
+                                example_list.add(new Example_item_feed_posts(title, body, (long) -1, false, "", time, user_id, span, comments, awards, document_id, true, up_vote_list, down_vote_list, FirebaseAuth.getInstance().getCurrentUser(), is_this_loading, firebaseFirestore, reports, list_of_all_seen_posts_to_pass_for_the_adapter, is_this_dev, map_with_time_for_comments, name_of_poster));
                                 adapter.notifyDataSetChanged();
                                 documentSnapshot_for_feed = snapshot;
                             }
@@ -404,9 +416,9 @@ public class Posts_fragment extends Fragment {
                             for (DocumentSnapshot snapshot : snapshots) {
                                 String title = snapshot.getString("title");
                                 String body = snapshot.getString("body");
-                                String categorry = (String) snapshot.get("category");
+//                                String categorry = (String) snapshot.get("category");
                                 Date time = snapshot.getTimestamp("time_posted").toDate();
-                                long streak = (long) snapshot.get("streak");
+//                                long streak = (long) snapshot.get("streak");
                                 String span = snapshot.getString("span");
                                 String user_id = (String) snapshot.get("userid");
                                 ArrayList<HashMap<String, Object>> comments = (ArrayList<HashMap<String, Object>>) snapshot.get("comments");
@@ -418,7 +430,7 @@ public class Posts_fragment extends Fragment {
                                 boolean is_this_dev = (boolean) snapshot.get("dev");
                                 Map<String, Timestamp> map_with_time_for_comments = (Map<String, Timestamp>) snapshot.get("map_with_time");
                                 String name_of_poster = snapshot.getString("name");
-                                example_list.add(new Example_item_feed_posts(title, body, streak, false, categorry, time, user_id, span, comments, awards, document_id, true, up_vote_list, down_vote_list, FirebaseAuth.getInstance().getCurrentUser(), is_this_loading, firebaseFirestore, reports, list_of_all_seen_posts_to_pass_for_the_adapter, is_this_dev, map_with_time_for_comments, name_of_poster));
+                                example_list.add(new Example_item_feed_posts(title, body, (long) -1, false, "", time, user_id, span, comments, awards, document_id, true, up_vote_list, down_vote_list, FirebaseAuth.getInstance().getCurrentUser(), is_this_loading, firebaseFirestore, reports, list_of_all_seen_posts_to_pass_for_the_adapter, is_this_dev, map_with_time_for_comments, name_of_poster));
                                 adapter.notifyDataSetChanged();
                                 documentSnapshot_for_feed = snapshot;
                             }
@@ -437,9 +449,9 @@ public class Posts_fragment extends Fragment {
                             for (DocumentSnapshot snapshot : snapshots) {
                                 String title = snapshot.getString("title");
                                 String body = snapshot.getString("body");
-                                String categorry = (String) snapshot.get("category");
+//                                String categorry = (String) snapshot.get("category");
                                 Date time = snapshot.getTimestamp("time_posted").toDate();
-                                long streak = (long) snapshot.get("streak");
+//                                long streak = (long) snapshot.get("streak");
                                 String span = snapshot.getString("span");
                                 String user_id = (String) snapshot.get("userid");
                                 ArrayList<HashMap<String, Object>> comments = (ArrayList<HashMap<String, Object>>) snapshot.get("comments");
@@ -451,7 +463,7 @@ public class Posts_fragment extends Fragment {
                                 boolean is_this_dev = (boolean) snapshot.get("dev");
                                 Map<String, Timestamp> map_with_time_for_comments = (Map<String, Timestamp>) snapshot.get("map_with_time");
                                 String name_of_poster = snapshot.getString("name");
-                                example_list.add(new Example_item_feed_posts(title, body, streak, false, categorry, time, user_id, span, comments, awards, document_id, true, up_vote_list, down_vote_list, FirebaseAuth.getInstance().getCurrentUser(), is_this_loading, firebaseFirestore, reports, list_of_all_seen_posts_to_pass_for_the_adapter, is_this_dev, map_with_time_for_comments, name_of_poster));
+                                example_list.add(new Example_item_feed_posts(title, body, (long) -1, false, "", time, user_id, span, comments, awards, document_id, true, up_vote_list, down_vote_list, FirebaseAuth.getInstance().getCurrentUser(), is_this_loading, firebaseFirestore, reports, list_of_all_seen_posts_to_pass_for_the_adapter, is_this_dev, map_with_time_for_comments, name_of_poster));
                                 adapter.notifyDataSetChanged();
                                 documentSnapshot_for_feed = snapshot;
                             }
@@ -468,9 +480,9 @@ public class Posts_fragment extends Fragment {
                             for (DocumentSnapshot snapshot : snapshots) {
                                 String title = snapshot.getString("title");
                                 String body = snapshot.getString("body");
-                                String categorry = (String) snapshot.get("category");
+//                                String categorry = (String) snapshot.get("category");
                                 Date time = snapshot.getTimestamp("time_posted").toDate();
-                                long streak = (long) snapshot.get("streak");
+//                                long streak = (long) snapshot.get("streak");
                                 String span = snapshot.getString("span");
                                 String user_id = (String) snapshot.get("userid");
                                 ArrayList<HashMap<String, Object>> comments = (ArrayList<HashMap<String, Object>>) snapshot.get("comments");
@@ -482,7 +494,7 @@ public class Posts_fragment extends Fragment {
                                 boolean is_this_dev = (boolean) snapshot.get("dev");
                                 Map<String, Timestamp> map_with_time_for_comments = (Map<String, Timestamp>) snapshot.get("map_with_time");
                                 String name_of_poster = snapshot.getString("name");
-                                example_list.add(new Example_item_feed_posts(title, body, streak, false, categorry, time, user_id, span, comments, awards, document_id, true, up_vote_list, down_vote_list, FirebaseAuth.getInstance().getCurrentUser(), is_this_loading, firebaseFirestore, reports, list_of_all_seen_posts_to_pass_for_the_adapter, is_this_dev, map_with_time_for_comments, name_of_poster));
+                                example_list.add(new Example_item_feed_posts(title, body, (long) -1, false, "", time, user_id, span, comments, awards, document_id, true, up_vote_list, down_vote_list, FirebaseAuth.getInstance().getCurrentUser(), is_this_loading, firebaseFirestore, reports, list_of_all_seen_posts_to_pass_for_the_adapter, is_this_dev, map_with_time_for_comments, name_of_poster));
                                 adapter.notifyDataSetChanged();
                                 documentSnapshot_for_feed = snapshot;
                             }
@@ -501,9 +513,9 @@ public class Posts_fragment extends Fragment {
                             for (DocumentSnapshot snapshot : snapshots) {
                                 String title = snapshot.getString("title");
                                 String body = snapshot.getString("body");
-                                String categorry = (String) snapshot.get("category");
+//                                String categorry = (String) snapshot.get("category");
                                 Date time = snapshot.getTimestamp("time_posted").toDate();
-                                long streak = (long) snapshot.get("streak");
+//                                long streak = (long) snapshot.get("streak");
                                 String span = snapshot.getString("span");
                                 String user_id = (String) snapshot.get("userid");
                                 ArrayList<HashMap<String, Object>> comments = (ArrayList<HashMap<String, Object>>) snapshot.get("comments");
@@ -515,7 +527,7 @@ public class Posts_fragment extends Fragment {
                                 boolean is_this_dev = (boolean) snapshot.get("dev");
                                 Map<String, Timestamp> map_with_time_for_comments = (Map<String, Timestamp>) snapshot.get("map_with_time");
                                 String name_of_poster = snapshot.getString("name");
-                                example_list.add(new Example_item_feed_posts(title, body, streak, false, categorry, time, user_id, span, comments, awards, document_id, true, up_vote_list, down_vote_list, FirebaseAuth.getInstance().getCurrentUser(), is_this_loading, firebaseFirestore, reports, list_of_all_seen_posts_to_pass_for_the_adapter, is_this_dev, map_with_time_for_comments, name_of_poster));
+                                example_list.add(new Example_item_feed_posts(title, body, (long) -1, false, "", time, user_id, span, comments, awards, document_id, true, up_vote_list, down_vote_list, FirebaseAuth.getInstance().getCurrentUser(), is_this_loading, firebaseFirestore, reports, list_of_all_seen_posts_to_pass_for_the_adapter, is_this_dev, map_with_time_for_comments, name_of_poster));
                                 adapter.notifyDataSetChanged();
                                 documentSnapshot_for_feed = snapshot;
                             }
@@ -532,9 +544,9 @@ public class Posts_fragment extends Fragment {
                             for (DocumentSnapshot snapshot : snapshots) {
                                 String title = snapshot.getString("title");
                                 String body = snapshot.getString("body");
-                                String categorry = (String) snapshot.get("category");
+//                                String categorry = (String) snapshot.get("category");
                                 Date time = snapshot.getTimestamp("time_posted").toDate();
-                                long streak = (long) snapshot.get("streak");
+//                                long streak = (long) snapshot.get("streak");
                                 String span = snapshot.getString("span");
                                 String user_id = (String) snapshot.get("userid");
                                 ArrayList<HashMap<String, Object>> comments = (ArrayList<HashMap<String, Object>>) snapshot.get("comments");
@@ -546,7 +558,7 @@ public class Posts_fragment extends Fragment {
                                 boolean is_this_dev = (boolean) snapshot.get("dev");
                                 Map<String, Timestamp> map_with_time_for_comments = (Map<String, Timestamp>) snapshot.get("map_with_time");
                                 String name_of_poster = snapshot.getString("name");
-                                example_list.add(new Example_item_feed_posts(title, body, streak, false, categorry, time, user_id, span, comments, awards, document_id, true, up_vote_list, down_vote_list, FirebaseAuth.getInstance().getCurrentUser(), is_this_loading, firebaseFirestore, reports, list_of_all_seen_posts_to_pass_for_the_adapter, is_this_dev, map_with_time_for_comments, name_of_poster));
+                                example_list.add(new Example_item_feed_posts(title, body, (long) -1, false, "", time, user_id, span, comments, awards, document_id, true, up_vote_list, down_vote_list, FirebaseAuth.getInstance().getCurrentUser(), is_this_loading, firebaseFirestore, reports, list_of_all_seen_posts_to_pass_for_the_adapter, is_this_dev, map_with_time_for_comments, name_of_poster));
                                 adapter.notifyDataSetChanged();
                                 documentSnapshot_for_feed = snapshot;
                             }
@@ -626,9 +638,9 @@ public class Posts_fragment extends Fragment {
                     bundle.putInt("position", position);
                     bundle.putString("title", m_title);
                     bundle.putString("body", m_body);
-                    bundle.putString("category", m_category);
+                    //bundle.putString("category", m_category);
                     bundle.putSerializable("time", m_time);
-                    bundle.putInt("streak", m_streak.intValue());
+                    //bundle.putInt("streak", m_streak.intValue());
                     bundle.putString("span", m_span);
                     bundle.putBoolean("image", m_image);
                     bundle.putString("user_id", m_user_id);
@@ -671,7 +683,7 @@ public class Posts_fragment extends Fragment {
                         bottom_sheet_to_give_coins.set_update_gift(new Bottom_sheet_to_give_coins.update_gift_listen() {
                             @Override
                             public void gift_was_clicked(int index,ArrayList<Long> arrayList_of_awards) {
-                                example_list.set(index, new Example_item_feed_posts(example_list.get(index).getM_title(), example_list.get(index).getM_body(), example_list.get(index).get_m_category(), example_list.get(index).getM_time(), example_list.get(index).getM_streak(), example_list.get(index).getM_span(), false, example_list.get(index).getM_user_id(), example_list.get(index).getM_comments(), arrayList_of_awards, example_list.get(index).get_is_this_upvote(), example_list.get(index).get_the_down_vote(), example_list.get(index).getM_document_id(), example_list.get(index).get_is_this_from_firebase(), example_list.get(index).get_upvote_list(), example_list.get(index).getM_downvotes(), example_list.get(index).isPost_saved(), example_list.get(index).getPlus_or_minus(), example_list.get(index).isM_is_this_laoding(), example_list.get(index).get_i_already_laoded(), example_list.get(index).isUpvote_or_down_vote_was_clicked(), example_list.get(index).getM_firebaseFirestore(), example_list.get(index).getM_firebaseUser(), example_list.get(index).isWas_this_reported(), example_list.get(index).getM_list_of_reports(), example_list.get(index).isAm_i_loading_up_voote_down_vote_from_fire_base(), example_list.get(index).isDid_i_see_this_tem(), example_list.get(index).getM_list_of_seen_posts(), example_list.get(index).isM_is_post_by_dev(), example_list.get(index).getName_of_the_poster()));
+                                example_list.set(index, new Example_item_feed_posts(example_list.get(index).getM_title(), example_list.get(index).getM_body(), "", example_list.get(index).getM_time(), example_list.get(index).getM_streak(), example_list.get(index).getM_span(), false, example_list.get(index).getM_user_id(), example_list.get(index).getM_comments(), arrayList_of_awards, example_list.get(index).get_is_this_upvote(), example_list.get(index).get_the_down_vote(), example_list.get(index).getM_document_id(), example_list.get(index).get_is_this_from_firebase(), example_list.get(index).get_upvote_list(), example_list.get(index).getM_downvotes(), example_list.get(index).isPost_saved(), example_list.get(index).getPlus_or_minus(), example_list.get(index).isM_is_this_laoding(), example_list.get(index).get_i_already_laoded(), example_list.get(index).isUpvote_or_down_vote_was_clicked(), example_list.get(index).getM_firebaseFirestore(), example_list.get(index).getM_firebaseUser(), example_list.get(index).isWas_this_reported(), example_list.get(index).getM_list_of_reports(), example_list.get(index).isAm_i_loading_up_voote_down_vote_from_fire_base(), example_list.get(index).isDid_i_see_this_tem(), example_list.get(index).getM_list_of_seen_posts(), example_list.get(index).isM_is_post_by_dev(), example_list.get(index).getName_of_the_poster()));
                                 adapter.notifyDataSetChanged();
                             }
                         });
@@ -762,9 +774,9 @@ public class Posts_fragment extends Fragment {
                         bundle.putInt("position", position);
                         bundle.putString("title", m_title);
                         bundle.putString("body", m_body);
-                        bundle.putString("category", m_category);
+//                        bundle.putString("category", m_category);
                         bundle.putSerializable("time", m_time);
-                        bundle.putInt("streak", m_streak.intValue());
+//                        bundle.putInt("streak", m_streak.intValue());
                         bundle.putString("span", m_span);
                         bundle.putBoolean("image", m_image);
                         bundle.putString("user_id", m_user_id);
@@ -808,14 +820,14 @@ public class Posts_fragment extends Fragment {
                     bundle.putInt("position", position);
                     bundle.putString("title", title);
                     bundle.putString("body", body);
-                    bundle.putString("category", category);
+//                    bundle.putString("category", category);
                     bundle.putSerializable("time", time);
                     bundle.putInt("streak", streak);
                     bundle.putString("span", span);
                     bundle.putString("document_id", document_id);
-                    bundle.putString("which_post_called_me", "saved posts");
+                    bundle.putString("which_post_called_me", "your posts");
                     bundle.putString("name_of_posted", name);
-                    bundle.putString("what_is_the_type_of_this", "old_saved");
+                    bundle.putString("what_is_the_type_of_this", "your_post_offline");
                     bundle.putBoolean("post_saved", false);
                     show_full_post.setArguments(bundle);
                     getActivity().getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, show_full_post, "show full post").hide(Posts_fragment.this).commit();
@@ -877,7 +889,7 @@ public class Posts_fragment extends Fragment {
                 }
                 final String[] big_split = old.split("big_divide");
                 final String[] small_split = big_split[your_post_length - index_to_start_your_posts].split("small_split");
-                final DocumentReference docIdRef = firebaseFirestore.collection("posts").document(small_split[7]);
+                final DocumentReference docIdRef = firebaseFirestore.collection("posts").document(small_split[5]);
                 docIdRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<DocumentSnapshot> task) {
@@ -886,9 +898,9 @@ public class Posts_fragment extends Fragment {
                             if (snapshot.exists()) {
                                 String title = snapshot.getString("title");
                                 String body = snapshot.getString("body");
-                                String categorry = (String) snapshot.get("category");
+//                                String categorry = (String) snapshot.get("category");
                                 Date time = snapshot.getTimestamp("time_posted").toDate();
-                                long streak = (long) snapshot.get("streak");
+//                                long streak = (long) snapshot.get("streak");
                                 String span = snapshot.getString("span");
                                 String user_id = (String) snapshot.get("userid");
                                 ArrayList<HashMap<String, Object>> comments = (ArrayList<HashMap<String, Object>>) snapshot.get("comments");
@@ -900,7 +912,7 @@ public class Posts_fragment extends Fragment {
                                 boolean is_this_dev = (boolean) snapshot.get("dev");
                                 Map<String, Timestamp> map_with_time_for_comments = (Map<String, Timestamp>) snapshot.get("map_with_time");
                                 String name_of_poster = snapshot.getString("name");
-                                example_list_for_your_post.add(new Example_item_feed_posts(title, body, streak, false, categorry, time, user_id, span, comments, awards, document_id, true, up_vote_list, down_vote_list, FirebaseAuth.getInstance().getCurrentUser(), false, firebaseFirestore, reports, list_of_all_seen_posts_to_pass_for_the_adapter, is_this_dev, map_with_time_for_comments, name_of_poster));
+                                example_list_for_your_post.add(new Example_item_feed_posts(title, body, (long) -1, false, "", time, user_id, span, comments, awards, document_id, true, up_vote_list, down_vote_list, FirebaseAuth.getInstance().getCurrentUser(), false, firebaseFirestore, reports, list_of_all_seen_posts_to_pass_for_the_adapter, is_this_dev, map_with_time_for_comments, name_of_poster));
                                 adapter_for_your_post.notifyDataSetChanged();
                                 int copy = recursion;
                                 copy--;
@@ -912,10 +924,8 @@ public class Posts_fragment extends Fragment {
                                 String body = small_split[2];
                                 String span = small_split[3];
                                 Date time = new Date(Long.parseLong(small_split[4]));
-                                String category = small_split[5];
-                                long streak = Long.parseLong(small_split[6]);
-                                String document_id = small_split[7];
-                                example_list_for_saved_post.add(new Example_item_feed_posts(document_id, name, title, body, span, time, category, streak, false));
+                                String document_id = small_split[5];
+                                example_list_for_your_post.add(new Example_item_feed_posts(document_id, name, title, body, span, time, "", -1, false));
                                 adapter_for_your_post.notifyDataSetChanged();
                                 int copy_of_i = recursion;
                                 copy_of_i--;
@@ -935,7 +945,7 @@ public class Posts_fragment extends Fragment {
     private void load_post_in_our_once(String old, final boolean is_this_laoding) {
         final String[] big_split = old.split("big_divide");
         final String[] small_split = big_split[your_post_length - index_to_start_your_posts].split("small_split");
-        final DocumentReference docIdRef = firebaseFirestore.collection("posts").document(small_split[7]);
+        final DocumentReference docIdRef = firebaseFirestore.collection("posts").document(small_split[5]);
         docIdRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
@@ -944,9 +954,9 @@ public class Posts_fragment extends Fragment {
                     if (snapshot.exists()) {
                         String title = snapshot.getString("title");
                         String body = snapshot.getString("body");
-                        String categorry = (String) snapshot.get("category");
+//                        String categorry = (String) snapshot.get("category");
                         Date time = snapshot.getTimestamp("time_posted").toDate();
-                        long streak = (long) snapshot.get("streak");
+//                        long streak = (long) snapshot.get("streak");
                         String span = snapshot.getString("span");
                         String user_id = (String) snapshot.get("userid");
                         ArrayList<HashMap<String, Object>> comments = (ArrayList<HashMap<String, Object>>) snapshot.get("comments");
@@ -958,7 +968,7 @@ public class Posts_fragment extends Fragment {
                         boolean is_this_dev = (boolean) snapshot.get("dev");
                         Map<String, Timestamp> map_with_time_for_comments = (Map<String, Timestamp>) snapshot.get("map_with_time");
                         String name_of_poster = snapshot.getString("name");
-                        example_list_for_your_post.add(new Example_item_feed_posts(title, body, streak, false, categorry, time, user_id, span, comments, awards, document_id, true, up_vote_list, down_vote_list, FirebaseAuth.getInstance().getCurrentUser(), is_this_laoding, firebaseFirestore, reports, list_of_all_seen_posts_to_pass_for_the_adapter, is_this_dev, map_with_time_for_comments, name_of_poster));
+                        example_list_for_your_post.add(new Example_item_feed_posts(title, body, (long) -1, false, "", time, user_id, span, comments, awards, document_id, true, up_vote_list, down_vote_list, FirebaseAuth.getInstance().getCurrentUser(), is_this_laoding, firebaseFirestore, reports, list_of_all_seen_posts_to_pass_for_the_adapter, is_this_dev, map_with_time_for_comments, name_of_poster));
                         adapter_for_your_post.notifyDataSetChanged();
                         index_to_start_your_posts++;
                     } else {
@@ -967,10 +977,8 @@ public class Posts_fragment extends Fragment {
                         String body = small_split[2];
                         String span = small_split[3];
                         Date time = new Date(Long.parseLong(small_split[4]));
-                        String category = small_split[5];
-                        long streak = Long.parseLong(small_split[6]);
-                        String document_id = small_split[7];
-                        example_list_for_saved_post.add(new Example_item_feed_posts(document_id, name, title, body, span, time, category, streak, false));
+                        String document_id = small_split[5];
+                        example_list_for_your_post.add(new Example_item_feed_posts(document_id, name, title, body, span, time, "", -1, false));
                         adapter_for_your_post.notifyDataSetChanged();
                         index_to_start_your_posts++;
                     }
@@ -1031,9 +1039,9 @@ public class Posts_fragment extends Fragment {
                         bundle.putInt("position", position);
                         bundle.putString("title", m_title);
                         bundle.putString("body", m_body);
-                        bundle.putString("category", m_category);
+//                        bundle.putString("category", m_category);
                         bundle.putSerializable("time", m_time);
-                        bundle.putInt("streak", m_streak.intValue());
+//                        bundle.putInt("streak", m_streak.intValue());
                         bundle.putString("span", m_span);
                         bundle.putBoolean("image", m_image);
                         bundle.putString("user_id", m_user_id);
@@ -1077,14 +1085,14 @@ public class Posts_fragment extends Fragment {
                     bundle.putInt("position", position);
                     bundle.putString("title", title);
                     bundle.putString("body", body);
-                    bundle.putString("category", category);
+//                    bundle.putString("category", category);
                     bundle.putSerializable("time", time);
                     bundle.putInt("streak", streak);
                     bundle.putString("span", span);
                     bundle.putString("document_id", document_id);
                     bundle.putString("which_post_called_me", "saved posts");
                     bundle.putString("name_of_posted", name);
-                    bundle.putString("what_is_the_type_of_this", "old_saved");
+                    bundle.putString("what_is_the_type_of_this", "saved_post_offline");
                     bundle.putBoolean("post_saved", true);
                     show_full_post.setArguments(bundle);
                     getActivity().getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, show_full_post, "show full post").hide(Posts_fragment.this).commit();
@@ -1140,7 +1148,7 @@ public class Posts_fragment extends Fragment {
     private void load_post_in_saved_posts_once(String old, final boolean is_this_laoding) {
         final String[] big_split = old.split("big_divide");
         final String[] small_split = big_split[saved_posts_length - index_to_start_saved_posts].split("small_split");
-        final DocumentReference docIdRef = firebaseFirestore.collection("posts").document(small_split[7]);
+        final DocumentReference docIdRef = firebaseFirestore.collection("posts").document(small_split[5]);
         docIdRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
@@ -1149,9 +1157,9 @@ public class Posts_fragment extends Fragment {
                     if (snapshot.exists()) {
                         String title = snapshot.getString("title");
                         String body = snapshot.getString("body");
-                        String categorry = (String) snapshot.get("category");
+//                        String categorry = (String) snapshot.get("category");
                         Date time = snapshot.getTimestamp("time_posted").toDate();
-                        long streak = (long) snapshot.get("streak");
+//                        long streak = (long) snapshot.get("streak");
                         String span = snapshot.getString("span");
                         String user_id = (String) snapshot.get("userid");
                         ArrayList<HashMap<String, Object>> comments = (ArrayList<HashMap<String, Object>>) snapshot.get("comments");
@@ -1163,7 +1171,7 @@ public class Posts_fragment extends Fragment {
                         boolean is_this_dev = (boolean) snapshot.get("dev");
                         Map<String, Timestamp> map_with_time_for_comments = (Map<String, Timestamp>) snapshot.get("map_with_time");
                         String name_of_poster = snapshot.getString("name");
-                        example_list_for_saved_post.add(new Example_item_feed_posts(title, body, streak, false, categorry, time, user_id, span, comments, awards, document_id, true, up_vote_list, down_vote_list, FirebaseAuth.getInstance().getCurrentUser(), is_this_laoding, firebaseFirestore, reports, list_of_all_seen_posts_to_pass_for_the_adapter, is_this_dev, map_with_time_for_comments, name_of_poster));
+                        example_list_for_saved_post.add(new Example_item_feed_posts(title, body, (long) -1, false, "", time, user_id, span, comments, awards, document_id, true, up_vote_list, down_vote_list, FirebaseAuth.getInstance().getCurrentUser(), is_this_laoding, firebaseFirestore, reports, list_of_all_seen_posts_to_pass_for_the_adapter, is_this_dev, map_with_time_for_comments, name_of_poster));
                         adapter_for_saved_post.notifyDataSetChanged();
                         index_to_start_saved_posts++;
                     } else {
@@ -1172,10 +1180,8 @@ public class Posts_fragment extends Fragment {
                         String body = small_split[2];
                         String span = small_split[3];
                         Date time = new Date(Long.parseLong(small_split[4]));
-                        String category = small_split[5];
-                        long streak = Long.parseLong(small_split[6]);
-                        String document_id = small_split[7];
-                        example_list_for_saved_post.add(new Example_item_feed_posts(document_id, name, title, body, span, time, category, streak, true));
+                        String document_id = small_split[5];
+                        example_list_for_saved_post.add(new Example_item_feed_posts(document_id, name, title, body, span, time, "", -1, true));
                         adapter_for_saved_post.notifyDataSetChanged();
                         index_to_start_saved_posts++;
                     }
@@ -1196,7 +1202,7 @@ public class Posts_fragment extends Fragment {
                 }
                 final String[] big_split = old.split("big_divide");
                 final String[] small_split = big_split[saved_posts_length - index_to_start_saved_posts].split("small_split");
-                final DocumentReference docIdRef = firebaseFirestore.collection("posts").document(small_split[7]);
+                final DocumentReference docIdRef = firebaseFirestore.collection("posts").document(small_split[5]);
                 docIdRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<DocumentSnapshot> task) {
@@ -1205,9 +1211,9 @@ public class Posts_fragment extends Fragment {
                             if (snapshot.exists()) {
                                 String title = snapshot.getString("title");
                                 String body = snapshot.getString("body");
-                                String categorry = (String) snapshot.get("category");
+//                                String categorry = (String) snapshot.get("category");
                                 Date time = snapshot.getTimestamp("time_posted").toDate();
-                                long streak = (long) snapshot.get("streak");
+//                                long streak = (long) snapshot.get("streak");
                                 String span = snapshot.getString("span");
                                 String user_id = (String) snapshot.get("userid");
                                 ArrayList<HashMap<String, Object>> comments = (ArrayList<HashMap<String, Object>>) snapshot.get("comments");
@@ -1219,7 +1225,7 @@ public class Posts_fragment extends Fragment {
                                 boolean is_this_dev = (boolean) snapshot.get("dev");
                                 Map<String, Timestamp> map_with_time_for_comments = (Map<String, Timestamp>) snapshot.get("map_with_time");
                                 String name_of_poster = snapshot.getString("name");
-                                example_list_for_saved_post.add(new Example_item_feed_posts(title, body, streak, false, categorry, time, user_id, span, comments, awards, document_id, true, up_vote_list, down_vote_list, FirebaseAuth.getInstance().getCurrentUser(), false, firebaseFirestore, reports, list_of_all_seen_posts_to_pass_for_the_adapter, is_this_dev, map_with_time_for_comments, name_of_poster));
+                                example_list_for_saved_post.add(new Example_item_feed_posts(title, body, (long) -1, false, "", time, user_id, span, comments, awards, document_id, true, up_vote_list, down_vote_list, FirebaseAuth.getInstance().getCurrentUser(), false, firebaseFirestore, reports, list_of_all_seen_posts_to_pass_for_the_adapter, is_this_dev, map_with_time_for_comments, name_of_poster));
                                 adapter_for_saved_post.notifyDataSetChanged();
                                 int copy_of_i = recursion;
                                 copy_of_i--;
@@ -1231,10 +1237,8 @@ public class Posts_fragment extends Fragment {
                                 String body = small_split[2];
                                 String span = small_split[3];
                                 Date time = new Date(Long.parseLong(small_split[4]));
-                                String category = small_split[5];
-                                long streak = Long.parseLong(small_split[6]);
-                                String document_id = small_split[7];
-                                example_list_for_saved_post.add(new Example_item_feed_posts(document_id, name, title, body, span, time, category, streak, true));
+                                String document_id = small_split[5];
+                                example_list_for_saved_post.add(new Example_item_feed_posts(document_id, name, title, body, span, time, "", -1, true));
                                 adapter_for_saved_post.notifyDataSetChanged();
                                 int copy_of_i = recursion;
                                 copy_of_i--;
@@ -1323,7 +1327,7 @@ public class Posts_fragment extends Fragment {
         }
     }*/
 
-    private void loading_the_saved_post(String old) {
+    /*private void loading_the_saved_post(String old) {
         if (getActivity() != null) {
             if (old != null && !old.isEmpty()) {
                 if (saved_posts_length - index_to_start_saved_posts < 0) {
@@ -1340,9 +1344,9 @@ public class Posts_fragment extends Fragment {
                             if (snapshot != null && snapshot.exists()) {
                                 String title = snapshot.getString("title");
                                 String body = snapshot.getString("body");
-                                String categorry = (String) snapshot.get("category");
+//                                String categorry = (String) snapshot.get("category");
                                 Date time = snapshot.getTimestamp("time_posted").toDate();
-                                long streak = (long) snapshot.get("streak");
+//                                long streak = (long) snapshot.get("streak");
                                 String span = snapshot.getString("span");
                                 String user_id = (String) snapshot.get("userid");
                                 ArrayList<HashMap<String, Object>> comments = (ArrayList<HashMap<String, Object>>) snapshot.get("comments");
@@ -1354,17 +1358,17 @@ public class Posts_fragment extends Fragment {
                                 boolean is_this_dev = (boolean) snapshot.get("dev");
                                 Map<String, Timestamp> map_with_time_for_comments = (Map<String, Timestamp>) snapshot.get("map_with_time");
                                 String name_of_poster = snapshot.getString("name");
-                                example_list_for_saved_post.add(new Example_item_feed_posts(title, body, streak, false, categorry, time, user_id, span, comments, awards, document_id, true, up_vote_list, down_vote_list, FirebaseAuth.getInstance().getCurrentUser(), true, firebaseFirestore, reports, list_of_all_seen_posts_to_pass_for_the_adapter, is_this_dev, map_with_time_for_comments, name_of_poster));
+                                example_list_for_saved_post.add(new Example_item_feed_posts(title, body, (long) -1, false, "", time, user_id, span, comments, awards, document_id, true, up_vote_list, down_vote_list, FirebaseAuth.getInstance().getCurrentUser(), true, firebaseFirestore, reports, list_of_all_seen_posts_to_pass_for_the_adapter, is_this_dev, map_with_time_for_comments, name_of_poster));
                                 adapter_for_saved_post.notifyDataSetChanged();
                             } else {
-                                /*String title = small_split[0];
+                                *//*String title = small_split[0];
                                 String body = small_split[1];
                                 String span = small_split[2];
                                 Date time = new Date(Long.parseLong(small_split[3]));
                                 String category = small_split[4];
                                 long streak = Long.parseLong(small_split[5]);
                                 example_list_for_saved_post.add(new Example_item_feed_posts(title, body, streak, false, category, time, null, span, null, null, null, false, null, null, firebaseUser, true, firebaseFirestore, null, null, false));
-                                adapter_for_saved_post.notifyDataSetChanged();*/
+                                adapter_for_saved_post.notifyDataSetChanged();*//*
                             }
                         } else {
                             Toast toast = Toast.makeText(getActivity(), "Cant load data", Toast.LENGTH_LONG);
@@ -1374,7 +1378,7 @@ public class Posts_fragment extends Fragment {
                 });
             }
         }
-    }
+    }*/
 
     private void reset_the_main() {
         if (list_of_seen != null && !list_of_seen.isEmpty()) {
@@ -1717,9 +1721,9 @@ public class Posts_fragment extends Fragment {
                                 if (snapshot.exists()) {
                                     String title = snapshot.getString("title");
                                     String body = snapshot.getString("body");
-                                    String categorry = (String) snapshot.get("category");
+//                                    String categorry = (String) snapshot.get("category");
                                     Date time = snapshot.getTimestamp("time_posted").toDate();
-                                    long streak = (long) snapshot.get("streak");
+//                                    long streak = (long) snapshot.get("streak");
                                     String span = snapshot.getString("span");
                                     String user_id = (String) snapshot.get("userid");
                                     ArrayList<HashMap<String, Object>> comments = (ArrayList<HashMap<String, Object>>) snapshot.get("comments");
@@ -1736,9 +1740,9 @@ public class Posts_fragment extends Fragment {
                                     bundle.putInt("position", -1);
                                     bundle.putString("title", title);
                                     bundle.putString("body", body);
-                                    bundle.putString("category", categorry);
+//                                    bundle.putString("category", categorry);
                                     bundle.putSerializable("time", time);
-                                    bundle.putInt("streak", (int) streak);
+//                                    bundle.putInt("streak", (int) streak);
                                     bundle.putString("span", span);
                                     bundle.putBoolean("image", false);
                                     bundle.putString("user_id", user_id);
@@ -1772,9 +1776,9 @@ public class Posts_fragment extends Fragment {
                                     Bundle bundle = new Bundle();
                                     bundle.putString("title", title_of_the_main);
                                     bundle.putString("body", body_of_the_main_post);
-                                    bundle.putString("category", category_of_the_main);
+//                                    bundle.putString("category", category_of_the_main);
                                     bundle.putSerializable("time", new Date(time_the_main));
-                                    bundle.putInt("streak", (int) streak_of_the_main_post);
+//                                    bundle.putInt("streak", (int) streak_of_the_main_post);
                                     bundle.putString("span", span_the_main);
                                     bundle.putString("document_id", document_id);
                                     bundle.putString("which_post_called_me", "your_comments");
@@ -1785,7 +1789,7 @@ public class Posts_fragment extends Fragment {
                                     bundle.putString("body_comment", body_of_the_comment);
                                     bundle.putString("name_comment", name_of_the_comment);
                                     bundle.putSerializable("time_comment", new Date(time_of_the_comment));
-                                    bundle.putString("category_comment", category);
+//                                    bundle.putString("category_comment", category);
                                     bundle.putInt("streak_comment", (int) streak_of_the_comment);
                                     bundle.putInt("position_of_comment", position_of_the_comment);
                                     show_full_post.setArguments(bundle);
@@ -1811,9 +1815,9 @@ public class Posts_fragment extends Fragment {
                                 if (snapshot.exists()) {
                                     String title = snapshot.getString("title");
                                     String body = snapshot.getString("body");
-                                    String categorry = (String) snapshot.get("category");
+//                                    String categorry = (String) snapshot.get("category");
                                     Date time = snapshot.getTimestamp("time_posted").toDate();
-                                    long streak = (long) snapshot.get("streak");
+//                                    long streak = (long) snapshot.get("streak");
                                     String span = snapshot.getString("span");
                                     String user_id = (String) snapshot.get("userid");
                                     ArrayList<HashMap<String, Object>> comments = (ArrayList<HashMap<String, Object>>) snapshot.get("comments");
@@ -1830,9 +1834,9 @@ public class Posts_fragment extends Fragment {
                                     bundle.putInt("position", -2);
                                     bundle.putString("title", title);
                                     bundle.putString("body", body);
-                                    bundle.putString("category", categorry);
+//                                    bundle.putString("category", categorry);
                                     bundle.putSerializable("time", time);
-                                    bundle.putInt("streak", (int) streak);
+//                                    bundle.putInt("streak", (int) streak);
                                     bundle.putString("span", span);
                                     bundle.putBoolean("image", false);
                                     bundle.putString("user_id", user_id);
@@ -1867,9 +1871,9 @@ public class Posts_fragment extends Fragment {
                                     Bundle bundle = new Bundle();
                                     bundle.putString("title", title_of_the_main);
                                     bundle.putString("body", body_of_the_main_post);
-                                    bundle.putString("category", category_of_the_main);
+//                                    bundle.putString("category", category_of_the_main);
                                     bundle.putSerializable("time", new Date(time_the_main));
-                                    bundle.putInt("streak", (int) streak_of_the_main_post);
+//                                    bundle.putInt("streak", (int) streak_of_the_main_post);
                                     bundle.putString("span", span_the_main);
                                     bundle.putString("document_id", document_id);
                                     bundle.putString("which_post_called_me", "your_comments");
@@ -1880,16 +1884,16 @@ public class Posts_fragment extends Fragment {
                                     bundle.putString("body_comment", body_of_the_comment);
                                     bundle.putString("name_comment", name_of_the_comment);
                                     bundle.putSerializable("time_comment", new Date(time_of_the_comment));
-                                    bundle.putString("category_comment", category);
-                                    bundle.putInt("streak_comment", (int) streak_of_the_comment);
+//                                    bundle.putString("category_comment", category);
+//                                    bundle.putInt("streak_comment", (int) streak_of_the_comment);
                                     bundle.putInt("position_of_comment", position_of_the_comment);
 
                                     bundle.putString("body_reply", body_of_the_reply);
                                     bundle.putInt("position_of_reply", position_of_the_reply);
                                     bundle.putString("name_reply", name_of_the_reply);
                                     bundle.putSerializable("time_reply", new Date(time_of_the_reply));
-                                    bundle.putString("category_reply", category_reply);
-                                    bundle.putInt("streak_reply", (int) streak_of_the_reply);
+//                                    bundle.putString("category_reply", category_reply);
+//                                    bundle.putInt("streak_reply", (int) streak_of_the_reply);
                                     show_full_post.setArguments(bundle);
                                     getActivity().getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, show_full_post, "show full post").hide(Posts_fragment.this).commit();
                                 }
@@ -1911,11 +1915,11 @@ public class Posts_fragment extends Fragment {
             String[] comment_big_split = comments.split("big_divide");
             for (int i = comment_big_split.length - 1; i >= 0; i--) {
                 String[] small_split_comment_reply = comment_big_split[i].split("small_split");
-                if (small_split_comment_reply.length == 14) {
-                    example_list_for_your_comment_reply.add(new Example_item_for_comments_replies(small_split_comment_reply[0], small_split_comment_reply[1], small_split_comment_reply[2], small_split_comment_reply[3], small_split_comment_reply[4], Long.parseLong(small_split_comment_reply[5]), small_split_comment_reply[6], Long.parseLong(small_split_comment_reply[7]), small_split_comment_reply[8], Integer.parseInt(small_split_comment_reply[9]), small_split_comment_reply[10], Long.parseLong(small_split_comment_reply[11]), small_split_comment_reply[12], Long.parseLong(small_split_comment_reply[13])));
+                if (small_split_comment_reply.length == 10) {
+                    example_list_for_your_comment_reply.add(new Example_item_for_comments_replies(small_split_comment_reply[0], small_split_comment_reply[1], small_split_comment_reply[2], small_split_comment_reply[3], small_split_comment_reply[4], Long.parseLong(small_split_comment_reply[5]), small_split_comment_reply[6], Integer.parseInt(small_split_comment_reply[7]), small_split_comment_reply[8], Long.parseLong(small_split_comment_reply[9])));
                     adapter_for_comment_reply.notifyDataSetChanged();
-                } else if (small_split_comment_reply.length == 20) {
-                    example_list_for_your_comment_reply.add(new Example_item_for_comments_replies(small_split_comment_reply[0], small_split_comment_reply[1], small_split_comment_reply[2], small_split_comment_reply[3], small_split_comment_reply[4], Long.parseLong(small_split_comment_reply[5]), small_split_comment_reply[6], Long.parseLong(small_split_comment_reply[7]), small_split_comment_reply[8], Integer.parseInt(small_split_comment_reply[9]), small_split_comment_reply[10], Long.parseLong(small_split_comment_reply[11]), small_split_comment_reply[12], Long.parseLong(small_split_comment_reply[13]), small_split_comment_reply[14], Integer.parseInt(small_split_comment_reply[15]), small_split_comment_reply[16], Long.parseLong(small_split_comment_reply[17]), small_split_comment_reply[18], Long.parseLong(small_split_comment_reply[19])));
+                } else if (small_split_comment_reply.length == 14) {
+                    example_list_for_your_comment_reply.add(new Example_item_for_comments_replies(small_split_comment_reply[0], small_split_comment_reply[1], small_split_comment_reply[2], small_split_comment_reply[3], small_split_comment_reply[4],Long.parseLong(small_split_comment_reply[5]), small_split_comment_reply[6],Integer.parseInt(small_split_comment_reply[7]), small_split_comment_reply[8], Long.parseLong(small_split_comment_reply[9]), small_split_comment_reply[10], Integer.parseInt(small_split_comment_reply[11]), small_split_comment_reply[12], Long.parseLong(small_split_comment_reply[13])));
                     adapter_for_comment_reply.notifyDataSetChanged();
                 }
             }
@@ -2057,9 +2061,9 @@ public class Posts_fragment extends Fragment {
                                 if (snapshot.exists()) {
                                     String title = snapshot.getString("title");
                                     String body = snapshot.getString("body");
-                                    String categorry = (String) snapshot.get("category");
+//                                    String categorry = (String) snapshot.get("category");
                                     Date time = snapshot.getTimestamp("time_posted").toDate();
-                                    long streak = (long) snapshot.get("streak");
+//                                    long streak = (long) snapshot.get("streak");
                                     String span = snapshot.getString("span");
                                     String user_id = (String) snapshot.get("userid");
                                     ArrayList<HashMap<String, Object>> comments = (ArrayList<HashMap<String, Object>>) snapshot.get("comments");
@@ -2076,9 +2080,9 @@ public class Posts_fragment extends Fragment {
                                     bundle.putInt("position", -1);
                                     bundle.putString("title", title);
                                     bundle.putString("body", body);
-                                    bundle.putString("category", categorry);
+//                                    bundle.putString("category", categorry);
                                     bundle.putSerializable("time", time);
-                                    bundle.putInt("streak", (int) streak);
+//                                    bundle.putInt("streak", (int) streak);
                                     bundle.putString("span", span);
                                     bundle.putBoolean("image", false);
                                     bundle.putString("user_id", user_id);
@@ -2124,7 +2128,7 @@ public class Posts_fragment extends Fragment {
                                     Bundle bundle = new Bundle();
                                     bundle.putString("title", title_of_the_main);
                                     bundle.putString("body", body_of_the_main_post);
-                                    bundle.putString("category", category_of_the_main);
+//                                    bundle.putString("category", category_of_the_main);
                                     bundle.putSerializable("time", new Date(time_the_main));
                                     bundle.putInt("streak", (int) streak_of_the_main_post);
                                     bundle.putString("span", span_the_main);
@@ -2137,8 +2141,8 @@ public class Posts_fragment extends Fragment {
                                     bundle.putString("body_comment", body_of_the_comment);
                                     bundle.putString("name_comment", name_of_the_comment);
                                     bundle.putSerializable("time_comment", new Date(time_of_the_comment));
-                                    bundle.putString("category_comment", category);
-                                    bundle.putInt("streak_comment", (int) streak_of_the_comment);
+//                                    bundle.putString("category_comment", category);
+//                                    bundle.putInt("streak_comment", (int) streak_of_the_comment);
                                     bundle.putInt("position_of_comment", position_of_the_comment);
                                     show_full_post.setArguments(bundle);
                                     getActivity().getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, show_full_post, "show full post").hide(Posts_fragment.this).commit();
@@ -2164,9 +2168,9 @@ public class Posts_fragment extends Fragment {
                                 if (snapshot.exists()) {
                                     String title = snapshot.getString("title");
                                     String body = snapshot.getString("body");
-                                    String categorry = (String) snapshot.get("category");
+//                                    String categorry = (String) snapshot.get("category");
                                     Date time = snapshot.getTimestamp("time_posted").toDate();
-                                    long streak = (long) snapshot.get("streak");
+//                                    long streak = (long) snapshot.get("streak");
                                     String span = snapshot.getString("span");
                                     String user_id = (String) snapshot.get("userid");
                                     ArrayList<HashMap<String, Object>> comments = (ArrayList<HashMap<String, Object>>) snapshot.get("comments");
@@ -2183,9 +2187,9 @@ public class Posts_fragment extends Fragment {
                                     bundle.putInt("position", -2);
                                     bundle.putString("title", title);
                                     bundle.putString("body", body);
-                                    bundle.putString("category", categorry);
+//                                    bundle.putString("category", categorry);
                                     bundle.putSerializable("time", time);
-                                    bundle.putInt("streak", (int) streak);
+//                                    bundle.putInt("streak", (int) streak);
                                     bundle.putString("span", span);
                                     bundle.putBoolean("image", false);
                                     bundle.putString("user_id", user_id);
@@ -2221,9 +2225,9 @@ public class Posts_fragment extends Fragment {
                                     Bundle bundle = new Bundle();
                                     bundle.putString("title", title_of_the_main);
                                     bundle.putString("body", body_of_the_main_post);
-                                    bundle.putString("category", category_of_the_main);
+//                                    bundle.putString("category", category_of_the_main);
                                     bundle.putSerializable("time", new Date(time_the_main));
-                                    bundle.putInt("streak", (int) streak_of_the_main_post);
+//                                    bundle.putInt("streak", (int) streak_of_the_main_post);
                                     bundle.putString("span", span_the_main);
                                     bundle.putString("document_id", document_id);
                                     bundle.putString("which_post_called_me", "saved_comments");
@@ -2234,16 +2238,16 @@ public class Posts_fragment extends Fragment {
                                     bundle.putString("body_comment", body_of_the_comment);
                                     bundle.putString("name_comment", name_of_the_comment);
                                     bundle.putSerializable("time_comment", new Date(time_of_the_comment));
-                                    bundle.putString("category_comment", category);
-                                    bundle.putInt("streak_comment", (int) streak_of_the_comment);
+//                                    bundle.putString("category_comment", category);
+//                                    bundle.putInt("streak_comment", (int) streak_of_the_comment);
                                     bundle.putInt("position_of_comment", position_of_the_comment);
 
                                     bundle.putString("body_reply", body_of_the_reply);
                                     bundle.putInt("position_of_reply", position_of_the_reply);
                                     bundle.putString("name_reply", name_of_the_reply);
                                     bundle.putSerializable("time_reply", new Date(time_of_the_reply));
-                                    bundle.putString("category_reply", category_reply);
-                                    bundle.putInt("streak_reply", (int) streak_of_the_reply);
+//                                    bundle.putString("category_reply", category_reply);
+//                                    bundle.putInt("streak_reply", (int) streak_of_the_reply);
                                     show_full_post.setArguments(bundle);
                                     getActivity().getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, show_full_post, "show full post").hide(Posts_fragment.this).commit();
                                 }
@@ -2265,11 +2269,11 @@ public class Posts_fragment extends Fragment {
             String[] comment_big_split = comments.split("big_divide");
             for (int i = comment_big_split.length - 1; i >= 0; i--) {
                 String[] comment_small_split = comment_big_split[i].split("small_split");
-                if (comment_small_split.length == 14) {
-                    example_list_for_saved_comment_reply.add(new Example_item_for_comments_replies(comment_small_split[0], comment_small_split[1], comment_small_split[2], comment_small_split[3], comment_small_split[4], Long.parseLong(comment_small_split[5]), comment_small_split[6], Long.parseLong(comment_small_split[7]), comment_small_split[8], Integer.parseInt(comment_small_split[9]), comment_small_split[10], Long.parseLong(comment_small_split[11]), comment_small_split[12], Long.parseLong(comment_small_split[13])));
+                if (comment_small_split.length == 10) {
+                    example_list_for_saved_comment_reply.add(new Example_item_for_comments_replies(comment_small_split[0], comment_small_split[1], comment_small_split[2], comment_small_split[3], comment_small_split[4], Long.parseLong(comment_small_split[5]), comment_small_split[6], Integer.parseInt(comment_small_split[7]), comment_small_split[8], Long.parseLong(comment_small_split[9])));
                     adapter_for_saved_comment_reply.notifyDataSetChanged();
-                } else if (comment_small_split.length == 20) {
-                    example_list_for_saved_comment_reply.add(new Example_item_for_comments_replies(comment_small_split[0], comment_small_split[1], comment_small_split[2], comment_small_split[3], comment_small_split[4], Long.parseLong(comment_small_split[5]), comment_small_split[6], Long.parseLong(comment_small_split[7]), comment_small_split[8], Integer.parseInt(comment_small_split[9]), comment_small_split[10], Long.parseLong(comment_small_split[11]), comment_small_split[12], Long.parseLong(comment_small_split[13]), comment_small_split[14], Integer.parseInt(comment_small_split[15]), comment_small_split[16], Long.parseLong(comment_small_split[17]), comment_small_split[18], Long.parseLong(comment_small_split[19])));
+                } else if (comment_small_split.length == 14) {
+                    example_list_for_saved_comment_reply.add(new Example_item_for_comments_replies(comment_small_split[0], comment_small_split[1], comment_small_split[2], comment_small_split[3], comment_small_split[4],Long.parseLong(comment_small_split[5]), comment_small_split[6],Integer.parseInt(comment_small_split[7]), comment_small_split[8], Long.parseLong(comment_small_split[9]), comment_small_split[10], Integer.parseInt(comment_small_split[11]), comment_small_split[12], Long.parseLong(comment_small_split[13])));
                     adapter_for_saved_comment_reply.notifyDataSetChanged();
                 }
             }
@@ -2280,10 +2284,13 @@ public class Posts_fragment extends Fragment {
         if (getActivity() != null) {
             SharedPreferences sharedPreferences = getActivity().getSharedPreferences("saved_posts", MODE_PRIVATE);
             String posts = sharedPreferences.getString("saved_posts", "");
+            if(posts.equals("")){
+                return false;
+            } // return false if it is empty
             String[] posts_big_split = posts.split("big_divide");
             for (int i = 0; i < posts_big_split.length; i++) {
                 String[] small_split = posts_big_split[i].split("small_split");
-                if (small_split[7].equals(document_id)) {
+                if (small_split[5].equals(document_id)) {
                     return true;
                 }
             }

@@ -61,6 +61,10 @@
         android:textColor="@color/fav"
         android:textSize="15sp"
         android:textStyle="bold"
+        android:gravity="center"
+        android:textAlignment="center"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/show_the_award_image" />

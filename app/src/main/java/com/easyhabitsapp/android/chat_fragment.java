@@ -13,6 +13,7 @@ import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.TextWatcher;
 import android.text.style.ForegroundColorSpan;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -37,6 +38,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -45,10 +47,16 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ServerValue;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.ListenerRegistration;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.Transaction;
 import com.google.firebase.functions.FirebaseFunctions;
 import com.google.firebase.functions.HttpsCallableResult;
@@ -59,6 +67,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
 import static android.content.Context.MODE_PRIVATE;
@@ -66,34 +75,32 @@ import static android.content.Context.MODE_PRIVATE;
 public class chat_fragment extends Fragment {
     private Handler handler = new Handler();
     private Handler handler_for_five_minute_time = new Handler();
-    private Handler handler_for_start_button_listen = new Handler();
-    private DatabaseReference database = FirebaseDatabase.getInstance().getReference();
-    private int room_int = 1;
-    private int which_user = 0;
+    //private Handler handler_for_start_button_listen = new Handler();
+    FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
     private RecyclerView recycle_view_for_chat_in_chat_fragment;
     private LinearLayoutManager linearLayoutManager;
     private Item_for_chat_adapter adapter;
     private ArrayList<Item_for_chat> chat_list = new ArrayList<>();
-    private ChildEventListener childEventListener_child_1 = null;
-    private ChildEventListener childEventListener_child_2 = null;
-    private ValueEventListener valueEventListener = null;
     private long five_minute_time = 300000;
-    private boolean user_removed = false;
+    //private boolean user_removed = false;
     private String spinner_item;
     private boolean is_alert_showing = false;
-    private String other_person_firebase = null;
-    private boolean am_i_called_first_child_listener;
-    private FirebaseFunctions firebaseFunctions;
+    private String other_person_id = null;
+    //private FirebaseFunctions firebaseFunctions;
     private boolean is_the_chat_still_going = false;
     private boolean was_this_reported = false;
     private FirebaseFirestore m_firebaseFirestore = FirebaseFirestore.getInstance();
     private boolean am_i_in_gift = false;
     private boolean did_i_leave_chat = false;
-    private FirebaseAuth mAuth;
-    private boolean am_i_signed_in = false;
-    private boolean started_login_process = false;
+    //private FirebaseAuth mAuth;
+    //private boolean am_i_signed_in = false;
+    //private boolean started_login_process = false;
     private FirebaseAuth.AuthStateListener authStateListener;
     private int which_screen_i_am_in = 0;
+    private String document_name;
+    private int random_join_or_create = 2;
+    private String last_text;
+    private ListenerRegistration event_listener_snapchot;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -105,16 +112,15 @@ public class chat_fragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         //auth_changed_listener();
-        mAuth = FirebaseAuth.getInstance();
         //mAuth.addAuthStateListener(authStateListener);
         set_up_recycle();
         color_the_text_at_the_top();
         if (last_time_chatted() != 0) {
-            setHandler_for_start_button_listen();
+            //setHandler_for_start_button_listen();
         }
         start_session_button_listen();
         send_button_chat_listen();
-        choose_chat_topic();
+//        choose_chat_topic();
         message_text_wwatcher();
         back_button_listen();
         recycle_view_listen_scroll();
@@ -126,123 +132,157 @@ public class chat_fragment extends Fragment {
     private void join_a_chat_room() {
         if (getActivity() != null) {
             final String habit_name = spinner_item;
-            database.child(habit_name).addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NotNull DataSnapshot snapshot) {
-                    if (snapshot.getValue() == null) {
-                        HashMap<String, Object> children = new HashMap<>();
-                        children.put("user_1", "____messeges_for_chat_app____");
-                        children.put("user_1_id", FirebaseAuth.getInstance().getCurrentUser().getUid());
-                        database.child(habit_name).child("chat_room_1").updateChildren(children).addOnSuccessListener(new OnSuccessListener<Void>() {
+            if (random_join_or_create == 1) {
+                HashMap<String, Object> hashMap = new HashMap<>();
+                hashMap.put("type", habit_name);
+                hashMap.put("user1_id", FirebaseAuth.getInstance().getCurrentUser().getUid());
+                hashMap.put("text", "");
+                hashMap.put("status", "O");
+                document_name = firebaseFirestore.collection("chat").document().getId();
+                firebaseFirestore.collection("chat")
+                        .document(document_name).set(hashMap).addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override
                             public void onSuccess(Void unused) {
-                                which_user = 1;
-                                if (childEventListener_child_1 == null) {
-                                    first_child_listener();
-                                    database.child(habit_name).child("chat_room_1").addChildEventListener(childEventListener_child_1);
-                                }
-                                is_the_chat_still_going = true;
+                                listen_as_user(document_name);
                             }
-                        }).addOnFailureListener(new OnFailureListener() {
+                        })
+                        .addOnFailureListener(new OnFailureListener() {
                             @Override
-                            public void onFailure(@NonNull @NotNull Exception e) {
-                                room_int = room_int + 1;
-                                join_a_chat_room();
+                            public void onFailure(@NonNull Exception e) {
+                                Toast.makeText(getActivity(), "A problem happened, please try again later. Contact support if it persists", Toast.LENGTH_LONG).show();
                             }
                         });
-                    } else {
-                        database.child(habit_name).child("chat_room_".concat(String.valueOf(room_int))).addListenerForSingleValueEvent(new ValueEventListener() {
+            } else {
+                firebaseFirestore.collection("chat")
+                        .whereEqualTo("status", "O")
+                        .limit(5)
+                        .get()
+                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                             @Override
-                            public void onDataChange(@NotNull DataSnapshot snapshot2) {
-                                if (snapshot2.getValue() == null) {
-                                    HashMap<String, Object> children = new HashMap<>();
-                                    children.put("user_1", "____messeges_for_chat_app____");
-                                    children.put("user_1_id", FirebaseAuth.getInstance().getCurrentUser().getUid());
-                                    database.child(habit_name).child("chat_room_".concat(String.valueOf(room_int))).updateChildren(children).addOnSuccessListener(new OnSuccessListener<Void>() {
-                                        @Override
-                                        public void onSuccess(Void unused) {
-                                            which_user = 1;
-                                            if (childEventListener_child_1 == null) {
-                                                first_child_listener();
-                                                database.child(habit_name).child("chat_room_".concat(String.valueOf(room_int))).addChildEventListener(childEventListener_child_1);
-                                            }
-                                            is_the_chat_still_going = true;
+                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                if (task.isSuccessful()) {
+                                    boolean did_the_loop_break = false;
+                                    for (QueryDocumentSnapshot document : task.getResult()) {
+                                        if (document.getData().get("status").equals("O")) {
+                                            document_name = document.getId();
+                                            join_as_second_user(document);
+                                            did_the_loop_break = true;
+                                            break;
                                         }
-                                    }).addOnFailureListener(new OnFailureListener() {
-                                        @Override
-                                        public void onFailure(@NonNull @NotNull Exception e) {
-                                            room_int = room_int + 1;
-                                            join_a_chat_room();
-                                        }
-                                    });
+                                    }
+                                    if (!did_the_loop_break) {
+                                        random_join_or_create = 1;
+                                        join_a_chat_room();
+                                    }
                                 } else {
-                                    database.child(habit_name).child("chat_room_".concat(String.valueOf(room_int))).addListenerForSingleValueEvent(new ValueEventListener() {
-                                        @Override
-                                        public void onDataChange(@NotNull DataSnapshot dataSnapshot) {
-                                            if (dataSnapshot.getChildrenCount() == 2) {
-                                                HashMap<String, Object> children = new HashMap<>();
-                                                children.put("user_2", "____messeges_for_chat_app____");
-                                                children.put("user_2_id", FirebaseAuth.getInstance().getCurrentUser().getUid());
-                                                children.put("time", ServerValue.TIMESTAMP);
-                                                database.child(habit_name).child("chat_room_".concat(String.valueOf(room_int))).updateChildren(children).addOnSuccessListener(new OnSuccessListener<Void>() {
-                                                    @Override
-                                                    public void onSuccess(Void unused) {
-                                                        put_the_last_time_firebase();
-                                                        which_user = 2;
-                                                        open_a_screen(2);
-                                                        handler.removeCallbacksAndMessages(null);
-                                                        other_person_chat_listener();
-                                                        if (childEventListener_child_2 == null) {
-                                                            second_child_listener();
-                                                            database.child(habit_name).child("chat_room_".concat(String.valueOf(room_int))).addChildEventListener(childEventListener_child_2);
-                                                        }
-                                                        start_the_five_minute_time();
-                                                        set_the_fire_base_of_other_person();
-                                                        write_chat_now();
-                                                        is_the_chat_still_going = true;
-                                                    }
-                                                }).addOnFailureListener(new OnFailureListener() {
-                                                    @Override
-                                                    public void onFailure(@NonNull @NotNull Exception e) {
-                                                        room_int = room_int + 1;
-                                                        join_a_chat_room();
-                                                    }
-                                                });
-                                            } else {
-                                                room_int = room_int + 1;
-                                                join_a_chat_room();
-                                            }
-                                        }
-
-                                        @Override
-                                        public void onCancelled(@NotNull DatabaseError databaseError) {
-
-                                        }
-                                    });
+                                    Toast.makeText(getActivity(), "A problem happened, please try again later. Contact support if it persists", Toast.LENGTH_LONG).show();
                                 }
                             }
-
-                            @Override
-                            public void onCancelled(@NonNull DatabaseError error) {
-
-                            }
                         });
-                    }
-                }
+            }
+        }
+    }
 
+    private void join_as_second_user(DocumentSnapshot document) {
+        HashMap<String, Object> hashMap = new HashMap<>();
+        hashMap.put("user2_id", FirebaseAuth.getInstance().getCurrentUser().getUid());
+        hashMap.put("status", "F");
+        hashMap.put("time", FieldValue.serverTimestamp());
+        firebaseFirestore.collection("chat").document(document_name).update(hashMap).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void unused) {
+                open_a_screen(2);
+                handler.removeCallbacksAndMessages(null);
+                start_the_five_minute_time();
+                set_the_id_of_the_other_person(document);
+                //write_chat_now();
+                listen_as_user(document_name);
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+
+            }
+        });
+    }
+
+    private void listen_as_user(String document_id) {
+        if (getView() != null) {
+            final TextView text_view_saying_be_nice_to_the_start = getView().findViewById(R.id.text_view_saying_be_nice_to_the_start);
+            DocumentReference documentReference_with_listen = firebaseFirestore.collection("chat").document(document_id);
+            event_listener_snapchot = documentReference_with_listen.addSnapshotListener(new EventListener<DocumentSnapshot>() {
                 @Override
-                public void onCancelled(@NonNull DatabaseError error) {
+                public void onEvent(@Nullable DocumentSnapshot snapshot, @Nullable FirebaseFirestoreException error) {
+                    if (error != null) {
+                        Toast.makeText(getActivity(), "A problem happened, please try again later. Contact support if it persists", Toast.LENGTH_LONG).show();
+                        return;
+                    }
+                    if (snapshot != null && snapshot.exists()) {
+                        if (random_join_or_create == 1) {
+                            if (which_screen_i_am_in == 0) {
+                                if (snapshot.contains("user2_id")) {
+                                    open_a_screen(2);
+                                    handler.removeCallbacksAndMessages(null);
+                                    start_the_five_minute_time();
+                                    set_the_id_of_the_other_person(snapshot);
+                                    //write_chat_now();
+                                }
+                            } else if (which_screen_i_am_in == 2 && !snapshot.get("text").equals("") && !snapshot.get("text").equals(last_text) && snapshot.get("status").equals("F")) {
+                                chat_list.add(new Item_for_chat((String) snapshot.get("text"), "", "normal"));
+                                adapter.notifyDataSetChanged();
+                                recycle_view_for_chat_in_chat_fragment.scrollToPosition(chat_list.size() - 1);
+                                text_view_saying_be_nice_to_the_start.setVisibility(View.INVISIBLE);
+                            } else if(snapshot.get("status").equals("D2")){
+                                end_the_chat(1);
+                            }
+                        } else {
+                            if (which_screen_i_am_in == 2 && !snapshot.get("text").equals("")&& !snapshot.get("text").equals(last_text) && snapshot.get("status").equals("F")) {
+                                chat_list.add(new Item_for_chat((String) snapshot.get("text"), "", "normal"));
+                                adapter.notifyDataSetChanged();
+                                recycle_view_for_chat_in_chat_fragment.scrollToPosition(chat_list.size() - 1);
+                                text_view_saying_be_nice_to_the_start.setVisibility(View.INVISIBLE);
+                            } else if(snapshot.get("status").equals("D1")){
+                                end_the_chat(1);
+                            }
+                        }
+                    } else {
+
+                    }
                 }
             });
         }
     }
 
-    @Override
+    private void set_the_id_of_the_other_person(DocumentSnapshot document) {
+        int other;
+        if (random_join_or_create == 1) {
+            other = 2;
+        } else {
+            other = 1;
+        }
+        other_person_id = (String) document.get("user".concat(String.valueOf(other)).concat("_id"));
+    }
+
+    /*@Override
     public void onDestroy() {
         super.onDestroy();
         if (!am_i_in_gift) {
-            leave_chat();
+            leave_chat(false);
         }
+    }*/
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        if (!am_i_in_gift) {
+            end_the_chat(0);
+            handler.removeCallbacksAndMessages(null);
+            if(getView()!=null) {
+                Button button_to_start_seesion_in_chat = getView().findViewById(R.id.button_to_start_seesion_in_chat);
+                button_to_start_seesion_in_chat.setText("Start Session");
+            }
+        }
+        //leave_chat(false);
     }
 
     private void color_the_text_at_the_top() {
@@ -258,36 +298,35 @@ public class chat_fragment extends Fragment {
         if (getActivity() != null) {
             final Button button_to_start_seesion_in_chat = getActivity().findViewById(R.id.button_to_start_seesion_in_chat);
             final TextView searching_for_a_user_text_in_chat = getActivity().findViewById(R.id.searching_for_a_user_text_in_chat);
-            final Spinner spinner_to_choose_chat_to_talk_about = getActivity().findViewById(R.id.spinner_to_choose_chat_to_talk_about);
+//            final Spinner spinner_to_choose_chat_to_talk_about = getActivity().findViewById(R.id.spinner_to_choose_chat_to_talk_about);
             button_to_start_seesion_in_chat.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if (how_is_user_logged_in().equals("google")) {
-                        if (button_to_start_seesion_in_chat.getText().toString().equals("Start Session")) {
-                            spinner_item = spinner_to_choose_chat_to_talk_about.getSelectedItem().toString();
+                    //if (how_is_user_logged_in().equals("google")) {
+                    if (button_to_start_seesion_in_chat.getText().toString().equals("Start Session")) {
+                        if(is_the_chat_still_going){
+                            Toast.makeText(getActivity(),"Please wait a little bit before chatting again",Toast.LENGTH_LONG).show();
+                        } else {
+                            is_the_chat_still_going = true;
+//                            spinner_item = spinner_to_choose_chat_to_talk_about.getSelectedItem().toString();
                             open_a_screen(0);
                             call_the_method_every_second();
                             button_to_start_seesion_in_chat.setText("Stop Searching");
-                            up_date_function_if_pro();
-                        } else if (button_to_start_seesion_in_chat.getText().toString().equals("Stop Searching")) {
-                            database.child(spinner_item).child("chat_room_".concat(String.valueOf(room_int))).removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
-                                @Override
-                                public void onComplete(@NonNull @NotNull Task<Void> task) {
-                                    open_a_screen(1);
-                                    button_to_start_seesion_in_chat.setText("Start Session");
-                                    handler.removeCallbacksAndMessages(null);
-                                    searching_for_a_user_text_in_chat.setText("Searching for a user");
-                                    restart_the_values();
-                                }
-                            });
-                        } else if (button_to_start_seesion_in_chat.getText().toString().contains("Next free session:")) {
-                            Buy_premuim buy_premuim = new Buy_premuim("Free users are only allowed one free session per day. Subscribe to premium and enjoy unlimited daily chat sessions", false, "chat");
-                            chat_fragment old_fragment = (chat_fragment) getActivity().getSupportFragmentManager().findFragmentByTag("chat");
-                            if (old_fragment != null) {
-                                getActivity().getSupportFragmentManager().beginTransaction().hide(old_fragment).add(R.id.fragment_container, buy_premuim, "buy premium").show(buy_premuim).commit();
-                            }
+                            //up_date_function_if_pro();
+                            join_a_chat_room();
                         }
-                    } else {
+                    } else if (button_to_start_seesion_in_chat.getText().toString().equals("Stop Searching")) {
+                        button_to_start_seesion_in_chat.setText("Start Session");
+                        end_the_chat(0);
+                        handler.removeCallbacksAndMessages(null);
+                    } /*else if (button_to_start_seesion_in_chat.getText().toString().contains("Next free session:")) {
+                        Buy_premuim buy_premuim = new Buy_premuim("Free users are only allowed one free session per day. Subscribe to premium and enjoy unlimited daily chat sessions", false, "chat");
+                        chat_fragment old_fragment = (chat_fragment) getActivity().getSupportFragmentManager().findFragmentByTag("chat");
+                        if (old_fragment != null) {
+                            getActivity().getSupportFragmentManager().beginTransaction().hide(old_fragment).add(R.id.fragment_container, buy_premuim, "buy premium").show(buy_premuim).commit();
+                        }
+                    }*/
+                    /*} else {
                         if (started_login_process) {
                             Toast.makeText(getActivity(), "Please wait you are being signed in", Toast.LENGTH_LONG).show();
                         } else {
@@ -306,7 +345,7 @@ public class chat_fragment extends Fragment {
                                     }).setNegativeButton("cancel", null)
                                     .show();
                         }
-                    }
+                    }*/
                 }
             });
         }
@@ -333,12 +372,12 @@ public class chat_fragment extends Fragment {
             Button ripple_send_button_chat = getActivity().findViewById(R.id.ripple_send_button_chat);
             View send_button_in_chat_white = getActivity().findViewById(R.id.send_button_in_chat_white);
             EditText edit_text_to_enter_chat_t_send_messages = getActivity().findViewById(R.id.edit_text_to_enter_chat_t_send_messages);
-            TextView text_telling_the_user_to_choose_a_habit = getActivity().findViewById(R.id.text_telling_the_user_to_choose_a_habit);
-            Spinner spinner_to_choose_chat_to_talk_about = getActivity().findViewById(R.id.spinner_to_choose_chat_to_talk_about);
-            TextView text_telling_user_they_can_change_spinner = getActivity().findViewById(R.id.text_telling_user_they_can_change_spinner);
+//            TextView text_telling_the_user_to_choose_a_habit = getActivity().findViewById(R.id.text_telling_the_user_to_choose_a_habit);
+//            Spinner spinner_to_choose_chat_to_talk_about = getActivity().findViewById(R.id.spinner_to_choose_chat_to_talk_about);
+//            TextView text_telling_user_they_can_change_spinner = getActivity().findViewById(R.id.text_telling_user_they_can_change_spinner);
             RecyclerView recycle_view_for_chat_in_chat_fragment = getActivity().findViewById(R.id.recycle_view_for_chat_in_chat_fragment);
             TextView text_view_saying_be_nice_to_the_start = getActivity().findViewById(R.id.text_view_saying_be_nice_to_the_start);
-            View box_around_spinner_chat = getActivity().findViewById(R.id.box_around_spinner_chat);
+//            View box_around_spinner_chat = getActivity().findViewById(R.id.box_around_spinner_chat);
             Button three_dot_button_listen_in_chat_to_view_more_things = getActivity().findViewById(R.id.three_dot_button_listen_in_chat_to_view_more_things);
             View three_dot_id_in_chat_to_view_more_things = getActivity().findViewById(R.id.three_dot_id_in_chat_to_view_more_things);
             Button button_to_gift_in_chat_real_time = getActivity().findViewById(R.id.button_to_gift_in_chat_real_time);
@@ -363,10 +402,10 @@ public class chat_fragment extends Fragment {
                 horizantal_straight_line_in_bottom.setVisibility(View.INVISIBLE);
                 button_to_start_seesion_in_chat.setVisibility(View.VISIBLE);
                 text_view_saying_messages_are_not_stored_chat.setVisibility(View.INVISIBLE);
-                text_telling_the_user_to_choose_a_habit.setVisibility(View.INVISIBLE);
-                spinner_to_choose_chat_to_talk_about.setVisibility(View.INVISIBLE);
-                box_around_spinner_chat.setVisibility(View.INVISIBLE);
-                text_telling_user_they_can_change_spinner.setVisibility(View.INVISIBLE);
+//                text_telling_the_user_to_choose_a_habit.setVisibility(View.INVISIBLE);
+//                spinner_to_choose_chat_to_talk_about.setVisibility(View.INVISIBLE);
+//                box_around_spinner_chat.setVisibility(View.INVISIBLE);
+//                text_telling_user_they_can_change_spinner.setVisibility(View.INVISIBLE);
                 searching_for_a_user_text_in_chat.setVisibility(View.VISIBLE);
                 rotating_glass_in_chat_loading.setVisibility(View.VISIBLE);
                 text_view_saying_be_nice_to_the_start.setVisibility(View.INVISIBLE);
@@ -395,10 +434,10 @@ public class chat_fragment extends Fragment {
                 horizantal_straight_line_in_bottom.setVisibility(View.VISIBLE);
                 button_to_start_seesion_in_chat.setVisibility(View.VISIBLE);
                 text_view_saying_messages_are_not_stored_chat.setVisibility(View.VISIBLE);
-                text_telling_the_user_to_choose_a_habit.setVisibility(View.VISIBLE);
-                spinner_to_choose_chat_to_talk_about.setVisibility(View.VISIBLE);
-                box_around_spinner_chat.setVisibility(View.VISIBLE);
-                text_telling_user_they_can_change_spinner.setVisibility(View.VISIBLE);
+//                text_telling_the_user_to_choose_a_habit.setVisibility(View.VISIBLE);
+//                spinner_to_choose_chat_to_talk_about.setVisibility(View.VISIBLE);
+//                box_around_spinner_chat.setVisibility(View.VISIBLE);
+//                text_telling_user_they_can_change_spinner.setVisibility(View.VISIBLE);
                 searching_for_a_user_text_in_chat.setVisibility(View.INVISIBLE);
                 rotating_glass_in_chat_loading.setVisibility(View.INVISIBLE);
                 text_view_saying_be_nice_to_the_start.setVisibility(View.INVISIBLE);
@@ -427,10 +466,10 @@ public class chat_fragment extends Fragment {
                 horizantal_straight_line_in_bottom.setVisibility(View.INVISIBLE);
                 button_to_start_seesion_in_chat.setVisibility(View.INVISIBLE);
                 text_view_saying_messages_are_not_stored_chat.setVisibility(View.INVISIBLE);
-                text_telling_the_user_to_choose_a_habit.setVisibility(View.INVISIBLE);
-                spinner_to_choose_chat_to_talk_about.setVisibility(View.INVISIBLE);
-                box_around_spinner_chat.setVisibility(View.INVISIBLE);
-                text_telling_user_they_can_change_spinner.setVisibility(View.INVISIBLE);
+//                text_telling_the_user_to_choose_a_habit.setVisibility(View.INVISIBLE);
+//                spinner_to_choose_chat_to_talk_about.setVisibility(View.INVISIBLE);
+//                box_around_spinner_chat.setVisibility(View.INVISIBLE);
+//                text_telling_user_they_can_change_spinner.setVisibility(View.INVISIBLE);
                 searching_for_a_user_text_in_chat.setVisibility(View.INVISIBLE);
                 rotating_glass_in_chat_loading.setVisibility(View.INVISIBLE);
                 text_view_saying_be_nice_to_the_start.setVisibility(View.VISIBLE);
@@ -473,13 +512,24 @@ public class chat_fragment extends Fragment {
         if (getActivity() != null) {
             Button ripple_send_button_chat = getActivity().findViewById(R.id.ripple_send_button_chat);
             final EditText edit_text_to_enter_chat_t_send_messages = getActivity().findViewById(R.id.edit_text_to_enter_chat_t_send_messages);
-            final Spinner spinner_to_choose_chat_to_talk_about = getActivity().findViewById(R.id.spinner_to_choose_chat_to_talk_about);
+//            final Spinner spinner_to_choose_chat_to_talk_about = getActivity().findViewById(R.id.spinner_to_choose_chat_to_talk_about);
             final TextView text_view_saying_be_nice_to_the_start = getActivity().findViewById(R.id.text_view_saying_be_nice_to_the_start);
             ripple_send_button_chat.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     if (!edit_text_to_enter_chat_t_send_messages.getText().toString().trim().equals("")) {
-                        database.child(spinner_item).child("chat_room_".concat(String.valueOf(room_int))).child("user_".concat(String.valueOf(which_user))).setValue(edit_text_to_enter_chat_t_send_messages.getText().toString().trim()).addOnSuccessListener(new OnSuccessListener<Void>() {
+                            firebaseFirestore.collection("chat").document(document_name).update("text", edit_text_to_enter_chat_t_send_messages.getText().toString().trim()).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void unused) {
+
+                                }
+                            }).addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+
+                                }
+                            });
+                        /*database.child(spinner_item).child("chat_room_".concat(String.valueOf(room_int))).child("user_".concat(String.valueOf(which_user))).setValue(edit_text_to_enter_chat_t_send_messages.getText().toString().trim()).addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override
                             public void onSuccess(Void unused) {
 
@@ -489,8 +539,9 @@ public class chat_fragment extends Fragment {
                             public void onFailure(@NonNull @NotNull Exception e) {
                                 Toast.makeText(getActivity(), "Can't text right now. please try again later", Toast.LENGTH_LONG).show();
                             }
-                        });
-                        chat_list.add(new Item_for_chat("", edit_text_to_enter_chat_t_send_messages.getText().toString().trim(),"normal"));
+                        });*/
+                        last_text = edit_text_to_enter_chat_t_send_messages.getText().toString().trim();
+                        chat_list.add(new Item_for_chat("", edit_text_to_enter_chat_t_send_messages.getText().toString().trim(), "normal"));
                         adapter.notifyDataSetChanged();
                         edit_text_to_enter_chat_t_send_messages.setText("");
                         recycle_view_for_chat_in_chat_fragment.scrollToPosition(chat_list.size() - 1);
@@ -533,9 +584,10 @@ public class chat_fragment extends Fragment {
         }
     }*/
 
-    private void choose_chat_topic() {
+    /*private void choose_chat_topic() {
         if (getActivity() != null) {
             final ArrayList<String> spinner_list = new ArrayList<>();
+            spinner_list.add("All");
             spinner_list.add("Video games");
             spinner_list.add("Social media");
             spinner_list.add("Impulsive shopping");
@@ -562,14 +614,35 @@ public class chat_fragment extends Fragment {
             arrayAdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
             spinner_to_choose_chat_to_talk_about.setAdapter(arrayAdapter);
         }
-    }
+    }*/
 
-    private void leave_chat() {
-        if (getActivity() != null) {
-            if (which_user == 1 || which_user == 2) {
-                did_i_leave_chat = true;
-                database.child(spinner_item).child("chat_room_".concat(String.valueOf(room_int))).removeValue();
-            }
+    private void leave_chat(boolean restart) {
+        if (document_name!= null && !document_name.equals("")) {
+            firebaseFirestore.collection("chat").document(document_name).update("status", "D".concat(String.valueOf(random_join_or_create))).addOnSuccessListener(new OnSuccessListener<Void>() {
+                @Override
+                public void onSuccess(Void unused) {
+                    firebaseFirestore.collection("chat").document(document_name).delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void unused) {
+                            if (restart) {
+                                restart_the_values();
+                            }
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            if (restart) {
+                                restart_the_values();
+                            }
+                        }
+                    });
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+
+                }
+            });
         }
     }
 
@@ -585,13 +658,10 @@ public class chat_fragment extends Fragment {
             ripple_send_button_chat.setBackgroundResource(R.drawable.ripple_button_round_grey);
             chat_list.clear();
             adapter.notifyDataSetChanged();
-            int other_user;
-            if (which_user == 1) {
-                other_user = 2;
-            } else {
-                other_user = 1;
+            if(event_listener_snapchot!=null){
+                event_listener_snapchot.remove();
             }
-            if (valueEventListener != null) {
+            /*if (valueEventListener != null) {
                 database.child(spinner_item).child("chat_room_".concat(String.valueOf(room_int))).child("user_".concat(String.valueOf(other_user))).removeEventListener(valueEventListener);
             }
             if (childEventListener_child_2 != null) {
@@ -599,23 +669,25 @@ public class chat_fragment extends Fragment {
             }
             if (childEventListener_child_1 != null) {
                 database.child(spinner_item).child("chat_room_1").removeEventListener(childEventListener_child_1);
-            }
-            valueEventListener = null;
-            childEventListener_child_1 = null;
-            childEventListener_child_2 = null;
-            database = FirebaseDatabase.getInstance().getReference();
-            room_int = 1;
-            which_user = 0;
+            }*/
+            //valueEventListener = null;
+            //childEventListener_child_1 = null;
+            //childEventListener_child_2 = null;
+            //database = FirebaseDatabase.getInstance().getReference();
+            //room_int = 1;
+            //which_user = 0;
             handler_for_five_minute_time.removeCallbacksAndMessages(null);
             five_minute_time = 300000;
-            user_removed = false;
+            //user_removed = false;
             edit_text_to_enter_chat_t_send_messages.setEnabled(true);
             text_showing_the_timer_beside_end_chat.setText("05:00");
-            other_person_firebase = null;
-            am_i_called_first_child_listener = false;
+            other_person_id = null;
             is_the_chat_still_going = false;
             was_this_reported = false;
             did_i_leave_chat = false;
+            document_name = "";
+            random_join_or_create = 2;
+            is_alert_showing = false;
             //button_to_end_chat_in_chat.setText("End chat");
         }
     }
@@ -659,7 +731,7 @@ public class chat_fragment extends Fragment {
         }
     }
 
-    private void other_person_chat_listener() {
+    /*private void other_person_chat_listener() {
         if (getActivity() != null) {
             final TextView text_view_saying_be_nice_to_the_start = getActivity().findViewById(R.id.text_view_saying_be_nice_to_the_start);
             int other_user;
@@ -675,12 +747,12 @@ public class chat_fragment extends Fragment {
                         if (snapshot.getValue() != null) {
                             if (!snapshot.getValue().toString().equals("____messeges_for_chat_app____")) {
                                 if (snapshot.getValue().toString().contains("123457_hey_there_i_am_giving_you_")) {
-                                    chat_list.add(new Item_for_chat(snapshot.getValue().toString().replace("123457_hey_there_i_am_giving_you_",""), snapshot.getValue().toString().replace("123457_hey_there_i_am_giving_you_",""),"i_get_gift"));
+                                    chat_list.add(new Item_for_chat(snapshot.getValue().toString().replace("123457_hey_there_i_am_giving_you_", ""), snapshot.getValue().toString().replace("123457_hey_there_i_am_giving_you_", ""), "i_get_gift"));
                                     adapter.notifyDataSetChanged();
                                     recycle_view_for_chat_in_chat_fragment.scrollToPosition(chat_list.size() - 1);
                                     text_view_saying_be_nice_to_the_start.setVisibility(View.INVISIBLE);
                                 } else {
-                                    chat_list.add(new Item_for_chat(snapshot.getValue().toString(), "","normal"));
+                                    chat_list.add(new Item_for_chat(snapshot.getValue().toString(), "", "normal"));
                                     adapter.notifyDataSetChanged();
                                     recycle_view_for_chat_in_chat_fragment.scrollToPosition(chat_list.size() - 1);
                                     text_view_saying_be_nice_to_the_start.setVisibility(View.INVISIBLE);
@@ -696,103 +768,24 @@ public class chat_fragment extends Fragment {
                 });
             }
         }
-    }
+    }*/
 
-    private void first_child_listener() {
-        if (getActivity() != null) {
-            final String habit_name = spinner_item;
-            childEventListener_child_1 = new ChildEventListener() {
-                @Override
-                public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-                    database.child(habit_name).child("chat_room_".concat(String.valueOf(room_int))).addListenerForSingleValueEvent(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NotNull DataSnapshot dataSnapshot) {
-                            if (dataSnapshot.getChildrenCount() == 5 && !am_i_called_first_child_listener) {
-                                put_the_last_time_firebase();
-                                am_i_called_first_child_listener = true;
-                                open_a_screen(2);
-                                handler.removeCallbacksAndMessages(null);
-                                other_person_chat_listener();
-                                start_the_five_minute_time();
-                                set_the_fire_base_of_other_person();
-                                write_chat_now();
-                            }
-                        }
-
-                        @Override
-                        public void onCancelled(DatabaseError databaseError) {
-
-                        }
-                    });
-                }
-
-                @Override
-                public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-
-                }
-
-                @Override
-                public void onChildRemoved(@NonNull DataSnapshot snapshot) {
-                    if (which_user != 0 && !user_removed && five_minute_time > 5000) {
-                        end_the_chat(1);
-                        user_removed = true;
-                    }
-                }
-
-                @Override
-                public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-
-                }
-
-                @Override
-                public void onCancelled(@NonNull DatabaseError error) {
-
-                }
-            };
-        }
-    }
-
-    private void second_child_listener() {
-        childEventListener_child_2 = new ChildEventListener() {
-            @Override
-            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-
-            }
-
-            @Override
-            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-
-            }
-
-            @Override
-            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
-                if (which_user != 0 && !user_removed && five_minute_time > 5000) {
-                    end_the_chat(1);
-                    user_removed = true;
-                }
-            }
-
-            @Override
-            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        };
-    }
 
     private void end_the_chat(int which) {
         if (which == 0) {
-            leave_chat();
+            if(event_listener_snapchot!=null){
+                event_listener_snapchot.remove();
+            }
+            leave_chat(true);
             open_a_screen(1);
-            restart_the_values();
-            setHandler_for_start_button_listen();
-            is_the_chat_still_going = false;
+            //setHandler_for_start_button_listen();
+            //is_the_chat_still_going = false;
+            last_text="";
         } else if (which == 1) {
             if (getActivity() != null) {
+                if(event_listener_snapchot!=null){
+                    event_listener_snapchot.remove();
+                }
                 //Button button_to_end_chat_in_chat = getActivity().findViewById(R.id.button_to_end_chat_in_chat);
                 EditText edit_text_to_enter_chat_t_send_messages = getActivity().findViewById(R.id.edit_text_to_enter_chat_t_send_messages);
                 TextView text_view_saying_be_nice_to_the_start = getActivity().findViewById(R.id.text_view_saying_be_nice_to_the_start);
@@ -801,26 +794,35 @@ public class chat_fragment extends Fragment {
                 //button_to_end_chat_in_chat.setText("Leave");
                 text_view_saying_be_nice_to_the_start.setVisibility(View.INVISIBLE);
                 if (did_i_leave_chat) {
-                    chat_list.add(new Item_for_chat("", "","i_left"));
+                    chat_list.add(new Item_for_chat("", "", "i_left"));
                 } else {
-                    chat_list.add(new Item_for_chat("", "","they_left"));
+                    chat_list.add(new Item_for_chat("", "", "they_left"));
                 }
                 adapter.notifyDataSetChanged();
                 edit_text_to_enter_chat_t_send_messages.setText("");
                 edit_text_to_enter_chat_t_send_messages.setEnabled(false);
                 handler_for_five_minute_time.removeCallbacksAndMessages(null);
-                setHandler_for_start_button_listen();
+                //setHandler_for_start_button_listen();
                 is_the_chat_still_going = false;
                 if (which_screen_i_am_in == 2) {
                     button_to_back_in_chat_visible_after_chat.setVisibility(View.VISIBLE);
                 }
                 back_view_white_in_chat.setVisibility(View.VISIBLE);
+                last_text="";
+                other_person_id = null;
+                was_this_reported = false;
+                did_i_leave_chat = false;
+                document_name = "";
+                random_join_or_create = 2;
                 //restart_the_values();
             }
             //they pressed end chat
         } else if (which == 2) {
             if (getActivity() != null) {
-                leave_chat();
+                if(event_listener_snapchot!=null){
+                    event_listener_snapchot.remove();
+                }
+                leave_chat(false);
                 //Button button_to_end_chat_in_chat = getActivity().findViewById(R.id.button_to_end_chat_in_chat);
                 EditText edit_text_to_enter_chat_t_send_messages = getActivity().findViewById(R.id.edit_text_to_enter_chat_t_send_messages);
                 TextView text_view_saying_be_nice_to_the_start = getActivity().findViewById(R.id.text_view_saying_be_nice_to_the_start);
@@ -828,17 +830,23 @@ public class chat_fragment extends Fragment {
                 View back_view_white_in_chat = getActivity().findViewById(R.id.back_view_white_in_chat);
                 //button_to_end_chat_in_chat.setText("Leave");
                 text_view_saying_be_nice_to_the_start.setVisibility(View.INVISIBLE);
-                chat_list.add(new Item_for_chat("", "","time_finish"));
+                chat_list.add(new Item_for_chat("", "", "time_finish"));
                 adapter.notifyDataSetChanged();
                 edit_text_to_enter_chat_t_send_messages.setText("");
                 edit_text_to_enter_chat_t_send_messages.setEnabled(false);
                 handler_for_five_minute_time.removeCallbacksAndMessages(null);
-                setHandler_for_start_button_listen();
+                //setHandler_for_start_button_listen();
                 is_the_chat_still_going = false;
                 if (which_screen_i_am_in == 2) {
                     button_to_back_in_chat_visible_after_chat.setVisibility(View.VISIBLE);
                 }
                 back_view_white_in_chat.setVisibility(View.VISIBLE);
+                last_text="";
+                other_person_id = null;
+                was_this_reported = false;
+                did_i_leave_chat = false;
+                document_name = "";
+                random_join_or_create = 2;
                 //restart_the_values();
             }
             //time finish
@@ -890,10 +898,6 @@ public class chat_fragment extends Fragment {
         }
     }
 
-    public boolean is_the_chat_going_on() {
-        return is_the_chat_still_going;
-    }
-
     private void back_button_listen() {
         if (getView() != null) {
             getView().setFocusableInTouchMode(true);
@@ -903,7 +907,7 @@ public class chat_fragment extends Fragment {
                 public boolean onKey(View v, int keyCode, KeyEvent event) {
                     if (event.getAction() == KeyEvent.ACTION_UP && keyCode == KeyEvent.KEYCODE_BACK) {
                         if (!is_alert_showing) {
-                            if (is_the_chat_going_on()) {
+                            if (is_the_chat_still_going) {
                                 is_alert_showing = true;
                                 new AlertDialog.Builder(getContext())
                                         .setTitle("Leave Chat?")
@@ -913,15 +917,33 @@ public class chat_fragment extends Fragment {
                                         // The dialog is automatically dismissed when a dialog button is clicked.
                                         .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                                             public void onClick(DialogInterface dialog, int which) {
-                                                end_the_chat(0);
-                                                if (getActivity() != null) {
-                                                    getActivity().finishAffinity();
-                                                }
+                                                firebaseFirestore.collection("chat").document(document_name).update("status","D".concat(String.valueOf(random_join_or_create))).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                    @Override
+                                                    public void onSuccess(Void unused) {
+                                                        firebaseFirestore.collection("chat").document(document_name).delete();
+                                                        did_i_leave_chat = true;
+                                                        end_the_chat(1);
+                                                        is_alert_showing = false;
+                                                        if (getActivity() != null) {
+                                                            getActivity().finishAffinity();
+                                                        }
+                                                    }
+                                                }).addOnFailureListener(new OnFailureListener() {
+                                                    @Override
+                                                    public void onFailure(@NonNull Exception e) {
+
+                                                    }
+                                                });
                                             }
                                         })
 
                                         // A null listener allows the button to dismiss the dialog and take no further action.
-                                        .setNegativeButton(android.R.string.no, null)
+                                        .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                is_alert_showing = false;
+                                            }
+                                        })
                                         .show();
                             } else {
                                 if (getActivity() != null) {
@@ -941,30 +963,6 @@ public class chat_fragment extends Fragment {
         }
     }
 
-    private void set_the_fire_base_of_other_person() {
-        if (other_person_firebase == null) {
-            int other_user;
-            if (which_user == 1) {
-                other_user = 2;
-            } else {
-                other_user = 1;
-            }
-            final String habit_name = spinner_item;
-            database.child(habit_name).child("chat_room_".concat(String.valueOf(room_int))).child("user_".concat(String.valueOf(other_user)).concat("_id")).addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NotNull DataSnapshot dataSnapshot) {
-                    //if (dataSnapshot.getChildrenCount() == 2) {
-                    other_person_firebase = (String) dataSnapshot.getValue();
-                }
-
-                @Override
-                public void onCancelled(@NotNull DatabaseError databaseError) {
-
-                }
-            });
-        }
-    }
-
     private void recycle_view_listen_scroll() {
         if (getActivity() != null) {
             RecyclerView recycle_view_for_chat_in_chat_fragment = getActivity().findViewById(R.id.recycle_view_for_chat_in_chat_fragment);
@@ -979,11 +977,7 @@ public class chat_fragment extends Fragment {
         }
     }
 
-    private void put_the_last_time_firebase() {
-        database.child("last_chat").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).setValue(ServerValue.TIMESTAMP);
-    }
-
-    private void up_date_function_if_pro() {
+    /*private void up_date_function_if_pro() {
         if (getActivity() != null) {
             final Button button_to_start_seesion_in_chat = getActivity().findViewById(R.id.button_to_start_seesion_in_chat);
             Am_i_paid am_i_paid = new Am_i_paid(getContext());
@@ -1012,11 +1006,11 @@ public class chat_fragment extends Fragment {
                                     return "result";
                                 }
                             }).addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull @NotNull Exception e) {
+                                @Override
+                                public void onFailure(@NonNull @NotNull Exception e) {
 
-                        }
-                    });
+                                }
+                            });
                 } else {
                     join_a_chat_room();
                 }
@@ -1024,7 +1018,7 @@ public class chat_fragment extends Fragment {
                 join_a_chat_room();
             }
         }
-    }
+    }*/
 
     private long last_time_chatted() {
         //Button button_to_start_seesion_in_chat = getView().findViewById(R.id.button_to_start_seesion_in_chat);
@@ -1037,7 +1031,7 @@ public class chat_fragment extends Fragment {
         }
     }
 
-    private void setHandler_for_start_button_listen() {
+    /*private void setHandler_for_start_button_listen() {
         Am_i_paid am_i_paid = new Am_i_paid(getContext());
         if (!am_i_paid.did_user_pay()) {
             run_the_function_every_sixty_seconds();
@@ -1048,18 +1042,18 @@ public class chat_fragment extends Fragment {
                 }
             }, 60000);
         }
-    }
+    }*/
 
-    private void write_chat_now() {
+    /*(private void write_chat_now() {
         if (getActivity() != null) {
             SharedPreferences sharedPreferences = getActivity().getSharedPreferences("last_time_i_chatted", MODE_PRIVATE);
             SharedPreferences.Editor myEdit = sharedPreferences.edit();
             myEdit.putLong("last_chat", System.currentTimeMillis());
             myEdit.commit();
         }
-    }
+    }*/
 
-    private void run_the_function_every_sixty_seconds() {
+    /*private void run_the_function_every_sixty_seconds() {
         if (getView() != null) {
             Button button_to_start_seesion_in_chat = getView().findViewById(R.id.button_to_start_seesion_in_chat);
             long millis = last_time_chatted();
@@ -1076,7 +1070,7 @@ public class chat_fragment extends Fragment {
                 button_to_start_seesion_in_chat.getBackground().setColorFilter(Color.GRAY, PorterDuff.Mode.MULTIPLY);
             }
         }
-    }
+    }*/
 
     private void three_dot_listen() {
         if (getView() != null) {
@@ -1101,7 +1095,7 @@ public class chat_fragment extends Fragment {
             button_to_gift_in_chat_real_time.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Bottom_sheet_to_give_coins bottom_sheet_to_give_coins = new Bottom_sheet_to_give_coins(other_person_firebase);
+                    /*Bottom_sheet_to_give_coins bottom_sheet_to_give_coins = new Bottom_sheet_to_give_coins(other_person_firebase);
                     bottom_sheet_to_give_coins.set_gift_listen_which_one(new Bottom_sheet_to_give_coins.send_which_award_was_given() {
                         @Override
                         public void gift_was_clicked(ArrayList<Long> arrayList_of_gifts) {
@@ -1119,7 +1113,7 @@ public class chat_fragment extends Fragment {
                         }
                     });
                     bottom_sheet_to_give_coins.show(getParentFragmentManager(), "");
-                    am_i_in_gift = true;
+                    am_i_in_gift = true;*/
                 }
             });
         }
@@ -1138,7 +1132,18 @@ public class chat_fragment extends Fragment {
                                     .setMessage("Are you sure you want to leave this chat?")
                                     .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                                         public void onClick(DialogInterface dialog, int which) {
-                                            end_the_chat(0);
+                                            firebaseFirestore.collection("chat").document(document_name).update("status","D".concat(String.valueOf(random_join_or_create))).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                @Override
+                                                public void onSuccess(Void unused) {
+                                                    firebaseFirestore.collection("chat").document(document_name).delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                        @Override
+                                                        public void onSuccess(Void unused) {
+                                                            did_i_leave_chat = true;
+                                                            end_the_chat(1);
+                                                        }
+                                                    });
+                                                }
+                                            });
                                         }
                                     })
                                     .setNegativeButton(android.R.string.no, null)
@@ -1180,7 +1185,7 @@ public class chat_fragment extends Fragment {
 
     private void report_button() {
         FirebaseFirestore rootRef = FirebaseFirestore.getInstance();
-        DocumentReference docIdRef = rootRef.collection("report_chat").document(other_person_firebase);
+        DocumentReference docIdRef = rootRef.collection("report_chat").document(other_person_id);
         docIdRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
@@ -1200,7 +1205,7 @@ public class chat_fragment extends Fragment {
     }
 
     private void report_transaction() {
-        final DocumentReference sfDocRef = m_firebaseFirestore.collection("report_chat").document(other_person_firebase);
+        final DocumentReference sfDocRef = m_firebaseFirestore.collection("report_chat").document(other_person_id);
         m_firebaseFirestore.runTransaction(new Transaction.Function<Void>() {
             @Override
             public Void apply(Transaction transaction) throws FirebaseFirestoreException {
@@ -1233,7 +1238,7 @@ public class chat_fragment extends Fragment {
 
     private void create_firstore_report_document() {
         FirebaseFirestore rootRef = FirebaseFirestore.getInstance();
-        DocumentReference docIdRef = rootRef.collection("report_chat").document(other_person_firebase);
+        DocumentReference docIdRef = rootRef.collection("report_chat").document(other_person_id);
         Map<String, Object> city = new HashMap<>();
         ArrayList<String> reports = new ArrayList<>();
         reports.add(FirebaseAuth.getInstance().getCurrentUser().getUid());
@@ -1275,7 +1280,7 @@ public class chat_fragment extends Fragment {
             } else {
                 return "anonymous";
             }
-        } catch (Exception exception){
+        } catch (Exception exception) {
             return "anonymous";
         }
     }
@@ -1289,7 +1294,7 @@ public class chat_fragment extends Fragment {
             if (bundle != null) {
                 String text = bundle.getString("sign_in", "anonymous");
                 if (text.equals("google")) {
-                    started_login_process = true;
+                    //started_login_process = true;
                 }
             }
         }
@@ -1309,7 +1314,7 @@ public class chat_fragment extends Fragment {
         };
     }*/
 
-    private void restart_the_premium_and_call_it(){
-        ((after_login)getActivity()).check_if_user_is_gifted(true);
+    private void restart_the_premium_and_call_it() {
+        ((after_login) getActivity()).check_if_user_is_gifted(true);
     }
 }

@@ -189,7 +189,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="45dp"
                     android:text="Amount"
-                    app:layout_constraintEnd_toStartOf="@+id/timer_add_habit"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.5"
                     app:layout_constraintStart_toEndOf="@+id/yes_or_no_add_habit"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -200,6 +200,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="45dp"
                     android:text="Timer"
+                    android:visibility="gone"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.5"
                     app:layout_constraintStart_toEndOf="@+id/amount_add_habit"
@@ -211,7 +212,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:gravity="center"
-                    android:text="Yes/No example: Did you read today?\nAmount: How many pages did you read today?\nTimer: For how many minutes did you read today?"
+                    android:text="Yes/No example: Did you read today?\nAmount: How many pages did you read today?"
                     android:textAlignment="center"
                     android:textColor="@color/fav"
                     android:textSize="14.5sp"
@@ -231,7 +232,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="8dp"
-                        android:layout_marginTop="45dp"
+                        android:layout_marginTop="25dp"
                         android:backgroundTint="@color/fav"
                         android:digits="0123456789"
                         android:ems="10"
@@ -419,6 +420,8 @@
                 android:textAlignment="center"
                 android:textColor="@color/fav"
                 android:textSize="14.5sp"
+                android:paddingStart="15dp"
+                android:paddingEnd="15dp"
                 app:layout_constraintEnd_toEndOf="@+id/view_showing_the_icon_and_its_color"
                 app:layout_constraintStart_toStartOf="@+id/view_showing_the_icon_and_its_color"
                 app:layout_constraintTop_toBottomOf="@+id/button_that_will_open_time_user_hacked" />
@@ -430,7 +433,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="45dp"
                 android:backgroundTint="#607D8B"
-                android:text="Choose date"
+                android:text="Choose start date"
                 android:textColor="@color/white"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
@@ -453,7 +456,7 @@
                 android:layout_marginTop="8dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/layout_that_contains_goal_for_habits" />
+                app:layout_constraintTop_toBottomOf="@+id/text_saying_example_of_goal_under_goal_edit_text" />
 
             <View
                 android:id="@+id/background_of_choose_goals_add_a_habit"
@@ -507,6 +510,20 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
+            <TextView
+                android:id="@+id/text_saying_example_of_goal_under_goal_edit_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:gravity="center"
+                android:text="Example: I want to exercise 10 days in a row"
+                android:textAlignment="center"
+                android:textColor="@color/fav"
+                android:textSize="14.5sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/layout_that_contains_goal_for_habits" />
+
             <View
                 android:id="@+id/top_of_choose_color_and_icon_add_a_habit"
                 android:layout_width="0dp"
@@ -548,7 +565,7 @@
                 app:layout_constraintEnd_toStartOf="@+id/button_to_choose_icon_of_the_new_good_habit"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/layout_that_contains_goal_for_habits" />
+                app:layout_constraintTop_toBottomOf="@+id/text_saying_example_of_goal_under_goal_edit_text" />
 
             <Button
                 android:id="@+id/button_to_choose_icon_of_the_new_good_habit"
@@ -1143,7 +1160,20 @@
                         app:layout_constraintStart_toEndOf="@+id/times_per_period_in_add_habit_frequency_in_the_end"
                         app:layout_constraintTop_toTopOf="parent" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
-
+                <TextView
+                    android:id="@+id/text_saying_examples_of_habit_frequecy"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/fav"
+                    android:layout_marginTop="5dp"
+                    android:paddingStart="15dp"
+                    android:paddingEnd="15dp"
+                    android:gravity="center"
+                    android:textAlignment="center"
+                    android:text="Everyday: I want to run everyday\nSpecific days per week: I want to run on Fridays\nEvery N days: I want to run once every 5 days\nSpecific days per month: I want to run on the 1st of every month"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/show_which_days_are_chosen_add_a_habit"/>
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <View

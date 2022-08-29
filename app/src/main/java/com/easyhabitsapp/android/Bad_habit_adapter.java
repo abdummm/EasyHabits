@@ -16,7 +16,7 @@ public class Bad_habit_adapter extends RecyclerView.Adapter<Bad_habit_adapter.Ex
     private OnItemClickListener2  mListener;
 
     public interface OnItemClickListener2 {
-        void onItemClick(int position);
+        void onItemClick(String habit);
     }
 
     public void setOnItemClickListener(OnItemClickListener2 listener) {
@@ -35,7 +35,7 @@ public class Bad_habit_adapter extends RecyclerView.Adapter<Bad_habit_adapter.Ex
                     if(listener!=null){
                         int position = getAdapterPosition();
                         if(position!=RecyclerView.NO_POSITION){
-                            listener.onItemClick(position);
+                            listener.onItemClick(bad_habit_button.getText().toString());
                         }
                     }
                 }

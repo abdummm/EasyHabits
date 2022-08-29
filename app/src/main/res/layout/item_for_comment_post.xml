@@ -63,7 +63,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <View
-                android:id="@+id/circle_between_time_and_cat_in_card_comment"
+                android:id="@+id/circle_between_time_and_dev_in_card_comment"
                 android:layout_width="5dp"
                 android:layout_height="5dp"
                 android:layout_marginStart="5dp"
@@ -72,7 +72,7 @@
                 app:layout_constraintStart_toEndOf="@+id/text_at_top_left_of_card_to_show_time_comment"
                 app:layout_constraintTop_toTopOf="@+id/text_at_top_left_of_card_to_show_time_comment" />
 
-            <TextView
+            <!--<TextView
                 android:id="@+id/text_at_the_top_showing_what_category_this_is_in_comment"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -114,7 +114,7 @@
                 android:background="@drawable/circle_colored_fav_for_journal"
                 app:layout_constraintBottom_toBottomOf="@+id/text_at_top_left_of_card_to_show_time_comment"
                 app:layout_constraintStart_toEndOf="@+id/text_at_the_top_showing_how_much_is_the_streak_comment"
-                app:layout_constraintTop_toTopOf="@+id/text_at_top_left_of_card_to_show_time_comment" />
+                app:layout_constraintTop_toTopOf="@+id/text_at_top_left_of_card_to_show_time_comment" />-->
 
             <TextView
                 android:id="@+id/text_view_saying_i_am_the_dev_of_the_app_comment"
@@ -126,7 +126,7 @@
                 android:textColor="@color/white"
                 android:textStyle="bold"
                 android:translationZ="100dp"
-                app:layout_constraintStart_toEndOf="@+id/circle_between_the_streak_and_the_dev_icon_comment"
+                app:layout_constraintStart_toEndOf="@+id/circle_between_time_and_dev_in_card_comment"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <View

@@ -70,6 +70,7 @@ public class Add_and_show_events extends DialogFragment implements TimePickerDia
         this.mview = rootView;
         if (getDialog() != null) {
             getDialog().setCanceledOnTouchOutside(false);
+            getDialog().setCancelable(false);
         }
         time_in_right_now = System.currentTimeMillis();
         add_the_date();

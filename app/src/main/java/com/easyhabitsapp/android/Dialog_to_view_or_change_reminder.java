@@ -31,6 +31,7 @@ public class Dialog_to_view_or_change_reminder extends DialogFragment {
         this.mview = rootView;
         if (getDialog() != null) {
             getDialog().setCanceledOnTouchOutside(false);
+            getDialog().setCancelable(false);
         }
         get_tag();
         set_up_recycle();
