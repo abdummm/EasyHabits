@@ -1,7 +1,7 @@
 # EasyHabits
 Easy habits is an android app that helps you get rid of bad habits and replace them with good ones. It also has a mood tracker, a chat section and an area to post.
 
-This project utilizes a lot of technology such as: java, javascript, Google Cloud Platform, Firebase, Room (a version of SQLITE), XML and native android SDKs and APIs. 
+This project utilizes a lot of technology such as: java, javascript, Google Cloud Platform, Firebase, SQLite, XML and native android SDKs and APIs. 
 
 While lines of code is not a direct measure of a project quality, this project contains over a 165,000 lines of code in total.
 
