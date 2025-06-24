@@ -1,3 +1,4 @@
+
 package com.easyhabitsapp.android;
 
 import android.app.Activity;
@@ -60,6 +61,7 @@ import static android.content.Context.MODE_PRIVATE;
 import com.google.android.material.switchmaterial.SwitchMaterial;
 
 public class edit_bad_habits extends Fragment {
+    /*
 
     private int position;
     private int year_global;
@@ -70,6 +72,7 @@ public class edit_bad_habits extends Fragment {
     private String color = "#607D8B";
     private String icon = "";
     private String which_days_are_chosen;
+    private String which_days_are_chosen_notifications;
     private boolean should_the_habit_spinner_run = true;
     private boolean should_the_notification_spinner_run = true;
 
@@ -97,14 +100,16 @@ public class edit_bad_habits extends Fragment {
     @Override
     public void onViewCreated(@NonNull @NotNull View view, @Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        /*read_the_bad_habits();
+        */
+/*read_the_bad_habits();
         changte_habit_button_listen();
         change_date_button_listen();
         goal_days_text_watcher();
         change_color_listen();
         pick_icon_button_lsitener();
         update_button_listen();
-        back_button_listen();*/
+        back_button_listen();*//*
+
         choose_date_button_listen();
         goal_days_text_watcher();
         done_button_listen();
@@ -148,6 +153,7 @@ public class edit_bad_habits extends Fragment {
             set_the_icon_habit();
             set_habit_frequency();
             set_notification_frequency();
+            set_last_relapse();
         }
     }
 
@@ -568,25 +574,30 @@ public class edit_bad_habits extends Fragment {
                 }
                 long time = Long.parseLong(return_the_information_from_save(15));
                 long hours = TimeUnit.MILLISECONDS.toHours(time);
-                long minutes = TimeUnit.MILLISECONDS.toMinutes((time%3600000L));
+                long minutes = TimeUnit.MILLISECONDS.toMinutes((time % 3600000L));
                 String hours_string;
-                if(hours == 0){
+                if (hours == 0) {
                     spinner_to_choose_am_or_pm_in_add_habit_notifactaion_freq.setSelection(0);
                     hours_string = "12";
-                } else if(hours <= 12){
+                } else if (hours <= 12) {
                     spinner_to_choose_am_or_pm_in_add_habit_notifactaion_freq.setSelection(0);
                     hours_string = String.valueOf(hours);
                 } else {
                     spinner_to_choose_am_or_pm_in_add_habit_notifactaion_freq.setSelection(1);
-                    hours_string = String.valueOf(hours-12);
+                    hours_string = String.valueOf(hours - 12);
                 }
                 text_view_saying_the_hour_of_notification.setText(hours_string);
                 text_view_saying_the_minute_of_notification.setText(String.valueOf(minutes));
             } else if (return_the_information_from_save(12).equals("false")) {
                 switch_to_turn_notifications_add_a_habit.setChecked(false);
                 layout_notification_in_add_a_habit.setVisibility(View.GONE);
+                set_up_time_in_hour();
             }
         }
+    }
+
+    private void set_last_relapse() {
+        time_in_milli = Long.parseLong(return_the_information_from_save(16));
     }
 
     private void color_the_buttons_automotic(String[] days) {
@@ -820,11 +831,14 @@ public class edit_bad_habits extends Fragment {
         if (which == 13) {
             return habits_data_class.getNotifications_freq();
         }
-        if(which == 14){
+        if (which == 14) {
             return habits_data_class.getNotifications_freq_extra();
         }
-        if(which == 15){
+        if (which == 15) {
             return String.valueOf(habits_data_class.getNotifications_time());
+        }
+        if (which == 16) {
+            return String.valueOf(habits_data_class.getLast_relapse());
         }
         return ""; // cant be otherwise
     }
@@ -978,11 +992,7 @@ public class edit_bad_habits extends Fragment {
                 @Override
                 public void onClick(View view) {
                     if (check_if_done()) {
-                        if (Bad_habit_button_in_add_a_habit.getText().toString().contains("✓")) {
-                            save_the_data_bad();
-                        } else {
-                            save_the_data_good();
-                        }
+                        edit_the_data();
                         if (edit_bad_habits != null) {
                             if (getActivity() != null && home_fragment != null) {
                                 getActivity().getSupportFragmentManager().beginTransaction().show(home_fragment).remove(edit_bad_habits).commit();
@@ -991,6 +1001,97 @@ public class edit_bad_habits extends Fragment {
                     }
                 }
             });
+        }
+    }
+
+    private void edit_the_data() {
+        if (getView() != null) {
+            String bad_or_good_habit;
+            String name_of_the_habit;
+            long last_relapse;
+            int goal;
+            String color;
+            String icon;
+            String type_of_the_habit = null;
+            int extra_type_info = 0;
+            boolean notifications_on_or_off;
+            String notifications_freq = null;
+            String notifications_freq_extra = null;
+            long notifications_time = 0;
+            String habits_freq = null;
+            String habits_freq_extra = null;
+            ArrayList<Long> relapse;
+            HashMap<Long, Integer> relapse_amount_timer;
+            HashMap<Long, Integer> relapse_amount;
+
+            Button Bad_habit_button_in_add_a_habit = getView().findViewById(R.id.Bad_habit_button_in_add_a_habit);
+            EditText edit_text_showing_habit_name = getView().findViewById(R.id.edit_text_showing_habit_name);
+            EditText enter_goal_for_new_good_habit_in_habits = getView().findViewById(R.id.enter_goal_for_new_good_habit_in_habits);
+            Button yes_or_no_add_habit = getView().findViewById(R.id.yes_or_no_add_habit);
+            Button amount_add_habit = getView().findViewById(R.id.amount_add_habit);
+            EditText edit_text_to_enter_amount_in_add_habit = getView().findViewById(R.id.edit_text_to_enter_amount_in_add_habit);
+            SwitchMaterial switch_to_turn_notifications_add_a_habit = getView().findViewById(R.id.switch_to_turn_notifications_add_a_habit);
+            Custom_spinner spinner_to_choose_the_notification_of_the_habit = getView().findViewById(R.id.spinner_to_choose_the_notification_of_the_habit);
+            TextView show_which_days_are_chosen_add_a_habit_notifications = getView().findViewById(R.id.show_which_days_are_chosen_add_a_habit_notifications);
+            EditText enter_goal_for_new_good_habit_in_habits_add_habit_notification = getView().findViewById(R.id.enter_goal_for_new_good_habit_in_habits_add_habit_notification);
+            Custom_spinner spinner_to_choose_the_frequency_of_the_habit = getView().findViewById(R.id.spinner_to_choose_the_frequency_of_the_habit);
+            EditText enter_goal_for_new_good_habit_in_habits_add_habit = getView().findViewById(R.id.enter_goal_for_new_good_habit_in_habits_add_habit);
+
+            if (Bad_habit_button_in_add_a_habit.getText().toString().contains("✓")) {
+                bad_or_good_habit = "bad";
+            } else {
+                bad_or_good_habit = "good";
+                if (yes_or_no_add_habit.getText().toString().contains("✓")) {
+                    type_of_the_habit = "yes/no";
+                } else if (amount_add_habit.getText().toString().contains("✓")) {
+                    type_of_the_habit = "amount";
+                    extra_type_info = Integer.parseInt(edit_text_to_enter_amount_in_add_habit.getText().toString());
+                }
+            }
+            name_of_the_habit = edit_text_showing_habit_name.getText().toString().trim();
+            last_relapse = time_in_milli;
+            goal = Integer.parseInt(enter_goal_for_new_good_habit_in_habits.getText().toString());
+            color = this.color;
+            icon = this.icon;
+            if (switch_to_turn_notifications_add_a_habit.isChecked()) {
+                notifications_on_or_off = true;
+                if (spinner_to_choose_the_notification_of_the_habit.getSelectedItemPosition() == 0) {
+                    notifications_freq = "everyday";
+                } else if (spinner_to_choose_the_notification_of_the_habit.getSelectedItemPosition() == 1) {
+                    notifications_freq = "daysperweek";
+                    notifications_freq_extra = which_days_are_chosen_notifications;
+                } else if (spinner_to_choose_the_notification_of_the_habit.getSelectedItemPosition() == 2) {
+                    notifications_freq = "everyndays";
+                    notifications_freq_extra = enter_goal_for_new_good_habit_in_habits_add_habit_notification.getText().toString();
+                } else if (spinner_to_choose_the_notification_of_the_habit.getSelectedItemPosition() == 3) {
+                    notifications_freq = "dayspermonth";
+                    notifications_freq_extra = check_which_button_is_chosen_notification();
+                }
+                notifications_time = return_time_for_notification();
+            } else {
+                notifications_on_or_off = false;
+            }
+            if (spinner_to_choose_the_frequency_of_the_habit.getSelectedItemPosition() == 0) {
+                habits_freq = "everyday";
+            } else if (spinner_to_choose_the_frequency_of_the_habit.getSelectedItemPosition() == 1) {
+                habits_freq = "daysperweek";
+                habits_freq_extra = which_days_are_chosen;
+            } else if (spinner_to_choose_the_frequency_of_the_habit.getSelectedItemPosition() == 2) {
+                habits_freq = "everyndays";
+                habits_freq_extra = enter_goal_for_new_good_habit_in_habits_add_habit.getText().toString();
+            } else if (spinner_to_choose_the_frequency_of_the_habit.getSelectedItemPosition() == 3) {
+                habits_freq = "dayspermonth";
+                habits_freq_extra = check_which_button_is_chosen_habit();
+            }
+
+            Room_database_habits room_database_habits = Room_database_habits.getInstance(getContext());
+            List<habits_data_class> list = room_database_habits.dao_for_habits_data().getAll();
+            habits_data_class habits_data_class = list.get(position);
+            relapse = habits_data_class.getRelapse();
+            relapse_amount_timer = habits_data_class.getRelapse_amount_timer();
+            relapse_amount = habits_data_class.getRelapse_amount();
+            Room_database_habits database_habits = Room_database_habits.getInstance(getContext());
+            database_habits.dao_for_habits_data().edit_habit(Integer.parseInt(return_the_information_from_save(5)), bad_or_good_habit,name_of_the_habit,last_relapse,goal,color,icon,type_of_the_habit,extra_type_info,notifications_on_or_off,notifications_freq,notifications_freq_extra,notifications_time,habits_freq,habits_freq_extra,relapse,relapse_amount_timer,relapse_amount);
         }
     }
 
@@ -1011,6 +1112,7 @@ public class edit_bad_habits extends Fragment {
         EditText enter_goal_for_new_good_habit_in_habits_add_habit_notification = getView().findViewById(R.id.enter_goal_for_new_good_habit_in_habits_add_habit_notification);
         EditText times_per_period_in_add_habit_frequency_notification = getView().findViewById(R.id.times_per_period_in_add_habit_frequency_notification);
         EditText times_per_period_in_add_habit_frequency_in_the_end_notification = getView().findViewById(R.id.times_per_period_in_add_habit_frequency_in_the_end_notification);
+        SwitchMaterial switch_to_turn_notifications_add_a_habit = getView().findViewById(R.id.switch_to_turn_notifications_add_a_habit);
         if (!did_i_choose_good_or_bad()) {
             Toast.makeText(getActivity(), "Please choose whether this is a good or bad habit", Toast.LENGTH_SHORT).show();
             return false;
@@ -1035,51 +1137,55 @@ public class edit_bad_habits extends Fragment {
                 }
                 return false;
             }
-            /*if (color.equals("")) {
+            */
+/*if (color.equals("")) {
                 Toast.makeText(getActivity(), "Please choose a color", Toast.LENGTH_SHORT).show();
                 return false;
-            }*/
+            }*//*
+
             if (icon.equals("")) {
                 Toast.makeText(getActivity(), "Please choose an icon", Toast.LENGTH_SHORT).show();
                 return false;
             }
-            if (spinner_to_choose_the_notification_of_the_habit.getSelectedItemPosition() == 2 && enter_goal_for_new_good_habit_in_habits_add_habit_notification.getText().toString().equals("")) {
-                Toast.makeText(getActivity(), "Field can't be zero or left empty", Toast.LENGTH_SHORT).show();
-                enter_goal_for_new_good_habit_in_habits_add_habit_notification.setError("Field can't be zero or left empty");
-                return false;
-            }
-            if (spinner_to_choose_the_notification_of_the_habit.getSelectedItemPosition() == 4 && times_per_period_in_add_habit_frequency_notification.getText().toString().equals("")) {
-                Toast.makeText(getActivity(), "Field can't be zero or left empty", Toast.LENGTH_SHORT).show();
-                times_per_period_in_add_habit_frequency_notification.setError("Field can't be zero or left empty");
-                return false;
-            }
-            if (spinner_to_choose_the_notification_of_the_habit.getSelectedItemPosition() == 4 && times_per_period_in_add_habit_frequency_in_the_end_notification.getText().toString().equals("")) {
-                Toast.makeText(getActivity(), "Field can't be zero or left empty", Toast.LENGTH_SHORT).show();
-                times_per_period_in_add_habit_frequency_in_the_end_notification.setError("Field can't be zero or left empty");
-                return false;
-            }
+            if(switch_to_turn_notifications_add_a_habit.isChecked()) {
+                if (spinner_to_choose_the_notification_of_the_habit.getSelectedItemPosition() == 2 && enter_goal_for_new_good_habit_in_habits_add_habit_notification.getText().toString().equals("")) {
+                    Toast.makeText(getActivity(), "Notification field can't be zero or left empty", Toast.LENGTH_LONG).show();
+                    enter_goal_for_new_good_habit_in_habits_add_habit_notification.setError("Field can't be zero or left empty");
+                    return false;
+                }
+                if (spinner_to_choose_the_notification_of_the_habit.getSelectedItemPosition() == 4 && times_per_period_in_add_habit_frequency_notification.getText().toString().equals("")) {
+                    Toast.makeText(getActivity(), "Notification field can't be zero or left empty", Toast.LENGTH_LONG).show();
+                    times_per_period_in_add_habit_frequency_notification.setError("Field can't be zero or left empty");
+                    return false;
+                }
+                if (spinner_to_choose_the_notification_of_the_habit.getSelectedItemPosition() == 4 && times_per_period_in_add_habit_frequency_in_the_end_notification.getText().toString().equals("")) {
+                    Toast.makeText(getActivity(), "Notification field can't be zero or left empty", Toast.LENGTH_LONG).show();
+                    times_per_period_in_add_habit_frequency_in_the_end_notification.setError("Field can't be zero or left empty");
+                    return false;
+                }
 
-            if (spinner_to_choose_the_notification_of_the_habit.getSelectedItemPosition() == 2 && Integer.parseInt(enter_goal_for_new_good_habit_in_habits_add_habit_notification.getText().toString()) == 0) {
-                Toast.makeText(getActivity(), "Field can't be zero or left empty", Toast.LENGTH_SHORT).show();
-                enter_goal_for_new_good_habit_in_habits_add_habit_notification.setError("Field can't be zero or left empty");
-                return false;
-            }
+                if (spinner_to_choose_the_notification_of_the_habit.getSelectedItemPosition() == 2 && Integer.parseInt(enter_goal_for_new_good_habit_in_habits_add_habit_notification.getText().toString()) == 0) {
+                    Toast.makeText(getActivity(), "Notification field can't be zero or left empty", Toast.LENGTH_LONG).show();
+                    enter_goal_for_new_good_habit_in_habits_add_habit_notification.setError("Field can't be zero or left empty");
+                    return false;
+                }
 
-            if (spinner_to_choose_the_notification_of_the_habit.getSelectedItemPosition() == 4 && Integer.parseInt(times_per_period_in_add_habit_frequency_notification.getText().toString()) == 0) {
-                Toast.makeText(getActivity(), "Field can't be zero or left empty", Toast.LENGTH_SHORT).show();
-                times_per_period_in_add_habit_frequency_notification.setError("Field can't be zero or left empty");
-                return false;
-            }
+                if (spinner_to_choose_the_notification_of_the_habit.getSelectedItemPosition() == 4 && Integer.parseInt(times_per_period_in_add_habit_frequency_notification.getText().toString()) == 0) {
+                    Toast.makeText(getActivity(), "Notification field can't be zero or left empty", Toast.LENGTH_LONG).show();
+                    times_per_period_in_add_habit_frequency_notification.setError("Field can't be zero or left empty");
+                    return false;
+                }
 
-            if (spinner_to_choose_the_notification_of_the_habit.getSelectedItemPosition() == 4 && Integer.parseInt(times_per_period_in_add_habit_frequency_in_the_end_notification.getText().toString()) == 0) {
-                Toast.makeText(getActivity(), "Field can't be zero or left empty", Toast.LENGTH_SHORT).show();
-                times_per_period_in_add_habit_frequency_in_the_end_notification.setError("Field can't be zero or left empty");
-                return false;
-            }
+                if (spinner_to_choose_the_notification_of_the_habit.getSelectedItemPosition() == 4 && Integer.parseInt(times_per_period_in_add_habit_frequency_in_the_end_notification.getText().toString()) == 0) {
+                    Toast.makeText(getActivity(), "Notification field can't be zero or left empty", Toast.LENGTH_LONG).show();
+                    times_per_period_in_add_habit_frequency_in_the_end_notification.setError("Field can't be zero or left empty");
+                    return false;
+                }
 
-            if (spinner_to_choose_the_notification_of_the_habit.getSelectedItemPosition() == 3 && check_which_button_is_chosen_notification().equals("")) {
-                Toast.makeText(getActivity(), "please select days of the month", Toast.LENGTH_SHORT).show();
-                return false;
+                if (spinner_to_choose_the_notification_of_the_habit.getSelectedItemPosition() == 3 && check_which_button_is_chosen_notification().equals("")) {
+                    Toast.makeText(getActivity(), "Please select days of the month for the notification", Toast.LENGTH_LONG).show();
+                    return false;
+                }
             }
         } else {
             if (!did_i_choose_typr_of_habit()) {
@@ -1123,73 +1229,74 @@ public class edit_bad_habits extends Fragment {
                 Toast.makeText(getActivity(), "Please choose an icon", Toast.LENGTH_SHORT).show();
                 return false;
             }
+            if(switch_to_turn_notifications_add_a_habit.isChecked()) {
+                if (spinner_to_choose_the_notification_of_the_habit.getSelectedItemPosition() == 2 && enter_goal_for_new_good_habit_in_habits_add_habit_notification.getText().toString().equals("")) {
+                    Toast.makeText(getActivity(), "Notification field can't be zero or left empty", Toast.LENGTH_LONG).show();
+                    enter_goal_for_new_good_habit_in_habits_add_habit_notification.setError("Field can't be zero or left empty");
+                    return false;
+                }
+                if (spinner_to_choose_the_notification_of_the_habit.getSelectedItemPosition() == 4 && times_per_period_in_add_habit_frequency_notification.getText().toString().equals("")) {
+                    Toast.makeText(getActivity(), "Notification field can't be zero or left empty", Toast.LENGTH_LONG).show();
+                    times_per_period_in_add_habit_frequency_notification.setError("Field can't be zero or left empty");
+                    return false;
+                }
+                if (spinner_to_choose_the_notification_of_the_habit.getSelectedItemPosition() == 4 && times_per_period_in_add_habit_frequency_in_the_end_notification.getText().toString().equals("")) {
+                    Toast.makeText(getActivity(), "Notification field can't be zero or left empty", Toast.LENGTH_LONG).show();
+                    times_per_period_in_add_habit_frequency_in_the_end_notification.setError("Field can't be zero or left empty");
+                    return false;
+                }
+                if (spinner_to_choose_the_notification_of_the_habit.getSelectedItemPosition() == 2 && Integer.parseInt(enter_goal_for_new_good_habit_in_habits_add_habit_notification.getText().toString()) == 0) {
+                    Toast.makeText(getActivity(), "Notification field can't be zero or left empty", Toast.LENGTH_LONG).show();
+                    enter_goal_for_new_good_habit_in_habits_add_habit_notification.setError("Field can't be zero or left empty");
+                    return false;
+                }
+                if (spinner_to_choose_the_notification_of_the_habit.getSelectedItemPosition() == 4 && Integer.parseInt(times_per_period_in_add_habit_frequency_notification.getText().toString()) == 0) {
+                    Toast.makeText(getActivity(), "Notification field can't be zero or left empty", Toast.LENGTH_LONG).show();
+                    times_per_period_in_add_habit_frequency_notification.setError("Field can't be zero or left empty");
+                    return false;
+                }
+                if (spinner_to_choose_the_notification_of_the_habit.getSelectedItemPosition() == 4 && Integer.parseInt(times_per_period_in_add_habit_frequency_in_the_end_notification.getText().toString()) == 0) {
+                    Toast.makeText(getActivity(), "Notification field can't be zero or left empty", Toast.LENGTH_LONG).show();
+                    times_per_period_in_add_habit_frequency_in_the_end_notification.setError("Field can't be zero or left empty");
+                    return false;
+                }
+                if (spinner_to_choose_the_notification_of_the_habit.getSelectedItemPosition() == 3 && check_which_button_is_chosen_notification().equals("")) {
+                    Toast.makeText(getActivity(), "Please select days of the month for the notification", Toast.LENGTH_LONG).show();
+                    return false;
+                }
+            }
             if (spinner_to_choose_the_frequency_of_the_habit.getSelectedItemPosition() == 2 && enter_goal_for_new_good_habit_in_habits_add_habit.getText().toString().equals("")) {
-                Toast.makeText(getActivity(), "Field can't be zero or left empty", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), "Habits field can't be zero or left empty", Toast.LENGTH_LONG).show();
                 enter_goal_for_new_good_habit_in_habits_add_habit.setError("days can't be zero or left empty");
                 return false;
             }
             if (spinner_to_choose_the_frequency_of_the_habit.getSelectedItemPosition() == 4 && times_per_period_in_add_habit_frequency.getText().toString().equals("")) {
-                Toast.makeText(getActivity(), "Field can't be zero or left empty", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), "Habits field can't be zero or left empty", Toast.LENGTH_LONG).show();
                 times_per_period_in_add_habit_frequency.setError("Field can't be zero or left empty");
                 return false;
             }
             if (spinner_to_choose_the_frequency_of_the_habit.getSelectedItemPosition() == 4 && times_per_period_in_add_habit_frequency_in_the_end.getText().toString().equals("")) {
-                Toast.makeText(getActivity(), "Field can't be zero or left empty", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), "Habits field can't be zero or left empty", Toast.LENGTH_LONG).show();
                 times_per_period_in_add_habit_frequency_in_the_end.setError("Field can't be zero or left empty");
                 return false;
             }
-
-            if (spinner_to_choose_the_notification_of_the_habit.getSelectedItemPosition() == 2 && enter_goal_for_new_good_habit_in_habits_add_habit_notification.getText().toString().equals("")) {
-                Toast.makeText(getActivity(), "Field can't be zero or left empty", Toast.LENGTH_SHORT).show();
-                enter_goal_for_new_good_habit_in_habits_add_habit_notification.setError("Field can't be zero or left empty");
-                return false;
-            }
-            if (spinner_to_choose_the_notification_of_the_habit.getSelectedItemPosition() == 4 && times_per_period_in_add_habit_frequency_notification.getText().toString().equals("")) {
-                Toast.makeText(getActivity(), "Field can't be zero or left empty", Toast.LENGTH_SHORT).show();
-                times_per_period_in_add_habit_frequency_notification.setError("Field can't be zero or left empty");
-                return false;
-            }
-            if (spinner_to_choose_the_notification_of_the_habit.getSelectedItemPosition() == 4 && times_per_period_in_add_habit_frequency_in_the_end_notification.getText().toString().equals("")) {
-                Toast.makeText(getActivity(), "Field can't be zero or left empty", Toast.LENGTH_SHORT).show();
-                times_per_period_in_add_habit_frequency_in_the_end_notification.setError("Field can't be zero or left empty");
-                return false;
-            }
             if (spinner_to_choose_the_frequency_of_the_habit.getSelectedItemPosition() == 2 && Integer.parseInt(enter_goal_for_new_good_habit_in_habits_add_habit.getText().toString()) == 0) {
-                Toast.makeText(getActivity(), "Field can't be zero or left empty", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), "Habits field can't be zero or left empty", Toast.LENGTH_LONG).show();
                 enter_goal_for_new_good_habit_in_habits_add_habit.setError("days can't be zero or left empty");
                 return false;
             }
             if (spinner_to_choose_the_frequency_of_the_habit.getSelectedItemPosition() == 4 && Integer.parseInt(times_per_period_in_add_habit_frequency.getText().toString()) == 0) {
-                Toast.makeText(getActivity(), "Field can't be zero or left empty", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), "Habits field can't be zero or left empty", Toast.LENGTH_LONG).show();
                 times_per_period_in_add_habit_frequency.setError("Field can't be zero or left empty");
                 return false;
             }
             if (spinner_to_choose_the_frequency_of_the_habit.getSelectedItemPosition() == 4 && Integer.parseInt(times_per_period_in_add_habit_frequency_in_the_end.getText().toString()) == 0) {
-                Toast.makeText(getActivity(), "Field can't be zero or left empty", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), "Habits field can't be zero or left empty", Toast.LENGTH_LONG).show();
                 times_per_period_in_add_habit_frequency_in_the_end.setError("Field can't be zero or left empty");
                 return false;
             }
-            if (spinner_to_choose_the_notification_of_the_habit.getSelectedItemPosition() == 2 && Integer.parseInt(enter_goal_for_new_good_habit_in_habits_add_habit_notification.getText().toString()) == 0) {
-                Toast.makeText(getActivity(), "Field can't be zero or left empty", Toast.LENGTH_SHORT).show();
-                enter_goal_for_new_good_habit_in_habits_add_habit_notification.setError("Field can't be zero or left empty");
-                return false;
-            }
-            if (spinner_to_choose_the_notification_of_the_habit.getSelectedItemPosition() == 4 && Integer.parseInt(times_per_period_in_add_habit_frequency_notification.getText().toString()) == 0) {
-                Toast.makeText(getActivity(), "Field can't be zero or left empty", Toast.LENGTH_SHORT).show();
-                times_per_period_in_add_habit_frequency_notification.setError("Field can't be zero or left empty");
-                return false;
-            }
-            if (spinner_to_choose_the_notification_of_the_habit.getSelectedItemPosition() == 4 && Integer.parseInt(times_per_period_in_add_habit_frequency_in_the_end_notification.getText().toString()) == 0) {
-                Toast.makeText(getActivity(), "Field can't be zero or left empty", Toast.LENGTH_SHORT).show();
-                times_per_period_in_add_habit_frequency_in_the_end_notification.setError("Field can't be zero or left empty");
-                return false;
-            }
-            if (spinner_to_choose_the_notification_of_the_habit.getSelectedItemPosition() == 3 && check_which_button_is_chosen_notification().equals("")) {
-                Toast.makeText(getActivity(), "please select days of the month", Toast.LENGTH_SHORT).show();
-                return false;
-            }
             if (spinner_to_choose_the_frequency_of_the_habit.getSelectedItemPosition() == 3 && check_which_button_is_chosen_habit().equals("")) {
-                Toast.makeText(getActivity(), "please select days of the month", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), "Please select days of the month for the habits", Toast.LENGTH_LONG).show();
                 return false;
             }
         }
@@ -1234,8 +1341,10 @@ public class edit_bad_habits extends Fragment {
                     layout_listing_the_type_of_habits_good_habit_add_a_habit.setVisibility(View.GONE);
                     layout_mentioning_the_spinner_and_frequency.setVisibility(View.GONE);
                     background_of_choose_frequency_add_a_habit.setVisibility(View.GONE);
-                    /*layout_mentioning_the_spinner_and_notification.setVisibility(View.GONE);
-                    background_of_choose_notification_add_a_habit.setVisibility(View.GONE);*/
+                    */
+/*layout_mentioning_the_spinner_and_notification.setVisibility(View.GONE);
+                    background_of_choose_notification_add_a_habit.setVisibility(View.GONE);*//*
+
                 }
             });
             good_habit_button_in_add_a_habit.setOnClickListener(new View.OnClickListener() {
@@ -1247,8 +1356,10 @@ public class edit_bad_habits extends Fragment {
                     layout_listing_the_type_of_habits_good_habit_add_a_habit.setVisibility(View.VISIBLE);
                     layout_mentioning_the_spinner_and_frequency.setVisibility(View.VISIBLE);
                     background_of_choose_frequency_add_a_habit.setVisibility(View.VISIBLE);
-                    /*layout_mentioning_the_spinner_and_notification.setVisibility(View.VISIBLE);
-                    background_of_choose_notification_add_a_habit.setVisibility(View.VISIBLE);*/
+                    */
+/*layout_mentioning_the_spinner_and_notification.setVisibility(View.VISIBLE);
+                    background_of_choose_notification_add_a_habit.setVisibility(View.VISIBLE);*//*
+
                 }
             });
         }
@@ -1346,7 +1457,8 @@ public class edit_bad_habits extends Fragment {
         }
     }
 
-    private void save_the_data_bad() {
+    */
+/*private void save_the_data_bad() {
         if (getView() != null) {
             EditText edit_text_showing_habit_name = getView().findViewById(R.id.edit_text_showing_habit_name);
             EditText enter_goal_for_new_good_habit_in_habits = getView().findViewById(R.id.enter_goal_for_new_good_habit_in_habits);
@@ -1387,10 +1499,10 @@ public class edit_bad_habits extends Fragment {
                     habits_data_class.setNotifications_freq("dayspermonth");
                     notification_freq = "dayspermonth";
                     habits_data_class.setNotifications_freq_extra(check_which_button_is_chosen_notification());
-                }/* else if (spinner_to_choose_the_notification_of_the_habit.getSelectedItemPosition() == 4) {
+                } else if (spinner_to_choose_the_notification_of_the_habit.getSelectedItemPosition() == 4) {
                     habits_data_class.setNotifications_freq("timesaperiod");
                     habits_data_class.setNotifications_freq_extra(times_per_period_in_add_habit_frequency_notification.getText().toString().concat("_").concat(times_per_period_in_add_habit_frequency_in_the_end_notification.getText().toString()));
-                }*/
+                }
                 habits_data_class.setNotifications_time(return_time_for_notification());
             } else {
                 habits_data_class.setNotifications_on_or_off(false);
@@ -1494,10 +1606,10 @@ public class edit_bad_habits extends Fragment {
                     habits_data_class.setNotifications_freq("dayspermonth");
                     notification_freq = "dayspermonth";
                     habits_data_class.setNotifications_freq_extra(check_which_button_is_chosen_notification());
-                }/* else if (spinner_to_choose_the_notification_of_the_habit.getSelectedItemPosition() == 4) {
+                } else if (spinner_to_choose_the_notification_of_the_habit.getSelectedItemPosition() == 4) {
                     habits_data_class.setNotifications_freq("timesaperiod");
                     habits_data_class.setNotifications_freq_extra(times_per_period_in_add_habit_frequency_notification.getText().toString().concat("_").concat(times_per_period_in_add_habit_frequency_in_the_end_notification.getText().toString()));
-                }*/
+                }
                 habits_data_class.setNotifications_time(return_time_for_notification());
             } else {
                 habits_data_class.setNotifications_on_or_off(false);
@@ -1515,7 +1627,8 @@ public class edit_bad_habits extends Fragment {
                 set_the_notification(edit_text_showing_habit_name.getText().toString(), notification_freq, "good", type, icon, database_habits.dao_for_habits_data().getAll().size() + 1, database_habits.dao_for_habits_data().getAll().get(database_habits.dao_for_habits_data().getAll().size() - 1).getId(), Simplify_the_time.return_time_in_midnight(time_in_milli));
             }
         }
-    }
+    }*//*
+
 
     public static float convertDpToPixel(float dp, Context context) {
         return dp * ((float) context.getResources().getDisplayMetrics().densityDpi / DisplayMetrics.DENSITY_DEFAULT);
@@ -1651,7 +1764,7 @@ public class edit_bad_habits extends Fragment {
         }
     }
 
-    /*private void set_up_time_in_hour() {
+    private void set_up_time_in_hour() {
         if (getView() != null) {
             TextView text_view_saying_the_minute_of_notification = getView().findViewById(R.id.text_view_saying_the_minute_of_notification);
             Spinner spinner_to_choose_am_or_pm_in_add_habit_notifactaion_freq = getView().findViewById(R.id.spinner_to_choose_am_or_pm_in_add_habit_notifactaion_freq);
@@ -1674,7 +1787,12 @@ public class edit_bad_habits extends Fragment {
                 if (minutes % 5 == 0) {
                     text_view_saying_the_minute_of_notification.setText("00");
                 } else {
-                    text_view_saying_the_minute_of_notification.setText(String.valueOf(minutes - (minutes % 5)));
+                    String minutes_string = String.valueOf(minutes - (minutes % 5));
+                    if(minutes_string.length() ==1){
+                        text_view_saying_the_minute_of_notification.setText("0".concat(minutes_string));
+                    } else {
+                        text_view_saying_the_minute_of_notification.setText(minutes_string);
+                    }
                 }
             } else {
                 if ((minutes - (minutes % 5) + 5) == 60) {
@@ -1686,11 +1804,16 @@ public class edit_bad_habits extends Fragment {
                     }
                     text_view_saying_the_minute_of_notification.setText("00");
                 } else {
-                    text_view_saying_the_minute_of_notification.setText(String.valueOf(minutes - (minutes % 5) + 5));
+                    String minutes_string = String.valueOf(minutes - (minutes % 5) + 5);
+                    if(minutes_string.length()==1){
+                        text_view_saying_the_minute_of_notification.setText("0".concat(minutes_string));
+                    } else {
+                        text_view_saying_the_minute_of_notification.setText(minutes_string);
+                    }
                 }
             }
         }
-    }*/
+    }
 
     private void notification_button_listen() {
         if (getView() != null) {
@@ -2267,6 +2390,7 @@ public class edit_bad_habits extends Fragment {
                             dialog_to_set_good_habit_frequency.set_share_clicked_listen(new Dialog_to_set_good_habit_frequency.dissmiss_the_pick_frequency() {
                                 @Override
                                 public void share_just_got_clciked(String text) {
+                                    which_days_are_chosen_notifications = text;
                                     show_which_days_are_chosen_add_a_habit_notifications.setVisibility(View.VISIBLE);
                                     calender_in_add_a_habit_add_a_notification.setVisibility(View.GONE);
                                     constraint_layout_to_choose_every_N_days_in_notification.setVisibility(View.GONE);
@@ -2963,12 +3087,13 @@ public class edit_bad_habits extends Fragment {
         return return_me;
     }
 
-    private void set_the_notification(String habit_name, String type_of_notification, String good_or_bad_habit, String type_of_habit, String icon_of_habit, int value_of_position, int id, long start_time) {
+    private void set_the_notification(String habit_name, String type_of_notification, String good_or_bad_habit, String type_of_habit, String icon_of_habit, int value_of_position, int id, long start_time,String extra_notification_information) {
         if (getActivity() != null) {
             AlarmManager alarmManager = (AlarmManager) getActivity().getSystemService(Context.ALARM_SERVICE);
             Intent intent = new Intent(getActivity(), Send_notifcation_at_set_time.class);
             intent.putExtra("habit_name", habit_name);
             intent.putExtra("type_of_notification", type_of_notification);
+            intent.putExtra("extra_information",extra_notification_information);
             intent.putExtra("good_or_bad_habit", good_or_bad_habit);
             intent.putExtra("type_of_habit", type_of_habit);
             intent.putExtra("icon_of_habit", icon_of_habit);
@@ -2978,9 +3103,9 @@ public class edit_bad_habits extends Fragment {
             PendingIntent pendingIntent;
             pendingIntent = PendingIntent.getBroadcast(getActivity(), 0, intent, PendingIntent.FLAG_IMMUTABLE | PendingIntent.FLAG_UPDATE_CURRENT);
             alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP,
-                    Simplify_the_time.return_time_in_midnight(System.currentTimeMillis()) + return_time_for_notification(),
+                    Simplify_the_time.return_time_in_midnight(System.currentTimeMillis()) + return_time_for_notification() + TimeUnit.DAYS.toMillis(1),
                     AlarmManager.INTERVAL_DAY, pendingIntent);
-            save_the_alarms(habit_name, type_of_notification, good_or_bad_habit, type_of_habit, icon_of_habit, value_of_position, id, Simplify_the_time.return_time_in_midnight(System.currentTimeMillis()) + return_time_for_notification(), start_time);
+            save_the_alarms(habit_name, type_of_notification, good_or_bad_habit, type_of_habit, icon_of_habit, value_of_position, id, Simplify_the_time.return_time_in_midnight(System.currentTimeMillis()) + return_time_for_notification(), start_time,extra_notification_information);
         }
     }
 
@@ -2994,12 +3119,12 @@ public class edit_bad_habits extends Fragment {
         }
     }
 
-    private void save_the_alarms(String habit_name, String type_of_notification, String good_or_bad_habit, String type_of_habit, String icon_of_habit, int value_of_position, int id, long time, long start_time) {
+    private void save_the_alarms(String habit_name, String type_of_notification, String good_or_bad_habit, String type_of_habit, String icon_of_habit, int value_of_position, int id, long time, long start_time,String extra_notification_frequency) {
         if (getActivity() != null) {
             habit_name = habit_name.replace("big_split", "").replace("small_split", "");
             SharedPreferences sharedPreferences = getActivity().getSharedPreferences("alarms_saved", Context.MODE_PRIVATE);
             SharedPreferences.Editor myEdit = sharedPreferences.edit();
-            String final_string = habit_name.concat("small_split").concat(type_of_notification).concat("small_split").concat(good_or_bad_habit).concat("small_split").concat(type_of_habit).concat("small_split").concat(icon_of_habit).concat("small_split").concat(String.valueOf(value_of_position)).concat("small_split").concat(String.valueOf(id)).concat("small_split").concat(String.valueOf(time)).concat("small_split").concat(String.valueOf(start_time)).concat("big_split");
+            String final_string = habit_name.concat("small_split").concat(type_of_notification).concat("small_split").concat(good_or_bad_habit).concat("small_split").concat(type_of_habit).concat("small_split").concat(icon_of_habit).concat("small_split").concat(String.valueOf(value_of_position)).concat("small_split").concat(String.valueOf(id)).concat("small_split").concat(String.valueOf(time)).concat("small_split").concat(String.valueOf(start_time)).concat("small_split").concat(extra_notification_frequency).concat("big_split");
             myEdit.putString("alarms", final_string);
             myEdit.commit();
         }
@@ -3065,7 +3190,8 @@ public class edit_bad_habits extends Fragment {
     }
 }
 
-    /*private void read_the_bad_habits() {
+    */
+/*private void read_the_bad_habits() {
         if (getActivity() != null) {
             SharedPreferences sharedPreferences = getActivity().getSharedPreferences("list_of_the_bad_habits", MODE_PRIVATE);
             String old = sharedPreferences.getString("Bad_habits", "");
@@ -3736,9 +3862,8 @@ public class edit_bad_habits extends Fragment {
             save_me = save_me.concat(color);
             save_me = save_me.concat("split_here_bad_habits");
             save_me = save_me.concat(icon);
-            Log.w("save_me",save_me);
             return save_me;
         } else {
             return "";
-        }
-    }*/
+        }*/
+}

@@ -42,9 +42,6 @@ public class Dialog_to_make_the_user_enter_their_name extends DialogFragment {
         this.title = title;
     }
 
-    public Dialog_to_make_the_user_enter_their_name(){
-    }
-
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -54,9 +51,7 @@ public class Dialog_to_make_the_user_enter_their_name extends DialogFragment {
         ok_button_listen();
         cancel_purchase();
         hide_text_at_button();
-        if(!title.equals("")){
-            title_of_dialog.setText(title);
-        }
+        title_of_dialog.setText(title);
         put_the_name();
         return rootView;
     }
@@ -88,8 +83,11 @@ public class Dialog_to_make_the_user_enter_their_name extends DialogFragment {
                     if(!return_the_name().equals("")){
                         myEdit.putLong("last_changed",System.currentTimeMillis());
                     }
+                    myEdit.putBoolean("was_name_changed_before",true);
                     myEdit.commit();
-                    name_is_done_listen.name_is_done();
+                    if(name_is_done_listen!=null) {
+                        name_is_done_listen.name_is_done();
+                    }
                     dismiss();
                 }
             }
@@ -106,17 +104,9 @@ public class Dialog_to_make_the_user_enter_their_name extends DialogFragment {
         });
     }
     private void hide_text_at_button(){
-        if(!text_at_bottom.equals("")){
             TextView text_saying_gift_is_sent = mview.findViewById(R.id.text_saying_gift_is_sent);
             text_saying_gift_is_sent.setText(text_at_bottom);
             text_saying_gift_is_sent.setTextSize(TypedValue.COMPLEX_UNIT_SP, 12);
-            /*text_saying_gift_is_sent.setVisibility(View.GONE);
-            ConstraintLayout constraintLayout = mview.findViewById(R.id.layout_to_change_name_dialog);
-            ConstraintSet constraintSet = new ConstraintSet();
-            constraintSet.clone(constraintLayout);
-            constraintSet.connect(R.id.ok_to_set_name,ConstraintSet.TOP,R.id.text_saying_gift_is_sent,ConstraintSet.BOTTOM, (int) convertDpToPixel(15, mview.getContext()));
-            constraintSet.applyTo(constraintLayout);*/
-        }
     }
 
     public static float convertDpToPixel(float dp, Context context){

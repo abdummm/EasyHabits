@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
+import android.media.metrics.Event;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -36,6 +37,7 @@ import com.google.firebase.firestore.Transaction;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -49,6 +51,9 @@ public class Adapter_for_comment_post extends RecyclerView.Adapter<Adapter_for_c
     private up_vote_listener up_vote_listener_listen;
     private gift_button_listen gift_button_listen_listener;
     private save_is_only_for_pro save_is_only_for_pro_listen;
+    private hide_buttoun_clicked hide_buttoun_clicked_listener;
+    private ArrayList<String> blocked_user_ids = new ArrayList<>();
+    private ArrayList<String> hidden_replies = new ArrayList<>();
 
 
     public void set_share_clicked_listen(share_button_was_clicked listen) {
@@ -88,7 +93,7 @@ public class Adapter_for_comment_post extends RecyclerView.Adapter<Adapter_for_c
     }
 
     public interface gift_button_listen {
-        void gift_was_clicked(String user_id, String document_id, int comment_position, int reply_position, ArrayList<Long> awards);
+        void gift_was_clicked(String user_id, String document_id, int comment_position, int reply_position, ArrayList<Long> awards,int recycle_view_comment_position,int recycle_view_reply_position);
     }
 
     public void set_up_save_only_for_pro(save_is_only_for_pro listen) {
@@ -97,6 +102,14 @@ public class Adapter_for_comment_post extends RecyclerView.Adapter<Adapter_for_c
 
     public interface save_is_only_for_pro {
         void save_is_for_pro(String mode);
+    }
+
+    public void set_hide_button_listen_in_comment(hide_buttoun_clicked listen) {
+        hide_buttoun_clicked_listener = listen;
+    }
+
+    public interface hide_buttoun_clicked {
+        void hide_buttoun_clicked(int position);
     }
 
 
@@ -147,6 +160,7 @@ public class Adapter_for_comment_post extends RecyclerView.Adapter<Adapter_for_c
             share_button_lsiten(holder, current_item);
             set_is_saved(holder, current_item);
             reply_button_listen(holder, current_item);
+            set_up_block_user_ids_and_hidden_comments(holder, current_item);
             set_up_the_recylce_view(holder, current_item);
             set_the_name(holder, current_item);
             gift_button_listen(holder, current_item);
@@ -263,7 +277,8 @@ public class Adapter_for_comment_post extends RecyclerView.Adapter<Adapter_for_c
         popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
-                if (item.getItemId() == R.id.report_button_comment_in_tree_dots) {
+                if (item.getOrder() == 0) {
+                    Event_manager_all_in_one.getInstance().record_fire_base_event(holder.constriant_inside_card_inside_post_feed_comment.getContext(), Event_manager_all_in_one.Event_type_fire_base_record.comment_reported,false);
                     if (current_item.isIs_this_an_archived_comment()) {
                         Toast.makeText(holder.constriant_inside_card_inside_post_feed_comment.getContext(), "Can't report archived comments", Toast.LENGTH_SHORT).show();
                     } else {
@@ -290,6 +305,38 @@ public class Adapter_for_comment_post extends RecyclerView.Adapter<Adapter_for_c
                             up_vote_listener_listen.up_vote_down_vote_was_clciked("report");
                         }
                     }
+                } else if (item.getOrder() == 1) {
+                    Alert_dialog_show alert_dialog_show = new Alert_dialog_show();
+                    alert_dialog_show.show_alert_dialog(holder.constriant_inside_card_inside_post_feed_comment.getContext(), "Hide Content?", "Are you sure you want to hide this content?");
+                    alert_dialog_show.set_ok_button_listen(new Alert_dialog_show.ok_button_clicked() {
+                        @Override
+                        public void ok_button_clicked() {
+                            String user_id = current_item.getUser_id();
+                            String body = current_item.getBody();
+                            Save_and_get.getInstance().save_this(holder.constriant_inside_card_inside_post_feed_comment.getContext(), user_id.concat("small_split_for_save_and_get").concat(body), "hide_comment", true);
+                            Toast.makeText(holder.constriant_inside_card_inside_post_feed_comment.getContext(), "Content hidden", Toast.LENGTH_SHORT).show();
+                            hide_buttoun_clicked_listener.hide_buttoun_clicked(holder.getAdapterPosition());
+                        }
+                    });
+                } else if (item.getOrder() == 2) {
+                    Alert_dialog_show alert_dialog_show = new Alert_dialog_show();
+                    alert_dialog_show.show_alert_dialog(holder.constriant_inside_card_inside_post_feed_comment.getContext(), "Block User?", "Are you sure you want to block this user?");
+                    alert_dialog_show.set_ok_button_listen(new Alert_dialog_show.ok_button_clicked() {
+                        @Override
+                        public void ok_button_clicked() {
+                            if (current_item.getFirebaseUser().getUid().equals(current_item.getUser_id())) {
+                                Toast.makeText(holder.constriant_inside_card_inside_post_feed_comment.getContext(), "You can't block yourself!", Toast.LENGTH_LONG).show();
+                            } else {
+                                /*if (current_item.isSaved() || does_commetn_already_saved(holder, current_item)) {
+                                    remove_the_comment(holder, current_item);
+                                    current_item.setSaved(false);
+                                }*/
+                                Save_and_get.getInstance().save_this(holder.constriant_inside_card_inside_post_feed_comment.getContext(), current_item.getUser_id(), "blocked_users", true);
+                                Toast.makeText(holder.constriant_inside_card_inside_post_feed_comment.getContext(), "User blocked", Toast.LENGTH_SHORT).show();
+                                hide_buttoun_clicked_listener.hide_buttoun_clicked(holder.getAdapterPosition());
+                            }
+                        }
+                    });
                 }
                 return true;
             }
@@ -332,14 +379,14 @@ public class Adapter_for_comment_post extends RecyclerView.Adapter<Adapter_for_c
         holder.button_to_watch_save_in_card_in_post_comment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Event_manager_all_in_one.getInstance().record_fire_base_event(holder.constriant_inside_card_inside_post_feed_comment.getContext(), Event_manager_all_in_one.Event_type_fire_base_record.comment_saved,false);
                 if (current_item.isSaved() || does_commetn_already_saved(holder, current_item)) {
                     remove_the_comment(holder, current_item);
                     current_item.setSaved(false);
                     Drawable not_saved = ContextCompat.getDrawable(holder.constriant_inside_card_inside_post_feed_comment.getContext(), R.drawable.round_turned_in_not_24);
                     holder.save_button_in_card_in_posts_comment.setBackground(not_saved);
                 } else {
-                    Am_i_paid am_i_paid = new Am_i_paid(holder.constriant_inside_card_inside_post_feed_comment.getContext());
-                    if (am_i_paid.did_user_pay()) {
+                    if (Payment_processer.getInstance().state_of_the_user()) {
                         save_the_comment(holder, current_item);
                         current_item.setSaved(true);
                         Drawable saved = ContextCompat.getDrawable(holder.constriant_inside_card_inside_post_feed_comment.getContext(), R.drawable.round_turned_in_24);
@@ -369,13 +416,14 @@ public class Adapter_for_comment_post extends RecyclerView.Adapter<Adapter_for_c
 
         // comment information
         String body_of_the_comment = current_item.getBody().replace("small_split", "").replace("big_divide", "");
-        String position_of_the_comment = String.valueOf(current_item.getPosition());
+        //String position_of_the_comment = String.valueOf(current_item.getPosition());
+        String position = String.valueOf(current_item.getPosition());
         String name_of_the_comment = current_item.getName().replace("small_split", "").replace("big_divide", "");
         long time_of_the_comment = current_item.getTime().getTime();
 //        String category = current_item.getCategory();
 //        long streak_of_the_comment = current_item.getStreak();
 
-        String all = document_id.concat("small_split").concat(name_in_the_main).concat("small_split").concat(title_of_the_main).concat("small_split").concat(body_of_the_main_post).concat("small_split").concat(span_the_main).concat("small_split").concat(String.valueOf(time_the_main)).concat("small_split").concat(body_of_the_comment).concat("small_split").concat(position_of_the_comment).concat("small_split").concat(name_of_the_comment).concat("small_split").concat(String.valueOf(time_of_the_comment)).concat("big_divide");
+        String all = document_id.concat("small_split").concat(name_in_the_main).concat("small_split").concat(title_of_the_main).concat("small_split").concat(body_of_the_main_post).concat("small_split").concat(span_the_main).concat("small_split").concat(String.valueOf(time_the_main)).concat("small_split").concat(body_of_the_comment).concat("small_split").concat(position).concat("small_split").concat(name_of_the_comment).concat("small_split").concat(String.valueOf(time_of_the_comment)).concat("big_divide");
         if (old != null && !old.isEmpty()) {
             myEdit.putString("saved_comments", old.concat(all));
         } else {
@@ -402,6 +450,7 @@ public class Adapter_for_comment_post extends RecyclerView.Adapter<Adapter_for_c
 
         // comment information
         String body_of_the_comment = current_item.getBody().replace("small_split", "").replace("big_divide", "");
+        //String position_of_the_comment = String.valueOf(current_item.getPosition());
         String position_of_the_comment = String.valueOf(current_item.getPosition());
         String name_of_the_comment = current_item.getName().replace("small_split", "").replace("big_divide", "");
         long time_of_the_comment = current_item.getTime().getTime();
@@ -412,9 +461,13 @@ public class Adapter_for_comment_post extends RecyclerView.Adapter<Adapter_for_c
             String save_me = "";
             String[] big_spit = old.split("big_divide");
             for (int i = 0; i < big_spit.length; i++) {
-                if (!big_spit[i].equals(remove_all)) {
+                String[] small_split = big_spit[i].split("small_split");
+                if(!(small_split[0].equals(document_id) && small_split[6].equals(body_of_the_comment) && small_split[7].equals(position_of_the_comment) && small_split[8].equals(name_of_the_comment))){
                     save_me = save_me.concat(big_spit[i]).concat("big_divide");
                 }
+                /*if (!big_spit[i].equals(remove_all)) {
+                    save_me = save_me.concat(big_spit[i]).concat("big_divide");
+                }*/
             }
             myEdit.putString("saved_comments", save_me);
             myEdit.commit();
@@ -437,18 +490,23 @@ public class Adapter_for_comment_post extends RecyclerView.Adapter<Adapter_for_c
 
         // comment information
         String body_of_the_comment = current_item.getBody().replace("small_split", "").replace("big_divide", "");
-        String position_of_the_comment = String.valueOf(current_item.getPosition());
+       // String position_of_the_comment = String.valueOf(current_item.getPosition());
+        String position = String.valueOf(current_item.getPosition());
         String name_of_the_comment = current_item.getName().replace("small_split", "").replace("big_divide", "");
         long time_of_the_comment = current_item.getTime().getTime();
 //        String category = current_item.getCategory();
 //        long streak_of_the_comment = current_item.getStreak();
-        String remove_all = document_id.concat("small_split").concat(name_in_the_main).concat("small_split").concat(title_of_the_main).concat("small_split").concat(body_of_the_main_post).concat("small_split").concat(span_the_main).concat("small_split").concat(String.valueOf(time_the_main)).concat("small_split").concat(body_of_the_comment).concat("small_split").concat(position_of_the_comment).concat("small_split").concat(name_of_the_comment).concat("small_split").concat(String.valueOf(time_of_the_comment));
+        //String remove_all = document_id.concat("small_split").concat(name_in_the_main).concat("small_split").concat(title_of_the_main).concat("small_split").concat(body_of_the_main_post).concat("small_split").concat(span_the_main).concat("small_split").concat(String.valueOf(time_the_main)).concat("small_split").concat(body_of_the_comment).concat("small_split").concat(position).concat("small_split").concat(name_of_the_comment).concat("small_split").concat(String.valueOf(time_of_the_comment));
         if (old != null && !old.isEmpty()) {
             String[] big_spit = old.split("big_divide");
             for (int i = 0; i < big_spit.length; i++) {
-                if (big_spit[i].equals(remove_all)) {
+                String[] small_split = big_spit[i].split("small_split");
+                if(small_split[0].equals(document_id) && small_split[6].equals(body_of_the_comment) && small_split[7].equals(position) && small_split[8].equals(name_of_the_comment)){
                     return true;
                 }
+                /*if (big_spit[i].equals(remove_all)) {
+                    return true;
+                }*/
             }
             return false;
         } else {
@@ -694,7 +752,7 @@ public class Adapter_for_comment_post extends RecyclerView.Adapter<Adapter_for_c
             // no vote
             {
                 holder.text_showing_the_number_of_up_votes_comment.setTextColor(Color.parseColor("#808080"));
-                Drawable unwrappedDrawable = AppCompatResources.getDrawable(holder.constriant_inside_card_inside_post_feed_comment.getContext(), R.drawable.round_arrow_drop_up_24).mutate();
+                Drawable unwrappedDrawable = AppCompatResources.getDrawable(holder.constriant_inside_card_inside_post_feed_comment.getContext(), R.drawable.thumb_up_24px).mutate();
                 Drawable wrappedDrawable = DrawableCompat.wrap(unwrappedDrawable);
                 DrawableCompat.setTint(wrappedDrawable, Color.parseColor("#808080"));
                 holder.upvote_view_in_post_card_comment.setBackground(wrappedDrawable);
@@ -748,6 +806,7 @@ public class Adapter_for_comment_post extends RecyclerView.Adapter<Adapter_for_c
         holder.button_to_watch_upvote_in_card_in_post_comment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Event_manager_all_in_one.getInstance().record_fire_base_event(holder.constriant_inside_card_inside_post_feed_comment.getContext(), Event_manager_all_in_one.Event_type_fire_base_record.comment_upvote,false);
                 if (current_item.isAm_i_loading_for_up_vote_and_down_vote()) {
                     Toast toast = Toast.makeText(holder.constriant_inside_card_inside_post_feed_comment.getContext(), "You are up voting and down voting too quickly!!", Toast.LENGTH_SHORT);
                     toast.show();
@@ -765,6 +824,7 @@ public class Adapter_for_comment_post extends RecyclerView.Adapter<Adapter_for_c
         holder.button_to_watch_downvote_in_card_in_post_comment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Event_manager_all_in_one.getInstance().record_fire_base_event(holder.constriant_inside_card_inside_post_feed_comment.getContext(), Event_manager_all_in_one.Event_type_fire_base_record.comment_downvote,false);
                 if (current_item.isAm_i_loading_for_up_vote_and_down_vote()) {
                     Toast toast = Toast.makeText(holder.constriant_inside_card_inside_post_feed_comment.getContext(), "You are up voting and down voting too quickly!!", Toast.LENGTH_SHORT);
                     toast.show();
@@ -981,7 +1041,6 @@ public class Adapter_for_comment_post extends RecyclerView.Adapter<Adapter_for_c
                 ArrayList<String> arrayList_with_upvote = (ArrayList<String>) map.get("up_vote_list");
                 arrayList_with_upvote.remove(current_item.return_my_user_id());
                 map.put("up_vote_list", arrayList_with_upvote);
-                Log.w("arrayarray", String.valueOf(current_item.getPosition()));
                 transaction.update(sfDocRef, "comments", array_list_of_map, "type", "comment");
 
                 // Success
@@ -1081,6 +1140,7 @@ public class Adapter_for_comment_post extends RecyclerView.Adapter<Adapter_for_c
         holder.button_to_watch_share_in_card_in_post_in_top_comment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Event_manager_all_in_one.getInstance().record_fire_base_event(holder.constriant_inside_card_inside_post_feed_comment.getContext(), Event_manager_all_in_one.Event_type_fire_base_record.comment_shared,false);
                 share_button_was_clicked_listen.share_just_got_clciked(current_item.getBody());
             }
         });
@@ -1104,6 +1164,7 @@ public class Adapter_for_comment_post extends RecyclerView.Adapter<Adapter_for_c
         holder.reply_button_in_tem_id_comment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Event_manager_all_in_one.getInstance().record_fire_base_event(holder.constriant_inside_card_inside_post_feed_comment.getContext(), Event_manager_all_in_one.Event_type_fire_base_record.comment_written,false);
                 if (am_i_signed_in_with_google(current_item)) {
                     reply_button_was_clicked_listener.reply_was_clicked_in_commenmt(current_item.getPosition(), current_item.getBody(), holder.getAdapterPosition());
                 } else {
@@ -1125,15 +1186,31 @@ public class Adapter_for_comment_post extends RecyclerView.Adapter<Adapter_for_c
             ArrayList<Example_reply_to_comment> example_list = new ArrayList<>();
             if (!current_item.isIs_this_switched()) {
                 for (int i = 0; i < current_item.getReplies().size(); i++) {
-                    example_list.add(new Example_reply_to_comment(current_item.getReplies().get(i), current_item.getFirebaseFirestore(), current_item.getFirebaseUser(), current_item.getPosition(), current_item.getReplies().size(), i, current_item.getDocument_id(), current_item.getTitle_of_the_main_post(), current_item.getBody_of_the_main_post(), current_item.getSpan_of_the_main_post(), current_item.getTime_of_the_main_post(), current_item.getCategory_of_the_main_post(), current_item.getStreak_of_the_main_post(), current_item.getName(), current_item.getBody(), current_item.getTime(), current_item.getCategory(), current_item.getStreak(), current_item.getName(), current_item.isIs_this_an_archived_comment()));
+                    if (current_item.isIs_this_an_archived_comment()) {
+                        example_list.add(new Example_reply_to_comment(current_item.getReplies().get(i), current_item.getFirebaseFirestore(), current_item.getFirebaseUser(), current_item.getPosition(), return_actual_number_of_replies(holder, current_item), i, current_item.getDocument_id(), current_item.getTitle_of_the_main_post(), current_item.getBody_of_the_main_post(), current_item.getSpan_of_the_main_post(), current_item.getTime_of_the_main_post(), current_item.getCategory_of_the_main_post(), current_item.getStreak_of_the_main_post(), current_item.getName(), current_item.getBody(), current_item.getTime(), current_item.getCategory(), current_item.getStreak(), current_item.getName(), current_item.isIs_this_an_archived_comment()));
+                    } else { //archieved
+                        String user_id = (String) current_item.getReplies().get(i).get("user_id");
+                        String body = (String) current_item.getReplies().get(i).get("body");
+                        if (should_i_show_this(user_id, user_id.concat("small_split_for_save_and_get").concat(body))) {
+                            example_list.add(new Example_reply_to_comment(current_item.getReplies().get(i), current_item.getFirebaseFirestore(), current_item.getFirebaseUser(), current_item.getPosition(), return_actual_number_of_replies(holder, current_item), i, current_item.getDocument_id(), current_item.getTitle_of_the_main_post(), current_item.getBody_of_the_main_post(), current_item.getSpan_of_the_main_post(), current_item.getTime_of_the_main_post(), current_item.getCategory_of_the_main_post(), current_item.getStreak_of_the_main_post(), current_item.getName(), current_item.getBody(), current_item.getTime(), current_item.getCategory(), current_item.getStreak(), current_item.getName(), current_item.isIs_this_an_archived_comment()));
+                        }
+                    }
                 }
             } else {
-                example_list.add(new Example_reply_to_comment(current_item.getReplies().get(0), current_item.getFirebaseFirestore(), current_item.getFirebaseUser(), current_item.getPosition(), current_item.getReplies().size(), current_item.getIndex_of_comment_switched(), current_item.getDocument_id(), current_item.getTitle_of_the_main_post(), current_item.getBody_of_the_main_post(), current_item.getSpan_of_the_main_post(), current_item.getTime_of_the_main_post(), current_item.getCategory_of_the_main_post(), current_item.getStreak_of_the_main_post(), current_item.getName(), current_item.getBody(), current_item.getTime(), current_item.getCategory(), current_item.getStreak(), current_item.getName(), current_item.isIs_this_an_archived_comment()));
+                String user_id_for_first_item = (String) current_item.getReplies().get(0).get("user_id");
+                String body_for_first_time = (String) current_item.getReplies().get(0).get("body");
+                if (should_i_show_this(user_id_for_first_item, user_id_for_first_item.concat("small_split_for_save_and_get").concat(body_for_first_time))) {
+                    example_list.add(new Example_reply_to_comment(current_item.getReplies().get(0), current_item.getFirebaseFirestore(), current_item.getFirebaseUser(), current_item.getPosition(), return_actual_number_of_replies(holder, current_item), current_item.getIndex_of_comment_switched(), current_item.getDocument_id(), current_item.getTitle_of_the_main_post(), current_item.getBody_of_the_main_post(), current_item.getSpan_of_the_main_post(), current_item.getTime_of_the_main_post(), current_item.getCategory_of_the_main_post(), current_item.getStreak_of_the_main_post(), current_item.getName(), current_item.getBody(), current_item.getTime(), current_item.getCategory(), current_item.getStreak(), current_item.getName(), current_item.isIs_this_an_archived_comment()));
+                }
                 for (int i = 1; i < current_item.getReplies().size(); i++) {
-                    if (i == current_item.getIndex_of_comment_switched()) {
-                        example_list.add(new Example_reply_to_comment(current_item.getReplies().get(i), current_item.getFirebaseFirestore(), current_item.getFirebaseUser(), current_item.getPosition(), current_item.getReplies().size(), 0, current_item.getDocument_id(), current_item.getTitle_of_the_main_post(), current_item.getBody_of_the_main_post(), current_item.getSpan_of_the_main_post(), current_item.getTime_of_the_main_post(), current_item.getCategory_of_the_main_post(), current_item.getStreak_of_the_main_post(), current_item.getName(), current_item.getBody(), current_item.getTime(), current_item.getCategory(), current_item.getStreak(), current_item.getName(), current_item.isIs_this_an_archived_comment()));
-                    } else {
-                        example_list.add(new Example_reply_to_comment(current_item.getReplies().get(i), current_item.getFirebaseFirestore(), current_item.getFirebaseUser(), current_item.getPosition(), current_item.getReplies().size(), i, current_item.getDocument_id(), current_item.getTitle_of_the_main_post(), current_item.getBody_of_the_main_post(), current_item.getSpan_of_the_main_post(), current_item.getTime_of_the_main_post(), current_item.getCategory_of_the_main_post(), current_item.getStreak_of_the_main_post(), current_item.getName(), current_item.getBody(), current_item.getTime(), current_item.getCategory(), current_item.getStreak(), current_item.getName(), current_item.isIs_this_an_archived_comment()));
+                    String user_id = (String) current_item.getReplies().get(i).get("user_id");
+                    String body = (String) current_item.getReplies().get(i).get("body");
+                    if (should_i_show_this(user_id, user_id.concat("small_split_for_save_and_get").concat(body))) {
+                        if (i == current_item.getIndex_of_comment_switched()) {
+                            example_list.add(new Example_reply_to_comment(current_item.getReplies().get(i), current_item.getFirebaseFirestore(), current_item.getFirebaseUser(), current_item.getPosition(), return_actual_number_of_replies(holder, current_item), 0, current_item.getDocument_id(), current_item.getTitle_of_the_main_post(), current_item.getBody_of_the_main_post(), current_item.getSpan_of_the_main_post(), current_item.getTime_of_the_main_post(), current_item.getCategory_of_the_main_post(), current_item.getStreak_of_the_main_post(), current_item.getName(), current_item.getBody(), current_item.getTime(), current_item.getCategory(), current_item.getStreak(), current_item.getName(), current_item.isIs_this_an_archived_comment()));
+                        } else {
+                            example_list.add(new Example_reply_to_comment(current_item.getReplies().get(i), current_item.getFirebaseFirestore(), current_item.getFirebaseUser(), current_item.getPosition(), return_actual_number_of_replies(holder, current_item), i, current_item.getDocument_id(), current_item.getTitle_of_the_main_post(), current_item.getBody_of_the_main_post(), current_item.getSpan_of_the_main_post(), current_item.getTime_of_the_main_post(), current_item.getCategory_of_the_main_post(), current_item.getStreak_of_the_main_post(), current_item.getName(), current_item.getBody(), current_item.getTime(), current_item.getCategory(), current_item.getStreak(), current_item.getName(), current_item.isIs_this_an_archived_comment()));
+                        }
                     }
                 }
             }
@@ -1162,14 +1239,30 @@ public class Adapter_for_comment_post extends RecyclerView.Adapter<Adapter_for_c
             });
             adapter.set_up_gift_listen(new Adapter_for_comment_replies.gift_button_listen() {
                 @Override
-                public void gift_was_clicked(String user_id, String document_id, int comment_position, int reply_position, ArrayList<Long> awards) {
-                    gift_button_listen_listener.gift_was_clicked(user_id, document_id, comment_position, reply_position, awards);
+                public void gift_was_clicked(String user_id, String document_id, int comment_position, int reply_position, ArrayList<Long> awards,int recycle_view_reply_position) {
+                    gift_button_listen_listener.gift_was_clicked(user_id, document_id, comment_position, reply_position, awards,holder.getAdapterPosition(),recycle_view_reply_position);
                 }
             });
             adapter.set_up_save_is_only_for_bro(new Adapter_for_comment_replies.save_only_for_pro_lsiten() {
                 @Override
                 public void save_is_only_for_pro() {
                     save_is_only_for_pro_listen.save_is_for_pro("reply");
+                }
+            });
+            adapter.set_up_hide_for_reply(new Adapter_for_comment_replies.hide_for_reply() {
+                @Override
+                public void hide_for_reply(int position) {
+                    example_list.remove(position);
+                    if (position > 0) {
+                        position = position - 1;
+                    }
+                    adapter.notifyItemRemoved(position);
+                    adapter.notifyItemRangeChanged(position, example_list.size());
+                    for (int i = 0; i < example_list.size(); i++) {
+                        Example_reply_to_comment new_item = example_list.get(i);
+                        new_item.setReplies_size(new_item.getReplies_size() - 1);
+                        example_list.set(i, new_item);
+                    }
                 }
             });
         }
@@ -1221,8 +1314,47 @@ public class Adapter_for_comment_post extends RecyclerView.Adapter<Adapter_for_c
         holder.button_to_watch_gift_in_card_in_post_comment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                gift_button_listen_listener.gift_was_clicked(current_item.getUser_id(), current_item.getDocument_id(), current_item.getPosition(), -100, current_item.getAwards());
+                Event_manager_all_in_one.getInstance().record_fire_base_event(holder.constriant_inside_card_inside_post_feed_comment.getContext(), Event_manager_all_in_one.Event_type_fire_base_record.comment_gifted,false);
+                gift_button_listen_listener.gift_was_clicked(current_item.getUser_id(), current_item.getDocument_id(), current_item.getPosition(), -100, current_item.getAwards(),holder.getAdapterPosition(),-11);
             }
         });
+    }
+
+    private int return_actual_number_of_replies(final ExampleViewHolder holder, final Example_item_comments_feed current_item) {
+        ArrayList<HashMap<String, Object>> replies = current_item.getReplies();
+        if (current_item.isIs_this_an_archived_comment()) {
+            return replies.size();
+        } else {
+            int actual_number_of_replies = 0;
+            for (int i = 0; i < replies.size(); i++) {
+                String user_id = (String) replies.get(i).get("user_id");
+                String body = (String) replies.get(i).get("body");
+                if (!blocked_user_ids.contains(user_id) && !hidden_replies.contains(user_id.concat("small_split_for_save_and_get").concat(body))) {
+                    actual_number_of_replies++;
+                }
+            }
+            return actual_number_of_replies;
+        }
+    }
+
+    private void set_up_block_user_ids_and_hidden_comments(final ExampleViewHolder holder, final Example_item_comments_feed current_item) {
+        String blocked_user_ids_string = Save_and_get.getInstance().get_this(holder.constriant_inside_card_inside_post_feed_comment.getContext(), "blocked_users", "blocked_users");
+        String hidden_comments_sting = Save_and_get.getInstance().get_this(holder.constriant_inside_card_inside_post_feed_comment.getContext(), "hide_reply", "hide_reply");
+        if (!blocked_user_ids_string.equals("")) {
+            String[] blocked_user_ids_array = blocked_user_ids_string.split(Save_and_get.getInstance().return_split_keyword());
+            blocked_user_ids.addAll(Arrays.asList(blocked_user_ids_array));
+        }
+        if (!hidden_comments_sting.equals("")) {
+            String[] hidden_post_id_array = hidden_comments_sting.split(Save_and_get.getInstance().return_split_keyword());
+            hidden_replies.addAll(Arrays.asList(hidden_post_id_array));
+        }
+    }
+
+    private boolean should_i_show_this(String user_id, String user_id_and_body) {
+        if (!blocked_user_ids.contains(user_id) && !hidden_replies.contains(user_id_and_body)) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }

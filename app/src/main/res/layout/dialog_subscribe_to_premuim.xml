@@ -55,7 +55,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/view_that_contains_title_of_dialog" />
 
-    <nl.dionsegijn.konfetti.KonfettiView
+    <nl.dionsegijn.konfetti.xml.KonfettiView
         android:id="@+id/konfetti_in_subscribe_to_premuim"
         android:layout_width="0dp"
         android:layout_height="0dp"

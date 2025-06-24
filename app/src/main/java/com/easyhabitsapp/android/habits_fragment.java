@@ -53,22 +53,22 @@ public class habits_fragment extends Fragment {
     }
 
     private void set_teh_recycel_view() {
-        if (getView() != null && getActivity()!=null) {
+        if (getView() != null && getActivity() != null) {
             SharedPreferences sharedPreferences = getActivity().getSharedPreferences("mood", Context.MODE_PRIVATE);
             String shared = sharedPreferences.getString("mood_stats", "");
             RecyclerView recycle_view_to_show_the_emergency_options = getView().findViewById(R.id.recycle_view_to_show_the_emergency_options);
             LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
             ArrayList<Example_item_emergency> list_for_habits = new ArrayList<>();
             if (shared != null && shared.contains(String.valueOf(Simplify_the_time.return_time_in_midnight(System.currentTimeMillis())))) {
-                list_for_habits.add(new Example_item_emergency(Color.parseColor("#000075"),"Mood tracker",return_the_icon("happy_face_navy"),true));
+                list_for_habits.add(new Example_item_emergency(Color.parseColor("#000075"), "Mood tracker", return_the_icon("happy_face_navy"), true));
             } else {
-                list_for_habits.add(new Example_item_emergency(Color.parseColor("#000075"),"Mood tracker",return_the_icon("happy_face_navy"),false));
+                list_for_habits.add(new Example_item_emergency(Color.parseColor("#000075"), "Mood tracker", return_the_icon("happy_face_navy"), false));
             }
-            list_for_habits.add(new Example_item_emergency(Color.parseColor("#2ea8b6"),"Journal",return_the_icon("round_edit_24")));
+//            list_for_habits.add(new Example_item_emergency(Color.parseColor("#2ea8b6"),"Journal",return_the_icon("round_edit_24")));
 //            list_for_habits.add(new Example_item_emergency(Color.parseColor("#f66b55"),"Lock Phone",return_the_icon("round_screen_lock_portrait_24")));
-            list_for_habits.add(new Example_item_emergency(Color.parseColor("#cc4545"),"Weight Tracker",return_the_icon("round_local_dining_24")));
-            list_for_habits.add(new Example_item_emergency(Color.parseColor("#5757e7"),"Counter",return_the_icon("round_add_circle_24")));
-            list_for_habits.add(new Example_item_emergency(Color.parseColor("#f66b55"),"More Coming Soon...",return_the_icon("round_add_circle_24")));
+            /*list_for_habits.add(new Example_item_emergency(Color.parseColor("#cc4545"),"Weight Tracker",return_the_icon("round_local_dining_24")));
+            list_for_habits.add(new Example_item_emergency(Color.parseColor("#5757e7"),"Counter",return_the_icon("round_add_circle_24")));*/
+            list_for_habits.add(new Example_item_emergency(Color.parseColor("#f66b55"), "More Coming Soon...", return_the_icon("round_add_circle_24")));
             Adapter_for_emergency adapter = new Adapter_for_emergency(list_for_habits);
             adapter.set_on_item_click_listener_for_mood(new Adapter_for_emergency.OnItemClickListener() {
                 @Override
@@ -81,16 +81,14 @@ public class habits_fragment extends Fragment {
                 public void onCardClick(String which) {
                     if (getActivity() != null) {
                         if (which.equals("Mood tracker")) {
-                            mood_tracker new_fragment = new mood_tracker();
+                            Event_manager_all_in_one.getInstance().record_fire_base_event(getContext(), Event_manager_all_in_one.Event_type_fire_base_record.mood_tracker_clicked, false);
                             habits_fragment old_fragment = (habits_fragment) getActivity().getSupportFragmentManager().findFragmentByTag("habits");
-                            mood_tracker check_fragment = (mood_tracker) getActivity().getSupportFragmentManager().findFragmentByTag("mood tracker");
-                            if (check_fragment != null) {
-                                getActivity().getSupportFragmentManager().beginTransaction().remove(check_fragment).commit();
-                            }
-                            if (old_fragment != null) {
-                                getActivity().getSupportFragmentManager().beginTransaction().hide(old_fragment).add(R.id.fragment_container, new_fragment, "mood tracker").show(new_fragment).commit();
+                            Mood_tracker mood_tracker = (Mood_tracker) getActivity().getSupportFragmentManager().findFragmentByTag("mood tracker");
+                            if (old_fragment != null && mood_tracker != null) {
+                                getActivity().getSupportFragmentManager().beginTransaction().hide(old_fragment).show(mood_tracker).commitNow();
                             }
                         } else if (which.equals("Journal")) {
+                            Event_manager_all_in_one.getInstance().record_fire_base_event(getContext(), Event_manager_all_in_one.Event_type_fire_base_record.journal_clicked, false);
                             Intent intent = new Intent(getActivity(), Journal_emergency.class);
                             startActivity(intent);
                             getActivity().overridePendingTransition(0, 0);
@@ -99,10 +97,13 @@ public class habits_fragment extends Fragment {
                             startActivity(intent);
                             getActivity().overridePendingTransition(0, 0);
                         }*/ else if (which.equals("Weight Tracker")) {
-                            Intent intent = new Intent(getActivity(), Weight_tracker_emergency.class);
+                            Event_manager_all_in_one.getInstance().record_fire_base_event(getContext(), Event_manager_all_in_one.Event_type_fire_base_record.weight_tracker_clicked, false);
+                            /*Intent intent = new Intent(getActivity(), Weight_tracker_emergency.class);
                             startActivity(intent);
-                            getActivity().overridePendingTransition(0, 0);
+                            getActivity().overridePendingTransition(0, 0);*/
+                            Toast.makeText(getActivity(), "Weight tracker is coming soon", Toast.LENGTH_SHORT).show();
                         } else if (which.equals("Counter")) {
+                            Event_manager_all_in_one.getInstance().record_fire_base_event(getContext(), Event_manager_all_in_one.Event_type_fire_base_record.counter_clicked, false);
                             Intent intent = new Intent(getActivity(), Counter_activity.class);
                             startActivity(intent);
                             getActivity().overridePendingTransition(0, 0);
@@ -129,14 +130,10 @@ public class habits_fragment extends Fragment {
             SharedPreferences sharedPreferences = getActivity().getSharedPreferences("mood", Context.MODE_PRIVATE);
             String shared = sharedPreferences.getString("mood_stats", "");
             SharedPreferences.Editor myEdit = sharedPreferences.edit();
-            if (shared != null) {
-                myEdit.putString("mood_stats", shared.concat(String.valueOf(mood)).concat("small_split").concat(String.valueOf(Simplify_the_time.return_time_in_midnight(System.currentTimeMillis()))).concat("max_divide"));
-                myEdit.commit();
-            } else {
-                myEdit.putString("mood_stats", "".concat(String.valueOf(mood)).concat("small_split").concat(String.valueOf(Simplify_the_time.return_time_in_midnight(System.currentTimeMillis()))).concat("max_divide"));
-                myEdit.commit();
-            }
 
+            myEdit.putString("mood_stats", "".concat(String.valueOf(mood)).concat("small_split").concat(String.valueOf(Simplify_the_time.return_time_in_midnight(System.currentTimeMillis()))).concat("max_divide"));
+            myEdit.commit();
+            Event_manager_all_in_one.getInstance().record_fire_base_event(getContext(), Event_manager_all_in_one.Event_type_fire_base_record.mood_recorded, false);
         }
     }
     /*private String reminders = "";
@@ -2369,7 +2366,6 @@ public class habits_fragment extends Fragment {
                 for (int i = history_split_faster.length - 1; i >= 0; i--) {
                     if (history_split_faster[i].contains(time_at_midnight)) {
                         if (history_split_faster[i].toLowerCase().contains("yes")) {
-                            Log.w("firstfirst","yes");
                             return "yes";
                         }
                     }

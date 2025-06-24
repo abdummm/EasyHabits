@@ -31,6 +31,7 @@ import com.android.billingclient.api.SkuDetailsResponseListener;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.functions.FirebaseFunctions;
 import com.google.firebase.functions.HttpsCallableResult;
 
@@ -49,9 +50,9 @@ public class Give_coins extends Fragment {
     private ConstraintLayout constraintLayout;
     private ConstraintSet constraintSet;
     private ArrayList<View> list_of_views_first_row = new ArrayList<>();
-    private BillingClient billingClient;
+    /*private BillingClient billingClient;
     private PurchasesUpdatedListener purchasesUpdatedListener;
-    private AcknowledgePurchaseResponseListener acknowledgePurchaseResponseListener;
+    private AcknowledgePurchaseResponseListener acknowledgePurchaseResponseListener;*/
     private FirebaseFunctions firebaseFunctions;
     private String what_called_me;
     private boolean am_i_visble;
@@ -63,7 +64,7 @@ public class Give_coins extends Fragment {
     @Override
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
-        if(hidden){
+        if (hidden) {
             am_i_visble = false;
         } else {
             am_i_visble = true;
@@ -88,15 +89,16 @@ public class Give_coins extends Fragment {
     @Override
     public void onViewCreated(@NonNull @NotNull View view, @Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        am_i_visble= true;
+        am_i_visble = true;
         generate_the_views();
         button_listen();
-        set_up_billing();
+        //set_up_billing();
         back_arrow_listen();
+        are_prices_ready();
     }
 
     private void generate_the_views() {
-        if (getActivity() != null && getContext() != null && getView()!=null) {
+        if (getActivity() != null && getContext() != null && getView() != null) {
             constraintLayout = getView().findViewById(R.id.give_coins_layout);
             constraintSet = new ConstraintSet();
             DisplayMetrics displayMetrics = new DisplayMetrics();
@@ -124,29 +126,29 @@ public class Give_coins extends Fragment {
                         constraintSet.clone(constraintLayout);
                         constraintSet.constrainWidth(view.getId(), (int) convertDpToPixel(30, getContext()));
                         constraintSet.constrainHeight(view.getId(), (int) convertDpToPixel(30, getContext()));
-                        constraintSet.connect(view.getId(), ConstraintSet.START, ConstraintSet.PARENT_ID, ConstraintSet.START, (int) convertDpToPixel(6,getContext()));
-                        constraintSet.connect(view.getId(), ConstraintSet.TOP, R.id.bar_at_the_top_of_give_coins, ConstraintSet.BOTTOM, (int) convertDpToPixel(6,getContext()));
+                        constraintSet.connect(view.getId(), ConstraintSet.START, ConstraintSet.PARENT_ID, ConstraintSet.START, (int) convertDpToPixel(6, getContext()));
+                        constraintSet.connect(view.getId(), ConstraintSet.TOP, R.id.bar_at_the_top_of_give_coins, ConstraintSet.BOTTOM, (int) convertDpToPixel(6, getContext()));
                         constraintSet.applyTo(constraintLayout);
                     } else if (i == 0) {
                         constraintSet.clone(constraintLayout);
                         constraintSet.constrainWidth(view.getId(), (int) convertDpToPixel(30, getContext()));
                         constraintSet.constrainHeight(view.getId(), (int) convertDpToPixel(30, getContext()));
-                        constraintSet.connect(view.getId(), ConstraintSet.START, list_of_views.get(list_of_views.size() - 2).getId(), ConstraintSet.END, (int) convertDpToPixel(6,getContext()));
-                        constraintSet.connect(view.getId(), ConstraintSet.TOP, R.id.bar_at_the_top_of_give_coins, ConstraintSet.BOTTOM, (int) convertDpToPixel(6,getContext()));
+                        constraintSet.connect(view.getId(), ConstraintSet.START, list_of_views.get(list_of_views.size() - 2).getId(), ConstraintSet.END, (int) convertDpToPixel(6, getContext()));
+                        constraintSet.connect(view.getId(), ConstraintSet.TOP, R.id.bar_at_the_top_of_give_coins, ConstraintSet.BOTTOM, (int) convertDpToPixel(6, getContext()));
                         constraintSet.applyTo(constraintLayout);
                     } else if (j == 0) {
                         constraintSet.clone(constraintLayout);
                         constraintSet.constrainWidth(view.getId(), (int) convertDpToPixel(30, getContext()));
                         constraintSet.constrainHeight(view.getId(), (int) convertDpToPixel(30, getContext()));
-                        constraintSet.connect(view.getId(), ConstraintSet.START, ConstraintSet.PARENT_ID, ConstraintSet.START, (int) convertDpToPixel(6,getContext()));
-                        constraintSet.connect(view.getId(), ConstraintSet.TOP, list_of_views_first_row.get(i - 1).getId(), ConstraintSet.BOTTOM, (int) convertDpToPixel(6,getContext()));
+                        constraintSet.connect(view.getId(), ConstraintSet.START, ConstraintSet.PARENT_ID, ConstraintSet.START, (int) convertDpToPixel(6, getContext()));
+                        constraintSet.connect(view.getId(), ConstraintSet.TOP, list_of_views_first_row.get(i - 1).getId(), ConstraintSet.BOTTOM, (int) convertDpToPixel(6, getContext()));
                         constraintSet.applyTo(constraintLayout);
                     } else {
                         constraintSet.clone(constraintLayout);
                         constraintSet.constrainWidth(view.getId(), (int) convertDpToPixel(30, getContext()));
                         constraintSet.constrainHeight(view.getId(), (int) convertDpToPixel(30, getContext()));
-                        constraintSet.connect(view.getId(), ConstraintSet.START, list_of_views.get(list_of_views.size() - 2).getId(), ConstraintSet.END, (int) convertDpToPixel(6,getContext()));
-                        constraintSet.connect(view.getId(), ConstraintSet.TOP, list_of_views_first_row.get(i - 1).getId(), ConstraintSet.BOTTOM, (int) convertDpToPixel(6,getContext()));
+                        constraintSet.connect(view.getId(), ConstraintSet.START, list_of_views.get(list_of_views.size() - 2).getId(), ConstraintSet.END, (int) convertDpToPixel(6, getContext()));
+                        constraintSet.connect(view.getId(), ConstraintSet.TOP, list_of_views_first_row.get(i - 1).getId(), ConstraintSet.BOTTOM, (int) convertDpToPixel(6, getContext()));
                         constraintSet.applyTo(constraintLayout);
                     }
                     if (j == 0) {
@@ -165,328 +167,6 @@ public class Give_coins extends Fragment {
         return dp * ((float) context.getResources().getDisplayMetrics().densityDpi / DisplayMetrics.DENSITY_DEFAULT);
     }
 
-    private void set_up_billing() {
-        acknowledgePurchaseResponseListener = new AcknowledgePurchaseResponseListener() {
-            @Override
-            public void onAcknowledgePurchaseResponse(@NonNull @NotNull BillingResult billingResult) {
-                if (billingResult.getResponseCode() == BillingClient.BillingResponseCode.OK) {
-
-                }
-            }
-        };
-
-        purchasesUpdatedListener = new PurchasesUpdatedListener() {
-            @Override
-            public void onPurchasesUpdated(@NotNull BillingResult billingResult, List<Purchase> purchases) {
-                if (purchasesUpdatedListener != null) {
-                    if (billingResult.getResponseCode() == BillingClient.BillingResponseCode.OK && purchases != null) {
-                        handle_purchase(purchases);
-                    } else if (billingResult.getResponseCode() == BillingClient.BillingResponseCode.USER_CANCELED) {
-                        Toast.makeText(getActivity(), "Cancelled", Toast.LENGTH_SHORT).show();
-                    } else {
-                        Log.w("stupasdasd", String.valueOf(billingResult.getResponseCode()));
-                    }
-                }
-            }
-        };
-        start_billing_connection(true);
-    }
-
-    private void start_billing_connection(boolean first_time) {
-        if (first_time) {
-            billingClient = set_up_clint();
-        }
-        billingClient.startConnection(new BillingClientStateListener() {
-            @Override
-            public void onBillingSetupFinished(@NonNull @NotNull BillingResult billingResult) {
-                if (am_i_visble) {
-                    if (billingResult.getResponseCode() == BillingClient.BillingResponseCode.OK) {
-                        set_the_prices();
-                    } else {
-                        Toast.makeText(getActivity(), "An error occurred. Please try again later", Toast.LENGTH_SHORT).show();
-                    }
-                }
-            }
-
-            @Override
-            public void onBillingServiceDisconnected() {
-                start_billing_connection(false);
-            }
-        });
-    }
-
-    private BillingClient set_up_clint() {
-        BillingClient billingClient = BillingClient.newBuilder(getActivity())
-                .setListener(purchasesUpdatedListener)
-                .enablePendingPurchases()
-                .build();
-        return billingClient;
-    }
-
-    private void handle_purchase(List<Purchase> purchases) {
-        for (Purchase purchase : purchases) {
-            if (purchase.getPurchaseState() == Purchase.PurchaseState.PURCHASED) {
-                if (purchase.getSku().equals("400_coins")) {
-                    ConsumeParams consumeParams =
-                            ConsumeParams.newBuilder()
-                                    .setPurchaseToken(purchase.getPurchaseToken())
-                                    .build();
-                    ConsumeResponseListener listener = new ConsumeResponseListener() {
-                        @Override
-                        public void onConsumeResponse(BillingResult billingResult, String purchaseToken) {
-                            if (billingResult.getResponseCode() == BillingClient.BillingResponseCode.OK) {
-                                Toast.makeText(getActivity(), "Buying 400 coins...", Toast.LENGTH_LONG).show();
-                                Map<String, Object> data = new HashMap<>();
-                                data.put("token", purchaseToken);
-                                data.put("orderId", purchase.getOrderId());
-                                Dialog_thank_user_for_purchase dialog_thank_user_for_purchase = new Dialog_thank_user_for_purchase(400);
-                                dialog_thank_user_for_purchase.setCancelable(false);
-                                dialog_thank_user_for_purchase.show(getParentFragmentManager(),"");
-                                firebaseFunctions = FirebaseFunctions.getInstance();
-                                firebaseFunctions
-                                        .getHttpsCallable("buy400coins")
-                                        .call(data)
-                                        .continueWith(new Continuation<HttpsCallableResult, String>() {
-                                            @Override
-                                            public String then(@NonNull Task<HttpsCallableResult> task) throws Exception {
-                                                Log.w("asdasd",String.valueOf(task.getResult().getData()));
-                                                if(String.valueOf(task.getResult().getData()).equals("success")){
-                                                    dialog_thank_user_for_purchase.loaded();
-                                                } else if (String.valueOf(task.getResult().getData()).equals("error")){
-                                                    Toast.makeText(getActivity(), "Buying failed. You will not be charged and will receive a refund",Toast.LENGTH_LONG).show();
-                                                }
-                                                return "result";
-                                            }
-                                        }).addOnFailureListener(new OnFailureListener() {
-                                    @Override
-                                    public void onFailure(@NonNull @NotNull Exception e) {
-
-                                    }
-                                });
-                            }
-                        }
-                    };
-                    billingClient.consumeAsync(consumeParams, listener);
-                } else if (purchase.getSku().equals("1500_coins")) {
-                    ConsumeParams consumeParams =
-                            ConsumeParams.newBuilder()
-                                    .setPurchaseToken(purchase.getPurchaseToken())
-                                    .build();
-                    ConsumeResponseListener listener = new ConsumeResponseListener() {
-                        @Override
-                        public void onConsumeResponse(BillingResult billingResult, String purchaseToken) {
-                            if (billingResult.getResponseCode() == BillingClient.BillingResponseCode.OK) {
-                                Toast.makeText(getActivity(), "Buying 1500 coins...", Toast.LENGTH_LONG).show();
-                                Map<String, Object> data = new HashMap<>();
-                                data.put("token", purchaseToken);
-                                data.put("orderId", purchase.getOrderId());
-                                Dialog_thank_user_for_purchase dialog_thank_user_for_purchase = new Dialog_thank_user_for_purchase(1500);
-                                dialog_thank_user_for_purchase.setCancelable(false);
-                                dialog_thank_user_for_purchase.show(getParentFragmentManager(),"");
-                                firebaseFunctions = FirebaseFunctions.getInstance();
-                                firebaseFunctions
-                                        .getHttpsCallable("buy1500coins")
-                                        .call(data)
-                                        .continueWith(new Continuation<HttpsCallableResult, String>() {
-                                            @Override
-                                            public String then(@NonNull Task<HttpsCallableResult> task) throws Exception {
-                                                Log.w("asdasd",String.valueOf(task.getResult().getData()));
-                                                if(String.valueOf(task.getResult().getData()).equals("success")){
-                                                    dialog_thank_user_for_purchase.loaded();
-                                                } else if (String.valueOf(task.getResult().getData()).equals("error")){
-                                                    Toast.makeText(getActivity(), "Buying failed. You will not be charged and will receive a refund",Toast.LENGTH_LONG).show();
-                                                }
-                                                return "result";
-                                            }
-                                        }).addOnFailureListener(new OnFailureListener() {
-                                    @Override
-                                    public void onFailure(@NonNull @NotNull Exception e) {
-
-                                    }
-                                });
-                            }
-                        }
-                    };
-
-                    billingClient.consumeAsync(consumeParams, listener);
-                } else if (purchase.getSku().equals("3600_coins")) {
-                    ConsumeParams consumeParams =
-                            ConsumeParams.newBuilder()
-                                    .setPurchaseToken(purchase.getPurchaseToken())
-                                    .build();
-
-                    ConsumeResponseListener listener = new ConsumeResponseListener() {
-                        @Override
-                        public void onConsumeResponse(BillingResult billingResult, String purchaseToken) {
-                            if (billingResult.getResponseCode() == BillingClient.BillingResponseCode.OK) {
-                                Toast.makeText(getActivity(), "Buying 3600 coins...", Toast.LENGTH_LONG).show();
-                                Map<String, Object> data = new HashMap<>();
-                                data.put("token", purchaseToken);
-                                data.put("orderId", purchase.getOrderId());
-                                Dialog_thank_user_for_purchase dialog_thank_user_for_purchase = new Dialog_thank_user_for_purchase(3600);
-                                dialog_thank_user_for_purchase.setCancelable(false);
-                                dialog_thank_user_for_purchase.show(getParentFragmentManager(),"");
-                                firebaseFunctions = FirebaseFunctions.getInstance();
-                                firebaseFunctions
-                                        .getHttpsCallable("buy3600coins")
-                                        .call(data)
-                                        .continueWith(new Continuation<HttpsCallableResult, String>() {
-                                            @Override
-                                            public String then(@NonNull Task<HttpsCallableResult> task) throws Exception {
-                                                if(String.valueOf(task.getResult().getData()).equals("success")){
-                                                    dialog_thank_user_for_purchase.loaded();
-                                                } else if (String.valueOf(task.getResult().getData()).equals("error")){
-                                                    Toast.makeText(getActivity(), "Buying failed. You will not be charged and will receive a refund",Toast.LENGTH_LONG).show();
-                                                }
-                                                return "result";
-                                            }
-                                        }).addOnFailureListener(new OnFailureListener() {
-                                    @Override
-                                    public void onFailure(@NonNull @NotNull Exception e) {
-
-                                    }
-                                });
-                            }
-                        }
-                    };
-
-                    billingClient.consumeAsync(consumeParams, listener);
-                } else if (purchase.getSku().equals("8400_coins")) {
-                    ConsumeParams consumeParams =
-                            ConsumeParams.newBuilder()
-                                    .setPurchaseToken(purchase.getPurchaseToken())
-                                    .build();
-
-                    ConsumeResponseListener listener = new ConsumeResponseListener() {
-                        @Override
-                        public void onConsumeResponse(BillingResult billingResult, String purchaseToken) {
-                            if (billingResult.getResponseCode() == BillingClient.BillingResponseCode.OK) {
-                                Toast.makeText(getActivity(), "Buying 8400 coins...", Toast.LENGTH_LONG).show();
-                                Map<String, Object> data = new HashMap<>();
-                                data.put("token", purchaseToken);
-                                data.put("orderId", purchase.getOrderId());
-                                Dialog_thank_user_for_purchase dialog_thank_user_for_purchase = new Dialog_thank_user_for_purchase(8400);
-                                dialog_thank_user_for_purchase.setCancelable(false);
-                                dialog_thank_user_for_purchase.show(getParentFragmentManager(),"");
-                                firebaseFunctions = FirebaseFunctions.getInstance();
-                                firebaseFunctions
-                                        .getHttpsCallable("buy8400coins")
-                                        .call(data)
-                                        .continueWith(new Continuation<HttpsCallableResult, String>() {
-                                            @Override
-                                            public String then(@NonNull Task<HttpsCallableResult> task) throws Exception {
-                                                Log.w("asdasd",String.valueOf(task.getResult().getData()));
-                                                if(String.valueOf(task.getResult().getData()).equals("success")){
-                                                    dialog_thank_user_for_purchase.loaded();
-                                                } else if (String.valueOf(task.getResult().getData()).equals("error")){
-                                                    Toast.makeText(getActivity(), "Buying failed. You will not be charged and will receive a refund",Toast.LENGTH_LONG).show();
-                                                }
-                                                return "result";
-                                            }
-                                        }).addOnFailureListener(new OnFailureListener() {
-                                    @Override
-                                    public void onFailure(@NonNull @NotNull Exception e) {
-
-                                    }
-                                });
-                            }
-                        }
-                    };
-                    billingClient.consumeAsync(consumeParams, listener);
-                } else if (purchase.getSku().equals("16000_coins")) {
-                    ConsumeParams consumeParams =
-                            ConsumeParams.newBuilder()
-                                    .setPurchaseToken(purchase.getPurchaseToken())
-                                    .build();
-
-                    ConsumeResponseListener listener = new ConsumeResponseListener() {
-                        @Override
-                        public void onConsumeResponse(BillingResult billingResult, String purchaseToken) {
-                            if (billingResult.getResponseCode() == BillingClient.BillingResponseCode.OK) {
-                                Toast.makeText(getActivity(), "Buying 16000 coins...", Toast.LENGTH_LONG).show();
-                                Map<String, Object> data = new HashMap<>();
-                                data.put("token", purchaseToken);
-                                data.put("orderId", purchase.getOrderId());
-                                Dialog_thank_user_for_purchase dialog_thank_user_for_purchase = new Dialog_thank_user_for_purchase(16000);
-                                dialog_thank_user_for_purchase.setCancelable(false);
-                                dialog_thank_user_for_purchase.show(getParentFragmentManager(),"");
-                                firebaseFunctions = FirebaseFunctions.getInstance();
-                                firebaseFunctions
-                                        .getHttpsCallable("buy16000coins")
-                                        .call(data)
-                                        .continueWith(new Continuation<HttpsCallableResult, String>() {
-                                            @Override
-                                            public String then(@NonNull Task<HttpsCallableResult> task) throws Exception {
-                                                if(String.valueOf(task.getResult().getData()).equals("success")){
-                                                    dialog_thank_user_for_purchase.loaded();
-                                                } else if (String.valueOf(task.getResult().getData()).equals("error")){
-                                                    Toast.makeText(getActivity(), "Buying failed. You will not be charged and will receive a refund",Toast.LENGTH_LONG).show();
-                                                }
-                                                return "result";
-                                            }
-                                        }).addOnFailureListener(new OnFailureListener() {
-                                    @Override
-                                    public void onFailure(@NonNull @NotNull Exception e) {
-
-                                    }
-                                });
-                            }
-                        }
-                    };
-
-                    billingClient.consumeAsync(consumeParams, listener);
-                } else if (purchase.getSku().equals("40000_coins")) {
-                    ConsumeParams consumeParams =
-                            ConsumeParams.newBuilder()
-                                    .setPurchaseToken(purchase.getPurchaseToken())
-                                    .build();
-
-                    ConsumeResponseListener listener = new ConsumeResponseListener() {
-                        @Override
-                        public void onConsumeResponse(BillingResult billingResult, String purchaseToken) {
-                            if (billingResult.getResponseCode() == BillingClient.BillingResponseCode.OK) {
-                                Toast.makeText(getActivity(), "Buying 40000 coins...", Toast.LENGTH_LONG).show();
-                                Map<String, Object> data = new HashMap<>();
-                                data.put("token", purchaseToken);
-                                data.put("orderId", purchase.getOrderId());
-                                Dialog_thank_user_for_purchase dialog_thank_user_for_purchase = new Dialog_thank_user_for_purchase(40000);
-                                dialog_thank_user_for_purchase.setCancelable(false);
-                                dialog_thank_user_for_purchase.show(getParentFragmentManager(),"");
-                                firebaseFunctions = FirebaseFunctions.getInstance();
-                                firebaseFunctions
-                                        .getHttpsCallable("buy40000coins")
-                                        .call(data)
-                                        .continueWith(new Continuation<HttpsCallableResult, String>() {
-                                            @Override
-                                            public String then(@NonNull Task<HttpsCallableResult> task) throws Exception {
-                                                Log.w("asdasd",String.valueOf(task.getResult().getData()));
-                                                if(String.valueOf(task.getResult().getData()).equals("success")){
-                                                    dialog_thank_user_for_purchase.loaded();
-                                                } else if (String.valueOf(task.getResult().getData()).equals("error")){
-                                                    Toast.makeText(getActivity(), "Buying failed. You will not be charged and will receive a refund",Toast.LENGTH_LONG).show();
-                                                }
-                                                return "result";
-                                            }
-                                        }).addOnFailureListener(new OnFailureListener() {
-                                    @Override
-                                    public void onFailure(@NonNull @NotNull Exception e) {
-
-                                    }
-                                });
-                            }
-                        }
-                    };
-
-                    billingClient.consumeAsync(consumeParams, listener);
-                }
-            } else if (purchase.getPurchaseState() == Purchase.PurchaseState.PENDING) {
-                Toast.makeText(getActivity(), "purchase is being processed", Toast.LENGTH_SHORT).show();
-            } else {
-                Toast.makeText(getActivity(), "purchase is being processed", Toast.LENGTH_SHORT).show();
-            }
-        }
-    }
-
     private void button_listen() {
         if (getView() != null) {
             Button buy_first_thing_coins_buy_coins = getView().findViewById(R.id.buy_first_thing_coins_buy_coins);
@@ -498,103 +178,61 @@ public class Give_coins extends Fragment {
             buy_first_thing_coins_buy_coins.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    SkuDetailsParams skuDetailsParams = SkuDetailsParams.newBuilder().setSkusList(Arrays.asList("400_coins"))
-                            .setType(BillingClient.SkuType.INAPP)
-                            .build();
-                    billingClient.querySkuDetailsAsync(skuDetailsParams, new SkuDetailsResponseListener() {
-                        @Override
-                        public void onSkuDetailsResponse(@NonNull @NotNull BillingResult billingResult, @Nullable @org.jetbrains.annotations.Nullable List<SkuDetails> list) {
-                            BillingFlowParams billingFlowParams = BillingFlowParams.newBuilder()
-                                    .setSkuDetails(list.get(0))
-                                    .build();
-                            billingClient.launchBillingFlow(getActivity(), billingFlowParams);
-                        }
-                    });
+                    Bundle bundle = new Bundle();
+                    bundle.putString("how_many_coins","400");
+                    Event_manager_all_in_one.getInstance().record_fire_base_event(getContext(), Event_manager_all_in_one.Event_type_fire_base_record.purchase_more_coins_clicked,false,bundle);
+                    call_the_listen_in_settings();
+                    Payment_processer.getInstance().launch_product_flow(getActivity(), "400_coins", getContext(),FirebaseAuth.getInstance().getUid());
                 }
             });
             buy_second_thing_coins_buy_coins.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    SkuDetailsParams skuDetailsParams = SkuDetailsParams.newBuilder().setSkusList(Arrays.asList("1500_coins"))
-                            .setType(BillingClient.SkuType.INAPP)
-                            .build();
-                    billingClient.querySkuDetailsAsync(skuDetailsParams, new SkuDetailsResponseListener() {
-                        @Override
-                        public void onSkuDetailsResponse(@NonNull @NotNull BillingResult billingResult, @Nullable @org.jetbrains.annotations.Nullable List<SkuDetails> list) {
-                            BillingFlowParams billingFlowParams = BillingFlowParams.newBuilder()
-                                    .setSkuDetails(list.get(0))
-                                    .build();
-                            billingClient.launchBillingFlow(getActivity(), billingFlowParams);
-                        }
-                    });
+                    Bundle bundle = new Bundle();
+                    bundle.putString("how_many_coins","1500");
+                    Event_manager_all_in_one.getInstance().record_fire_base_event(getContext(), Event_manager_all_in_one.Event_type_fire_base_record.purchase_more_coins_clicked,false,bundle);
+                    call_the_listen_in_settings();
+                    Payment_processer.getInstance().launch_product_flow(getActivity(), "1500_coins", getContext(),FirebaseAuth.getInstance().getUid());
                 }
             });
             buy_third_thing_coins_buy_coins.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    SkuDetailsParams skuDetailsParams = SkuDetailsParams.newBuilder().setSkusList(Arrays.asList("3600_coins"))
-                            .setType(BillingClient.SkuType.INAPP)
-                            .build();
-                    billingClient.querySkuDetailsAsync(skuDetailsParams, new SkuDetailsResponseListener() {
-                        @Override
-                        public void onSkuDetailsResponse(@NonNull @NotNull BillingResult billingResult, @Nullable @org.jetbrains.annotations.Nullable List<SkuDetails> list) {
-                            BillingFlowParams billingFlowParams = BillingFlowParams.newBuilder()
-                                    .setSkuDetails(list.get(0))
-                                    .build();
-                            billingClient.launchBillingFlow(getActivity(), billingFlowParams);
-                        }
-                    });
+                    Bundle bundle = new Bundle();
+                    bundle.putString("how_many_coins","3600");
+                    Event_manager_all_in_one.getInstance().record_fire_base_event(getContext(), Event_manager_all_in_one.Event_type_fire_base_record.purchase_more_coins_clicked,false,bundle);
+                    call_the_listen_in_settings();
+                    Payment_processer.getInstance().launch_product_flow(getActivity(), "3600_coins", getContext(),FirebaseAuth.getInstance().getUid());
                 }
             });
             buy_fourth_thing_coins_buy_coins.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    SkuDetailsParams skuDetailsParams = SkuDetailsParams.newBuilder().setSkusList(Arrays.asList("8400_coins"))
-                            .setType(BillingClient.SkuType.INAPP)
-                            .build();
-                    billingClient.querySkuDetailsAsync(skuDetailsParams, new SkuDetailsResponseListener() {
-                        @Override
-                        public void onSkuDetailsResponse(@NonNull @NotNull BillingResult billingResult, @Nullable @org.jetbrains.annotations.Nullable List<SkuDetails> list) {
-                            BillingFlowParams billingFlowParams = BillingFlowParams.newBuilder()
-                                    .setSkuDetails(list.get(0))
-                                    .build();
-                            billingClient.launchBillingFlow(getActivity(), billingFlowParams);
-                        }
-                    });
+                    Bundle bundle = new Bundle();
+                    bundle.putString("how_many_coins","8400");
+                    Event_manager_all_in_one.getInstance().record_fire_base_event(getContext(), Event_manager_all_in_one.Event_type_fire_base_record.purchase_more_coins_clicked,false,bundle);
+                    call_the_listen_in_settings();
+                    Payment_processer.getInstance().launch_product_flow(getActivity(), "8400_coins", getContext(),FirebaseAuth.getInstance().getUid());
                 }
             });
             buy_fifth_thing_coins_buy_coins.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    SkuDetailsParams skuDetailsParams = SkuDetailsParams.newBuilder().setSkusList(Arrays.asList("16000_coins"))
-                            .setType(BillingClient.SkuType.INAPP)
-                            .build();
-                    billingClient.querySkuDetailsAsync(skuDetailsParams, new SkuDetailsResponseListener() {
-                        @Override
-                        public void onSkuDetailsResponse(@NonNull @NotNull BillingResult billingResult, @Nullable @org.jetbrains.annotations.Nullable List<SkuDetails> list) {
-                            BillingFlowParams billingFlowParams = BillingFlowParams.newBuilder()
-                                    .setSkuDetails(list.get(0))
-                                    .build();
-                            billingClient.launchBillingFlow(getActivity(), billingFlowParams);
-                        }
-                    });
+                    Bundle bundle = new Bundle();
+                    bundle.putString("how_many_coins","16000");
+                    Event_manager_all_in_one.getInstance().record_fire_base_event(getContext(), Event_manager_all_in_one.Event_type_fire_base_record.purchase_more_coins_clicked,false,bundle);
+                    call_the_listen_in_settings();
+                    Payment_processer.getInstance().launch_product_flow(getActivity(), "16000_coins", getContext(),FirebaseAuth.getInstance().getUid());
                 }
             });
             buy_sixth_thing_coins_buy_coins.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    SkuDetailsParams skuDetailsParams = SkuDetailsParams.newBuilder().setSkusList(Arrays.asList("40000_coins"))
-                            .setType(BillingClient.SkuType.INAPP)
-                            .build();
-                    billingClient.querySkuDetailsAsync(skuDetailsParams, new SkuDetailsResponseListener() {
-                        @Override
-                        public void onSkuDetailsResponse(@NonNull @NotNull BillingResult billingResult, @Nullable @org.jetbrains.annotations.Nullable List<SkuDetails> list) {
-                            BillingFlowParams billingFlowParams = BillingFlowParams.newBuilder()
-                                    .setSkuDetails(list.get(0))
-                                    .build();
-                            billingClient.launchBillingFlow(getActivity(), billingFlowParams);
-                        }
-                    });
+                    Bundle bundle = new Bundle();
+                    bundle.putString("how_many_coins","40000");
+                    Event_manager_all_in_one.getInstance().record_fire_base_event(getContext(), Event_manager_all_in_one.Event_type_fire_base_record.purchase_more_coins_clicked,false,bundle);
+                    call_the_listen_in_settings();
+                    Payment_processer.getInstance().launch_product_flow(getActivity(), "40000_coins", getContext(),FirebaseAuth.getInstance().getUid());
                 }
             });
         }
@@ -602,37 +240,38 @@ public class Give_coins extends Fragment {
 
     private void set_the_prices() {
         if (getActivity() != null) {
-            SkuDetailsParams skuDetailsParams = SkuDetailsParams.newBuilder().setSkusList(Arrays.asList("400_coins", "1500_coins", "3600_coins", "8400_coins", "16000_coins", "40000_coins"))
-                    .setType(BillingClient.SkuType.INAPP)
-                    .build();
-            billingClient.querySkuDetailsAsync(skuDetailsParams, new SkuDetailsResponseListener() {
-                @Override
-                public void onSkuDetailsResponse(@NonNull @NotNull BillingResult billingResult, @Nullable @org.jetbrains.annotations.Nullable List<SkuDetails> list) {
-                    if (billingResult.getResponseCode() == BillingClient.BillingResponseCode.OK) {
-                        Button buy_first_thing_coins_buy_coins = getActivity().findViewById(R.id.buy_first_thing_coins_buy_coins);
-                        Button buy_second_thing_coins_buy_coins = getActivity().findViewById(R.id.buy_second_thing_coins_buy_coins);
-                        Button buy_third_thing_coins_buy_coins = getActivity().findViewById(R.id.buy_third_thing_coins_buy_coins);
-                        Button buy_fourth_thing_coins_buy_coins = getActivity().findViewById(R.id.buy_fourth_thing_coins_buy_coins);
-                        Button buy_fifth_thing_coins_buy_coins = getActivity().findViewById(R.id.buy_fifth_thing_coins_buy_coins);
-                        Button buy_sixth_thing_coins_buy_coins = getActivity().findViewById(R.id.buy_sixth_thing_coins_buy_coins);
-                        for (int i = 0; i < list.size(); i++) {
-                            if (list.get(i).getSku().equals("400_coins")) {
-                                buy_first_thing_coins_buy_coins.setText("400 coins | ".concat(list.get(i).getPrice()).concat(" ").concat(list.get(i).getPriceCurrencyCode()));
-                            } else if (list.get(i).getSku().equals("1500_coins")) {
-                                buy_second_thing_coins_buy_coins.setText("1500 coins | ".concat(list.get(i).getPrice()).concat(" ").concat(list.get(i).getPriceCurrencyCode()));
-                            } else if (list.get(i).getSku().equals("3600_coins")) {
-                                buy_third_thing_coins_buy_coins.setText("3600 coins | ".concat(list.get(i).getPrice()).concat(" ").concat(list.get(i).getPriceCurrencyCode()));
-                            } else if (list.get(i).getSku().equals("8400_coins")) {
-                                buy_fourth_thing_coins_buy_coins.setText("8400 coins | ".concat(list.get(i).getPrice()).concat(" ").concat(list.get(i).getPriceCurrencyCode()));
-                            } else if (list.get(i).getSku().equals("16000_coins")) {
-                                buy_fifth_thing_coins_buy_coins.setText("16000 coins | ".concat(list.get(i).getPrice()).concat(" ").concat(list.get(i).getPriceCurrencyCode()));
-                            } else if (list.get(i).getSku().equals("40000_coins")) {
-                                buy_sixth_thing_coins_buy_coins.setText("40000 coins | ".concat(list.get(i).getPrice()).concat(" ").concat(list.get(i).getPriceCurrencyCode()));
-                            }
-                        }
+            Button buy_first_thing_coins_buy_coins = getActivity().findViewById(R.id.buy_first_thing_coins_buy_coins);
+            Button buy_second_thing_coins_buy_coins = getActivity().findViewById(R.id.buy_second_thing_coins_buy_coins);
+            Button buy_third_thing_coins_buy_coins = getActivity().findViewById(R.id.buy_third_thing_coins_buy_coins);
+            Button buy_fourth_thing_coins_buy_coins = getActivity().findViewById(R.id.buy_fourth_thing_coins_buy_coins);
+            Button buy_fifth_thing_coins_buy_coins = getActivity().findViewById(R.id.buy_fifth_thing_coins_buy_coins);
+            Button buy_sixth_thing_coins_buy_coins = getActivity().findViewById(R.id.buy_sixth_thing_coins_buy_coins);
+            /*if(Payment_processer.getInstance().are_in_app_prices_ready){
+                buy_first_thing_coins_buy_coins.setText("400 coins | ".concat(Payment_processer.getInstance().get_price_in_app("400_coins")));
+                buy_second_thing_coins_buy_coins.setText("1500 coins | ".concat(Payment_processer.getInstance().get_price_in_app("1500_coins")));
+                buy_third_thing_coins_buy_coins.setText("3600 coins | ".concat(Payment_processer.getInstance().get_price_in_app("3600_coins")));
+                buy_fourth_thing_coins_buy_coins.setText("8400 coins | ".concat(Payment_processer.getInstance().get_price_in_app("8400_coins")));
+                buy_fifth_thing_coins_buy_coins.setText("16000 coins | ".concat(Payment_processer.getInstance().get_price_in_app("16000_coins")));
+                buy_sixth_thing_coins_buy_coins.setText("40000 coins | ".concat(Payment_processer.getInstance().get_price_in_app("40000_coins")));
+            } else {
+                Payment_processer.getInstance().listen_for_in_app_prices(new Payment_processer.in_app_prices_ready() {
+                    @Override
+                    public void in_app_prices_are_ready() {
+                        buy_first_thing_coins_buy_coins.setText("400 coins | ".concat(Payment_processer.getInstance().get_price_in_app("400_coins")));
+                        buy_second_thing_coins_buy_coins.setText("1500 coins | ".concat(Payment_processer.getInstance().get_price_in_app("1500_coins")));
+                        buy_third_thing_coins_buy_coins.setText("3600 coins | ".concat(Payment_processer.getInstance().get_price_in_app("3600_coins")));
+                        buy_fourth_thing_coins_buy_coins.setText("8400 coins | ".concat(Payment_processer.getInstance().get_price_in_app("8400_coins")));
+                        buy_fifth_thing_coins_buy_coins.setText("16000 coins | ".concat(Payment_processer.getInstance().get_price_in_app("16000_coins")));
+                        buy_sixth_thing_coins_buy_coins.setText("40000 coins | ".concat(Payment_processer.getInstance().get_price_in_app("40000_coins")));
                     }
-                }
-            });
+                });
+            }*/
+            buy_first_thing_coins_buy_coins.setText("400 coins | ".concat(Payment_processer.getInstance().get_price_in_app("400_coins")));
+            buy_second_thing_coins_buy_coins.setText("1500 coins | ".concat(Payment_processer.getInstance().get_price_in_app("1500_coins")));
+            buy_third_thing_coins_buy_coins.setText("3600 coins | ".concat(Payment_processer.getInstance().get_price_in_app("3600_coins")));
+            buy_fourth_thing_coins_buy_coins.setText("8400 coins | ".concat(Payment_processer.getInstance().get_price_in_app("8400_coins")));
+            buy_fifth_thing_coins_buy_coins.setText("16000 coins | ".concat(Payment_processer.getInstance().get_price_in_app("16000_coins")));
+            buy_sixth_thing_coins_buy_coins.setText("40000 coins | ".concat(Payment_processer.getInstance().get_price_in_app("40000_coins")));
         }
     }
 
@@ -648,34 +287,47 @@ public class Give_coins extends Fragment {
         }
     }
 
-    private void go_back(){
-        if(what_called_me.equals("posts")){
-            purchasesUpdatedListener = null;
+    private void go_back() {
+        if (what_called_me.equals("posts")) {
             Posts_fragment new_fragment = (Posts_fragment) getActivity().getSupportFragmentManager().findFragmentByTag("posts");
             if (new_fragment != null) {
                 getActivity().getSupportFragmentManager().beginTransaction().show(new_fragment).remove(this).commit();
             }
-        } else if(what_called_me.equals("show")){
-            purchasesUpdatedListener = null;
+        } else if (what_called_me.equals("show")) {
             Show_full_post new_fragment = (Show_full_post) getActivity().getSupportFragmentManager().findFragmentByTag("show full post");
             if (new_fragment != null) {
                 getActivity().getSupportFragmentManager().beginTransaction().show(new_fragment).remove(this).commit();
             }
-        } else if (what_called_me.equals("settings")){
-            purchasesUpdatedListener = null;
+        } else if (what_called_me.equals("settings")) {
             Settings_fragment new_fragment = (Settings_fragment) getActivity().getSupportFragmentManager().findFragmentByTag("setting");
             if (new_fragment != null) {
                 getActivity().getSupportFragmentManager().beginTransaction().show(new_fragment).remove(this).commit();
             }
         }
     }
-    public String return_what_called_you(){
+
+    public String return_what_called_you() {
         return what_called_me;
     }
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        purchasesUpdatedListener = null;
+    private void are_prices_ready(){
+       /* if (Payment_processer.getInstance().are_in_app_prices_ready){
+            set_the_prices();
+        } else {
+            Payment_processer.getInstance().listen_for_in_app_prices(new Payment_processer.in_app_prices_ready() {
+                @Override
+                public void in_app_prices_are_ready() {
+                    set_the_prices();
+                }
+            });
+        }*/
+        set_the_prices();
+    }
+
+    private void call_the_listen_in_settings() {
+        Settings_fragment old_fragment = (Settings_fragment) getActivity().getSupportFragmentManager().findFragmentByTag("setting");
+        if (old_fragment != null) {
+            old_fragment.listen_to_coin_update();
+        }
     }
 }

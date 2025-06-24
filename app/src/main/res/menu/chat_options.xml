@@ -8,4 +8,8 @@
         android:id="@+id/item_to_report_chat_in_menu_three_dot"
         android:orderInCategory="1"
         android:title="Report" />
+    <item
+        android:id="@+id/item_to_block_user_in_chat"
+        android:orderInCategory="2"
+        android:title="Block user" />
 </menu>

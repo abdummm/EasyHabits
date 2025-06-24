@@ -756,7 +756,6 @@ public class lock_the_screen extends Fragment {
             SharedPreferences sharedPreferences = getActivity().getSharedPreferences("send_the_apps", getContext().MODE_PRIVATE);
             SharedPreferences.Editor myEdit = sharedPreferences.edit();
             myEdit.putString("send_apps", save_me);
-            Log.w("see",save_me);
             myEdit.commit();
         }
     }

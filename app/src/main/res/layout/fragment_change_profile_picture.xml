@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="#FBFBFB"
+    tools:context=".Change_profile_picture">
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layout_to_choose_custom_or_premade_habit"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="@drawable/card_view_in_change_profile_pictures"
+        android:elevation="30dp"
+        android:visibility="visible"
+        android:layout_marginTop="30dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <Button
+            android:id="@+id/ok_bottom_sheet_add_reminder"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginEnd="15dp"
+            android:layout_marginTop="15dp"
+            android:background="?android:selectableItemBackgroundBorderless"
+            android:foreground="@drawable/z_pink"
+            android:foregroundTint="#ECECEC"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <View
+            android:id="@+id/ok_view_in_add_reminder_bottom_sheet"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:background="@drawable/done_48px_thick"
+            android:backgroundTint="#565656"
+            android:elevation="10dp"
+            android:outlineProvider="none"
+            app:layout_constraintStart_toStartOf="@+id/ok_bottom_sheet_add_reminder"
+            app:layout_constraintEnd_toEndOf="@+id/ok_bottom_sheet_add_reminder"
+            app:layout_constraintTop_toTopOf="@+id/ok_bottom_sheet_add_reminder"
+            app:layout_constraintBottom_toBottomOf="@+id/ok_bottom_sheet_add_reminder"/>
+
+        <TextView
+            android:id="@+id/text_saying_change_profile_picture"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Set profile picture"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            android:textSize="15sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/ok_bottom_sheet_add_reminder"
+            app:layout_constraintBottom_toBottomOf="@+id/ok_bottom_sheet_add_reminder"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycle_view_buy_profile_pictures"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            app:layout_constraintTop_toBottomOf="@+id/ok_bottom_sheet_add_reminder"/>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -269,8 +269,7 @@ public class Weight_tracker_emergency extends AppCompatActivity implements Botto
         TextView text_view_showing_the_change_weight = findViewById(R.id.text_view_showing_the_change_weight);
         ProgressBar progress_bar_to_lose_weight = findViewById(R.id.progress_bar_to_lose_weight);
         ProgressBar proress_bar_for_add_weight = findViewById(R.id.proress_bar_for_add_weight);
-        Am_i_paid am_i_paid = new Am_i_paid(this);
-        if (am_i_paid.did_user_pay()) {
+        if (Payment_processer.getInstance().state_of_the_user()) {
             SharedPreferences sharedPreferences = getSharedPreferences("weight_emergency", MODE_PRIVATE);
             float start_weight = sharedPreferences.getFloat("start_weight", 0);
             float goal = sharedPreferences.getFloat("goal_start", 0);
@@ -406,8 +405,7 @@ public class Weight_tracker_emergency extends AppCompatActivity implements Botto
     private void calculate_and_set_bmi() {
         TextView text_view_showing_the_bmi_in_color_weight = findViewById(R.id.text_view_showing_the_bmi_in_color_weight);
         View location_above_bmi_weight = findViewById(R.id.location_above_bmi_weight);
-        Am_i_paid am_i_paid = new Am_i_paid(this);
-        if(am_i_paid.did_user_pay()){
+        if(Payment_processer.getInstance().state_of_the_user()){
             SharedPreferences sharedPreferences = getSharedPreferences("weight_emergency", MODE_PRIVATE);
             float height = sharedPreferences.getFloat("height_start", 0);
             float bmi = return_the_current_weight() / ((height / 100) * (height / 100));
@@ -469,8 +467,7 @@ public class Weight_tracker_emergency extends AppCompatActivity implements Botto
         TextView this_week_gain_or_loss_but_the_real_number = findViewById(R.id.this_week_gain_or_loss_but_the_real_number);
         TextView this_month_gain_or_loss_but_the_real_number = findViewById(R.id.this_month_gain_or_loss_but_the_real_number);
         TextView total_gain_loss_but_only_text_showing_real_number = findViewById(R.id.total_gain_loss_but_only_text_showing_real_number);
-        Am_i_paid am_i_paid = new Am_i_paid(this);
-        if(am_i_paid.did_user_pay()){
+        if(Payment_processer.getInstance().state_of_the_user()){
             SharedPreferences sharedPreferences = getSharedPreferences("weight_emergency", MODE_PRIVATE);
             float height = sharedPreferences.getFloat("height_start", 0);
             String units = sharedPreferences.getString("units", "metric");
@@ -1130,8 +1127,6 @@ public class Weight_tracker_emergency extends AppCompatActivity implements Botto
                     card_to_show_bmi_in_the_weight_with_colrs.getLocationOnScreen(card_location_array);
                     int text_location = text_location_array[0] + text_view_showing_the_bmi_in_color_weight.getMeasuredWidth();
                     int card_location = card_location_array[0] + card_to_show_bmi_in_the_weight_with_colrs.getMeasuredWidth();
-                    Log.w("width", String.valueOf(text_location));
-                    Log.w("width", String.valueOf(card_location));
                     if (text_location > card_location) {
                         connect_the_text(1);
                     } else {
@@ -1175,8 +1170,7 @@ public class Weight_tracker_emergency extends AppCompatActivity implements Botto
         Button this_is_only_for_chart_iin_weight_in_gain_loss_in_weight = findViewById(R.id.this_is_only_for_chart_iin_weight_in_gain_loss_in_weight);
         Button this_is_only_for_chart_iin_weight_in_bmi_weight = findViewById(R.id.this_is_only_for_chart_iin_weight_in_bmi_weight);
         Button this_is_only_for_chart = findViewById(R.id.this_is_only_for_chart);
-        Am_i_paid am_i_paid = new Am_i_paid(this);
-        if (am_i_paid.did_user_pay()) {
+        if (Payment_processer.getInstance().state_of_the_user()) {
             layout_to_blur_in_the_weight_tracker.setAlpha(1f);
             constraint_layout_showing_the_info_of_bmi.setAlpha(1f);
             layout_containting_all_the_infor_for_weight_in_gain_loss_weight_loss.setAlpha(1f);
@@ -1218,7 +1212,7 @@ public class Weight_tracker_emergency extends AppCompatActivity implements Botto
     }
 
     private void buy_premuim_was_clicked(){
-        Buy_premuim buy_premuim = new Buy_premuim("add more than 1 counter", true, "activity");
+        /*Buy_premuim buy_premuim = new Buy_premuim("add more than 1 counter", true, "activity");
         hide_activity();
         buy_premuim.set_the_function(new Buy_premuim.show_the_activity() {
             @Override
@@ -1226,7 +1220,7 @@ public class Weight_tracker_emergency extends AppCompatActivity implements Botto
                 show_activity();
             }
         });
-        getSupportFragmentManager().beginTransaction().add(R.id.hold_buy_premuim_in_weight_tracker, buy_premuim, "buy premium").show(buy_premuim).commit();
+        getSupportFragmentManager().beginTransaction().add(R.id.hold_buy_premuim_in_weight_tracker, buy_premuim, "buy premium").show(buy_premuim).commit();*/
     }
 
     @Override

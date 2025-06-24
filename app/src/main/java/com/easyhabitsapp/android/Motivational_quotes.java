@@ -1,3 +1,4 @@
+/*
 package com.easyhabitsapp.android;
 
 import android.content.ClipData;
@@ -152,4 +153,4 @@ public class Motivational_quotes extends AppCompatActivity {
         myEdit.putInt("motivation", current_int);
         myEdit.commit();
     }
-}
+}*/

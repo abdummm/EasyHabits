@@ -693,7 +693,7 @@ public class post_a_post extends Fragment {
             } else if (!isNetworkAvailable()) {
                 Toast toast = Toast.makeText(getActivity(), "Phone not connected to the internet", Toast.LENGTH_SHORT);
                 toast.show();
-            } else if (return_the_name().equals("no_name_found_135")) {
+            }/* else if (return_the_name().equals("no_name_found_135")) {
                 Dialog_to_make_the_user_enter_their_name dialog_to_make_the_user_enter_their_name = new Dialog_to_make_the_user_enter_their_name();
                 dialog_to_make_the_user_enter_their_name.set_card_clicked_reply(new Dialog_to_make_the_user_enter_their_name.name_is_done() {
                     @Override
@@ -702,7 +702,8 @@ public class post_a_post extends Fragment {
                     }
                 });
                 dialog_to_make_the_user_enter_their_name.show(getParentFragmentManager(), "");
-            } else {
+            }*/ else {
+                Event_manager_all_in_one.getInstance().record_fire_base_event(getContext(), Event_manager_all_in_one.Event_type_fire_base_record.post_written_posted,false);
                 post_the_information();
             }
         }
@@ -957,7 +958,6 @@ public class post_a_post extends Fragment {
 
     private void save_the_id(String title, String body, String span, long time, String category, int streak, String id) {
         if (getActivity() != null) {
-
             SharedPreferences sharedPreferences = getActivity().getSharedPreferences("posted_posts", MODE_PRIVATE);
             SharedPreferences.Editor myEdit = sharedPreferences.edit();
             String old = sharedPreferences.getString("posts", "");

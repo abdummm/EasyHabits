@@ -11,6 +11,7 @@ import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
@@ -18,6 +19,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -62,12 +65,13 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
-public class mood_tracker extends Fragment implements PopupMenu.OnMenuItemClickListener {
+public class Mood_tracker extends Fragment implements PopupMenu.OnMenuItemClickListener {
     private Button calender_button_showing_shadow_1;
     private Button calender_button_showing_shadow_2;
     private Button calender_button_showing_shadow_3;
@@ -119,12 +123,12 @@ public class mood_tracker extends Fragment implements PopupMenu.OnMenuItemClickL
     private int month_for_mood_chart = -1;
     private int year_for_mood_chart = -1;
     private LineChart line_chart_for_streak;
-    private View[] list_of_all_the_calender_views_in_mood;
+    private Drawable[] list_of_all_the_calender_views_in_mood;
     private int year_global;
     private int month_global;
     private int day_global;
 
-    public mood_tracker() {
+    public Mood_tracker() {
         // Required empty public constructor
     }
 
@@ -177,7 +181,7 @@ public class mood_tracker extends Fragment implements PopupMenu.OnMenuItemClickL
         divide_it_into_weeks();
         clear_the_middle();
         make_the_middle_come_again();
-        hide_or_un_hide_the_button(0);
+        hide_or_un_hide_the_button(1);
         color_the_button_under_the_calender();
         color_the_under();
         color_the_middle();
@@ -202,6 +206,7 @@ public class mood_tracker extends Fragment implements PopupMenu.OnMenuItemClickL
         three_dot_button_listen();
         fade_the_views();
         buy_premuim_button_listen();
+        set_visiblity_of_months_days();
         //add_all_to_a_list();
         /*add_to_array();
         calculate_the_average_streak();
@@ -228,7 +233,8 @@ public class mood_tracker extends Fragment implements PopupMenu.OnMenuItemClickL
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
         if (!hidden) {
-            call_me_at_start();
+            //call_me_at_start();
+            color_the_status_bar();
         }
     }
 
@@ -7078,9 +7084,9 @@ public class mood_tracker extends Fragment implements PopupMenu.OnMenuItemClickL
                         remove_the_hiding_buttons();
                         color_today();
                         check_if_date_is_future();
-                        hide_or_un_hide_the_button(0);
+//                        hide_or_un_hide_the_button(0);
                         color_the_calender();
-                        check_if_date_is_future();
+//                        check_if_date_is_future();
                         color_the_button_under_the_calender();
                         clear_all_the_unders();
                         divide_it_into_weeks();
@@ -7099,9 +7105,9 @@ public class mood_tracker extends Fragment implements PopupMenu.OnMenuItemClickL
                         remove_the_hiding_buttons();
                         color_today();
                         check_if_date_is_future();
-                        hide_or_un_hide_the_button(0);
+//                        hide_or_un_hide_the_button(0);
                         color_the_calender();
-                        check_if_date_is_future();
+//                        check_if_date_is_future();
                         color_the_button_under_the_calender();
                         clear_all_the_unders();
                         divide_it_into_weeks();
@@ -7128,9 +7134,9 @@ public class mood_tracker extends Fragment implements PopupMenu.OnMenuItemClickL
                         remove_the_hiding_buttons();
                         color_today();
                         check_if_date_is_future();
-                        hide_or_un_hide_the_button(0);
+//                        hide_or_un_hide_the_button(0);
                         color_the_calender();
-                        check_if_date_is_future();
+//                        check_if_date_is_future();
                         color_the_button_under_the_calender();
                         clear_all_the_unders();
                         divide_it_into_weeks();
@@ -7148,9 +7154,9 @@ public class mood_tracker extends Fragment implements PopupMenu.OnMenuItemClickL
                         remove_the_hiding_buttons();
                         color_today();
                         check_if_date_is_future();
-                        hide_or_un_hide_the_button(0);
+//                        hide_or_un_hide_the_button(0);
                         color_the_calender();
-                        check_if_date_is_future();
+//                        check_if_date_is_future();
                         color_the_button_under_the_calender();
                         clear_all_the_unders();
                         divide_it_into_weeks();
@@ -8550,24 +8556,17 @@ public class mood_tracker extends Fragment implements PopupMenu.OnMenuItemClickL
             String month_from_text = String.valueOf(return_month_string_to_int(splitter_temp_from_text[0]));
             String year_from_text = String.valueOf(splitter_temp_from_text[1]);
             String[] splitter_for_colored_value = color_the_today.split("_");
-            if (calendar_new.getTimeInMillis() < Simplify_the_time.return_time_in_midnight(start_date)) {
+            /*if (calendar_new.getTimeInMillis() < Simplify_the_time.return_time_in_midnight(start_date)) {
+                hide_or_un_hide_the_button(1);
+            } else {*/
+            if (calender_year > real_year) {
                 hide_or_un_hide_the_button(0);
-            } else {
-                if (calender_year > real_year) {
+            } else if (calender_year == real_year) {
+                if (calender_month > real_month) {
                     hide_or_un_hide_the_button(0);
-                } else if (calender_year == real_year) {
-                    if (calender_month > real_month) {
+                } else if (calender_month == real_month) {
+                    if (calender_day > real_day) {
                         hide_or_un_hide_the_button(0);
-                    } else if (calender_month == real_month) {
-                        if (calender_day >= real_day) {
-                            hide_or_un_hide_the_button(0);
-                        } else {
-                            if (month_from_text.equals(splitter_for_colored_value[1]) && year_from_text.equals(splitter_for_colored_value[2])) {
-                                hide_or_un_hide_the_button(1);
-                            } else {
-                                hide_or_un_hide_the_button(0);
-                            }
-                        }
                     } else {
                         if (month_from_text.equals(splitter_for_colored_value[1]) && year_from_text.equals(splitter_for_colored_value[2])) {
                             hide_or_un_hide_the_button(1);
@@ -8582,8 +8581,15 @@ public class mood_tracker extends Fragment implements PopupMenu.OnMenuItemClickL
                         hide_or_un_hide_the_button(0);
                     }
                 }
+            } else {
+                if (month_from_text.equals(splitter_for_colored_value[1]) && year_from_text.equals(splitter_for_colored_value[2])) {
+                    hide_or_un_hide_the_button(1);
+                } else {
+                    hide_or_un_hide_the_button(0);
+                }
             }
         }
+//        }
     }
 
     private void hide_or_un_hide_the_button(int which) {
@@ -8976,10 +8982,14 @@ public class mood_tracker extends Fragment implements PopupMenu.OnMenuItemClickL
                     if (very_bad_mood_shade_in_habits.getVisibility() == View.VISIBLE) {
                         selct_the_mood_in_calender(0);
                         save_the_input_for_good_habit_input(0, calendar.getTimeInMillis());
+                        check_if_start_date_is_removed(calendar.getTimeInMillis());
+                        mood_down_clicked_fix_it_up(0, calendar.getTimeInMillis());
                     } else {
                         selct_the_mood_in_calender(0);
                         selct_the_mood_in_calender(1);
                         save_the_input_for_good_habit_input(1, calendar.getTimeInMillis());
+                        set_the_start_date_past(calendar.getTimeInMillis());
+                        mood_down_clicked_fix_it_up(1, calendar.getTimeInMillis());
                     }
                     color_the_calender();
                     //set_up_day_of_week_bar_chart();
@@ -9023,10 +9033,14 @@ public class mood_tracker extends Fragment implements PopupMenu.OnMenuItemClickL
                     if (bad_mood_shade_in_habits.getVisibility() == View.VISIBLE) {
                         selct_the_mood_in_calender(0);
                         save_the_input_for_good_habit_input(0, calendar.getTimeInMillis());
+                        check_if_start_date_is_removed(calendar.getTimeInMillis());
+                        mood_down_clicked_fix_it_up(0, calendar.getTimeInMillis());
                     } else {
                         selct_the_mood_in_calender(0);
                         selct_the_mood_in_calender(2);
                         save_the_input_for_good_habit_input(2, calendar.getTimeInMillis());
+                        set_the_start_date_past(calendar.getTimeInMillis());
+                        mood_down_clicked_fix_it_up(2, calendar.getTimeInMillis());
                     }
                     color_the_calender();
                     //set_up_day_of_week_bar_chart();
@@ -9070,10 +9084,14 @@ public class mood_tracker extends Fragment implements PopupMenu.OnMenuItemClickL
                     if (ok_mood_shade_in_habits.getVisibility() == View.VISIBLE) {
                         selct_the_mood_in_calender(0);
                         save_the_input_for_good_habit_input(0, calendar.getTimeInMillis());
+                        check_if_start_date_is_removed(calendar.getTimeInMillis());
+                        mood_down_clicked_fix_it_up(0, calendar.getTimeInMillis());
                     } else {
                         selct_the_mood_in_calender(0);
                         selct_the_mood_in_calender(3);
                         save_the_input_for_good_habit_input(3, calendar.getTimeInMillis());
+                        set_the_start_date_past(calendar.getTimeInMillis());
+                        mood_down_clicked_fix_it_up(3, calendar.getTimeInMillis());
                     }
                     color_the_calender();
                     //set_up_day_of_week_bar_chart();
@@ -9117,10 +9135,14 @@ public class mood_tracker extends Fragment implements PopupMenu.OnMenuItemClickL
                     if (good_mood_shade_in_habits.getVisibility() == View.VISIBLE) {
                         selct_the_mood_in_calender(0);
                         save_the_input_for_good_habit_input(0, calendar.getTimeInMillis());
+                        check_if_start_date_is_removed(calendar.getTimeInMillis());
+                        mood_down_clicked_fix_it_up(0, calendar.getTimeInMillis());
                     } else {
                         selct_the_mood_in_calender(0);
                         selct_the_mood_in_calender(4);
                         save_the_input_for_good_habit_input(4, calendar.getTimeInMillis());
+                        set_the_start_date_past(calendar.getTimeInMillis());
+                        mood_down_clicked_fix_it_up(4, calendar.getTimeInMillis());
                     }
                     color_the_calender();
                     //set_up_day_of_week_bar_chart();
@@ -9164,10 +9186,14 @@ public class mood_tracker extends Fragment implements PopupMenu.OnMenuItemClickL
                     if (very_good_mood_shade_in_habits.getVisibility() == View.VISIBLE) {
                         selct_the_mood_in_calender(0);
                         save_the_input_for_good_habit_input(0, calendar.getTimeInMillis());
+                        check_if_start_date_is_removed(calendar.getTimeInMillis());
+                        mood_down_clicked_fix_it_up(0, calendar.getTimeInMillis());
                     } else {
                         selct_the_mood_in_calender(0);
                         selct_the_mood_in_calender(5);
                         save_the_input_for_good_habit_input(5, calendar.getTimeInMillis());
+                        set_the_start_date_past(calendar.getTimeInMillis());
+                        mood_down_clicked_fix_it_up(5, calendar.getTimeInMillis());
                     }
                     color_the_calender();
                     //set_up_day_of_week_bar_chart();
@@ -10216,7 +10242,7 @@ public class mood_tracker extends Fragment implements PopupMenu.OnMenuItemClickL
         if (getActivity() != null) {
             SharedPreferences sharedPreferences = getActivity().getSharedPreferences("mood", Context.MODE_PRIVATE);
             String shared = sharedPreferences.getString("mood_color", "");
-            if (shared == null || shared.equals("")) {
+            if (shared.equals("")) {
                 color = Color.parseColor("#000075");
             } else {
                 color = Color.parseColor(shared);
@@ -10246,6 +10272,7 @@ public class mood_tracker extends Fragment implements PopupMenu.OnMenuItemClickL
             SharedPreferences.Editor myEdit = sharedPreferences.edit();
             myEdit.putString("mood_stats", save_me);
             myEdit.commit();
+            Event_manager_all_in_one.getInstance().record_fire_base_event(getContext(), Event_manager_all_in_one.Event_type_fire_base_record.mood_recorded, false);
         }
     }
 
@@ -10337,7 +10364,11 @@ public class mood_tracker extends Fragment implements PopupMenu.OnMenuItemClickL
         } else {
             start_date = Collections.min(history_of_mood.keySet());
         }*/
-        start_date = return_start_date();
+        if (history_of_mood.isEmpty()) {
+            start_date = Simplify_the_time.return_time_in_midnight(System.currentTimeMillis());
+        } else {
+            start_date = Collections.min(history_of_mood.keySet());
+        }
     }
 
     private String return_the_color_of_mood(int which) {
@@ -10940,9 +10971,11 @@ public class mood_tracker extends Fragment implements PopupMenu.OnMenuItemClickL
                     if (very_bad_mood_shade_in_habits_in_the_top_today.getVisibility() == View.VISIBLE) {
                         make_the_buttons_in_the_top_mood(0);
                         save_the_input_for_good_habit_input(0, System.currentTimeMillis());
+                        mood_up_clicked_fix_it_down(0, System.currentTimeMillis());
                     } else {
                         make_the_buttons_in_the_top_mood(1);
                         save_the_input_for_good_habit_input(1, System.currentTimeMillis());
+                        mood_up_clicked_fix_it_down(1, System.currentTimeMillis());
                     }
                     color_the_calender();
                     //set_up_day_of_week_bar_chart();
@@ -10967,9 +11000,11 @@ public class mood_tracker extends Fragment implements PopupMenu.OnMenuItemClickL
                     if (bad_mood_shade_in_habits_in_the_top_today.getVisibility() == View.VISIBLE) {
                         make_the_buttons_in_the_top_mood(0);
                         save_the_input_for_good_habit_input(0, System.currentTimeMillis());
+                        mood_up_clicked_fix_it_down(0, System.currentTimeMillis());
                     } else {
                         make_the_buttons_in_the_top_mood(2);
                         save_the_input_for_good_habit_input(2, System.currentTimeMillis());
+                        mood_up_clicked_fix_it_down(2, System.currentTimeMillis());
                     }
                     color_the_calender();
                     //set_up_day_of_week_bar_chart();
@@ -10994,9 +11029,11 @@ public class mood_tracker extends Fragment implements PopupMenu.OnMenuItemClickL
                     if (ok_mood_shade_in_habits_in_the_top_today.getVisibility() == View.VISIBLE) {
                         make_the_buttons_in_the_top_mood(0);
                         save_the_input_for_good_habit_input(0, System.currentTimeMillis());
+                        mood_up_clicked_fix_it_down(0, System.currentTimeMillis());
                     } else {
                         make_the_buttons_in_the_top_mood(3);
                         save_the_input_for_good_habit_input(3, System.currentTimeMillis());
+                        mood_up_clicked_fix_it_down(3, System.currentTimeMillis());
                     }
                     color_the_calender();
                     //set_up_day_of_week_bar_chart();
@@ -11021,9 +11058,11 @@ public class mood_tracker extends Fragment implements PopupMenu.OnMenuItemClickL
                     if (good_mood_shade_in_habits_in_the_top_today.getVisibility() == View.VISIBLE) {
                         make_the_buttons_in_the_top_mood(0);
                         save_the_input_for_good_habit_input(0, System.currentTimeMillis());
+                        mood_up_clicked_fix_it_down(0, System.currentTimeMillis());
                     } else {
                         make_the_buttons_in_the_top_mood(4);
                         save_the_input_for_good_habit_input(4, System.currentTimeMillis());
+                        mood_up_clicked_fix_it_down(4, System.currentTimeMillis());
                     }
                     color_the_calender();
                     //set_up_day_of_week_bar_chart();
@@ -11048,9 +11087,11 @@ public class mood_tracker extends Fragment implements PopupMenu.OnMenuItemClickL
                     if (very_good_mood_shade_in_habits_in_the_top_today.getVisibility() == View.VISIBLE) {
                         make_the_buttons_in_the_top_mood(0);
                         save_the_input_for_good_habit_input(0, System.currentTimeMillis());
+                        mood_up_clicked_fix_it_down(0, System.currentTimeMillis());
                     } else {
                         make_the_buttons_in_the_top_mood(5);
                         save_the_input_for_good_habit_input(5, System.currentTimeMillis());
+                        mood_up_clicked_fix_it_down(5, System.currentTimeMillis());
                     }
                     color_the_calender();
                     //set_up_day_of_week_bar_chart();
@@ -11176,8 +11217,7 @@ public class mood_tracker extends Fragment implements PopupMenu.OnMenuItemClickL
             TextView text_saying_month_year_in_the_chart_mood_tracker = getView().findViewById(R.id.text_saying_month_year_in_the_chart_mood_tracker);
             Button button_to_show_forward_above_mood_tracker_graph = getView().findViewById(R.id.button_to_show_forward_above_mood_tracker_graph);
             View view_to_show_back_above_mood_tracker_graph = getView().findViewById(R.id.view_to_show_back_above_mood_tracker_graph);
-            Am_i_paid am_i_paid = new Am_i_paid(getContext());
-            if (am_i_paid.did_user_pay()) {
+            if (Payment_processer.getInstance().state_of_the_user()) {
                 Calendar calendar = Calendar.getInstance();
                 int real_month = calendar.get(Calendar.MONTH);
                 int real_year = calendar.get(Calendar.YEAR);
@@ -11632,8 +11672,7 @@ public class mood_tracker extends Fragment implements PopupMenu.OnMenuItemClickL
             TextView text_view_saying_that_there_is_not_enough_data_to_draw_this_chart_for_daily_relapse = getView().findViewById(R.id.text_view_saying_that_there_is_not_enough_data_to_draw_this_chart_for_daily_relapse);
             BarChart cahrt_in_mood_about_the_average_for_each_month = getView().findViewById(R.id.cahrt_in_mood_about_the_average_for_each_month);
             BarChart cahrt_in_good_habits_about_how_many_times_for_each_days_of_week = getView().findViewById(R.id.cahrt_in_good_habits_about_how_many_times_for_each_days_of_week);
-            Am_i_paid am_i_paid = new Am_i_paid(getContext());
-            if (am_i_paid.did_user_pay()) {
+            if (Payment_processer.getInstance().state_of_the_user()) {
                 float max_days = 0;
                 String days_of_week = return_the_days_of_the_good_habit();
                 String[] split_days_of_week = days_of_week.split("split");
@@ -12415,739 +12454,422 @@ public class mood_tracker extends Fragment implements PopupMenu.OnMenuItemClickL
 
     private void add_the_views() {
         if (getView() != null) {
-            View good_habits_layout_circle_jan1_in_mood = getView().findViewById(R.id.good_habits_layout_circle_jan1_in_mood);
-            View good_habits_layout_circle_jan2_in_mood = getView().findViewById(R.id.good_habits_layout_circle_jan2_in_mood);
-            View good_habits_layout_circle_jan3_in_mood = getView().findViewById(R.id.good_habits_layout_circle_jan3_in_mood);
-            View good_habits_layout_circle_jan4_in_mood = getView().findViewById(R.id.good_habits_layout_circle_jan4_in_mood);
-            View good_habits_layout_circle_jan5_in_mood = getView().findViewById(R.id.good_habits_layout_circle_jan5_in_mood);
-            View good_habits_layout_circle_jan6_in_mood = getView().findViewById(R.id.good_habits_layout_circle_jan6_in_mood);
-            View good_habits_layout_circle_jan7_in_mood = getView().findViewById(R.id.good_habits_layout_circle_jan7_in_mood);
-            View good_habits_layout_circle_jan8_in_mood = getView().findViewById(R.id.good_habits_layout_circle_jan8_in_mood);
-            View good_habits_layout_circle_jan9_in_mood = getView().findViewById(R.id.good_habits_layout_circle_jan9_in_mood);
-            View good_habits_layout_circle_jan10_in_mood = getView().findViewById(R.id.good_habits_layout_circle_jan10_in_mood);
-            View good_habits_layout_circle_jan11_in_mood = getView().findViewById(R.id.good_habits_layout_circle_jan11_in_mood);
-            View good_habits_layout_circle_jan12_in_mood = getView().findViewById(R.id.good_habits_layout_circle_jan12_in_mood);
-            View good_habits_layout_circle_jan13_in_mood = getView().findViewById(R.id.good_habits_layout_circle_jan13_in_mood);
-            View good_habits_layout_circle_jan14_in_mood = getView().findViewById(R.id.good_habits_layout_circle_jan14_in_mood);
-            View good_habits_layout_circle_jan15_in_mood = getView().findViewById(R.id.good_habits_layout_circle_jan15_in_mood);
-            View good_habits_layout_circle_jan16_in_mood = getView().findViewById(R.id.good_habits_layout_circle_jan16_in_mood);
-            View good_habits_layout_circle_jan17_in_mood = getView().findViewById(R.id.good_habits_layout_circle_jan17_in_mood);
-            View good_habits_layout_circle_jan18_in_mood = getView().findViewById(R.id.good_habits_layout_circle_jan18_in_mood);
-            View good_habits_layout_circle_jan19_in_mood = getView().findViewById(R.id.good_habits_layout_circle_jan19_in_mood);
-            View good_habits_layout_circle_jan20_in_mood = getView().findViewById(R.id.good_habits_layout_circle_jan20_in_mood);
-            View good_habits_layout_circle_jan21_in_mood = getView().findViewById(R.id.good_habits_layout_circle_jan21_in_mood);
-            View good_habits_layout_circle_jan22_in_mood = getView().findViewById(R.id.good_habits_layout_circle_jan22_in_mood);
-            View good_habits_layout_circle_jan23_in_mood = getView().findViewById(R.id.good_habits_layout_circle_jan23_in_mood);
-            View good_habits_layout_circle_jan24_in_mood = getView().findViewById(R.id.good_habits_layout_circle_jan24_in_mood);
-            View good_habits_layout_circle_jan25_in_mood = getView().findViewById(R.id.good_habits_layout_circle_jan25_in_mood);
-            View good_habits_layout_circle_jan26_in_mood = getView().findViewById(R.id.good_habits_layout_circle_jan26_in_mood);
-            View good_habits_layout_circle_jan27_in_mood = getView().findViewById(R.id.good_habits_layout_circle_jan27_in_mood);
-            View good_habits_layout_circle_jan28_in_mood = getView().findViewById(R.id.good_habits_layout_circle_jan28_in_mood);
-            View good_habits_layout_circle_jan29_in_mood = getView().findViewById(R.id.good_habits_layout_circle_jan29_in_mood);
-            View good_habits_layout_circle_jan30_in_mood = getView().findViewById(R.id.good_habits_layout_circle_jan30_in_mood);
-            View good_habits_layout_circle_jan31_in_mood = getView().findViewById(R.id.good_habits_layout_circle_jan31_in_mood);
-            View good_habits_layout_circle_feb1_in_mood = getView().findViewById(R.id.good_habits_layout_circle_feb1_in_mood);
-            View good_habits_layout_circle_feb2_in_mood = getView().findViewById(R.id.good_habits_layout_circle_feb2_in_mood);
-            View good_habits_layout_circle_feb3_in_mood = getView().findViewById(R.id.good_habits_layout_circle_feb3_in_mood);
-            View good_habits_layout_circle_feb4_in_mood = getView().findViewById(R.id.good_habits_layout_circle_feb4_in_mood);
-            View good_habits_layout_circle_feb5_in_mood = getView().findViewById(R.id.good_habits_layout_circle_feb5_in_mood);
-            View good_habits_layout_circle_feb6_in_mood = getView().findViewById(R.id.good_habits_layout_circle_feb6_in_mood);
-            View good_habits_layout_circle_feb7_in_mood = getView().findViewById(R.id.good_habits_layout_circle_feb7_in_mood);
-            View good_habits_layout_circle_feb8_in_mood = getView().findViewById(R.id.good_habits_layout_circle_feb8_in_mood);
-            View good_habits_layout_circle_feb9_in_mood = getView().findViewById(R.id.good_habits_layout_circle_feb9_in_mood);
-            View good_habits_layout_circle_feb10_in_mood = getView().findViewById(R.id.good_habits_layout_circle_feb10_in_mood);
-            View good_habits_layout_circle_feb11_in_mood = getView().findViewById(R.id.good_habits_layout_circle_feb11_in_mood);
-            View good_habits_layout_circle_feb12_in_mood = getView().findViewById(R.id.good_habits_layout_circle_feb12_in_mood);
-            View good_habits_layout_circle_feb13_in_mood = getView().findViewById(R.id.good_habits_layout_circle_feb13_in_mood);
-            View good_habits_layout_circle_feb14_in_mood = getView().findViewById(R.id.good_habits_layout_circle_feb14_in_mood);
-            View good_habits_layout_circle_feb15_in_mood = getView().findViewById(R.id.good_habits_layout_circle_feb15_in_mood);
-            View good_habits_layout_circle_feb16_in_mood = getView().findViewById(R.id.good_habits_layout_circle_feb16_in_mood);
-            View good_habits_layout_circle_feb17_in_mood = getView().findViewById(R.id.good_habits_layout_circle_feb17_in_mood);
-            View good_habits_layout_circle_feb18_in_mood = getView().findViewById(R.id.good_habits_layout_circle_feb18_in_mood);
-            View good_habits_layout_circle_feb19_in_mood = getView().findViewById(R.id.good_habits_layout_circle_feb19_in_mood);
-            View good_habits_layout_circle_feb20_in_mood = getView().findViewById(R.id.good_habits_layout_circle_feb20_in_mood);
-            View good_habits_layout_circle_feb21_in_mood = getView().findViewById(R.id.good_habits_layout_circle_feb21_in_mood);
-            View good_habits_layout_circle_feb22_in_mood = getView().findViewById(R.id.good_habits_layout_circle_feb22_in_mood);
-            View good_habits_layout_circle_feb23_in_mood = getView().findViewById(R.id.good_habits_layout_circle_feb23_in_mood);
-            View good_habits_layout_circle_feb24_in_mood = getView().findViewById(R.id.good_habits_layout_circle_feb24_in_mood);
-            View good_habits_layout_circle_feb25_in_mood = getView().findViewById(R.id.good_habits_layout_circle_feb25_in_mood);
-            View good_habits_layout_circle_feb26_in_mood = getView().findViewById(R.id.good_habits_layout_circle_feb26_in_mood);
-            View good_habits_layout_circle_feb27_in_mood = getView().findViewById(R.id.good_habits_layout_circle_feb27_in_mood);
-            View good_habits_layout_circle_feb28_in_mood = getView().findViewById(R.id.good_habits_layout_circle_feb28_in_mood);
-            View good_habits_layout_circle_feb29_in_mood = getView().findViewById(R.id.good_habits_layout_circle_feb29_in_mood);
-            View good_habits_layout_circle_mar1_in_mood = getView().findViewById(R.id.good_habits_layout_circle_mar1_in_mood);
-            View good_habits_layout_circle_mar2_in_mood = getView().findViewById(R.id.good_habits_layout_circle_mar2_in_mood);
-            View good_habits_layout_circle_mar3_in_mood = getView().findViewById(R.id.good_habits_layout_circle_mar3_in_mood);
-            View good_habits_layout_circle_mar4_in_mood = getView().findViewById(R.id.good_habits_layout_circle_mar4_in_mood);
-            View good_habits_layout_circle_mar5_in_mood = getView().findViewById(R.id.good_habits_layout_circle_mar5_in_mood);
-            View good_habits_layout_circle_mar6_in_mood = getView().findViewById(R.id.good_habits_layout_circle_mar6_in_mood);
-            View good_habits_layout_circle_mar7_in_mood = getView().findViewById(R.id.good_habits_layout_circle_mar7_in_mood);
-            View good_habits_layout_circle_mar8_in_mood = getView().findViewById(R.id.good_habits_layout_circle_mar8_in_mood);
-            View good_habits_layout_circle_mar9_in_mood = getView().findViewById(R.id.good_habits_layout_circle_mar9_in_mood);
-            View good_habits_layout_circle_mar10_in_mood = getView().findViewById(R.id.good_habits_layout_circle_mar10_in_mood);
-            View good_habits_layout_circle_mar11_in_mood = getView().findViewById(R.id.good_habits_layout_circle_mar11_in_mood);
-            View good_habits_layout_circle_mar12_in_mood = getView().findViewById(R.id.good_habits_layout_circle_mar12_in_mood);
-            View good_habits_layout_circle_mar13_in_mood = getView().findViewById(R.id.good_habits_layout_circle_mar13_in_mood);
-            View good_habits_layout_circle_mar14_in_mood = getView().findViewById(R.id.good_habits_layout_circle_mar14_in_mood);
-            View good_habits_layout_circle_mar15_in_mood = getView().findViewById(R.id.good_habits_layout_circle_mar15_in_mood);
-            View good_habits_layout_circle_mar16_in_mood = getView().findViewById(R.id.good_habits_layout_circle_mar16_in_mood);
-            View good_habits_layout_circle_mar17_in_mood = getView().findViewById(R.id.good_habits_layout_circle_mar17_in_mood);
-            View good_habits_layout_circle_mar18_in_mood = getView().findViewById(R.id.good_habits_layout_circle_mar18_in_mood);
-            View good_habits_layout_circle_mar19_in_mood = getView().findViewById(R.id.good_habits_layout_circle_mar19_in_mood);
-            View good_habits_layout_circle_mar20_in_mood = getView().findViewById(R.id.good_habits_layout_circle_mar20_in_mood);
-            View good_habits_layout_circle_mar21_in_mood = getView().findViewById(R.id.good_habits_layout_circle_mar21_in_mood);
-            View good_habits_layout_circle_mar22_in_mood = getView().findViewById(R.id.good_habits_layout_circle_mar22_in_mood);
-            View good_habits_layout_circle_mar23_in_mood = getView().findViewById(R.id.good_habits_layout_circle_mar23_in_mood);
-            View good_habits_layout_circle_mar24_in_mood = getView().findViewById(R.id.good_habits_layout_circle_mar24_in_mood);
-            View good_habits_layout_circle_mar25_in_mood = getView().findViewById(R.id.good_habits_layout_circle_mar25_in_mood);
-            View good_habits_layout_circle_mar26_in_mood = getView().findViewById(R.id.good_habits_layout_circle_mar26_in_mood);
-            View good_habits_layout_circle_mar27_in_mood = getView().findViewById(R.id.good_habits_layout_circle_mar27_in_mood);
-            View good_habits_layout_circle_mar28_in_mood = getView().findViewById(R.id.good_habits_layout_circle_mar28_in_mood);
-            View good_habits_layout_circle_mar29_in_mood = getView().findViewById(R.id.good_habits_layout_circle_mar29_in_mood);
-            View good_habits_layout_circle_mar30_in_mood = getView().findViewById(R.id.good_habits_layout_circle_mar30_in_mood);
-            View good_habits_layout_circle_mar31_in_mood = getView().findViewById(R.id.good_habits_layout_circle_mar31_in_mood);
-            View good_habits_layout_circle_apr1_in_mood = getView().findViewById(R.id.good_habits_layout_circle_apr1_in_mood);
-            View good_habits_layout_circle_apr2_in_mood = getView().findViewById(R.id.good_habits_layout_circle_apr2_in_mood);
-            View good_habits_layout_circle_apr3_in_mood = getView().findViewById(R.id.good_habits_layout_circle_apr3_in_mood);
-            View good_habits_layout_circle_apr4_in_mood = getView().findViewById(R.id.good_habits_layout_circle_apr4_in_mood);
-            View good_habits_layout_circle_apr5_in_mood = getView().findViewById(R.id.good_habits_layout_circle_apr5_in_mood);
-            View good_habits_layout_circle_apr6_in_mood = getView().findViewById(R.id.good_habits_layout_circle_apr6_in_mood);
-            View good_habits_layout_circle_apr7_in_mood = getView().findViewById(R.id.good_habits_layout_circle_apr7_in_mood);
-            View good_habits_layout_circle_apr8_in_mood = getView().findViewById(R.id.good_habits_layout_circle_apr8_in_mood);
-            View good_habits_layout_circle_apr9_in_mood = getView().findViewById(R.id.good_habits_layout_circle_apr9_in_mood);
-            View good_habits_layout_circle_apr10_in_mood = getView().findViewById(R.id.good_habits_layout_circle_apr10_in_mood);
-            View good_habits_layout_circle_apr11_in_mood = getView().findViewById(R.id.good_habits_layout_circle_apr11_in_mood);
-            View good_habits_layout_circle_apr12_in_mood = getView().findViewById(R.id.good_habits_layout_circle_apr12_in_mood);
-            View good_habits_layout_circle_apr13_in_mood = getView().findViewById(R.id.good_habits_layout_circle_apr13_in_mood);
-            View good_habits_layout_circle_apr14_in_mood = getView().findViewById(R.id.good_habits_layout_circle_apr14_in_mood);
-            View good_habits_layout_circle_apr15_in_mood = getView().findViewById(R.id.good_habits_layout_circle_apr15_in_mood);
-            View good_habits_layout_circle_apr16_in_mood = getView().findViewById(R.id.good_habits_layout_circle_apr16_in_mood);
-            View good_habits_layout_circle_apr17_in_mood = getView().findViewById(R.id.good_habits_layout_circle_apr17_in_mood);
-            View good_habits_layout_circle_apr18_in_mood = getView().findViewById(R.id.good_habits_layout_circle_apr18_in_mood);
-            View good_habits_layout_circle_apr19_in_mood = getView().findViewById(R.id.good_habits_layout_circle_apr19_in_mood);
-            View good_habits_layout_circle_apr20_in_mood = getView().findViewById(R.id.good_habits_layout_circle_apr20_in_mood);
-            View good_habits_layout_circle_apr21_in_mood = getView().findViewById(R.id.good_habits_layout_circle_apr21_in_mood);
-            View good_habits_layout_circle_apr22_in_mood = getView().findViewById(R.id.good_habits_layout_circle_apr22_in_mood);
-            View good_habits_layout_circle_apr23_in_mood = getView().findViewById(R.id.good_habits_layout_circle_apr23_in_mood);
-            View good_habits_layout_circle_apr24_in_mood = getView().findViewById(R.id.good_habits_layout_circle_apr24_in_mood);
-            View good_habits_layout_circle_apr25_in_mood = getView().findViewById(R.id.good_habits_layout_circle_apr25_in_mood);
-            View good_habits_layout_circle_apr26_in_mood = getView().findViewById(R.id.good_habits_layout_circle_apr26_in_mood);
-            View good_habits_layout_circle_apr27_in_mood = getView().findViewById(R.id.good_habits_layout_circle_apr27_in_mood);
-            View good_habits_layout_circle_apr28_in_mood = getView().findViewById(R.id.good_habits_layout_circle_apr28_in_mood);
-            View good_habits_layout_circle_apr29_in_mood = getView().findViewById(R.id.good_habits_layout_circle_apr29_in_mood);
-            View good_habits_layout_circle_apr30_in_mood = getView().findViewById(R.id.good_habits_layout_circle_apr30_in_mood);
-            View good_habits_layout_circle_may1_in_mood = getView().findViewById(R.id.good_habits_layout_circle_may1_in_mood);
-            View good_habits_layout_circle_may2_in_mood = getView().findViewById(R.id.good_habits_layout_circle_may2_in_mood);
-            View good_habits_layout_circle_may3_in_mood = getView().findViewById(R.id.good_habits_layout_circle_may3_in_mood);
-            View good_habits_layout_circle_may4_in_mood = getView().findViewById(R.id.good_habits_layout_circle_may4_in_mood);
-            View good_habits_layout_circle_may5_in_mood = getView().findViewById(R.id.good_habits_layout_circle_may5_in_mood);
-            View good_habits_layout_circle_may6_in_mood = getView().findViewById(R.id.good_habits_layout_circle_may6_in_mood);
-            View good_habits_layout_circle_may7_in_mood = getView().findViewById(R.id.good_habits_layout_circle_may7_in_mood);
-            View good_habits_layout_circle_may8_in_mood = getView().findViewById(R.id.good_habits_layout_circle_may8_in_mood);
-            View good_habits_layout_circle_may9_in_mood = getView().findViewById(R.id.good_habits_layout_circle_may9_in_mood);
-            View good_habits_layout_circle_may10_in_mood = getView().findViewById(R.id.good_habits_layout_circle_may10_in_mood);
-            View good_habits_layout_circle_may11_in_mood = getView().findViewById(R.id.good_habits_layout_circle_may11_in_mood);
-            View good_habits_layout_circle_may12_in_mood = getView().findViewById(R.id.good_habits_layout_circle_may12_in_mood);
-            View good_habits_layout_circle_may13_in_mood = getView().findViewById(R.id.good_habits_layout_circle_may13_in_mood);
-            View good_habits_layout_circle_may14_in_mood = getView().findViewById(R.id.good_habits_layout_circle_may14_in_mood);
-            View good_habits_layout_circle_may15_in_mood = getView().findViewById(R.id.good_habits_layout_circle_may15_in_mood);
-            View good_habits_layout_circle_may16_in_mood = getView().findViewById(R.id.good_habits_layout_circle_may16_in_mood);
-            View good_habits_layout_circle_may17_in_mood = getView().findViewById(R.id.good_habits_layout_circle_may17_in_mood);
-            View good_habits_layout_circle_may18_in_mood = getView().findViewById(R.id.good_habits_layout_circle_may18_in_mood);
-            View good_habits_layout_circle_may19_in_mood = getView().findViewById(R.id.good_habits_layout_circle_may19_in_mood);
-            View good_habits_layout_circle_may20_in_mood = getView().findViewById(R.id.good_habits_layout_circle_may20_in_mood);
-            View good_habits_layout_circle_may21_in_mood = getView().findViewById(R.id.good_habits_layout_circle_may21_in_mood);
-            View good_habits_layout_circle_may22_in_mood = getView().findViewById(R.id.good_habits_layout_circle_may22_in_mood);
-            View good_habits_layout_circle_may23_in_mood = getView().findViewById(R.id.good_habits_layout_circle_may23_in_mood);
-            View good_habits_layout_circle_may24_in_mood = getView().findViewById(R.id.good_habits_layout_circle_may24_in_mood);
-            View good_habits_layout_circle_may25_in_mood = getView().findViewById(R.id.good_habits_layout_circle_may25_in_mood);
-            View good_habits_layout_circle_may26_in_mood = getView().findViewById(R.id.good_habits_layout_circle_may26_in_mood);
-            View good_habits_layout_circle_may27_in_mood = getView().findViewById(R.id.good_habits_layout_circle_may27_in_mood);
-            View good_habits_layout_circle_may28_in_mood = getView().findViewById(R.id.good_habits_layout_circle_may28_in_mood);
-            View good_habits_layout_circle_may29_in_mood = getView().findViewById(R.id.good_habits_layout_circle_may29_in_mood);
-            View good_habits_layout_circle_may30_in_mood = getView().findViewById(R.id.good_habits_layout_circle_may30_in_mood);
-            View good_habits_layout_circle_may31_in_mood = getView().findViewById(R.id.good_habits_layout_circle_may31_in_mood);
-            View good_habits_layout_circle_jun1_in_mood = getView().findViewById(R.id.good_habits_layout_circle_jun1_in_mood);
-            View good_habits_layout_circle_jun2_in_mood = getView().findViewById(R.id.good_habits_layout_circle_jun2_in_mood);
-            View good_habits_layout_circle_jun3_in_mood = getView().findViewById(R.id.good_habits_layout_circle_jun3_in_mood);
-            View good_habits_layout_circle_jun4_in_mood = getView().findViewById(R.id.good_habits_layout_circle_jun4_in_mood);
-            View good_habits_layout_circle_jun5_in_mood = getView().findViewById(R.id.good_habits_layout_circle_jun5_in_mood);
-            View good_habits_layout_circle_jun6_in_mood = getView().findViewById(R.id.good_habits_layout_circle_jun6_in_mood);
-            View good_habits_layout_circle_jun7_in_mood = getView().findViewById(R.id.good_habits_layout_circle_jun7_in_mood);
-            View good_habits_layout_circle_jun8_in_mood = getView().findViewById(R.id.good_habits_layout_circle_jun8_in_mood);
-            View good_habits_layout_circle_jun9_in_mood = getView().findViewById(R.id.good_habits_layout_circle_jun9_in_mood);
-            View good_habits_layout_circle_jun10_in_mood = getView().findViewById(R.id.good_habits_layout_circle_jun10_in_mood);
-            View good_habits_layout_circle_jun11_in_mood = getView().findViewById(R.id.good_habits_layout_circle_jun11_in_mood);
-            View good_habits_layout_circle_jun12_in_mood = getView().findViewById(R.id.good_habits_layout_circle_jun12_in_mood);
-            View good_habits_layout_circle_jun13_in_mood = getView().findViewById(R.id.good_habits_layout_circle_jun13_in_mood);
-            View good_habits_layout_circle_jun14_in_mood = getView().findViewById(R.id.good_habits_layout_circle_jun14_in_mood);
-            View good_habits_layout_circle_jun15_in_mood = getView().findViewById(R.id.good_habits_layout_circle_jun15_in_mood);
-            View good_habits_layout_circle_jun16_in_mood = getView().findViewById(R.id.good_habits_layout_circle_jun16_in_mood);
-            View good_habits_layout_circle_jun17_in_mood = getView().findViewById(R.id.good_habits_layout_circle_jun17_in_mood);
-            View good_habits_layout_circle_jun18_in_mood = getView().findViewById(R.id.good_habits_layout_circle_jun18_in_mood);
-            View good_habits_layout_circle_jun19_in_mood = getView().findViewById(R.id.good_habits_layout_circle_jun19_in_mood);
-            View good_habits_layout_circle_jun20_in_mood = getView().findViewById(R.id.good_habits_layout_circle_jun20_in_mood);
-            View good_habits_layout_circle_jun21_in_mood = getView().findViewById(R.id.good_habits_layout_circle_jun21_in_mood);
-            View good_habits_layout_circle_jun22_in_mood = getView().findViewById(R.id.good_habits_layout_circle_jun22_in_mood);
-            View good_habits_layout_circle_jun23_in_mood = getView().findViewById(R.id.good_habits_layout_circle_jun23_in_mood);
-            View good_habits_layout_circle_jun24_in_mood = getView().findViewById(R.id.good_habits_layout_circle_jun24_in_mood);
-            View good_habits_layout_circle_jun25_in_mood = getView().findViewById(R.id.good_habits_layout_circle_jun25_in_mood);
-            View good_habits_layout_circle_jun26_in_mood = getView().findViewById(R.id.good_habits_layout_circle_jun26_in_mood);
-            View good_habits_layout_circle_jun27_in_mood = getView().findViewById(R.id.good_habits_layout_circle_jun27_in_mood);
-            View good_habits_layout_circle_jun28_in_mood = getView().findViewById(R.id.good_habits_layout_circle_jun28_in_mood);
-            View good_habits_layout_circle_jun29_in_mood = getView().findViewById(R.id.good_habits_layout_circle_jun29_in_mood);
-            View good_habits_layout_circle_jun30_in_mood = getView().findViewById(R.id.good_habits_layout_circle_jun30_in_mood);
-            View good_habits_layout_circle_jul1_in_mood = getView().findViewById(R.id.good_habits_layout_circle_jul1_in_mood);
-            View good_habits_layout_circle_jul2_in_mood = getView().findViewById(R.id.good_habits_layout_circle_jul2_in_mood);
-            View good_habits_layout_circle_jul3_in_mood = getView().findViewById(R.id.good_habits_layout_circle_jul3_in_mood);
-            View good_habits_layout_circle_jul4_in_mood = getView().findViewById(R.id.good_habits_layout_circle_jul4_in_mood);
-            View good_habits_layout_circle_jul5_in_mood = getView().findViewById(R.id.good_habits_layout_circle_jul5_in_mood);
-            View good_habits_layout_circle_jul6_in_mood = getView().findViewById(R.id.good_habits_layout_circle_jul6_in_mood);
-            View good_habits_layout_circle_jul7_in_mood = getView().findViewById(R.id.good_habits_layout_circle_jul7_in_mood);
-            View good_habits_layout_circle_jul8_in_mood = getView().findViewById(R.id.good_habits_layout_circle_jul8_in_mood);
-            View good_habits_layout_circle_jul9_in_mood = getView().findViewById(R.id.good_habits_layout_circle_jul9_in_mood);
-            View good_habits_layout_circle_jul10_in_mood = getView().findViewById(R.id.good_habits_layout_circle_jul10_in_mood);
-            View good_habits_layout_circle_jul11_in_mood = getView().findViewById(R.id.good_habits_layout_circle_jul11_in_mood);
-            View good_habits_layout_circle_jul12_in_mood = getView().findViewById(R.id.good_habits_layout_circle_jul12_in_mood);
-            View good_habits_layout_circle_jul13_in_mood = getView().findViewById(R.id.good_habits_layout_circle_jul13_in_mood);
-            View good_habits_layout_circle_jul14_in_mood = getView().findViewById(R.id.good_habits_layout_circle_jul14_in_mood);
-            View good_habits_layout_circle_jul15_in_mood = getView().findViewById(R.id.good_habits_layout_circle_jul15_in_mood);
-            View good_habits_layout_circle_jul16_in_mood = getView().findViewById(R.id.good_habits_layout_circle_jul16_in_mood);
-            View good_habits_layout_circle_jul17_in_mood = getView().findViewById(R.id.good_habits_layout_circle_jul17_in_mood);
-            View good_habits_layout_circle_jul18_in_mood = getView().findViewById(R.id.good_habits_layout_circle_jul18_in_mood);
-            View good_habits_layout_circle_jul19_in_mood = getView().findViewById(R.id.good_habits_layout_circle_jul19_in_mood);
-            View good_habits_layout_circle_jul20_in_mood = getView().findViewById(R.id.good_habits_layout_circle_jul20_in_mood);
-            View good_habits_layout_circle_jul21_in_mood = getView().findViewById(R.id.good_habits_layout_circle_jul21_in_mood);
-            View good_habits_layout_circle_jul22_in_mood = getView().findViewById(R.id.good_habits_layout_circle_jul22_in_mood);
-            View good_habits_layout_circle_jul23_in_mood = getView().findViewById(R.id.good_habits_layout_circle_jul23_in_mood);
-            View good_habits_layout_circle_jul24_in_mood = getView().findViewById(R.id.good_habits_layout_circle_jul24_in_mood);
-            View good_habits_layout_circle_jul25_in_mood = getView().findViewById(R.id.good_habits_layout_circle_jul25_in_mood);
-            View good_habits_layout_circle_jul26_in_mood = getView().findViewById(R.id.good_habits_layout_circle_jul26_in_mood);
-            View good_habits_layout_circle_jul27_in_mood = getView().findViewById(R.id.good_habits_layout_circle_jul27_in_mood);
-            View good_habits_layout_circle_jul28_in_mood = getView().findViewById(R.id.good_habits_layout_circle_jul28_in_mood);
-            View good_habits_layout_circle_jul29_in_mood = getView().findViewById(R.id.good_habits_layout_circle_jul29_in_mood);
-            View good_habits_layout_circle_jul30_in_mood = getView().findViewById(R.id.good_habits_layout_circle_jul30_in_mood);
-            View good_habits_layout_circle_jul31_in_mood = getView().findViewById(R.id.good_habits_layout_circle_jul31_in_mood);
-            View good_habits_layout_circle_aug1_in_mood = getView().findViewById(R.id.good_habits_layout_circle_aug1_in_mood);
-            View good_habits_layout_circle_aug2_in_mood = getView().findViewById(R.id.good_habits_layout_circle_aug2_in_mood);
-            View good_habits_layout_circle_aug3_in_mood = getView().findViewById(R.id.good_habits_layout_circle_aug3_in_mood);
-            View good_habits_layout_circle_aug4_in_mood = getView().findViewById(R.id.good_habits_layout_circle_aug4_in_mood);
-            View good_habits_layout_circle_aug5_in_mood = getView().findViewById(R.id.good_habits_layout_circle_aug5_in_mood);
-            View good_habits_layout_circle_aug6_in_mood = getView().findViewById(R.id.good_habits_layout_circle_aug6_in_mood);
-            View good_habits_layout_circle_aug7_in_mood = getView().findViewById(R.id.good_habits_layout_circle_aug7_in_mood);
-            View good_habits_layout_circle_aug8_in_mood = getView().findViewById(R.id.good_habits_layout_circle_aug8_in_mood);
-            View good_habits_layout_circle_aug9_in_mood = getView().findViewById(R.id.good_habits_layout_circle_aug9_in_mood);
-            View good_habits_layout_circle_aug10_in_mood = getView().findViewById(R.id.good_habits_layout_circle_aug10_in_mood);
-            View good_habits_layout_circle_aug11_in_mood = getView().findViewById(R.id.good_habits_layout_circle_aug11_in_mood);
-            View good_habits_layout_circle_aug12_in_mood = getView().findViewById(R.id.good_habits_layout_circle_aug12_in_mood);
-            View good_habits_layout_circle_aug13_in_mood = getView().findViewById(R.id.good_habits_layout_circle_aug13_in_mood);
-            View good_habits_layout_circle_aug14_in_mood = getView().findViewById(R.id.good_habits_layout_circle_aug14_in_mood);
-            View good_habits_layout_circle_aug15_in_mood = getView().findViewById(R.id.good_habits_layout_circle_aug15_in_mood);
-            View good_habits_layout_circle_aug16_in_mood = getView().findViewById(R.id.good_habits_layout_circle_aug16_in_mood);
-            View good_habits_layout_circle_aug17_in_mood = getView().findViewById(R.id.good_habits_layout_circle_aug17_in_mood);
-            View good_habits_layout_circle_aug18_in_mood = getView().findViewById(R.id.good_habits_layout_circle_aug18_in_mood);
-            View good_habits_layout_circle_aug19_in_mood = getView().findViewById(R.id.good_habits_layout_circle_aug19_in_mood);
-            View good_habits_layout_circle_aug20_in_mood = getView().findViewById(R.id.good_habits_layout_circle_aug20_in_mood);
-            View good_habits_layout_circle_aug21_in_mood = getView().findViewById(R.id.good_habits_layout_circle_aug21_in_mood);
-            View good_habits_layout_circle_aug22_in_mood = getView().findViewById(R.id.good_habits_layout_circle_aug22_in_mood);
-            View good_habits_layout_circle_aug23_in_mood = getView().findViewById(R.id.good_habits_layout_circle_aug23_in_mood);
-            View good_habits_layout_circle_aug24_in_mood = getView().findViewById(R.id.good_habits_layout_circle_aug24_in_mood);
-            View good_habits_layout_circle_aug25_in_mood = getView().findViewById(R.id.good_habits_layout_circle_aug25_in_mood);
-            View good_habits_layout_circle_aug26_in_mood = getView().findViewById(R.id.good_habits_layout_circle_aug26_in_mood);
-            View good_habits_layout_circle_aug27_in_mood = getView().findViewById(R.id.good_habits_layout_circle_aug27_in_mood);
-            View good_habits_layout_circle_aug28_in_mood = getView().findViewById(R.id.good_habits_layout_circle_aug28_in_mood);
-            View good_habits_layout_circle_aug29_in_mood = getView().findViewById(R.id.good_habits_layout_circle_aug29_in_mood);
-            View good_habits_layout_circle_aug30_in_mood = getView().findViewById(R.id.good_habits_layout_circle_aug30_in_mood);
-            View good_habits_layout_circle_aug31_in_mood = getView().findViewById(R.id.good_habits_layout_circle_aug31_in_mood);
-            View good_habits_layout_circle_sep1_in_mood = getView().findViewById(R.id.good_habits_layout_circle_sep1_in_mood);
-            View good_habits_layout_circle_sep2_in_mood = getView().findViewById(R.id.good_habits_layout_circle_sep2_in_mood);
-            View good_habits_layout_circle_sep3_in_mood = getView().findViewById(R.id.good_habits_layout_circle_sep3_in_mood);
-            View good_habits_layout_circle_sep4_in_mood = getView().findViewById(R.id.good_habits_layout_circle_sep4_in_mood);
-            View good_habits_layout_circle_sep5_in_mood = getView().findViewById(R.id.good_habits_layout_circle_sep5_in_mood);
-            View good_habits_layout_circle_sep6_in_mood = getView().findViewById(R.id.good_habits_layout_circle_sep6_in_mood);
-            View good_habits_layout_circle_sep7_in_mood = getView().findViewById(R.id.good_habits_layout_circle_sep7_in_mood);
-            View good_habits_layout_circle_sep8_in_mood = getView().findViewById(R.id.good_habits_layout_circle_sep8_in_mood);
-            View good_habits_layout_circle_sep9_in_mood = getView().findViewById(R.id.good_habits_layout_circle_sep9_in_mood);
-            View good_habits_layout_circle_sep10_in_mood = getView().findViewById(R.id.good_habits_layout_circle_sep10_in_mood);
-            View good_habits_layout_circle_sep11_in_mood = getView().findViewById(R.id.good_habits_layout_circle_sep11_in_mood);
-            View good_habits_layout_circle_sep12_in_mood = getView().findViewById(R.id.good_habits_layout_circle_sep12_in_mood);
-            View good_habits_layout_circle_sep13_in_mood = getView().findViewById(R.id.good_habits_layout_circle_sep13_in_mood);
-            View good_habits_layout_circle_sep14_in_mood = getView().findViewById(R.id.good_habits_layout_circle_sep14_in_mood);
-            View good_habits_layout_circle_sep15_in_mood = getView().findViewById(R.id.good_habits_layout_circle_sep15_in_mood);
-            View good_habits_layout_circle_sep16_in_mood = getView().findViewById(R.id.good_habits_layout_circle_sep16_in_mood);
-            View good_habits_layout_circle_sep17_in_mood = getView().findViewById(R.id.good_habits_layout_circle_sep17_in_mood);
-            View good_habits_layout_circle_sep18_in_mood = getView().findViewById(R.id.good_habits_layout_circle_sep18_in_mood);
-            View good_habits_layout_circle_sep19_in_mood = getView().findViewById(R.id.good_habits_layout_circle_sep19_in_mood);
-            View good_habits_layout_circle_sep20_in_mood = getView().findViewById(R.id.good_habits_layout_circle_sep20_in_mood);
-            View good_habits_layout_circle_sep21_in_mood = getView().findViewById(R.id.good_habits_layout_circle_sep21_in_mood);
-            View good_habits_layout_circle_sep22_in_mood = getView().findViewById(R.id.good_habits_layout_circle_sep22_in_mood);
-            View good_habits_layout_circle_sep23_in_mood = getView().findViewById(R.id.good_habits_layout_circle_sep23_in_mood);
-            View good_habits_layout_circle_sep24_in_mood = getView().findViewById(R.id.good_habits_layout_circle_sep24_in_mood);
-            View good_habits_layout_circle_sep25_in_mood = getView().findViewById(R.id.good_habits_layout_circle_sep25_in_mood);
-            View good_habits_layout_circle_sep26_in_mood = getView().findViewById(R.id.good_habits_layout_circle_sep26_in_mood);
-            View good_habits_layout_circle_sep27_in_mood = getView().findViewById(R.id.good_habits_layout_circle_sep27_in_mood);
-            View good_habits_layout_circle_sep28_in_mood = getView().findViewById(R.id.good_habits_layout_circle_sep28_in_mood);
-            View good_habits_layout_circle_sep29_in_mood = getView().findViewById(R.id.good_habits_layout_circle_sep29_in_mood);
-            View good_habits_layout_circle_sep30_in_mood = getView().findViewById(R.id.good_habits_layout_circle_sep30_in_mood);
-            View good_habits_layout_circle_oct1_in_mood = getView().findViewById(R.id.good_habits_layout_circle_oct1_in_mood);
-            View good_habits_layout_circle_oct2_in_mood = getView().findViewById(R.id.good_habits_layout_circle_oct2_in_mood);
-            View good_habits_layout_circle_oct3_in_mood = getView().findViewById(R.id.good_habits_layout_circle_oct3_in_mood);
-            View good_habits_layout_circle_oct4_in_mood = getView().findViewById(R.id.good_habits_layout_circle_oct4_in_mood);
-            View good_habits_layout_circle_oct5_in_mood = getView().findViewById(R.id.good_habits_layout_circle_oct5_in_mood);
-            View good_habits_layout_circle_oct6_in_mood = getView().findViewById(R.id.good_habits_layout_circle_oct6_in_mood);
-            View good_habits_layout_circle_oct7_in_mood = getView().findViewById(R.id.good_habits_layout_circle_oct7_in_mood);
-            View good_habits_layout_circle_oct8_in_mood = getView().findViewById(R.id.good_habits_layout_circle_oct8_in_mood);
-            View good_habits_layout_circle_oct9_in_mood = getView().findViewById(R.id.good_habits_layout_circle_oct9_in_mood);
-            View good_habits_layout_circle_oct10_in_mood = getView().findViewById(R.id.good_habits_layout_circle_oct10_in_mood);
-            View good_habits_layout_circle_oct11_in_mood = getView().findViewById(R.id.good_habits_layout_circle_oct11_in_mood);
-            View good_habits_layout_circle_oct12_in_mood = getView().findViewById(R.id.good_habits_layout_circle_oct12_in_mood);
-            View good_habits_layout_circle_oct13_in_mood = getView().findViewById(R.id.good_habits_layout_circle_oct13_in_mood);
-            View good_habits_layout_circle_oct14_in_mood = getView().findViewById(R.id.good_habits_layout_circle_oct14_in_mood);
-            View good_habits_layout_circle_oct15_in_mood = getView().findViewById(R.id.good_habits_layout_circle_oct15_in_mood);
-            View good_habits_layout_circle_oct16_in_mood = getView().findViewById(R.id.good_habits_layout_circle_oct16_in_mood);
-            View good_habits_layout_circle_oct17_in_mood = getView().findViewById(R.id.good_habits_layout_circle_oct17_in_mood);
-            View good_habits_layout_circle_oct18_in_mood = getView().findViewById(R.id.good_habits_layout_circle_oct18_in_mood);
-            View good_habits_layout_circle_oct19_in_mood = getView().findViewById(R.id.good_habits_layout_circle_oct19_in_mood);
-            View good_habits_layout_circle_oct20_in_mood = getView().findViewById(R.id.good_habits_layout_circle_oct20_in_mood);
-            View good_habits_layout_circle_oct21_in_mood = getView().findViewById(R.id.good_habits_layout_circle_oct21_in_mood);
-            View good_habits_layout_circle_oct22_in_mood = getView().findViewById(R.id.good_habits_layout_circle_oct22_in_mood);
-            View good_habits_layout_circle_oct23_in_mood = getView().findViewById(R.id.good_habits_layout_circle_oct23_in_mood);
-            View good_habits_layout_circle_oct24_in_mood = getView().findViewById(R.id.good_habits_layout_circle_oct24_in_mood);
-            View good_habits_layout_circle_oct25_in_mood = getView().findViewById(R.id.good_habits_layout_circle_oct25_in_mood);
-            View good_habits_layout_circle_oct26_in_mood = getView().findViewById(R.id.good_habits_layout_circle_oct26_in_mood);
-            View good_habits_layout_circle_oct27_in_mood = getView().findViewById(R.id.good_habits_layout_circle_oct27_in_mood);
-            View good_habits_layout_circle_oct28_in_mood = getView().findViewById(R.id.good_habits_layout_circle_oct28_in_mood);
-            View good_habits_layout_circle_oct29_in_mood = getView().findViewById(R.id.good_habits_layout_circle_oct29_in_mood);
-            View good_habits_layout_circle_oct30_in_mood = getView().findViewById(R.id.good_habits_layout_circle_oct30_in_mood);
-            View good_habits_layout_circle_oct31_in_mood = getView().findViewById(R.id.good_habits_layout_circle_oct31_in_mood);
-            View good_habits_layout_circle_nov1_in_mood = getView().findViewById(R.id.good_habits_layout_circle_nov1_in_mood);
-            View good_habits_layout_circle_nov2_in_mood = getView().findViewById(R.id.good_habits_layout_circle_nov2_in_mood);
-            View good_habits_layout_circle_nov3_in_mood = getView().findViewById(R.id.good_habits_layout_circle_nov3_in_mood);
-            View good_habits_layout_circle_nov4_in_mood = getView().findViewById(R.id.good_habits_layout_circle_nov4_in_mood);
-            View good_habits_layout_circle_nov5_in_mood = getView().findViewById(R.id.good_habits_layout_circle_nov5_in_mood);
-            View good_habits_layout_circle_nov6_in_mood = getView().findViewById(R.id.good_habits_layout_circle_nov6_in_mood);
-            View good_habits_layout_circle_nov7_in_mood = getView().findViewById(R.id.good_habits_layout_circle_nov7_in_mood);
-            View good_habits_layout_circle_nov8_in_mood = getView().findViewById(R.id.good_habits_layout_circle_nov8_in_mood);
-            View good_habits_layout_circle_nov9_in_mood = getView().findViewById(R.id.good_habits_layout_circle_nov9_in_mood);
-            View good_habits_layout_circle_nov10_in_mood = getView().findViewById(R.id.good_habits_layout_circle_nov10_in_mood);
-            View good_habits_layout_circle_nov11_in_mood = getView().findViewById(R.id.good_habits_layout_circle_nov11_in_mood);
-            View good_habits_layout_circle_nov12_in_mood = getView().findViewById(R.id.good_habits_layout_circle_nov12_in_mood);
-            View good_habits_layout_circle_nov13_in_mood = getView().findViewById(R.id.good_habits_layout_circle_nov13_in_mood);
-            View good_habits_layout_circle_nov14_in_mood = getView().findViewById(R.id.good_habits_layout_circle_nov14_in_mood);
-            View good_habits_layout_circle_nov15_in_mood = getView().findViewById(R.id.good_habits_layout_circle_nov15_in_mood);
-            View good_habits_layout_circle_nov16_in_mood = getView().findViewById(R.id.good_habits_layout_circle_nov16_in_mood);
-            View good_habits_layout_circle_nov17_in_mood = getView().findViewById(R.id.good_habits_layout_circle_nov17_in_mood);
-            View good_habits_layout_circle_nov18_in_mood = getView().findViewById(R.id.good_habits_layout_circle_nov18_in_mood);
-            View good_habits_layout_circle_nov19_in_mood = getView().findViewById(R.id.good_habits_layout_circle_nov19_in_mood);
-            View good_habits_layout_circle_nov20_in_mood = getView().findViewById(R.id.good_habits_layout_circle_nov20_in_mood);
-            View good_habits_layout_circle_nov21_in_mood = getView().findViewById(R.id.good_habits_layout_circle_nov21_in_mood);
-            View good_habits_layout_circle_nov22_in_mood = getView().findViewById(R.id.good_habits_layout_circle_nov22_in_mood);
-            View good_habits_layout_circle_nov23_in_mood = getView().findViewById(R.id.good_habits_layout_circle_nov23_in_mood);
-            View good_habits_layout_circle_nov24_in_mood = getView().findViewById(R.id.good_habits_layout_circle_nov24_in_mood);
-            View good_habits_layout_circle_nov25_in_mood = getView().findViewById(R.id.good_habits_layout_circle_nov25_in_mood);
-            View good_habits_layout_circle_nov26_in_mood = getView().findViewById(R.id.good_habits_layout_circle_nov26_in_mood);
-            View good_habits_layout_circle_nov27_in_mood = getView().findViewById(R.id.good_habits_layout_circle_nov27_in_mood);
-            View good_habits_layout_circle_nov28_in_mood = getView().findViewById(R.id.good_habits_layout_circle_nov28_in_mood);
-            View good_habits_layout_circle_nov29_in_mood = getView().findViewById(R.id.good_habits_layout_circle_nov29_in_mood);
-            View good_habits_layout_circle_nov30_in_mood = getView().findViewById(R.id.good_habits_layout_circle_nov30_in_mood);
-            View good_habits_layout_circle_dec1_in_mood = getView().findViewById(R.id.good_habits_layout_circle_dec1_in_mood);
-            View good_habits_layout_circle_dec2_in_mood = getView().findViewById(R.id.good_habits_layout_circle_dec2_in_mood);
-            View good_habits_layout_circle_dec3_in_mood = getView().findViewById(R.id.good_habits_layout_circle_dec3_in_mood);
-            View good_habits_layout_circle_dec4_in_mood = getView().findViewById(R.id.good_habits_layout_circle_dec4_in_mood);
-            View good_habits_layout_circle_dec5_in_mood = getView().findViewById(R.id.good_habits_layout_circle_dec5_in_mood);
-            View good_habits_layout_circle_dec6_in_mood = getView().findViewById(R.id.good_habits_layout_circle_dec6_in_mood);
-            View good_habits_layout_circle_dec7_in_mood = getView().findViewById(R.id.good_habits_layout_circle_dec7_in_mood);
-            View good_habits_layout_circle_dec8_in_mood = getView().findViewById(R.id.good_habits_layout_circle_dec8_in_mood);
-            View good_habits_layout_circle_dec9_in_mood = getView().findViewById(R.id.good_habits_layout_circle_dec9_in_mood);
-            View good_habits_layout_circle_dec10_in_mood = getView().findViewById(R.id.good_habits_layout_circle_dec10_in_mood);
-            View good_habits_layout_circle_dec11_in_mood = getView().findViewById(R.id.good_habits_layout_circle_dec11_in_mood);
-            View good_habits_layout_circle_dec12_in_mood = getView().findViewById(R.id.good_habits_layout_circle_dec12_in_mood);
-            View good_habits_layout_circle_dec13_in_mood = getView().findViewById(R.id.good_habits_layout_circle_dec13_in_mood);
-            View good_habits_layout_circle_dec14_in_mood = getView().findViewById(R.id.good_habits_layout_circle_dec14_in_mood);
-            View good_habits_layout_circle_dec15_in_mood = getView().findViewById(R.id.good_habits_layout_circle_dec15_in_mood);
-            View good_habits_layout_circle_dec16_in_mood = getView().findViewById(R.id.good_habits_layout_circle_dec16_in_mood);
-            View good_habits_layout_circle_dec17_in_mood = getView().findViewById(R.id.good_habits_layout_circle_dec17_in_mood);
-            View good_habits_layout_circle_dec18_in_mood = getView().findViewById(R.id.good_habits_layout_circle_dec18_in_mood);
-            View good_habits_layout_circle_dec19_in_mood = getView().findViewById(R.id.good_habits_layout_circle_dec19_in_mood);
-            View good_habits_layout_circle_dec20_in_mood = getView().findViewById(R.id.good_habits_layout_circle_dec20_in_mood);
-            View good_habits_layout_circle_dec21_in_mood = getView().findViewById(R.id.good_habits_layout_circle_dec21_in_mood);
-            View good_habits_layout_circle_dec22_in_mood = getView().findViewById(R.id.good_habits_layout_circle_dec22_in_mood);
-            View good_habits_layout_circle_dec23_in_mood = getView().findViewById(R.id.good_habits_layout_circle_dec23_in_mood);
-            View good_habits_layout_circle_dec24_in_mood = getView().findViewById(R.id.good_habits_layout_circle_dec24_in_mood);
-            View good_habits_layout_circle_dec25_in_mood = getView().findViewById(R.id.good_habits_layout_circle_dec25_in_mood);
-            View good_habits_layout_circle_dec26_in_mood = getView().findViewById(R.id.good_habits_layout_circle_dec26_in_mood);
-            View good_habits_layout_circle_dec27_in_mood = getView().findViewById(R.id.good_habits_layout_circle_dec27_in_mood);
-            View good_habits_layout_circle_dec28_in_mood = getView().findViewById(R.id.good_habits_layout_circle_dec28_in_mood);
-            View good_habits_layout_circle_dec29_in_mood = getView().findViewById(R.id.good_habits_layout_circle_dec29_in_mood);
-            View good_habits_layout_circle_dec30_in_mood = getView().findViewById(R.id.good_habits_layout_circle_dec30_in_mood);
-            View good_habits_layout_circle_dec31_in_mood = getView().findViewById(R.id.good_habits_layout_circle_dec31_in_mood);
-            list_of_all_the_calender_views_in_mood = new View[366];
-            list_of_all_the_calender_views_in_mood[0] = good_habits_layout_circle_jan1_in_mood;
-            list_of_all_the_calender_views_in_mood[1] = good_habits_layout_circle_jan2_in_mood;
-            list_of_all_the_calender_views_in_mood[2] = good_habits_layout_circle_jan3_in_mood;
-            list_of_all_the_calender_views_in_mood[3] = good_habits_layout_circle_jan4_in_mood;
-            list_of_all_the_calender_views_in_mood[4] = good_habits_layout_circle_jan5_in_mood;
-            list_of_all_the_calender_views_in_mood[5] = good_habits_layout_circle_jan6_in_mood;
-            list_of_all_the_calender_views_in_mood[6] = good_habits_layout_circle_jan7_in_mood;
-            list_of_all_the_calender_views_in_mood[7] = good_habits_layout_circle_jan8_in_mood;
-            list_of_all_the_calender_views_in_mood[8] = good_habits_layout_circle_jan9_in_mood;
-            list_of_all_the_calender_views_in_mood[9] = good_habits_layout_circle_jan10_in_mood;
-            list_of_all_the_calender_views_in_mood[10] = good_habits_layout_circle_jan11_in_mood;
-            list_of_all_the_calender_views_in_mood[11] = good_habits_layout_circle_jan12_in_mood;
-            list_of_all_the_calender_views_in_mood[12] = good_habits_layout_circle_jan13_in_mood;
-            list_of_all_the_calender_views_in_mood[13] = good_habits_layout_circle_jan14_in_mood;
-            list_of_all_the_calender_views_in_mood[14] = good_habits_layout_circle_jan15_in_mood;
-            list_of_all_the_calender_views_in_mood[15] = good_habits_layout_circle_jan16_in_mood;
-            list_of_all_the_calender_views_in_mood[16] = good_habits_layout_circle_jan17_in_mood;
-            list_of_all_the_calender_views_in_mood[17] = good_habits_layout_circle_jan18_in_mood;
-            list_of_all_the_calender_views_in_mood[18] = good_habits_layout_circle_jan19_in_mood;
-            list_of_all_the_calender_views_in_mood[19] = good_habits_layout_circle_jan20_in_mood;
-            list_of_all_the_calender_views_in_mood[20] = good_habits_layout_circle_jan21_in_mood;
-            list_of_all_the_calender_views_in_mood[21] = good_habits_layout_circle_jan22_in_mood;
-            list_of_all_the_calender_views_in_mood[22] = good_habits_layout_circle_jan23_in_mood;
-            list_of_all_the_calender_views_in_mood[23] = good_habits_layout_circle_jan24_in_mood;
-            list_of_all_the_calender_views_in_mood[24] = good_habits_layout_circle_jan25_in_mood;
-            list_of_all_the_calender_views_in_mood[25] = good_habits_layout_circle_jan26_in_mood;
-            list_of_all_the_calender_views_in_mood[26] = good_habits_layout_circle_jan27_in_mood;
-            list_of_all_the_calender_views_in_mood[27] = good_habits_layout_circle_jan28_in_mood;
-            list_of_all_the_calender_views_in_mood[28] = good_habits_layout_circle_jan29_in_mood;
-            list_of_all_the_calender_views_in_mood[29] = good_habits_layout_circle_jan30_in_mood;
-            list_of_all_the_calender_views_in_mood[30] = good_habits_layout_circle_jan31_in_mood;
-            list_of_all_the_calender_views_in_mood[31] = good_habits_layout_circle_feb1_in_mood;
-            list_of_all_the_calender_views_in_mood[32] = good_habits_layout_circle_feb2_in_mood;
-            list_of_all_the_calender_views_in_mood[33] = good_habits_layout_circle_feb3_in_mood;
-            list_of_all_the_calender_views_in_mood[34] = good_habits_layout_circle_feb4_in_mood;
-            list_of_all_the_calender_views_in_mood[35] = good_habits_layout_circle_feb5_in_mood;
-            list_of_all_the_calender_views_in_mood[36] = good_habits_layout_circle_feb6_in_mood;
-            list_of_all_the_calender_views_in_mood[37] = good_habits_layout_circle_feb7_in_mood;
-            list_of_all_the_calender_views_in_mood[38] = good_habits_layout_circle_feb8_in_mood;
-            list_of_all_the_calender_views_in_mood[39] = good_habits_layout_circle_feb9_in_mood;
-            list_of_all_the_calender_views_in_mood[40] = good_habits_layout_circle_feb10_in_mood;
-            list_of_all_the_calender_views_in_mood[41] = good_habits_layout_circle_feb11_in_mood;
-            list_of_all_the_calender_views_in_mood[42] = good_habits_layout_circle_feb12_in_mood;
-            list_of_all_the_calender_views_in_mood[43] = good_habits_layout_circle_feb13_in_mood;
-            list_of_all_the_calender_views_in_mood[44] = good_habits_layout_circle_feb14_in_mood;
-            list_of_all_the_calender_views_in_mood[45] = good_habits_layout_circle_feb15_in_mood;
-            list_of_all_the_calender_views_in_mood[46] = good_habits_layout_circle_feb16_in_mood;
-            list_of_all_the_calender_views_in_mood[47] = good_habits_layout_circle_feb17_in_mood;
-            list_of_all_the_calender_views_in_mood[48] = good_habits_layout_circle_feb18_in_mood;
-            list_of_all_the_calender_views_in_mood[49] = good_habits_layout_circle_feb19_in_mood;
-            list_of_all_the_calender_views_in_mood[50] = good_habits_layout_circle_feb20_in_mood;
-            list_of_all_the_calender_views_in_mood[51] = good_habits_layout_circle_feb21_in_mood;
-            list_of_all_the_calender_views_in_mood[52] = good_habits_layout_circle_feb22_in_mood;
-            list_of_all_the_calender_views_in_mood[53] = good_habits_layout_circle_feb23_in_mood;
-            list_of_all_the_calender_views_in_mood[54] = good_habits_layout_circle_feb24_in_mood;
-            list_of_all_the_calender_views_in_mood[55] = good_habits_layout_circle_feb25_in_mood;
-            list_of_all_the_calender_views_in_mood[56] = good_habits_layout_circle_feb26_in_mood;
-            list_of_all_the_calender_views_in_mood[57] = good_habits_layout_circle_feb27_in_mood;
-            list_of_all_the_calender_views_in_mood[58] = good_habits_layout_circle_feb28_in_mood;
-            list_of_all_the_calender_views_in_mood[59] = good_habits_layout_circle_feb29_in_mood;
-            list_of_all_the_calender_views_in_mood[60] = good_habits_layout_circle_mar1_in_mood;
-            list_of_all_the_calender_views_in_mood[61] = good_habits_layout_circle_mar2_in_mood;
-            list_of_all_the_calender_views_in_mood[62] = good_habits_layout_circle_mar3_in_mood;
-            list_of_all_the_calender_views_in_mood[63] = good_habits_layout_circle_mar4_in_mood;
-            list_of_all_the_calender_views_in_mood[64] = good_habits_layout_circle_mar5_in_mood;
-            list_of_all_the_calender_views_in_mood[65] = good_habits_layout_circle_mar6_in_mood;
-            list_of_all_the_calender_views_in_mood[66] = good_habits_layout_circle_mar7_in_mood;
-            list_of_all_the_calender_views_in_mood[67] = good_habits_layout_circle_mar8_in_mood;
-            list_of_all_the_calender_views_in_mood[68] = good_habits_layout_circle_mar9_in_mood;
-            list_of_all_the_calender_views_in_mood[69] = good_habits_layout_circle_mar10_in_mood;
-            list_of_all_the_calender_views_in_mood[70] = good_habits_layout_circle_mar11_in_mood;
-            list_of_all_the_calender_views_in_mood[71] = good_habits_layout_circle_mar12_in_mood;
-            list_of_all_the_calender_views_in_mood[72] = good_habits_layout_circle_mar13_in_mood;
-            list_of_all_the_calender_views_in_mood[73] = good_habits_layout_circle_mar14_in_mood;
-            list_of_all_the_calender_views_in_mood[74] = good_habits_layout_circle_mar15_in_mood;
-            list_of_all_the_calender_views_in_mood[75] = good_habits_layout_circle_mar16_in_mood;
-            list_of_all_the_calender_views_in_mood[76] = good_habits_layout_circle_mar17_in_mood;
-            list_of_all_the_calender_views_in_mood[77] = good_habits_layout_circle_mar18_in_mood;
-            list_of_all_the_calender_views_in_mood[78] = good_habits_layout_circle_mar19_in_mood;
-            list_of_all_the_calender_views_in_mood[79] = good_habits_layout_circle_mar20_in_mood;
-            list_of_all_the_calender_views_in_mood[80] = good_habits_layout_circle_mar21_in_mood;
-            list_of_all_the_calender_views_in_mood[81] = good_habits_layout_circle_mar22_in_mood;
-            list_of_all_the_calender_views_in_mood[82] = good_habits_layout_circle_mar23_in_mood;
-            list_of_all_the_calender_views_in_mood[83] = good_habits_layout_circle_mar24_in_mood;
-            list_of_all_the_calender_views_in_mood[84] = good_habits_layout_circle_mar25_in_mood;
-            list_of_all_the_calender_views_in_mood[85] = good_habits_layout_circle_mar26_in_mood;
-            list_of_all_the_calender_views_in_mood[86] = good_habits_layout_circle_mar27_in_mood;
-            list_of_all_the_calender_views_in_mood[87] = good_habits_layout_circle_mar28_in_mood;
-            list_of_all_the_calender_views_in_mood[88] = good_habits_layout_circle_mar29_in_mood;
-            list_of_all_the_calender_views_in_mood[89] = good_habits_layout_circle_mar30_in_mood;
-            list_of_all_the_calender_views_in_mood[90] = good_habits_layout_circle_mar31_in_mood;
-            list_of_all_the_calender_views_in_mood[91] = good_habits_layout_circle_apr1_in_mood;
-            list_of_all_the_calender_views_in_mood[92] = good_habits_layout_circle_apr2_in_mood;
-            list_of_all_the_calender_views_in_mood[93] = good_habits_layout_circle_apr3_in_mood;
-            list_of_all_the_calender_views_in_mood[94] = good_habits_layout_circle_apr4_in_mood;
-            list_of_all_the_calender_views_in_mood[95] = good_habits_layout_circle_apr5_in_mood;
-            list_of_all_the_calender_views_in_mood[96] = good_habits_layout_circle_apr6_in_mood;
-            list_of_all_the_calender_views_in_mood[97] = good_habits_layout_circle_apr7_in_mood;
-            list_of_all_the_calender_views_in_mood[98] = good_habits_layout_circle_apr8_in_mood;
-            list_of_all_the_calender_views_in_mood[99] = good_habits_layout_circle_apr9_in_mood;
-            list_of_all_the_calender_views_in_mood[100] = good_habits_layout_circle_apr10_in_mood;
-            list_of_all_the_calender_views_in_mood[101] = good_habits_layout_circle_apr11_in_mood;
-            list_of_all_the_calender_views_in_mood[102] = good_habits_layout_circle_apr12_in_mood;
-            list_of_all_the_calender_views_in_mood[103] = good_habits_layout_circle_apr13_in_mood;
-            list_of_all_the_calender_views_in_mood[104] = good_habits_layout_circle_apr14_in_mood;
-            list_of_all_the_calender_views_in_mood[105] = good_habits_layout_circle_apr15_in_mood;
-            list_of_all_the_calender_views_in_mood[106] = good_habits_layout_circle_apr16_in_mood;
-            list_of_all_the_calender_views_in_mood[107] = good_habits_layout_circle_apr17_in_mood;
-            list_of_all_the_calender_views_in_mood[108] = good_habits_layout_circle_apr18_in_mood;
-            list_of_all_the_calender_views_in_mood[109] = good_habits_layout_circle_apr19_in_mood;
-            list_of_all_the_calender_views_in_mood[110] = good_habits_layout_circle_apr20_in_mood;
-            list_of_all_the_calender_views_in_mood[111] = good_habits_layout_circle_apr21_in_mood;
-            list_of_all_the_calender_views_in_mood[112] = good_habits_layout_circle_apr22_in_mood;
-            list_of_all_the_calender_views_in_mood[113] = good_habits_layout_circle_apr23_in_mood;
-            list_of_all_the_calender_views_in_mood[114] = good_habits_layout_circle_apr24_in_mood;
-            list_of_all_the_calender_views_in_mood[115] = good_habits_layout_circle_apr25_in_mood;
-            list_of_all_the_calender_views_in_mood[116] = good_habits_layout_circle_apr26_in_mood;
-            list_of_all_the_calender_views_in_mood[117] = good_habits_layout_circle_apr27_in_mood;
-            list_of_all_the_calender_views_in_mood[118] = good_habits_layout_circle_apr28_in_mood;
-            list_of_all_the_calender_views_in_mood[119] = good_habits_layout_circle_apr29_in_mood;
-            list_of_all_the_calender_views_in_mood[120] = good_habits_layout_circle_apr30_in_mood;
-            list_of_all_the_calender_views_in_mood[121] = good_habits_layout_circle_may1_in_mood;
-            list_of_all_the_calender_views_in_mood[122] = good_habits_layout_circle_may2_in_mood;
-            list_of_all_the_calender_views_in_mood[123] = good_habits_layout_circle_may3_in_mood;
-            list_of_all_the_calender_views_in_mood[124] = good_habits_layout_circle_may4_in_mood;
-            list_of_all_the_calender_views_in_mood[125] = good_habits_layout_circle_may5_in_mood;
-            list_of_all_the_calender_views_in_mood[126] = good_habits_layout_circle_may6_in_mood;
-            list_of_all_the_calender_views_in_mood[127] = good_habits_layout_circle_may7_in_mood;
-            list_of_all_the_calender_views_in_mood[128] = good_habits_layout_circle_may8_in_mood;
-            list_of_all_the_calender_views_in_mood[129] = good_habits_layout_circle_may9_in_mood;
-            list_of_all_the_calender_views_in_mood[130] = good_habits_layout_circle_may10_in_mood;
-            list_of_all_the_calender_views_in_mood[131] = good_habits_layout_circle_may11_in_mood;
-            list_of_all_the_calender_views_in_mood[132] = good_habits_layout_circle_may12_in_mood;
-            list_of_all_the_calender_views_in_mood[133] = good_habits_layout_circle_may13_in_mood;
-            list_of_all_the_calender_views_in_mood[134] = good_habits_layout_circle_may14_in_mood;
-            list_of_all_the_calender_views_in_mood[135] = good_habits_layout_circle_may15_in_mood;
-            list_of_all_the_calender_views_in_mood[136] = good_habits_layout_circle_may16_in_mood;
-            list_of_all_the_calender_views_in_mood[137] = good_habits_layout_circle_may17_in_mood;
-            list_of_all_the_calender_views_in_mood[138] = good_habits_layout_circle_may18_in_mood;
-            list_of_all_the_calender_views_in_mood[139] = good_habits_layout_circle_may19_in_mood;
-            list_of_all_the_calender_views_in_mood[140] = good_habits_layout_circle_may20_in_mood;
-            list_of_all_the_calender_views_in_mood[141] = good_habits_layout_circle_may21_in_mood;
-            list_of_all_the_calender_views_in_mood[142] = good_habits_layout_circle_may22_in_mood;
-            list_of_all_the_calender_views_in_mood[143] = good_habits_layout_circle_may23_in_mood;
-            list_of_all_the_calender_views_in_mood[144] = good_habits_layout_circle_may24_in_mood;
-            list_of_all_the_calender_views_in_mood[145] = good_habits_layout_circle_may25_in_mood;
-            list_of_all_the_calender_views_in_mood[146] = good_habits_layout_circle_may26_in_mood;
-            list_of_all_the_calender_views_in_mood[147] = good_habits_layout_circle_may27_in_mood;
-            list_of_all_the_calender_views_in_mood[148] = good_habits_layout_circle_may28_in_mood;
-            list_of_all_the_calender_views_in_mood[149] = good_habits_layout_circle_may29_in_mood;
-            list_of_all_the_calender_views_in_mood[150] = good_habits_layout_circle_may30_in_mood;
-            list_of_all_the_calender_views_in_mood[151] = good_habits_layout_circle_may31_in_mood;
-            list_of_all_the_calender_views_in_mood[152] = good_habits_layout_circle_jun1_in_mood;
-            list_of_all_the_calender_views_in_mood[153] = good_habits_layout_circle_jun2_in_mood;
-            list_of_all_the_calender_views_in_mood[154] = good_habits_layout_circle_jun3_in_mood;
-            list_of_all_the_calender_views_in_mood[155] = good_habits_layout_circle_jun4_in_mood;
-            list_of_all_the_calender_views_in_mood[156] = good_habits_layout_circle_jun5_in_mood;
-            list_of_all_the_calender_views_in_mood[157] = good_habits_layout_circle_jun6_in_mood;
-            list_of_all_the_calender_views_in_mood[158] = good_habits_layout_circle_jun7_in_mood;
-            list_of_all_the_calender_views_in_mood[159] = good_habits_layout_circle_jun8_in_mood;
-            list_of_all_the_calender_views_in_mood[160] = good_habits_layout_circle_jun9_in_mood;
-            list_of_all_the_calender_views_in_mood[161] = good_habits_layout_circle_jun10_in_mood;
-            list_of_all_the_calender_views_in_mood[162] = good_habits_layout_circle_jun11_in_mood;
-            list_of_all_the_calender_views_in_mood[163] = good_habits_layout_circle_jun12_in_mood;
-            list_of_all_the_calender_views_in_mood[164] = good_habits_layout_circle_jun13_in_mood;
-            list_of_all_the_calender_views_in_mood[165] = good_habits_layout_circle_jun14_in_mood;
-            list_of_all_the_calender_views_in_mood[166] = good_habits_layout_circle_jun15_in_mood;
-            list_of_all_the_calender_views_in_mood[167] = good_habits_layout_circle_jun16_in_mood;
-            list_of_all_the_calender_views_in_mood[168] = good_habits_layout_circle_jun17_in_mood;
-            list_of_all_the_calender_views_in_mood[169] = good_habits_layout_circle_jun18_in_mood;
-            list_of_all_the_calender_views_in_mood[170] = good_habits_layout_circle_jun19_in_mood;
-            list_of_all_the_calender_views_in_mood[171] = good_habits_layout_circle_jun20_in_mood;
-            list_of_all_the_calender_views_in_mood[172] = good_habits_layout_circle_jun21_in_mood;
-            list_of_all_the_calender_views_in_mood[173] = good_habits_layout_circle_jun22_in_mood;
-            list_of_all_the_calender_views_in_mood[174] = good_habits_layout_circle_jun23_in_mood;
-            list_of_all_the_calender_views_in_mood[175] = good_habits_layout_circle_jun24_in_mood;
-            list_of_all_the_calender_views_in_mood[176] = good_habits_layout_circle_jun25_in_mood;
-            list_of_all_the_calender_views_in_mood[177] = good_habits_layout_circle_jun26_in_mood;
-            list_of_all_the_calender_views_in_mood[178] = good_habits_layout_circle_jun27_in_mood;
-            list_of_all_the_calender_views_in_mood[179] = good_habits_layout_circle_jun28_in_mood;
-            list_of_all_the_calender_views_in_mood[180] = good_habits_layout_circle_jun29_in_mood;
-            list_of_all_the_calender_views_in_mood[181] = good_habits_layout_circle_jun30_in_mood;
-            list_of_all_the_calender_views_in_mood[182] = good_habits_layout_circle_jul1_in_mood;
-            list_of_all_the_calender_views_in_mood[183] = good_habits_layout_circle_jul2_in_mood;
-            list_of_all_the_calender_views_in_mood[184] = good_habits_layout_circle_jul3_in_mood;
-            list_of_all_the_calender_views_in_mood[185] = good_habits_layout_circle_jul4_in_mood;
-            list_of_all_the_calender_views_in_mood[186] = good_habits_layout_circle_jul5_in_mood;
-            list_of_all_the_calender_views_in_mood[187] = good_habits_layout_circle_jul6_in_mood;
-            list_of_all_the_calender_views_in_mood[188] = good_habits_layout_circle_jul7_in_mood;
-            list_of_all_the_calender_views_in_mood[189] = good_habits_layout_circle_jul8_in_mood;
-            list_of_all_the_calender_views_in_mood[190] = good_habits_layout_circle_jul9_in_mood;
-            list_of_all_the_calender_views_in_mood[191] = good_habits_layout_circle_jul10_in_mood;
-            list_of_all_the_calender_views_in_mood[192] = good_habits_layout_circle_jul11_in_mood;
-            list_of_all_the_calender_views_in_mood[193] = good_habits_layout_circle_jul12_in_mood;
-            list_of_all_the_calender_views_in_mood[194] = good_habits_layout_circle_jul13_in_mood;
-            list_of_all_the_calender_views_in_mood[195] = good_habits_layout_circle_jul14_in_mood;
-            list_of_all_the_calender_views_in_mood[196] = good_habits_layout_circle_jul15_in_mood;
-            list_of_all_the_calender_views_in_mood[197] = good_habits_layout_circle_jul16_in_mood;
-            list_of_all_the_calender_views_in_mood[198] = good_habits_layout_circle_jul17_in_mood;
-            list_of_all_the_calender_views_in_mood[199] = good_habits_layout_circle_jul18_in_mood;
-            list_of_all_the_calender_views_in_mood[200] = good_habits_layout_circle_jul19_in_mood;
-            list_of_all_the_calender_views_in_mood[201] = good_habits_layout_circle_jul20_in_mood;
-            list_of_all_the_calender_views_in_mood[202] = good_habits_layout_circle_jul21_in_mood;
-            list_of_all_the_calender_views_in_mood[203] = good_habits_layout_circle_jul22_in_mood;
-            list_of_all_the_calender_views_in_mood[204] = good_habits_layout_circle_jul23_in_mood;
-            list_of_all_the_calender_views_in_mood[205] = good_habits_layout_circle_jul24_in_mood;
-            list_of_all_the_calender_views_in_mood[206] = good_habits_layout_circle_jul25_in_mood;
-            list_of_all_the_calender_views_in_mood[207] = good_habits_layout_circle_jul26_in_mood;
-            list_of_all_the_calender_views_in_mood[208] = good_habits_layout_circle_jul27_in_mood;
-            list_of_all_the_calender_views_in_mood[209] = good_habits_layout_circle_jul28_in_mood;
-            list_of_all_the_calender_views_in_mood[210] = good_habits_layout_circle_jul29_in_mood;
-            list_of_all_the_calender_views_in_mood[211] = good_habits_layout_circle_jul30_in_mood;
-            list_of_all_the_calender_views_in_mood[212] = good_habits_layout_circle_jul31_in_mood;
-            list_of_all_the_calender_views_in_mood[213] = good_habits_layout_circle_aug1_in_mood;
-            list_of_all_the_calender_views_in_mood[214] = good_habits_layout_circle_aug2_in_mood;
-            list_of_all_the_calender_views_in_mood[215] = good_habits_layout_circle_aug3_in_mood;
-            list_of_all_the_calender_views_in_mood[216] = good_habits_layout_circle_aug4_in_mood;
-            list_of_all_the_calender_views_in_mood[217] = good_habits_layout_circle_aug5_in_mood;
-            list_of_all_the_calender_views_in_mood[218] = good_habits_layout_circle_aug6_in_mood;
-            list_of_all_the_calender_views_in_mood[219] = good_habits_layout_circle_aug7_in_mood;
-            list_of_all_the_calender_views_in_mood[220] = good_habits_layout_circle_aug8_in_mood;
-            list_of_all_the_calender_views_in_mood[221] = good_habits_layout_circle_aug9_in_mood;
-            list_of_all_the_calender_views_in_mood[222] = good_habits_layout_circle_aug10_in_mood;
-            list_of_all_the_calender_views_in_mood[223] = good_habits_layout_circle_aug11_in_mood;
-            list_of_all_the_calender_views_in_mood[224] = good_habits_layout_circle_aug12_in_mood;
-            list_of_all_the_calender_views_in_mood[225] = good_habits_layout_circle_aug13_in_mood;
-            list_of_all_the_calender_views_in_mood[226] = good_habits_layout_circle_aug14_in_mood;
-            list_of_all_the_calender_views_in_mood[227] = good_habits_layout_circle_aug15_in_mood;
-            list_of_all_the_calender_views_in_mood[228] = good_habits_layout_circle_aug16_in_mood;
-            list_of_all_the_calender_views_in_mood[229] = good_habits_layout_circle_aug17_in_mood;
-            list_of_all_the_calender_views_in_mood[230] = good_habits_layout_circle_aug18_in_mood;
-            list_of_all_the_calender_views_in_mood[231] = good_habits_layout_circle_aug19_in_mood;
-            list_of_all_the_calender_views_in_mood[232] = good_habits_layout_circle_aug20_in_mood;
-            list_of_all_the_calender_views_in_mood[233] = good_habits_layout_circle_aug21_in_mood;
-            list_of_all_the_calender_views_in_mood[234] = good_habits_layout_circle_aug22_in_mood;
-            list_of_all_the_calender_views_in_mood[235] = good_habits_layout_circle_aug23_in_mood;
-            list_of_all_the_calender_views_in_mood[236] = good_habits_layout_circle_aug24_in_mood;
-            list_of_all_the_calender_views_in_mood[237] = good_habits_layout_circle_aug25_in_mood;
-            list_of_all_the_calender_views_in_mood[238] = good_habits_layout_circle_aug26_in_mood;
-            list_of_all_the_calender_views_in_mood[239] = good_habits_layout_circle_aug27_in_mood;
-            list_of_all_the_calender_views_in_mood[240] = good_habits_layout_circle_aug28_in_mood;
-            list_of_all_the_calender_views_in_mood[241] = good_habits_layout_circle_aug29_in_mood;
-            list_of_all_the_calender_views_in_mood[242] = good_habits_layout_circle_aug30_in_mood;
-            list_of_all_the_calender_views_in_mood[243] = good_habits_layout_circle_aug31_in_mood;
-            list_of_all_the_calender_views_in_mood[244] = good_habits_layout_circle_sep1_in_mood;
-            list_of_all_the_calender_views_in_mood[245] = good_habits_layout_circle_sep2_in_mood;
-            list_of_all_the_calender_views_in_mood[246] = good_habits_layout_circle_sep3_in_mood;
-            list_of_all_the_calender_views_in_mood[247] = good_habits_layout_circle_sep4_in_mood;
-            list_of_all_the_calender_views_in_mood[248] = good_habits_layout_circle_sep5_in_mood;
-            list_of_all_the_calender_views_in_mood[249] = good_habits_layout_circle_sep6_in_mood;
-            list_of_all_the_calender_views_in_mood[250] = good_habits_layout_circle_sep7_in_mood;
-            list_of_all_the_calender_views_in_mood[251] = good_habits_layout_circle_sep8_in_mood;
-            list_of_all_the_calender_views_in_mood[252] = good_habits_layout_circle_sep9_in_mood;
-            list_of_all_the_calender_views_in_mood[253] = good_habits_layout_circle_sep10_in_mood;
-            list_of_all_the_calender_views_in_mood[254] = good_habits_layout_circle_sep11_in_mood;
-            list_of_all_the_calender_views_in_mood[255] = good_habits_layout_circle_sep12_in_mood;
-            list_of_all_the_calender_views_in_mood[256] = good_habits_layout_circle_sep13_in_mood;
-            list_of_all_the_calender_views_in_mood[257] = good_habits_layout_circle_sep14_in_mood;
-            list_of_all_the_calender_views_in_mood[258] = good_habits_layout_circle_sep15_in_mood;
-            list_of_all_the_calender_views_in_mood[259] = good_habits_layout_circle_sep16_in_mood;
-            list_of_all_the_calender_views_in_mood[260] = good_habits_layout_circle_sep17_in_mood;
-            list_of_all_the_calender_views_in_mood[261] = good_habits_layout_circle_sep18_in_mood;
-            list_of_all_the_calender_views_in_mood[262] = good_habits_layout_circle_sep19_in_mood;
-            list_of_all_the_calender_views_in_mood[263] = good_habits_layout_circle_sep20_in_mood;
-            list_of_all_the_calender_views_in_mood[264] = good_habits_layout_circle_sep21_in_mood;
-            list_of_all_the_calender_views_in_mood[265] = good_habits_layout_circle_sep22_in_mood;
-            list_of_all_the_calender_views_in_mood[266] = good_habits_layout_circle_sep23_in_mood;
-            list_of_all_the_calender_views_in_mood[267] = good_habits_layout_circle_sep24_in_mood;
-            list_of_all_the_calender_views_in_mood[268] = good_habits_layout_circle_sep25_in_mood;
-            list_of_all_the_calender_views_in_mood[269] = good_habits_layout_circle_sep26_in_mood;
-            list_of_all_the_calender_views_in_mood[270] = good_habits_layout_circle_sep27_in_mood;
-            list_of_all_the_calender_views_in_mood[271] = good_habits_layout_circle_sep28_in_mood;
-            list_of_all_the_calender_views_in_mood[272] = good_habits_layout_circle_sep29_in_mood;
-            list_of_all_the_calender_views_in_mood[273] = good_habits_layout_circle_sep30_in_mood;
-            list_of_all_the_calender_views_in_mood[274] = good_habits_layout_circle_oct1_in_mood;
-            list_of_all_the_calender_views_in_mood[275] = good_habits_layout_circle_oct2_in_mood;
-            list_of_all_the_calender_views_in_mood[276] = good_habits_layout_circle_oct3_in_mood;
-            list_of_all_the_calender_views_in_mood[277] = good_habits_layout_circle_oct4_in_mood;
-            list_of_all_the_calender_views_in_mood[278] = good_habits_layout_circle_oct5_in_mood;
-            list_of_all_the_calender_views_in_mood[279] = good_habits_layout_circle_oct6_in_mood;
-            list_of_all_the_calender_views_in_mood[280] = good_habits_layout_circle_oct7_in_mood;
-            list_of_all_the_calender_views_in_mood[281] = good_habits_layout_circle_oct8_in_mood;
-            list_of_all_the_calender_views_in_mood[282] = good_habits_layout_circle_oct9_in_mood;
-            list_of_all_the_calender_views_in_mood[283] = good_habits_layout_circle_oct10_in_mood;
-            list_of_all_the_calender_views_in_mood[284] = good_habits_layout_circle_oct11_in_mood;
-            list_of_all_the_calender_views_in_mood[285] = good_habits_layout_circle_oct12_in_mood;
-            list_of_all_the_calender_views_in_mood[286] = good_habits_layout_circle_oct13_in_mood;
-            list_of_all_the_calender_views_in_mood[287] = good_habits_layout_circle_oct14_in_mood;
-            list_of_all_the_calender_views_in_mood[288] = good_habits_layout_circle_oct15_in_mood;
-            list_of_all_the_calender_views_in_mood[289] = good_habits_layout_circle_oct16_in_mood;
-            list_of_all_the_calender_views_in_mood[290] = good_habits_layout_circle_oct17_in_mood;
-            list_of_all_the_calender_views_in_mood[291] = good_habits_layout_circle_oct18_in_mood;
-            list_of_all_the_calender_views_in_mood[292] = good_habits_layout_circle_oct19_in_mood;
-            list_of_all_the_calender_views_in_mood[293] = good_habits_layout_circle_oct20_in_mood;
-            list_of_all_the_calender_views_in_mood[294] = good_habits_layout_circle_oct21_in_mood;
-            list_of_all_the_calender_views_in_mood[295] = good_habits_layout_circle_oct22_in_mood;
-            list_of_all_the_calender_views_in_mood[296] = good_habits_layout_circle_oct23_in_mood;
-            list_of_all_the_calender_views_in_mood[297] = good_habits_layout_circle_oct24_in_mood;
-            list_of_all_the_calender_views_in_mood[298] = good_habits_layout_circle_oct25_in_mood;
-            list_of_all_the_calender_views_in_mood[299] = good_habits_layout_circle_oct26_in_mood;
-            list_of_all_the_calender_views_in_mood[300] = good_habits_layout_circle_oct27_in_mood;
-            list_of_all_the_calender_views_in_mood[301] = good_habits_layout_circle_oct28_in_mood;
-            list_of_all_the_calender_views_in_mood[302] = good_habits_layout_circle_oct29_in_mood;
-            list_of_all_the_calender_views_in_mood[303] = good_habits_layout_circle_oct30_in_mood;
-            list_of_all_the_calender_views_in_mood[304] = good_habits_layout_circle_oct31_in_mood;
-            list_of_all_the_calender_views_in_mood[305] = good_habits_layout_circle_nov1_in_mood;
-            list_of_all_the_calender_views_in_mood[306] = good_habits_layout_circle_nov2_in_mood;
-            list_of_all_the_calender_views_in_mood[307] = good_habits_layout_circle_nov3_in_mood;
-            list_of_all_the_calender_views_in_mood[308] = good_habits_layout_circle_nov4_in_mood;
-            list_of_all_the_calender_views_in_mood[309] = good_habits_layout_circle_nov5_in_mood;
-            list_of_all_the_calender_views_in_mood[310] = good_habits_layout_circle_nov6_in_mood;
-            list_of_all_the_calender_views_in_mood[311] = good_habits_layout_circle_nov7_in_mood;
-            list_of_all_the_calender_views_in_mood[312] = good_habits_layout_circle_nov8_in_mood;
-            list_of_all_the_calender_views_in_mood[313] = good_habits_layout_circle_nov9_in_mood;
-            list_of_all_the_calender_views_in_mood[314] = good_habits_layout_circle_nov10_in_mood;
-            list_of_all_the_calender_views_in_mood[315] = good_habits_layout_circle_nov11_in_mood;
-            list_of_all_the_calender_views_in_mood[316] = good_habits_layout_circle_nov12_in_mood;
-            list_of_all_the_calender_views_in_mood[317] = good_habits_layout_circle_nov13_in_mood;
-            list_of_all_the_calender_views_in_mood[318] = good_habits_layout_circle_nov14_in_mood;
-            list_of_all_the_calender_views_in_mood[319] = good_habits_layout_circle_nov15_in_mood;
-            list_of_all_the_calender_views_in_mood[320] = good_habits_layout_circle_nov16_in_mood;
-            list_of_all_the_calender_views_in_mood[321] = good_habits_layout_circle_nov17_in_mood;
-            list_of_all_the_calender_views_in_mood[322] = good_habits_layout_circle_nov18_in_mood;
-            list_of_all_the_calender_views_in_mood[323] = good_habits_layout_circle_nov19_in_mood;
-            list_of_all_the_calender_views_in_mood[324] = good_habits_layout_circle_nov20_in_mood;
-            list_of_all_the_calender_views_in_mood[325] = good_habits_layout_circle_nov21_in_mood;
-            list_of_all_the_calender_views_in_mood[326] = good_habits_layout_circle_nov22_in_mood;
-            list_of_all_the_calender_views_in_mood[327] = good_habits_layout_circle_nov23_in_mood;
-            list_of_all_the_calender_views_in_mood[328] = good_habits_layout_circle_nov24_in_mood;
-            list_of_all_the_calender_views_in_mood[329] = good_habits_layout_circle_nov25_in_mood;
-            list_of_all_the_calender_views_in_mood[330] = good_habits_layout_circle_nov26_in_mood;
-            list_of_all_the_calender_views_in_mood[331] = good_habits_layout_circle_nov27_in_mood;
-            list_of_all_the_calender_views_in_mood[332] = good_habits_layout_circle_nov28_in_mood;
-            list_of_all_the_calender_views_in_mood[333] = good_habits_layout_circle_nov29_in_mood;
-            list_of_all_the_calender_views_in_mood[334] = good_habits_layout_circle_nov30_in_mood;
-            list_of_all_the_calender_views_in_mood[335] = good_habits_layout_circle_dec1_in_mood;
-            list_of_all_the_calender_views_in_mood[336] = good_habits_layout_circle_dec2_in_mood;
-            list_of_all_the_calender_views_in_mood[337] = good_habits_layout_circle_dec3_in_mood;
-            list_of_all_the_calender_views_in_mood[338] = good_habits_layout_circle_dec4_in_mood;
-            list_of_all_the_calender_views_in_mood[339] = good_habits_layout_circle_dec5_in_mood;
-            list_of_all_the_calender_views_in_mood[340] = good_habits_layout_circle_dec6_in_mood;
-            list_of_all_the_calender_views_in_mood[341] = good_habits_layout_circle_dec7_in_mood;
-            list_of_all_the_calender_views_in_mood[342] = good_habits_layout_circle_dec8_in_mood;
-            list_of_all_the_calender_views_in_mood[343] = good_habits_layout_circle_dec9_in_mood;
-            list_of_all_the_calender_views_in_mood[344] = good_habits_layout_circle_dec10_in_mood;
-            list_of_all_the_calender_views_in_mood[345] = good_habits_layout_circle_dec11_in_mood;
-            list_of_all_the_calender_views_in_mood[346] = good_habits_layout_circle_dec12_in_mood;
-            list_of_all_the_calender_views_in_mood[347] = good_habits_layout_circle_dec13_in_mood;
-            list_of_all_the_calender_views_in_mood[348] = good_habits_layout_circle_dec14_in_mood;
-            list_of_all_the_calender_views_in_mood[349] = good_habits_layout_circle_dec15_in_mood;
-            list_of_all_the_calender_views_in_mood[350] = good_habits_layout_circle_dec16_in_mood;
-            list_of_all_the_calender_views_in_mood[351] = good_habits_layout_circle_dec17_in_mood;
-            list_of_all_the_calender_views_in_mood[352] = good_habits_layout_circle_dec18_in_mood;
-            list_of_all_the_calender_views_in_mood[353] = good_habits_layout_circle_dec19_in_mood;
-            list_of_all_the_calender_views_in_mood[354] = good_habits_layout_circle_dec20_in_mood;
-            list_of_all_the_calender_views_in_mood[355] = good_habits_layout_circle_dec21_in_mood;
-            list_of_all_the_calender_views_in_mood[356] = good_habits_layout_circle_dec22_in_mood;
-            list_of_all_the_calender_views_in_mood[357] = good_habits_layout_circle_dec23_in_mood;
-            list_of_all_the_calender_views_in_mood[358] = good_habits_layout_circle_dec24_in_mood;
-            list_of_all_the_calender_views_in_mood[359] = good_habits_layout_circle_dec25_in_mood;
-            list_of_all_the_calender_views_in_mood[360] = good_habits_layout_circle_dec26_in_mood;
-            list_of_all_the_calender_views_in_mood[361] = good_habits_layout_circle_dec27_in_mood;
-            list_of_all_the_calender_views_in_mood[362] = good_habits_layout_circle_dec28_in_mood;
-            list_of_all_the_calender_views_in_mood[363] = good_habits_layout_circle_dec29_in_mood;
-            list_of_all_the_calender_views_in_mood[364] = good_habits_layout_circle_dec30_in_mood;
-            list_of_all_the_calender_views_in_mood[365] = good_habits_layout_circle_dec31_in_mood;
+            View january_view_habit_over_all = getView().findViewById(R.id.january_view_habit_over_all);
+            View febraury_view_habit_over_all = getView().findViewById(R.id.febraury_view_habit_over_all);
+            View march_view_habit_over_all = getView().findViewById(R.id.march_view_habit_over_all);
+            View april_view_habit_over_all = getView().findViewById(R.id.april_view_habit_over_all);
+            View may_view_habit_over_all = getView().findViewById(R.id.may_view_habit_over_all);
+            View june_view_habit_over_all = getView().findViewById(R.id.june_view_habit_over_all);
+            View july_view_habit_over_all = getView().findViewById(R.id.july_view_habit_over_all);
+            View august_view_habit_over_all = getView().findViewById(R.id.august_view_habit_over_all);
+            View september_view_habit_over_all = getView().findViewById(R.id.september_view_habit_over_all);
+            View october_view_habit_over_all = getView().findViewById(R.id.october_view_habit_over_all);
+            View november_view_habit_over_all = getView().findViewById(R.id.november_view_habit_over_all);
+            View december_view_habit_over_all = getView().findViewById(R.id.december_view_habit_over_all);
+
+            LayerDrawable january_drawbale_list = (LayerDrawable) january_view_habit_over_all.getBackground();
+            LayerDrawable febraury_drawbale_list = (LayerDrawable) febraury_view_habit_over_all.getBackground();
+            LayerDrawable march_drawbale_list = (LayerDrawable) march_view_habit_over_all.getBackground();
+            LayerDrawable april_drawbale_list = (LayerDrawable) april_view_habit_over_all.getBackground();
+            LayerDrawable may_drawbale_list = (LayerDrawable) may_view_habit_over_all.getBackground();
+            LayerDrawable june_drawbale_list = (LayerDrawable) june_view_habit_over_all.getBackground();
+            LayerDrawable july_drawbale_list = (LayerDrawable) july_view_habit_over_all.getBackground();
+            LayerDrawable august_drawbale_list = (LayerDrawable) august_view_habit_over_all.getBackground();
+            LayerDrawable september_drawbale_list = (LayerDrawable) september_view_habit_over_all.getBackground();
+            LayerDrawable october_drawbale_list = (LayerDrawable) october_view_habit_over_all.getBackground();
+            LayerDrawable november_drawbale_list = (LayerDrawable) november_view_habit_over_all.getBackground();
+            LayerDrawable december_drawbale_list = (LayerDrawable) december_view_habit_over_all.getBackground();
+            list_of_all_the_calender_views_in_mood = new Drawable[366];
+
+            //jan
+            list_of_all_the_calender_views_in_mood[0] = january_drawbale_list.getDrawable(0);
+            list_of_all_the_calender_views_in_mood[1] = january_drawbale_list.getDrawable(1);
+            list_of_all_the_calender_views_in_mood[2] = january_drawbale_list.getDrawable(2);
+            list_of_all_the_calender_views_in_mood[3] = january_drawbale_list.getDrawable(3);
+            list_of_all_the_calender_views_in_mood[4] = january_drawbale_list.getDrawable(4);
+            list_of_all_the_calender_views_in_mood[5] = january_drawbale_list.getDrawable(5);
+            list_of_all_the_calender_views_in_mood[6] = january_drawbale_list.getDrawable(6);
+            list_of_all_the_calender_views_in_mood[7] = january_drawbale_list.getDrawable(7);
+            list_of_all_the_calender_views_in_mood[8] = january_drawbale_list.getDrawable(8);
+            list_of_all_the_calender_views_in_mood[9] = january_drawbale_list.getDrawable(9);
+            list_of_all_the_calender_views_in_mood[10] = january_drawbale_list.getDrawable(10);
+            list_of_all_the_calender_views_in_mood[11] = january_drawbale_list.getDrawable(11);
+            list_of_all_the_calender_views_in_mood[12] = january_drawbale_list.getDrawable(12);
+            list_of_all_the_calender_views_in_mood[13] = january_drawbale_list.getDrawable(13);
+            list_of_all_the_calender_views_in_mood[14] = january_drawbale_list.getDrawable(14);
+            list_of_all_the_calender_views_in_mood[15] = january_drawbale_list.getDrawable(15);
+            list_of_all_the_calender_views_in_mood[16] = january_drawbale_list.getDrawable(16);
+            list_of_all_the_calender_views_in_mood[17] = january_drawbale_list.getDrawable(17);
+            list_of_all_the_calender_views_in_mood[18] = january_drawbale_list.getDrawable(18);
+            list_of_all_the_calender_views_in_mood[19] = january_drawbale_list.getDrawable(19);
+            list_of_all_the_calender_views_in_mood[20] = january_drawbale_list.getDrawable(20);
+            list_of_all_the_calender_views_in_mood[21] = january_drawbale_list.getDrawable(21);
+            list_of_all_the_calender_views_in_mood[22] = january_drawbale_list.getDrawable(22);
+            list_of_all_the_calender_views_in_mood[23] = january_drawbale_list.getDrawable(23);
+            list_of_all_the_calender_views_in_mood[24] = january_drawbale_list.getDrawable(24);
+            list_of_all_the_calender_views_in_mood[25] = january_drawbale_list.getDrawable(25);
+            list_of_all_the_calender_views_in_mood[26] = january_drawbale_list.getDrawable(26);
+            list_of_all_the_calender_views_in_mood[27] = january_drawbale_list.getDrawable(27);
+            list_of_all_the_calender_views_in_mood[28] = january_drawbale_list.getDrawable(28);
+            list_of_all_the_calender_views_in_mood[29] = january_drawbale_list.getDrawable(29);
+            list_of_all_the_calender_views_in_mood[30] = january_drawbale_list.getDrawable(30);
+
+            //feb
+            list_of_all_the_calender_views_in_mood[31] = febraury_drawbale_list.getDrawable(0);
+            list_of_all_the_calender_views_in_mood[32] = febraury_drawbale_list.getDrawable(1);
+            list_of_all_the_calender_views_in_mood[33] = febraury_drawbale_list.getDrawable(2);
+            list_of_all_the_calender_views_in_mood[34] = febraury_drawbale_list.getDrawable(3);
+            list_of_all_the_calender_views_in_mood[35] = febraury_drawbale_list.getDrawable(4);
+            list_of_all_the_calender_views_in_mood[36] = febraury_drawbale_list.getDrawable(5);
+            list_of_all_the_calender_views_in_mood[37] = febraury_drawbale_list.getDrawable(6);
+            list_of_all_the_calender_views_in_mood[38] = febraury_drawbale_list.getDrawable(7);
+            list_of_all_the_calender_views_in_mood[39] = febraury_drawbale_list.getDrawable(8);
+            list_of_all_the_calender_views_in_mood[40] = febraury_drawbale_list.getDrawable(9);
+            list_of_all_the_calender_views_in_mood[41] = febraury_drawbale_list.getDrawable(10);
+            list_of_all_the_calender_views_in_mood[42] = febraury_drawbale_list.getDrawable(11);
+            list_of_all_the_calender_views_in_mood[43] = febraury_drawbale_list.getDrawable(12);
+            list_of_all_the_calender_views_in_mood[44] = febraury_drawbale_list.getDrawable(13);
+            list_of_all_the_calender_views_in_mood[45] = febraury_drawbale_list.getDrawable(14);
+            list_of_all_the_calender_views_in_mood[46] = febraury_drawbale_list.getDrawable(15);
+            list_of_all_the_calender_views_in_mood[47] = febraury_drawbale_list.getDrawable(16);
+            list_of_all_the_calender_views_in_mood[48] = febraury_drawbale_list.getDrawable(17);
+            list_of_all_the_calender_views_in_mood[49] = febraury_drawbale_list.getDrawable(18);
+            list_of_all_the_calender_views_in_mood[50] = febraury_drawbale_list.getDrawable(19);
+            list_of_all_the_calender_views_in_mood[51] = febraury_drawbale_list.getDrawable(20);
+            list_of_all_the_calender_views_in_mood[52] = febraury_drawbale_list.getDrawable(21);
+            list_of_all_the_calender_views_in_mood[53] = febraury_drawbale_list.getDrawable(22);
+            list_of_all_the_calender_views_in_mood[54] = febraury_drawbale_list.getDrawable(23);
+            list_of_all_the_calender_views_in_mood[55] = febraury_drawbale_list.getDrawable(24);
+            list_of_all_the_calender_views_in_mood[56] = febraury_drawbale_list.getDrawable(25);
+            list_of_all_the_calender_views_in_mood[57] = febraury_drawbale_list.getDrawable(26);
+            list_of_all_the_calender_views_in_mood[58] = febraury_drawbale_list.getDrawable(27);
+            list_of_all_the_calender_views_in_mood[59] = febraury_drawbale_list.getDrawable(28);
+
+            //march
+            list_of_all_the_calender_views_in_mood[60] = march_drawbale_list.getDrawable(0);
+            list_of_all_the_calender_views_in_mood[61] = march_drawbale_list.getDrawable(1);
+            list_of_all_the_calender_views_in_mood[62] = march_drawbale_list.getDrawable(2);
+            list_of_all_the_calender_views_in_mood[63] = march_drawbale_list.getDrawable(3);
+            list_of_all_the_calender_views_in_mood[64] = march_drawbale_list.getDrawable(4);
+            list_of_all_the_calender_views_in_mood[65] = march_drawbale_list.getDrawable(5);
+            list_of_all_the_calender_views_in_mood[66] = march_drawbale_list.getDrawable(6);
+            list_of_all_the_calender_views_in_mood[67] = march_drawbale_list.getDrawable(7);
+            list_of_all_the_calender_views_in_mood[68] = march_drawbale_list.getDrawable(8);
+            list_of_all_the_calender_views_in_mood[69] = march_drawbale_list.getDrawable(9);
+            list_of_all_the_calender_views_in_mood[70] = march_drawbale_list.getDrawable(10);
+            list_of_all_the_calender_views_in_mood[71] = march_drawbale_list.getDrawable(11);
+            list_of_all_the_calender_views_in_mood[72] = march_drawbale_list.getDrawable(12);
+            list_of_all_the_calender_views_in_mood[73] = march_drawbale_list.getDrawable(13);
+            list_of_all_the_calender_views_in_mood[74] = march_drawbale_list.getDrawable(14);
+            list_of_all_the_calender_views_in_mood[75] = march_drawbale_list.getDrawable(15);
+            list_of_all_the_calender_views_in_mood[76] = march_drawbale_list.getDrawable(16);
+            list_of_all_the_calender_views_in_mood[77] = march_drawbale_list.getDrawable(17);
+            list_of_all_the_calender_views_in_mood[78] = march_drawbale_list.getDrawable(18);
+            list_of_all_the_calender_views_in_mood[79] = march_drawbale_list.getDrawable(19);
+            list_of_all_the_calender_views_in_mood[80] = march_drawbale_list.getDrawable(20);
+            list_of_all_the_calender_views_in_mood[81] = march_drawbale_list.getDrawable(21);
+            list_of_all_the_calender_views_in_mood[82] = march_drawbale_list.getDrawable(22);
+            list_of_all_the_calender_views_in_mood[83] = march_drawbale_list.getDrawable(23);
+            list_of_all_the_calender_views_in_mood[84] = march_drawbale_list.getDrawable(24);
+            list_of_all_the_calender_views_in_mood[85] = march_drawbale_list.getDrawable(25);
+            list_of_all_the_calender_views_in_mood[86] = march_drawbale_list.getDrawable(26);
+            list_of_all_the_calender_views_in_mood[87] = march_drawbale_list.getDrawable(27);
+            list_of_all_the_calender_views_in_mood[88] = march_drawbale_list.getDrawable(28);
+            list_of_all_the_calender_views_in_mood[89] = march_drawbale_list.getDrawable(29);
+            list_of_all_the_calender_views_in_mood[90] = march_drawbale_list.getDrawable(30);
+
+            //april
+            list_of_all_the_calender_views_in_mood[91] = april_drawbale_list.getDrawable(0);
+            list_of_all_the_calender_views_in_mood[92] = april_drawbale_list.getDrawable(1);
+            list_of_all_the_calender_views_in_mood[93] = april_drawbale_list.getDrawable(2);
+            list_of_all_the_calender_views_in_mood[94] = april_drawbale_list.getDrawable(3);
+            list_of_all_the_calender_views_in_mood[95] = april_drawbale_list.getDrawable(4);
+            list_of_all_the_calender_views_in_mood[96] = april_drawbale_list.getDrawable(5);
+            list_of_all_the_calender_views_in_mood[97] = april_drawbale_list.getDrawable(6);
+            list_of_all_the_calender_views_in_mood[98] = april_drawbale_list.getDrawable(7);
+            list_of_all_the_calender_views_in_mood[99] = april_drawbale_list.getDrawable(8);
+            list_of_all_the_calender_views_in_mood[100] = april_drawbale_list.getDrawable(9);
+            list_of_all_the_calender_views_in_mood[101] = april_drawbale_list.getDrawable(10);
+            list_of_all_the_calender_views_in_mood[102] = april_drawbale_list.getDrawable(11);
+            list_of_all_the_calender_views_in_mood[103] = april_drawbale_list.getDrawable(12);
+            list_of_all_the_calender_views_in_mood[104] = april_drawbale_list.getDrawable(13);
+            list_of_all_the_calender_views_in_mood[105] = april_drawbale_list.getDrawable(14);
+            list_of_all_the_calender_views_in_mood[106] = april_drawbale_list.getDrawable(15);
+            list_of_all_the_calender_views_in_mood[107] = april_drawbale_list.getDrawable(16);
+            list_of_all_the_calender_views_in_mood[108] = april_drawbale_list.getDrawable(17);
+            list_of_all_the_calender_views_in_mood[109] = april_drawbale_list.getDrawable(18);
+            list_of_all_the_calender_views_in_mood[110] = april_drawbale_list.getDrawable(19);
+            list_of_all_the_calender_views_in_mood[111] = april_drawbale_list.getDrawable(20);
+            list_of_all_the_calender_views_in_mood[112] = april_drawbale_list.getDrawable(21);
+            list_of_all_the_calender_views_in_mood[113] = april_drawbale_list.getDrawable(22);
+            list_of_all_the_calender_views_in_mood[114] = april_drawbale_list.getDrawable(23);
+            list_of_all_the_calender_views_in_mood[115] = april_drawbale_list.getDrawable(24);
+            list_of_all_the_calender_views_in_mood[116] = april_drawbale_list.getDrawable(25);
+            list_of_all_the_calender_views_in_mood[117] = april_drawbale_list.getDrawable(26);
+            list_of_all_the_calender_views_in_mood[118] = april_drawbale_list.getDrawable(27);
+            list_of_all_the_calender_views_in_mood[119] = april_drawbale_list.getDrawable(28);
+            list_of_all_the_calender_views_in_mood[120] = april_drawbale_list.getDrawable(29);
+
+            //may
+            list_of_all_the_calender_views_in_mood[121] = may_drawbale_list.getDrawable(0);
+            list_of_all_the_calender_views_in_mood[122] = may_drawbale_list.getDrawable(1);
+            list_of_all_the_calender_views_in_mood[123] = may_drawbale_list.getDrawable(2);
+            list_of_all_the_calender_views_in_mood[124] = may_drawbale_list.getDrawable(3);
+            list_of_all_the_calender_views_in_mood[125] = may_drawbale_list.getDrawable(4);
+            list_of_all_the_calender_views_in_mood[126] = may_drawbale_list.getDrawable(5);
+            list_of_all_the_calender_views_in_mood[127] = may_drawbale_list.getDrawable(6);
+            list_of_all_the_calender_views_in_mood[128] = may_drawbale_list.getDrawable(7);
+            list_of_all_the_calender_views_in_mood[129] = may_drawbale_list.getDrawable(8);
+            list_of_all_the_calender_views_in_mood[130] = may_drawbale_list.getDrawable(9);
+            list_of_all_the_calender_views_in_mood[131] = may_drawbale_list.getDrawable(10);
+            list_of_all_the_calender_views_in_mood[132] = may_drawbale_list.getDrawable(11);
+            list_of_all_the_calender_views_in_mood[133] = may_drawbale_list.getDrawable(12);
+            list_of_all_the_calender_views_in_mood[134] = may_drawbale_list.getDrawable(13);
+            list_of_all_the_calender_views_in_mood[135] = may_drawbale_list.getDrawable(14);
+            list_of_all_the_calender_views_in_mood[136] = may_drawbale_list.getDrawable(15);
+            list_of_all_the_calender_views_in_mood[137] = may_drawbale_list.getDrawable(16);
+            list_of_all_the_calender_views_in_mood[138] = may_drawbale_list.getDrawable(17);
+            list_of_all_the_calender_views_in_mood[139] = may_drawbale_list.getDrawable(18);
+            list_of_all_the_calender_views_in_mood[140] = may_drawbale_list.getDrawable(19);
+            list_of_all_the_calender_views_in_mood[141] = may_drawbale_list.getDrawable(20);
+            list_of_all_the_calender_views_in_mood[142] = may_drawbale_list.getDrawable(21);
+            list_of_all_the_calender_views_in_mood[143] = may_drawbale_list.getDrawable(22);
+            list_of_all_the_calender_views_in_mood[144] = may_drawbale_list.getDrawable(23);
+            list_of_all_the_calender_views_in_mood[145] = may_drawbale_list.getDrawable(24);
+            list_of_all_the_calender_views_in_mood[146] = may_drawbale_list.getDrawable(25);
+            list_of_all_the_calender_views_in_mood[147] = may_drawbale_list.getDrawable(26);
+            list_of_all_the_calender_views_in_mood[148] = may_drawbale_list.getDrawable(27);
+            list_of_all_the_calender_views_in_mood[149] = may_drawbale_list.getDrawable(28);
+            list_of_all_the_calender_views_in_mood[150] = may_drawbale_list.getDrawable(29);
+            list_of_all_the_calender_views_in_mood[151] = may_drawbale_list.getDrawable(30);
+
+            //june
+            list_of_all_the_calender_views_in_mood[152] = june_drawbale_list.getDrawable(0);
+            list_of_all_the_calender_views_in_mood[153] = june_drawbale_list.getDrawable(1);
+            list_of_all_the_calender_views_in_mood[154] = june_drawbale_list.getDrawable(2);
+            list_of_all_the_calender_views_in_mood[155] = june_drawbale_list.getDrawable(3);
+            list_of_all_the_calender_views_in_mood[156] = june_drawbale_list.getDrawable(4);
+            list_of_all_the_calender_views_in_mood[157] = june_drawbale_list.getDrawable(5);
+            list_of_all_the_calender_views_in_mood[158] = june_drawbale_list.getDrawable(6);
+            list_of_all_the_calender_views_in_mood[159] = june_drawbale_list.getDrawable(7);
+            list_of_all_the_calender_views_in_mood[160] = june_drawbale_list.getDrawable(8);
+            list_of_all_the_calender_views_in_mood[161] = june_drawbale_list.getDrawable(9);
+            list_of_all_the_calender_views_in_mood[162] = june_drawbale_list.getDrawable(10);
+            list_of_all_the_calender_views_in_mood[163] = june_drawbale_list.getDrawable(11);
+            list_of_all_the_calender_views_in_mood[164] = june_drawbale_list.getDrawable(12);
+            list_of_all_the_calender_views_in_mood[165] = june_drawbale_list.getDrawable(13);
+            list_of_all_the_calender_views_in_mood[166] = june_drawbale_list.getDrawable(14);
+            list_of_all_the_calender_views_in_mood[167] = june_drawbale_list.getDrawable(15);
+            list_of_all_the_calender_views_in_mood[168] = june_drawbale_list.getDrawable(16);
+            list_of_all_the_calender_views_in_mood[169] = june_drawbale_list.getDrawable(17);
+            list_of_all_the_calender_views_in_mood[170] = june_drawbale_list.getDrawable(18);
+            list_of_all_the_calender_views_in_mood[171] = june_drawbale_list.getDrawable(19);
+            list_of_all_the_calender_views_in_mood[172] = june_drawbale_list.getDrawable(20);
+            list_of_all_the_calender_views_in_mood[173] = june_drawbale_list.getDrawable(21);
+            list_of_all_the_calender_views_in_mood[174] = june_drawbale_list.getDrawable(22);
+            list_of_all_the_calender_views_in_mood[175] = june_drawbale_list.getDrawable(23);
+            list_of_all_the_calender_views_in_mood[176] = june_drawbale_list.getDrawable(24);
+            list_of_all_the_calender_views_in_mood[177] = june_drawbale_list.getDrawable(25);
+            list_of_all_the_calender_views_in_mood[178] = june_drawbale_list.getDrawable(26);
+            list_of_all_the_calender_views_in_mood[179] = june_drawbale_list.getDrawable(27);
+            list_of_all_the_calender_views_in_mood[180] = june_drawbale_list.getDrawable(28);
+            list_of_all_the_calender_views_in_mood[181] = june_drawbale_list.getDrawable(29);
+
+            //july
+            list_of_all_the_calender_views_in_mood[182] = july_drawbale_list.getDrawable(0);
+            list_of_all_the_calender_views_in_mood[183] = july_drawbale_list.getDrawable(1);
+            list_of_all_the_calender_views_in_mood[184] = july_drawbale_list.getDrawable(2);
+            list_of_all_the_calender_views_in_mood[185] = july_drawbale_list.getDrawable(3);
+            list_of_all_the_calender_views_in_mood[186] = july_drawbale_list.getDrawable(4);
+            list_of_all_the_calender_views_in_mood[187] = july_drawbale_list.getDrawable(5);
+            list_of_all_the_calender_views_in_mood[188] = july_drawbale_list.getDrawable(6);
+            list_of_all_the_calender_views_in_mood[189] = july_drawbale_list.getDrawable(7);
+            list_of_all_the_calender_views_in_mood[190] = july_drawbale_list.getDrawable(8);
+            list_of_all_the_calender_views_in_mood[191] = july_drawbale_list.getDrawable(9);
+            list_of_all_the_calender_views_in_mood[192] = july_drawbale_list.getDrawable(10);
+            list_of_all_the_calender_views_in_mood[193] = july_drawbale_list.getDrawable(11);
+            list_of_all_the_calender_views_in_mood[194] = july_drawbale_list.getDrawable(12);
+            list_of_all_the_calender_views_in_mood[195] = july_drawbale_list.getDrawable(13);
+            list_of_all_the_calender_views_in_mood[196] = july_drawbale_list.getDrawable(14);
+            list_of_all_the_calender_views_in_mood[197] = july_drawbale_list.getDrawable(15);
+            list_of_all_the_calender_views_in_mood[198] = july_drawbale_list.getDrawable(16);
+            list_of_all_the_calender_views_in_mood[199] = july_drawbale_list.getDrawable(17);
+            list_of_all_the_calender_views_in_mood[200] = july_drawbale_list.getDrawable(18);
+            list_of_all_the_calender_views_in_mood[201] = july_drawbale_list.getDrawable(19);
+            list_of_all_the_calender_views_in_mood[202] = july_drawbale_list.getDrawable(20);
+            list_of_all_the_calender_views_in_mood[203] = july_drawbale_list.getDrawable(21);
+            list_of_all_the_calender_views_in_mood[204] = july_drawbale_list.getDrawable(22);
+            list_of_all_the_calender_views_in_mood[205] = july_drawbale_list.getDrawable(23);
+            list_of_all_the_calender_views_in_mood[206] = july_drawbale_list.getDrawable(24);
+            list_of_all_the_calender_views_in_mood[207] = july_drawbale_list.getDrawable(25);
+            list_of_all_the_calender_views_in_mood[208] = july_drawbale_list.getDrawable(26);
+            list_of_all_the_calender_views_in_mood[209] = july_drawbale_list.getDrawable(27);
+            list_of_all_the_calender_views_in_mood[210] = july_drawbale_list.getDrawable(28);
+            list_of_all_the_calender_views_in_mood[211] = july_drawbale_list.getDrawable(29);
+            list_of_all_the_calender_views_in_mood[212] = july_drawbale_list.getDrawable(30);
+
+            //august
+            list_of_all_the_calender_views_in_mood[213] = august_drawbale_list.getDrawable(0);
+            list_of_all_the_calender_views_in_mood[214] = august_drawbale_list.getDrawable(1);
+            list_of_all_the_calender_views_in_mood[215] = august_drawbale_list.getDrawable(2);
+            list_of_all_the_calender_views_in_mood[216] = august_drawbale_list.getDrawable(3);
+            list_of_all_the_calender_views_in_mood[217] = august_drawbale_list.getDrawable(4);
+            list_of_all_the_calender_views_in_mood[218] = august_drawbale_list.getDrawable(5);
+            list_of_all_the_calender_views_in_mood[219] = august_drawbale_list.getDrawable(6);
+            list_of_all_the_calender_views_in_mood[220] = august_drawbale_list.getDrawable(7);
+            list_of_all_the_calender_views_in_mood[221] = august_drawbale_list.getDrawable(8);
+            list_of_all_the_calender_views_in_mood[222] = august_drawbale_list.getDrawable(9);
+            list_of_all_the_calender_views_in_mood[223] = august_drawbale_list.getDrawable(10);
+            list_of_all_the_calender_views_in_mood[224] = august_drawbale_list.getDrawable(11);
+            list_of_all_the_calender_views_in_mood[225] = august_drawbale_list.getDrawable(12);
+            list_of_all_the_calender_views_in_mood[226] = august_drawbale_list.getDrawable(13);
+            list_of_all_the_calender_views_in_mood[227] = august_drawbale_list.getDrawable(14);
+            list_of_all_the_calender_views_in_mood[228] = august_drawbale_list.getDrawable(15);
+            list_of_all_the_calender_views_in_mood[229] = august_drawbale_list.getDrawable(16);
+            list_of_all_the_calender_views_in_mood[230] = august_drawbale_list.getDrawable(17);
+            list_of_all_the_calender_views_in_mood[231] = august_drawbale_list.getDrawable(18);
+            list_of_all_the_calender_views_in_mood[232] = august_drawbale_list.getDrawable(19);
+            list_of_all_the_calender_views_in_mood[233] = august_drawbale_list.getDrawable(20);
+            list_of_all_the_calender_views_in_mood[234] = august_drawbale_list.getDrawable(21);
+            list_of_all_the_calender_views_in_mood[235] = august_drawbale_list.getDrawable(22);
+            list_of_all_the_calender_views_in_mood[236] = august_drawbale_list.getDrawable(23);
+            list_of_all_the_calender_views_in_mood[237] = august_drawbale_list.getDrawable(24);
+            list_of_all_the_calender_views_in_mood[238] = august_drawbale_list.getDrawable(25);
+            list_of_all_the_calender_views_in_mood[239] = august_drawbale_list.getDrawable(26);
+            list_of_all_the_calender_views_in_mood[240] = august_drawbale_list.getDrawable(27);
+            list_of_all_the_calender_views_in_mood[241] = august_drawbale_list.getDrawable(28);
+            list_of_all_the_calender_views_in_mood[242] = august_drawbale_list.getDrawable(29);
+            list_of_all_the_calender_views_in_mood[243] = august_drawbale_list.getDrawable(30);
+
+            //september
+            list_of_all_the_calender_views_in_mood[244] = september_drawbale_list.getDrawable(0);
+            list_of_all_the_calender_views_in_mood[245] = september_drawbale_list.getDrawable(1);
+            list_of_all_the_calender_views_in_mood[246] = september_drawbale_list.getDrawable(2);
+            list_of_all_the_calender_views_in_mood[247] = september_drawbale_list.getDrawable(3);
+            list_of_all_the_calender_views_in_mood[248] = september_drawbale_list.getDrawable(4);
+            list_of_all_the_calender_views_in_mood[249] = september_drawbale_list.getDrawable(5);
+            list_of_all_the_calender_views_in_mood[250] = september_drawbale_list.getDrawable(6);
+            list_of_all_the_calender_views_in_mood[251] = september_drawbale_list.getDrawable(7);
+            list_of_all_the_calender_views_in_mood[252] = september_drawbale_list.getDrawable(8);
+            list_of_all_the_calender_views_in_mood[253] = september_drawbale_list.getDrawable(9);
+            list_of_all_the_calender_views_in_mood[254] = september_drawbale_list.getDrawable(10);
+            list_of_all_the_calender_views_in_mood[255] = september_drawbale_list.getDrawable(11);
+            list_of_all_the_calender_views_in_mood[256] = september_drawbale_list.getDrawable(12);
+            list_of_all_the_calender_views_in_mood[257] = september_drawbale_list.getDrawable(13);
+            list_of_all_the_calender_views_in_mood[258] = september_drawbale_list.getDrawable(14);
+            list_of_all_the_calender_views_in_mood[259] = september_drawbale_list.getDrawable(15);
+            list_of_all_the_calender_views_in_mood[260] = september_drawbale_list.getDrawable(16);
+            list_of_all_the_calender_views_in_mood[261] = september_drawbale_list.getDrawable(17);
+            list_of_all_the_calender_views_in_mood[262] = september_drawbale_list.getDrawable(18);
+            list_of_all_the_calender_views_in_mood[263] = september_drawbale_list.getDrawable(19);
+            list_of_all_the_calender_views_in_mood[264] = september_drawbale_list.getDrawable(20);
+            list_of_all_the_calender_views_in_mood[265] = september_drawbale_list.getDrawable(21);
+            list_of_all_the_calender_views_in_mood[266] = september_drawbale_list.getDrawable(22);
+            list_of_all_the_calender_views_in_mood[267] = september_drawbale_list.getDrawable(23);
+            list_of_all_the_calender_views_in_mood[268] = september_drawbale_list.getDrawable(24);
+            list_of_all_the_calender_views_in_mood[269] = september_drawbale_list.getDrawable(25);
+            list_of_all_the_calender_views_in_mood[270] = september_drawbale_list.getDrawable(26);
+            list_of_all_the_calender_views_in_mood[271] = september_drawbale_list.getDrawable(27);
+            list_of_all_the_calender_views_in_mood[272] = september_drawbale_list.getDrawable(28);
+            list_of_all_the_calender_views_in_mood[273] = september_drawbale_list.getDrawable(29);
+
+            //october
+            list_of_all_the_calender_views_in_mood[274] = october_drawbale_list.getDrawable(0);
+            list_of_all_the_calender_views_in_mood[275] = october_drawbale_list.getDrawable(1);
+            list_of_all_the_calender_views_in_mood[276] = october_drawbale_list.getDrawable(2);
+            list_of_all_the_calender_views_in_mood[277] = october_drawbale_list.getDrawable(3);
+            list_of_all_the_calender_views_in_mood[278] = october_drawbale_list.getDrawable(4);
+            list_of_all_the_calender_views_in_mood[279] = october_drawbale_list.getDrawable(5);
+            list_of_all_the_calender_views_in_mood[280] = october_drawbale_list.getDrawable(6);
+            list_of_all_the_calender_views_in_mood[281] = october_drawbale_list.getDrawable(7);
+            list_of_all_the_calender_views_in_mood[282] = october_drawbale_list.getDrawable(8);
+            list_of_all_the_calender_views_in_mood[283] = october_drawbale_list.getDrawable(9);
+            list_of_all_the_calender_views_in_mood[284] = october_drawbale_list.getDrawable(10);
+            list_of_all_the_calender_views_in_mood[285] = october_drawbale_list.getDrawable(11);
+            list_of_all_the_calender_views_in_mood[286] = october_drawbale_list.getDrawable(12);
+            list_of_all_the_calender_views_in_mood[287] = october_drawbale_list.getDrawable(13);
+            list_of_all_the_calender_views_in_mood[288] = october_drawbale_list.getDrawable(14);
+            list_of_all_the_calender_views_in_mood[289] = october_drawbale_list.getDrawable(15);
+            list_of_all_the_calender_views_in_mood[290] = october_drawbale_list.getDrawable(16);
+            list_of_all_the_calender_views_in_mood[291] = october_drawbale_list.getDrawable(17);
+            list_of_all_the_calender_views_in_mood[292] = october_drawbale_list.getDrawable(18);
+            list_of_all_the_calender_views_in_mood[293] = october_drawbale_list.getDrawable(19);
+            list_of_all_the_calender_views_in_mood[294] = october_drawbale_list.getDrawable(20);
+            list_of_all_the_calender_views_in_mood[295] = october_drawbale_list.getDrawable(21);
+            list_of_all_the_calender_views_in_mood[296] = october_drawbale_list.getDrawable(22);
+            list_of_all_the_calender_views_in_mood[297] = october_drawbale_list.getDrawable(23);
+            list_of_all_the_calender_views_in_mood[298] = october_drawbale_list.getDrawable(24);
+            list_of_all_the_calender_views_in_mood[299] = october_drawbale_list.getDrawable(25);
+            list_of_all_the_calender_views_in_mood[300] = october_drawbale_list.getDrawable(26);
+            list_of_all_the_calender_views_in_mood[301] = october_drawbale_list.getDrawable(27);
+            list_of_all_the_calender_views_in_mood[302] = october_drawbale_list.getDrawable(28);
+            list_of_all_the_calender_views_in_mood[303] = october_drawbale_list.getDrawable(29);
+            list_of_all_the_calender_views_in_mood[304] = october_drawbale_list.getDrawable(30);
+
+            //november
+            list_of_all_the_calender_views_in_mood[305] = november_drawbale_list.getDrawable(0);
+            list_of_all_the_calender_views_in_mood[306] = november_drawbale_list.getDrawable(1);
+            list_of_all_the_calender_views_in_mood[307] = november_drawbale_list.getDrawable(2);
+            list_of_all_the_calender_views_in_mood[308] = november_drawbale_list.getDrawable(3);
+            list_of_all_the_calender_views_in_mood[309] = november_drawbale_list.getDrawable(4);
+            list_of_all_the_calender_views_in_mood[310] = november_drawbale_list.getDrawable(5);
+            list_of_all_the_calender_views_in_mood[311] = november_drawbale_list.getDrawable(6);
+            list_of_all_the_calender_views_in_mood[312] = november_drawbale_list.getDrawable(7);
+            list_of_all_the_calender_views_in_mood[313] = november_drawbale_list.getDrawable(8);
+            list_of_all_the_calender_views_in_mood[314] = november_drawbale_list.getDrawable(9);
+            list_of_all_the_calender_views_in_mood[315] = november_drawbale_list.getDrawable(10);
+            list_of_all_the_calender_views_in_mood[316] = november_drawbale_list.getDrawable(11);
+            list_of_all_the_calender_views_in_mood[317] = november_drawbale_list.getDrawable(12);
+            list_of_all_the_calender_views_in_mood[318] = november_drawbale_list.getDrawable(13);
+            list_of_all_the_calender_views_in_mood[319] = november_drawbale_list.getDrawable(14);
+            list_of_all_the_calender_views_in_mood[320] = november_drawbale_list.getDrawable(15);
+            list_of_all_the_calender_views_in_mood[321] = november_drawbale_list.getDrawable(16);
+            list_of_all_the_calender_views_in_mood[322] = november_drawbale_list.getDrawable(17);
+            list_of_all_the_calender_views_in_mood[323] = november_drawbale_list.getDrawable(18);
+            list_of_all_the_calender_views_in_mood[324] = november_drawbale_list.getDrawable(19);
+            list_of_all_the_calender_views_in_mood[325] = november_drawbale_list.getDrawable(20);
+            list_of_all_the_calender_views_in_mood[326] = november_drawbale_list.getDrawable(21);
+            list_of_all_the_calender_views_in_mood[327] = november_drawbale_list.getDrawable(22);
+            list_of_all_the_calender_views_in_mood[328] = november_drawbale_list.getDrawable(23);
+            list_of_all_the_calender_views_in_mood[329] = november_drawbale_list.getDrawable(24);
+            list_of_all_the_calender_views_in_mood[330] = november_drawbale_list.getDrawable(25);
+            list_of_all_the_calender_views_in_mood[331] = november_drawbale_list.getDrawable(26);
+            list_of_all_the_calender_views_in_mood[332] = november_drawbale_list.getDrawable(27);
+            list_of_all_the_calender_views_in_mood[333] = november_drawbale_list.getDrawable(28);
+            list_of_all_the_calender_views_in_mood[334] = november_drawbale_list.getDrawable(29);
+
+            //december
+            list_of_all_the_calender_views_in_mood[335] = december_drawbale_list.getDrawable(0);
+            list_of_all_the_calender_views_in_mood[336] = december_drawbale_list.getDrawable(1);
+            list_of_all_the_calender_views_in_mood[337] = december_drawbale_list.getDrawable(2);
+            list_of_all_the_calender_views_in_mood[338] = december_drawbale_list.getDrawable(3);
+            list_of_all_the_calender_views_in_mood[339] = december_drawbale_list.getDrawable(4);
+            list_of_all_the_calender_views_in_mood[340] = december_drawbale_list.getDrawable(5);
+            list_of_all_the_calender_views_in_mood[341] = december_drawbale_list.getDrawable(6);
+            list_of_all_the_calender_views_in_mood[342] = december_drawbale_list.getDrawable(7);
+            list_of_all_the_calender_views_in_mood[343] = december_drawbale_list.getDrawable(8);
+            list_of_all_the_calender_views_in_mood[344] = december_drawbale_list.getDrawable(9);
+            list_of_all_the_calender_views_in_mood[345] = december_drawbale_list.getDrawable(10);
+            list_of_all_the_calender_views_in_mood[346] = december_drawbale_list.getDrawable(11);
+            list_of_all_the_calender_views_in_mood[347] = december_drawbale_list.getDrawable(12);
+            list_of_all_the_calender_views_in_mood[348] = december_drawbale_list.getDrawable(13);
+            list_of_all_the_calender_views_in_mood[349] = december_drawbale_list.getDrawable(14);
+            list_of_all_the_calender_views_in_mood[350] = december_drawbale_list.getDrawable(15);
+            list_of_all_the_calender_views_in_mood[351] = december_drawbale_list.getDrawable(16);
+            list_of_all_the_calender_views_in_mood[352] = december_drawbale_list.getDrawable(17);
+            list_of_all_the_calender_views_in_mood[353] = december_drawbale_list.getDrawable(18);
+            list_of_all_the_calender_views_in_mood[354] = december_drawbale_list.getDrawable(19);
+            list_of_all_the_calender_views_in_mood[355] = december_drawbale_list.getDrawable(20);
+            list_of_all_the_calender_views_in_mood[356] = december_drawbale_list.getDrawable(21);
+            list_of_all_the_calender_views_in_mood[357] = december_drawbale_list.getDrawable(22);
+            list_of_all_the_calender_views_in_mood[358] = december_drawbale_list.getDrawable(23);
+            list_of_all_the_calender_views_in_mood[359] = december_drawbale_list.getDrawable(24);
+            list_of_all_the_calender_views_in_mood[360] = december_drawbale_list.getDrawable(25);
+            list_of_all_the_calender_views_in_mood[361] = december_drawbale_list.getDrawable(26);
+            list_of_all_the_calender_views_in_mood[362] = december_drawbale_list.getDrawable(27);
+            list_of_all_the_calender_views_in_mood[363] = december_drawbale_list.getDrawable(28);
+            list_of_all_the_calender_views_in_mood[364] = december_drawbale_list.getDrawable(29);
+            list_of_all_the_calender_views_in_mood[365] = december_drawbale_list.getDrawable(30);
         }
     }
 
@@ -13182,56 +12904,52 @@ public class mood_tracker extends Fragment implements PopupMenu.OnMenuItemClickL
     private void set_the_leap_year() {
         if (getView() != null) {
             TextView text_saying_which_year_to_show_in_a_good_habits_year_in_mood = getView().findViewById(R.id.text_saying_which_year_to_show_in_a_good_habits_year_in_mood);
-            View good_habits_layout_circle_feb29_in_mood = getView().findViewById(R.id.good_habits_layout_circle_feb29_in_mood);
-            View backward_button_over_for_good_habits_for_the_full_year_view_in_mood = getView().findViewById(R.id.backward_button_over_for_good_habits_for_the_full_year_view_in_mood);
+            View febraury_view_habit_over_all = getView().findViewById(R.id.febraury_view_habit_over_all);
+            LayerDrawable febraury_month = (LayerDrawable) febraury_view_habit_over_all.getBackground();
+            Drawable day_29 = febraury_month.getDrawable(28);
             Calendar calendar = Calendar.getInstance();
             calendar.set(Calendar.YEAR, Integer.parseInt(text_saying_which_year_to_show_in_a_good_habits_year_in_mood.getText().toString()));
             if (calendar.getActualMaximum(Calendar.DAY_OF_YEAR) > 365) {
-                if (backward_button_over_for_good_habits_for_the_full_year_view_in_mood.getVisibility() == View.VISIBLE) {
-                    good_habits_layout_circle_feb29_in_mood.setVisibility(View.VISIBLE);
-                } else {
-                    calendar.set(Calendar.MONTH, Calendar.FEBRUARY);
-                    calendar.set(Calendar.DAY_OF_MONTH, 29);
-                    if (Simplify_the_time.return_time_in_midnight(calendar.getTimeInMillis()) >= Simplify_the_time.return_time_in_midnight(start_date)) {
-                        good_habits_layout_circle_feb29_in_mood.setVisibility(View.VISIBLE);
-                    } else {
-                        good_habits_layout_circle_feb29_in_mood.setVisibility(View.INVISIBLE);
-                    }
+                calendar.set(Calendar.MONTH, Calendar.FEBRUARY);
+                calendar.set(Calendar.DAY_OF_MONTH, 29);
+                if (Simplify_the_time.return_time_in_midnight(calendar.getTimeInMillis()) < Simplify_the_time.return_time_in_midnight(start_date)) {
+                    day_29.setTint(Color.TRANSPARENT);
                 }
             } else {
-                good_habits_layout_circle_feb29_in_mood.setVisibility(View.INVISIBLE);
+                day_29.setTint(Color.TRANSPARENT);
             }
         }
     }
 
     private void put_values_into_year_in_good_habits() {
         if (getView() != null && getContext() != null) {
+            restart_all_the_year_values();
             TextView text_saying_which_year_to_show_in_a_good_habits_year_in_mood = getView().findViewById(R.id.text_saying_which_year_to_show_in_a_good_habits_year_in_mood);
             int year_from_text = Integer.parseInt(text_saying_which_year_to_show_in_a_good_habits_year_in_mood.getText().toString());
             Calendar calendar = Calendar.getInstance();
             calendar.set(Calendar.YEAR, year_from_text);
 
-            String very_bad_color = return_the_color_of_mood(1);
-            String bad_color = return_the_color_of_mood(2);
-            String ok_color = return_the_color_of_mood(3);
-            String good_color = return_the_color_of_mood(4);
-            String very_good_color = return_the_color_of_mood(5);
+            int very_bad_color = Color.parseColor(return_the_color_of_mood(1));
+            int bad_color = Color.parseColor(return_the_color_of_mood(2));
+            int ok_color = Color.parseColor(return_the_color_of_mood(3));
+            int good_color = Color.parseColor(return_the_color_of_mood(4));
+            int very_good_color = Color.parseColor(return_the_color_of_mood(5));
+            int no_color = Color.parseColor("#E1E2E2");
 
-            Drawable back_ground_for_very_good = ContextCompat.getDrawable(getContext(), R.drawable.mood_tracker_circle_under_pie).mutate();
+            /*Drawable back_ground_for_very_good = ContextCompat.getDrawable(getContext(), R.drawable.mood_tracker_circle_under_pie).mutate();
             Drawable back_ground_for_good = ContextCompat.getDrawable(getContext(), R.drawable.mood_tracker_circle_under_pie).mutate();
             Drawable back_ground_for_ok = ContextCompat.getDrawable(getContext(), R.drawable.mood_tracker_circle_under_pie).mutate();
             Drawable back_ground_for_bad = ContextCompat.getDrawable(getContext(), R.drawable.mood_tracker_circle_under_pie).mutate();
             Drawable back_ground_for_very_bad = ContextCompat.getDrawable(getContext(), R.drawable.mood_tracker_circle_under_pie).mutate();
-            Drawable back_ground_for_no_input = ContextCompat.getDrawable(getContext(), R.drawable.back_ground_for_year_in_habit).mutate();
+            Drawable back_ground_for_no_input = ContextCompat.getDrawable(getContext(), R.drawable.back_ground_for_year_in_habit).mutate();*/
 
-            back_ground_for_very_bad.setTint(Color.parseColor(very_bad_color));
+            /*back_ground_for_very_bad.setTint(Color.parseColor(very_bad_color));
             back_ground_for_bad.setTint(Color.parseColor(bad_color));
             back_ground_for_ok.setTint(Color.parseColor(ok_color));
             back_ground_for_good.setTint(Color.parseColor(good_color));
-            back_ground_for_very_good.setTint(Color.parseColor(very_good_color));
+            back_ground_for_very_good.setTint(Color.parseColor(very_good_color));*/
 
-            Am_i_paid am_i_paid = new Am_i_paid(getContext());
-            if (am_i_paid.did_user_pay()) {
+            if (Payment_processer.getInstance().state_of_the_user()) {
                 if (is_this_a_leap_year(year_from_text)) {
                     if (past_current_future_for_the_full_year().equals("past")) {
                         for (int i = 366; i >= 1; i--) {
@@ -13239,19 +12957,18 @@ public class mood_tracker extends Fragment implements PopupMenu.OnMenuItemClickL
                             if (Simplify_the_time.return_time_in_midnight(calendar.getTimeInMillis()) < Simplify_the_time.return_time_in_midnight(start_date)) {
                                 break;
                             }
-                            list_of_all_the_calender_views_in_mood[i-1].setVisibility(View.VISIBLE);
                             if (return_color_of_days(calendar.getTimeInMillis()) == 0) {
-                                list_of_all_the_calender_views_in_mood[i - 1].setBackground(back_ground_for_no_input);
+                                list_of_all_the_calender_views_in_mood[i - 1].setTint(no_color);
                             } else if (return_color_of_days(calendar.getTimeInMillis()) == 1) {
-                                list_of_all_the_calender_views_in_mood[i - 1].setBackground(back_ground_for_very_bad);
+                                list_of_all_the_calender_views_in_mood[i - 1].setTint(very_bad_color);
                             } else if (return_color_of_days(calendar.getTimeInMillis()) == 2) {
-                                list_of_all_the_calender_views_in_mood[i - 1].setBackground(back_ground_for_bad);
+                                list_of_all_the_calender_views_in_mood[i - 1].setTint(bad_color);
                             } else if (return_color_of_days(calendar.getTimeInMillis()) == 3) {
-                                list_of_all_the_calender_views_in_mood[i - 1].setBackground(back_ground_for_ok);
+                                list_of_all_the_calender_views_in_mood[i - 1].setTint(ok_color);
                             } else if (return_color_of_days(calendar.getTimeInMillis()) == 4) {
-                                list_of_all_the_calender_views_in_mood[i - 1].setBackground(back_ground_for_good);
+                                list_of_all_the_calender_views_in_mood[i - 1].setTint(good_color);
                             } else if (return_color_of_days(calendar.getTimeInMillis()) == 5) {
-                                list_of_all_the_calender_views_in_mood[i - 1].setBackground(back_ground_for_very_good);
+                                list_of_all_the_calender_views_in_mood[i - 1].setTint(very_good_color);
                             }
                         }
                     } else if (past_current_future_for_the_full_year().equals("current")) {
@@ -13261,19 +12978,18 @@ public class mood_tracker extends Fragment implements PopupMenu.OnMenuItemClickL
                             if (Simplify_the_time.return_time_in_midnight(calendar.getTimeInMillis()) < Simplify_the_time.return_time_in_midnight(start_date)) {
                                 break;
                             }
-                            list_of_all_the_calender_views_in_mood[i - 1].setVisibility(View.VISIBLE);
                             if (return_color_of_days(calendar.getTimeInMillis()) == 0) {
-                                list_of_all_the_calender_views_in_mood[i - 1].setBackground(back_ground_for_no_input);
+                                list_of_all_the_calender_views_in_mood[i - 1].setTint(no_color);
                             } else if (return_color_of_days(calendar.getTimeInMillis()) == 1) {
-                                list_of_all_the_calender_views_in_mood[i - 1].setBackground(back_ground_for_very_bad);
+                                list_of_all_the_calender_views_in_mood[i - 1].setTint(very_bad_color);
                             } else if (return_color_of_days(calendar.getTimeInMillis()) == 2) {
-                                list_of_all_the_calender_views_in_mood[i - 1].setBackground(back_ground_for_bad);
+                                list_of_all_the_calender_views_in_mood[i - 1].setTint(bad_color);
                             } else if (return_color_of_days(calendar.getTimeInMillis()) == 3) {
-                                list_of_all_the_calender_views_in_mood[i - 1].setBackground(back_ground_for_ok);
+                                list_of_all_the_calender_views_in_mood[i - 1].setTint(ok_color);
                             } else if (return_color_of_days(calendar.getTimeInMillis()) == 4) {
-                                list_of_all_the_calender_views_in_mood[i - 1].setBackground(back_ground_for_good);
+                                list_of_all_the_calender_views_in_mood[i - 1].setTint(good_color);
                             } else if (return_color_of_days(calendar.getTimeInMillis()) == 5) {
-                                list_of_all_the_calender_views_in_mood[i - 1].setBackground(back_ground_for_very_good);
+                                list_of_all_the_calender_views_in_mood[i - 1].setTint(very_good_color);
                             }
                         }
                     }
@@ -13285,34 +13001,32 @@ public class mood_tracker extends Fragment implements PopupMenu.OnMenuItemClickL
                                 break;
                             }
                             if (i > 59) {
-                                list_of_all_the_calender_views_in_mood[i].setVisibility(View.VISIBLE);
                                 if (return_color_of_days(calendar.getTimeInMillis()) == 0) {
-                                    list_of_all_the_calender_views_in_mood[i].setBackground(back_ground_for_no_input);
+                                    list_of_all_the_calender_views_in_mood[i].setTint(no_color);
                                 } else if (return_color_of_days(calendar.getTimeInMillis()) == 1) {
-                                    list_of_all_the_calender_views_in_mood[i].setBackground(back_ground_for_very_bad);
+                                    list_of_all_the_calender_views_in_mood[i].setTint(very_bad_color);
                                 } else if (return_color_of_days(calendar.getTimeInMillis()) == 2) {
-                                    list_of_all_the_calender_views_in_mood[i].setBackground(back_ground_for_bad);
+                                    list_of_all_the_calender_views_in_mood[i].setTint(bad_color);
                                 } else if (return_color_of_days(calendar.getTimeInMillis()) == 3) {
-                                    list_of_all_the_calender_views_in_mood[i].setBackground(back_ground_for_ok);
+                                    list_of_all_the_calender_views_in_mood[i].setTint(ok_color);
                                 } else if (return_color_of_days(calendar.getTimeInMillis()) == 4) {
-                                    list_of_all_the_calender_views_in_mood[i].setBackground(back_ground_for_good);
+                                    list_of_all_the_calender_views_in_mood[i].setTint(good_color);
                                 } else if (return_color_of_days(calendar.getTimeInMillis()) == 5) {
-                                    list_of_all_the_calender_views_in_mood[i].setBackground(back_ground_for_very_good);
+                                    list_of_all_the_calender_views_in_mood[i].setTint(very_good_color);
                                 }
                             } else {
-                                list_of_all_the_calender_views_in_mood[i - 1].setVisibility(View.VISIBLE);
                                 if (return_color_of_days(calendar.getTimeInMillis()) == 0) {
-                                    list_of_all_the_calender_views_in_mood[i - 1].setBackground(back_ground_for_no_input);
+                                    list_of_all_the_calender_views_in_mood[i - 1].setTint(no_color);
                                 } else if (return_color_of_days(calendar.getTimeInMillis()) == 1) {
-                                    list_of_all_the_calender_views_in_mood[i - 1].setBackground(back_ground_for_very_bad);
+                                    list_of_all_the_calender_views_in_mood[i - 1].setTint(very_bad_color);
                                 } else if (return_color_of_days(calendar.getTimeInMillis()) == 2) {
-                                    list_of_all_the_calender_views_in_mood[i - 1].setBackground(back_ground_for_bad);
+                                    list_of_all_the_calender_views_in_mood[i - 1].setTint(bad_color);
                                 } else if (return_color_of_days(calendar.getTimeInMillis()) == 3) {
-                                    list_of_all_the_calender_views_in_mood[i - 1].setBackground(back_ground_for_ok);
+                                    list_of_all_the_calender_views_in_mood[i - 1].setTint(ok_color);
                                 } else if (return_color_of_days(calendar.getTimeInMillis()) == 4) {
-                                    list_of_all_the_calender_views_in_mood[i - 1].setBackground(back_ground_for_good);
+                                    list_of_all_the_calender_views_in_mood[i - 1].setTint(good_color);
                                 } else if (return_color_of_days(calendar.getTimeInMillis()) == 5) {
-                                    list_of_all_the_calender_views_in_mood[i - 1].setBackground(back_ground_for_very_good);
+                                    list_of_all_the_calender_views_in_mood[i - 1].setTint(very_good_color);
                                 }
                             }
                         }
@@ -13324,34 +13038,32 @@ public class mood_tracker extends Fragment implements PopupMenu.OnMenuItemClickL
                                 break;
                             }
                             if (i > 59) {
-                                list_of_all_the_calender_views_in_mood[i].setVisibility(View.VISIBLE);
                                 if (return_color_of_days(calendar.getTimeInMillis()) == 0) {
-                                    list_of_all_the_calender_views_in_mood[i].setBackground(back_ground_for_no_input);
+                                    list_of_all_the_calender_views_in_mood[i].setTint(no_color);
                                 } else if (return_color_of_days(calendar.getTimeInMillis()) == 1) {
-                                    list_of_all_the_calender_views_in_mood[i].setBackground(back_ground_for_very_bad);
+                                    list_of_all_the_calender_views_in_mood[i].setTint(very_bad_color);
                                 } else if (return_color_of_days(calendar.getTimeInMillis()) == 2) {
-                                    list_of_all_the_calender_views_in_mood[i].setBackground(back_ground_for_bad);
+                                    list_of_all_the_calender_views_in_mood[i].setTint(bad_color);
                                 } else if (return_color_of_days(calendar.getTimeInMillis()) == 3) {
-                                    list_of_all_the_calender_views_in_mood[i].setBackground(back_ground_for_ok);
+                                    list_of_all_the_calender_views_in_mood[i].setTint(ok_color);
                                 } else if (return_color_of_days(calendar.getTimeInMillis()) == 4) {
-                                    list_of_all_the_calender_views_in_mood[i].setBackground(back_ground_for_good);
+                                    list_of_all_the_calender_views_in_mood[i].setTint(good_color);
                                 } else if (return_color_of_days(calendar.getTimeInMillis()) == 5) {
-                                    list_of_all_the_calender_views_in_mood[i].setBackground(back_ground_for_very_good);
+                                    list_of_all_the_calender_views_in_mood[i].setTint(very_good_color);
                                 }
                             } else {
-                                list_of_all_the_calender_views_in_mood[i - 1].setVisibility(View.VISIBLE);
                                 if (return_color_of_days(calendar.getTimeInMillis()) == 0) {
-                                    list_of_all_the_calender_views_in_mood[i - 1].setBackground(back_ground_for_no_input);
+                                    list_of_all_the_calender_views_in_mood[i - 1].setTint(no_color);
                                 } else if (return_color_of_days(calendar.getTimeInMillis()) == 1) {
-                                    list_of_all_the_calender_views_in_mood[i - 1].setBackground(back_ground_for_very_bad);
+                                    list_of_all_the_calender_views_in_mood[i - 1].setTint(very_bad_color);
                                 } else if (return_color_of_days(calendar.getTimeInMillis()) == 2) {
-                                    list_of_all_the_calender_views_in_mood[i - 1].setBackground(back_ground_for_bad);
+                                    list_of_all_the_calender_views_in_mood[i - 1].setTint(bad_color);
                                 } else if (return_color_of_days(calendar.getTimeInMillis()) == 3) {
-                                    list_of_all_the_calender_views_in_mood[i - 1].setBackground(back_ground_for_ok);
+                                    list_of_all_the_calender_views_in_mood[i - 1].setTint(ok_color);
                                 } else if (return_color_of_days(calendar.getTimeInMillis()) == 4) {
-                                    list_of_all_the_calender_views_in_mood[i - 1].setBackground(back_ground_for_good);
+                                    list_of_all_the_calender_views_in_mood[i - 1].setTint(good_color);
                                 } else if (return_color_of_days(calendar.getTimeInMillis()) == 5) {
-                                    list_of_all_the_calender_views_in_mood[i - 1].setBackground(back_ground_for_very_good);
+                                    list_of_all_the_calender_views_in_mood[i - 1].setTint(very_good_color);
                                 }
                             }
                         }
@@ -13363,19 +13075,18 @@ public class mood_tracker extends Fragment implements PopupMenu.OnMenuItemClickL
                     for (int i = 366; i >= 1; i--) {
                         int number = random.nextInt(6);
                         calendar.set(Calendar.DAY_OF_YEAR, i);
-                        list_of_all_the_calender_views_in_mood[i - 1].setVisibility(View.VISIBLE);
                         if (number == 0) {
-                            list_of_all_the_calender_views_in_mood[i - 1].setBackground(back_ground_for_no_input);
+                            list_of_all_the_calender_views_in_mood[i - 1].setTint(no_color);
                         } else if (number == 1) {
-                            list_of_all_the_calender_views_in_mood[i - 1].setBackground(back_ground_for_very_bad);
+                            list_of_all_the_calender_views_in_mood[i - 1].setTint(very_bad_color);
                         } else if (number == 2) {
-                            list_of_all_the_calender_views_in_mood[i - 1].setBackground(back_ground_for_bad);
+                            list_of_all_the_calender_views_in_mood[i - 1].setTint(bad_color);
                         } else if (number == 3) {
-                            list_of_all_the_calender_views_in_mood[i - 1].setBackground(back_ground_for_ok);
+                            list_of_all_the_calender_views_in_mood[i - 1].setTint(ok_color);
                         } else if (number == 4) {
-                            list_of_all_the_calender_views_in_mood[i - 1].setBackground(back_ground_for_good);
+                            list_of_all_the_calender_views_in_mood[i - 1].setTint(good_color);
                         } else if (number == 5) {
-                            list_of_all_the_calender_views_in_mood[i - 1].setBackground(back_ground_for_very_good);
+                            list_of_all_the_calender_views_in_mood[i - 1].setTint(very_good_color);
                         }
                     }
                 } else {
@@ -13383,34 +13094,32 @@ public class mood_tracker extends Fragment implements PopupMenu.OnMenuItemClickL
                         int number = random.nextInt(6);
                         calendar.set(Calendar.DAY_OF_YEAR, i);
                         if (i > 59) {
-                            list_of_all_the_calender_views_in_mood[i].setVisibility(View.VISIBLE);
                             if (number == 0) {
-                                list_of_all_the_calender_views_in_mood[i].setBackground(back_ground_for_no_input);
+                                list_of_all_the_calender_views_in_mood[i].setTint(no_color);
                             } else if (number == 1) {
-                                list_of_all_the_calender_views_in_mood[i].setBackground(back_ground_for_very_bad);
+                                list_of_all_the_calender_views_in_mood[i].setTint(very_bad_color);
                             } else if (number == 2) {
-                                list_of_all_the_calender_views_in_mood[i].setBackground(back_ground_for_bad);
+                                list_of_all_the_calender_views_in_mood[i].setTint(bad_color);
                             } else if (number == 3) {
-                                list_of_all_the_calender_views_in_mood[i].setBackground(back_ground_for_ok);
+                                list_of_all_the_calender_views_in_mood[i].setTint(ok_color);
                             } else if (number == 4) {
-                                list_of_all_the_calender_views_in_mood[i].setBackground(back_ground_for_good);
+                                list_of_all_the_calender_views_in_mood[i].setTint(good_color);
                             } else if (number == 5) {
-                                list_of_all_the_calender_views_in_mood[i].setBackground(back_ground_for_very_good);
+                                list_of_all_the_calender_views_in_mood[i].setTint(very_good_color);
                             }
                         } else {
-                            list_of_all_the_calender_views_in_mood[i - 1].setVisibility(View.VISIBLE);
                             if (number == 0) {
-                                list_of_all_the_calender_views_in_mood[i - 1].setBackground(back_ground_for_no_input);
+                                list_of_all_the_calender_views_in_mood[i - 1].setTint(no_color);
                             } else if (number == 1) {
-                                list_of_all_the_calender_views_in_mood[i - 1].setBackground(back_ground_for_very_bad);
+                                list_of_all_the_calender_views_in_mood[i - 1].setTint(very_bad_color);
                             } else if (number == 2) {
-                                list_of_all_the_calender_views_in_mood[i - 1].setBackground(back_ground_for_bad);
+                                list_of_all_the_calender_views_in_mood[i - 1].setTint(bad_color);
                             } else if (number == 3) {
-                                list_of_all_the_calender_views_in_mood[i - 1].setBackground(back_ground_for_ok);
+                                list_of_all_the_calender_views_in_mood[i - 1].setTint(ok_color);
                             } else if (number == 4) {
-                                list_of_all_the_calender_views_in_mood[i - 1].setBackground(back_ground_for_good);
+                                list_of_all_the_calender_views_in_mood[i - 1].setTint(good_color);
                             } else if (number == 5) {
-                                list_of_all_the_calender_views_in_mood[i - 1].setBackground(back_ground_for_very_good);
+                                list_of_all_the_calender_views_in_mood[i - 1].setTint(very_good_color);
                             }
                         }
                     }
@@ -13431,7 +13140,7 @@ public class mood_tracker extends Fragment implements PopupMenu.OnMenuItemClickL
 
     private void restart_all_the_year_values() {
         for (int i = 0; i < 366; i++) {
-            list_of_all_the_calender_views_in_mood[i].setVisibility(View.INVISIBLE);
+            list_of_all_the_calender_views_in_mood[i].setTint(Color.TRANSPARENT);
         }
     }
 
@@ -13512,6 +13221,7 @@ public class mood_tracker extends Fragment implements PopupMenu.OnMenuItemClickL
             button_too_share_calender_in_good_habits.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    Event_manager_all_in_one.getInstance().record_fire_base_event(getContext(), Event_manager_all_in_one.Event_type_fire_base_record.share_mood_clicked, false);
                     if (very_good_mood_button_in_habits.getVisibility() == View.VISIBLE) {
                         button_too_share_calender_in_good_habits.setVisibility(View.GONE);
                         hide_or_un_hide_the_button(0);
@@ -13535,6 +13245,7 @@ public class mood_tracker extends Fragment implements PopupMenu.OnMenuItemClickL
             button_to_share_mood_graph.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    Event_manager_all_in_one.getInstance().record_fire_base_event(getContext(), Event_manager_all_in_one.Event_type_fire_base_record.share_mood_clicked, false);
                     button_to_share_mood_graph.setVisibility(View.INVISIBLE);
                     share_screen_shot(screenShot(card_to_show_line_graph_for_mood_tracker));
                     button_to_share_mood_graph.setVisibility(View.VISIBLE);
@@ -13543,6 +13254,7 @@ public class mood_tracker extends Fragment implements PopupMenu.OnMenuItemClickL
             button_to_share_the_best_average_and_current_streak.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    Event_manager_all_in_one.getInstance().record_fire_base_event(getContext(), Event_manager_all_in_one.Event_type_fire_base_record.share_mood_clicked, false);
                     button_to_share_the_best_average_and_current_streak.setVisibility(View.INVISIBLE);
                     share_screen_shot(screenShot(card_to_show_current_average_and_best_streak));
                     button_to_share_the_best_average_and_current_streak.setVisibility(View.VISIBLE);
@@ -13551,6 +13263,7 @@ public class mood_tracker extends Fragment implements PopupMenu.OnMenuItemClickL
             button_to_share_bar_chart.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    Event_manager_all_in_one.getInstance().record_fire_base_event(getContext(), Event_manager_all_in_one.Event_type_fire_base_record.share_mood_clicked, false);
                     button_to_share_bar_chart.setVisibility(View.INVISIBLE);
                     three_dots_view_in_mood_bar_to_change_week_month.setVisibility(View.INVISIBLE);
                     share_screen_shot(screenShot(card_to_show_daily_input_by_week_of_days));
@@ -13561,6 +13274,7 @@ public class mood_tracker extends Fragment implements PopupMenu.OnMenuItemClickL
             button_to_share_pie_chart.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    Event_manager_all_in_one.getInstance().record_fire_base_event(getContext(), Event_manager_all_in_one.Event_type_fire_base_record.share_mood_clicked, false);
                     button_to_share_pie_chart.setVisibility(View.INVISIBLE);
                     share_screen_shot(screenShot(card_to_show_pie_chart_for_yes_or_no_over_the_days));
                     button_to_share_pie_chart.setVisibility(View.VISIBLE);
@@ -13569,6 +13283,7 @@ public class mood_tracker extends Fragment implements PopupMenu.OnMenuItemClickL
             share_button_to_share_the_whole_year_in_the_good_habits.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    Event_manager_all_in_one.getInstance().record_fire_base_event(getContext(), Event_manager_all_in_one.Event_type_fire_base_record.share_mood_clicked, false);
                     share_button_to_share_the_whole_year_in_the_good_habits.setVisibility(View.INVISIBLE);
                     share_screen_shot(screenShot(card_showing_the_habit_in_year_in_good_habits_in_mood));
                     share_button_to_share_the_whole_year_in_the_good_habits.setVisibility(View.VISIBLE);
@@ -13649,11 +13364,13 @@ public class mood_tracker extends Fragment implements PopupMenu.OnMenuItemClickL
             back_button_in_view_information_good_habits.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    habits_fragment habits_fragment = new habits_fragment();
-                    mood_tracker old_fragment = (mood_tracker) getActivity().getSupportFragmentManager().findFragmentByTag("mood tracker");
-                    com.easyhabitsapp.android.habits_fragment new_fragment = (com.easyhabitsapp.android.habits_fragment) getActivity().getSupportFragmentManager().findFragmentByTag("habits");
-                    if (old_fragment != null && new_fragment != null) {
-                        getActivity().getSupportFragmentManager().beginTransaction().remove(old_fragment).remove(new_fragment).add(R.id.fragment_container, habits_fragment, "habits").show(habits_fragment).commit();
+                    if (getActivity() != null) {
+                        set_default_status_bar_color();
+                        Mood_tracker old_fragment = (Mood_tracker) getActivity().getSupportFragmentManager().findFragmentByTag("mood tracker");
+                        habits_fragment habits_fragment = (habits_fragment)  getActivity().getSupportFragmentManager().findFragmentByTag("habits");
+                        if (old_fragment != null && habits_fragment!=null) {
+                            getActivity().getSupportFragmentManager().beginTransaction().hide(old_fragment).show(habits_fragment).commitNow();
+                        }
                     }
                 }
             });
@@ -13710,7 +13427,7 @@ public class mood_tracker extends Fragment implements PopupMenu.OnMenuItemClickL
 
     private void call_date_picker() {
         Universal_date_picker universal_date_picker = new Universal_date_picker();
-        universal_date_picker.setTargetFragment(mood_tracker.this, 22);
+        universal_date_picker.setTargetFragment(Mood_tracker.this, 22);
         universal_date_picker.show(getActivity().getSupportFragmentManager(), "date_picker");
     }
 
@@ -13769,8 +13486,7 @@ public class mood_tracker extends Fragment implements PopupMenu.OnMenuItemClickL
             ConstraintLayout layout_to_show_data_about_the_year_calender_in_mood = getView().findViewById(R.id.layout_to_show_data_about_the_year_calender_in_mood);
             Button share_button_to_share_the_whole_year_in_the_good_habits = getView().findViewById(R.id.share_button_to_share_the_whole_year_in_the_good_habits);
 
-            Am_i_paid am_i_paid = new Am_i_paid(getContext());
-            if (am_i_paid.did_user_pay()) {
+            if (Payment_processer.getInstance().state_of_the_user()) {
                 this_streak_chart_is_only_available_for_pro_users_pie_chart_mood.setVisibility(View.INVISIBLE);
                 this_streak_chart_is_only_available_for_pro_users_weekly_mood_average_chart_mood.setVisibility(View.INVISIBLE);
                 this_streak_chart_is_only_available_for_pro_users_in_a_year_chart_mood.setVisibility(View.INVISIBLE);
@@ -13848,8 +13564,8 @@ public class mood_tracker extends Fragment implements PopupMenu.OnMenuItemClickL
             this_streak_chart_is_only_available_for_pro_users_pie_chart_mood.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Buy_premuim buy_premuim = new Buy_premuim("use mood chart", true, "mood tracker");
-                    mood_tracker old_fragment = (mood_tracker) getActivity().getSupportFragmentManager().findFragmentByTag("mood tracker");
+                    Mood_tracker old_fragment = (Mood_tracker) getActivity().getSupportFragmentManager().findFragmentByTag("mood tracker");
+                    Buy_premuim buy_premuim = new Buy_premuim("use mood chart", true, old_fragment);
                     if (old_fragment != null) {
                         getActivity().getSupportFragmentManager().beginTransaction().hide(old_fragment).add(R.id.fragment_container, buy_premuim, "buy premium").show(buy_premuim).commit();
                     }
@@ -13858,8 +13574,8 @@ public class mood_tracker extends Fragment implements PopupMenu.OnMenuItemClickL
             this_streak_chart_is_only_available_for_pro_users_weekly_mood_average_chart_mood.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Buy_premuim buy_premuim = new Buy_premuim("use the weekly and monthly average", true, "mood tracker");
-                    mood_tracker old_fragment = (mood_tracker) getActivity().getSupportFragmentManager().findFragmentByTag("mood tracker");
+                    Mood_tracker old_fragment = (Mood_tracker) getActivity().getSupportFragmentManager().findFragmentByTag("mood tracker");
+                    Buy_premuim buy_premuim = new Buy_premuim("use the weekly and monthly average", true, old_fragment);
                     if (old_fragment != null) {
                         getActivity().getSupportFragmentManager().beginTransaction().hide(old_fragment).add(R.id.fragment_container, buy_premuim, "buy premium").show(buy_premuim).commit();
                     }
@@ -13868,13 +13584,97 @@ public class mood_tracker extends Fragment implements PopupMenu.OnMenuItemClickL
             this_streak_chart_is_only_available_for_pro_users_in_a_year_chart_mood.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Buy_premuim buy_premuim = new Buy_premuim("use the mood in a year chart", true, "mood tracker");
-                    mood_tracker old_fragment = (mood_tracker) getActivity().getSupportFragmentManager().findFragmentByTag("mood tracker");
+                    Mood_tracker old_fragment = (Mood_tracker) getActivity().getSupportFragmentManager().findFragmentByTag("mood tracker");
+                    Buy_premuim buy_premuim = new Buy_premuim("use the mood in a year chart", true, old_fragment);
                     if (old_fragment != null) {
                         getActivity().getSupportFragmentManager().beginTransaction().hide(old_fragment).add(R.id.fragment_container, buy_premuim, "buy premium").show(buy_premuim).commit();
                     }
                 }
             });
         }
+    }
+
+    private void set_the_start_date_past(long recorded_time) {
+        long recorded_time_at_midnight = Simplify_the_time.return_time_in_midnight(recorded_time);
+        long start_date_at_midnight = Simplify_the_time.return_time_in_midnight(start_date);
+        if (start_date_at_midnight > recorded_time_at_midnight) {
+            start_date = recorded_time_at_midnight;
+        }
+    }
+
+    private void check_if_start_date_is_removed(long removed_time) {
+        long removed_time_at_midnight = Simplify_the_time.return_time_in_midnight(removed_time);
+        long start_date_at_midnight = Simplify_the_time.return_time_in_midnight(start_date);
+        if (start_date_at_midnight == removed_time_at_midnight) {
+            if (history_of_mood.isEmpty()) {
+                start_date = Simplify_the_time.return_time_in_midnight(System.currentTimeMillis());
+            } else {
+                start_date = Collections.min(history_of_mood.keySet());
+            }
+        }
+    }
+
+    private void mood_down_clicked_fix_it_up(int which, long time) {
+        long time_at_midnight = Simplify_the_time.return_time_in_midnight(time);
+        long time_today_at_midnight = Simplify_the_time.return_time_in_midnight(System.currentTimeMillis());
+        if (time_today_at_midnight == time_at_midnight) {
+            make_the_buttons_in_the_top_mood(which);
+        }
+    }
+
+    private void mood_up_clicked_fix_it_down(int which, long time) {
+        long time_at_midnight = Simplify_the_time.return_time_in_midnight(time);
+        long time_today_at_midnight = Simplify_the_time.return_time_in_midnight(System.currentTimeMillis());
+        if (time_today_at_midnight == time_at_midnight) {
+            selct_the_mood_in_calender(which);
+        }
+    }
+
+    private void set_visiblity_of_months_days() {
+        if (getView() != null) {
+            View febraury_view_habit_over_all = getView().findViewById(R.id.febraury_view_habit_over_all);
+            View april_view_habit_over_all = getView().findViewById(R.id.april_view_habit_over_all);
+            View june_view_habit_over_all = getView().findViewById(R.id.june_view_habit_over_all);
+            View september_view_habit_over_all = getView().findViewById(R.id.september_view_habit_over_all);
+            View november_view_habit_over_all = getView().findViewById(R.id.november_view_habit_over_all);
+            LayerDrawable febraury = (LayerDrawable) febraury_view_habit_over_all.getBackground();
+            LayerDrawable april = (LayerDrawable) april_view_habit_over_all.getBackground();
+            LayerDrawable june = (LayerDrawable) june_view_habit_over_all.getBackground();
+            LayerDrawable september = (LayerDrawable) september_view_habit_over_all.getBackground();
+            LayerDrawable november = (LayerDrawable) november_view_habit_over_all.getBackground();
+            febraury.getDrawable(29).setTint(Color.TRANSPARENT);
+            febraury.getDrawable(30).setTint(Color.TRANSPARENT);
+            april.getDrawable(30).setTint(Color.TRANSPARENT);
+            june.getDrawable(30).setTint(Color.TRANSPARENT);
+            september.getDrawable(30).setTint(Color.TRANSPARENT);
+            november.getDrawable(30).setTint(Color.TRANSPARENT);
+        }
+    }
+
+    private void color_the_status_bar(){
+        if (getActivity() != null) {
+            Window window = getActivity().getWindow();
+            View decor = window.getDecorView();
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            window.setStatusBarColor(color);
+            decor.setSystemUiVisibility(0);
+        }
+    }
+
+    private void set_default_status_bar_color() {
+        if (getActivity() != null) {
+            Window window = getActivity().getWindow();
+            View decor = window.getDecorView();
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            window.setStatusBarColor(Color.parseColor("#f1f3f9"));
+            decor.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+        }
+    }
+
+    public void make_views_pro(){
+        draw_the_mood_line_chart();
+        draw_the_bar_for_average_mood();
+        put_values_into_year_in_good_habits();
+        fade_the_views();
     }
 }

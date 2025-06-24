@@ -31,22 +31,22 @@ public class Send_notifcation_at_set_time extends BroadcastReceiver {
     //private int id;
     private String habit_name;
     private String type_of_notification;
-    private String extra_information;
+    private String extra_information = "";
     private String good_or_bad_habit;
     private String type_of_habit;
     private int id;
-//    private int value_for_position;
+    //    private int value_for_position;
     private long start_time;
     private Intent intent;
     private String icon;
-    private long set_time;
+//    private long set_time;
 
     @Override
     public void onReceive(Context context, Intent intent) {
         this.context = context;
         this.intent = intent;
         define_the_constant(intent);
-        if (should_i_run()) {
+        if (should_i_run() && are_notifications_enabled(context)) {
             create_channel();
             show_notifaction();
         }
@@ -87,6 +87,10 @@ public class Send_notifcation_at_set_time extends BroadcastReceiver {
 
         yes_intent.putExtra("good_or_bad", good_or_bad_habit);
         no_intent.putExtra("good_or_bad", good_or_bad_habit);
+        if (good_or_bad_habit.equals("good")) {
+            yes_intent.putExtra("type_of_habit", type_of_habit);
+            no_intent.putExtra("type_of_habit", type_of_habit);
+        }
 //        yes_intent.putExtra("value_for_position", value_for_position);
 //        no_intent.putExtra("value_for_position", value_for_position);
         yes_intent.putExtra("id", id);
@@ -102,42 +106,42 @@ public class Send_notifcation_at_set_time extends BroadcastReceiver {
         if (good_or_bad_habit.equals("bad")) {
             @SuppressLint("NotificationTrampoline") NotificationCompat.Builder builder = new NotificationCompat.Builder(context, "Daily log")
                     .setContentIntent(contentIntent)
-                    .setWhen(0)
+//                    .setWhen(0)
                     .setAutoCancel(true)
                     .setSmallIcon(R.drawable.easy_habits_icon)
-                    .setContentTitle("Don't forget to log your input for ".concat(habit_name))
-                    .setContentText("Did you relapse today?")
+                    .setContentTitle("Did you relapse today?")
+                    .setContentText("Don't forget to log your input for ".concat(habit_name))
                     .setColor(Color.parseColor("#607D8B"))
                     .addAction(0, HtmlCompat.fromHtml("<font color=\"" + ContextCompat.getColor(context, R.color.fav) + "\">" + "Yes" + "</font>", HtmlCompat.FROM_HTML_MODE_LEGACY), yes_pending_intent)
                     .addAction(0, HtmlCompat.fromHtml("<font color=\"" + ContextCompat.getColor(context, R.color.fav) + "\">" + "No" + "</font>", HtmlCompat.FROM_HTML_MODE_LEGACY), no_pending_intent)
-                    .setPriority(NotificationCompat.PRIORITY_MAX);
+                    .setPriority(NotificationCompat.PRIORITY_HIGH);
             NotificationManagerCompat notificationManager = NotificationManagerCompat.from(context);
             notificationManager.notify(notificaion_id, builder.build());
         } else if (good_or_bad_habit.equals("good")) {
             if (type_of_habit.equals("yes/no")) {
                 @SuppressLint("NotificationTrampoline") NotificationCompat.Builder builder = new NotificationCompat.Builder(context, "Daily log")
                         .setContentIntent(contentIntent)
-                        .setWhen(0)
+//                        .setWhen(0)
                         .setAutoCancel(true)
                         .setSmallIcon(R.drawable.easy_habits_icon)
-                        .setContentTitle("Don't forget to log your input for ".concat(habit_name))
-                        .setContentText("Did you complete this habit today?")
+                        .setContentTitle("Did you complete this habit today?")
+                        .setContentText("Don't forget to log your input for ".concat(habit_name))
                         .setColor(Color.parseColor("#607D8B"))
                         .addAction(0, HtmlCompat.fromHtml("<font color=\"" + ContextCompat.getColor(context, R.color.fav) + "\">" + "Yes" + "</font>", HtmlCompat.FROM_HTML_MODE_LEGACY), yes_pending_intent)
                         .addAction(0, HtmlCompat.fromHtml("<font color=\"" + ContextCompat.getColor(context, R.color.fav) + "\">" + "No" + "</font>", HtmlCompat.FROM_HTML_MODE_LEGACY), no_pending_intent)
-                        .setPriority(NotificationCompat.PRIORITY_MAX);
+                        .setPriority(NotificationCompat.PRIORITY_HIGH);
                 NotificationManagerCompat notificationManager = NotificationManagerCompat.from(context);
                 notificationManager.notify(notificaion_id, builder.build());
             } else if (type_of_habit.equals("amount")) {
                 @SuppressLint("NotificationTrampoline") NotificationCompat.Builder builder = new NotificationCompat.Builder(context, "Daily log")
                         .setContentIntent(contentIntent)
-                        .setWhen(0)
+//                        .setWhen(0)
                         .setAutoCancel(true)
                         .setSmallIcon(R.drawable.easy_habits_icon)
-                        .setContentTitle("Don't forget to log your input for ".concat(habit_name))
-                        .setContentText("Did you complete this habit today?")
+                        .setContentTitle("Did you complete this habit today?")
+                        .setContentText("Don't forget to log your input for ".concat(habit_name))
                         .setColor(Color.parseColor("#607D8B"))
-                        .setPriority(NotificationCompat.PRIORITY_MAX);
+                        .setPriority(NotificationCompat.PRIORITY_HIGH);
                 NotificationManagerCompat notificationManager = NotificationManagerCompat.from(context);
                 notificationManager.notify(notificaion_id, builder.build());
             }
@@ -157,80 +161,77 @@ public class Send_notifcation_at_set_time extends BroadcastReceiver {
 //        this.value_for_position = intent.getIntExtra("value_for_position", 0);
         this.id = intent.getIntExtra("id", 0);
         this.start_time = intent.getLongExtra("start_time", System.currentTimeMillis());
-        this.set_time = intent.getLongExtra("set_time",System.currentTimeMillis());
+//        this.set_time = intent.getLongExtra("set_time", System.currentTimeMillis());
+        this.extra_information = intent.getStringExtra("extra_information");
     }
 
     private boolean should_i_run() {
-        if (Simplify_the_time.return_time_in_midnight(set_time) == Simplify_the_time.return_time_in_midnight(System.currentTimeMillis())) {
-            return false;
-        } else {
-            Calendar calendar = Calendar.getInstance();
-            calendar.setTimeInMillis(System.currentTimeMillis());
-            if (type_of_notification.equals("everyday")) {
-                return true;
-            } else if (type_of_notification.equals("daysperweek")) {
-                if (calendar.get(Calendar.DAY_OF_WEEK) == Calendar.MONDAY) {
-                    if (extra_information.contains("Mo")) {
-                        return true;
-                    } else {
-                        return false;
-                    }
-                } else if (calendar.get(Calendar.DAY_OF_WEEK) == Calendar.TUESDAY) {
-                    if (extra_information.contains("Tu")) {
-                        return true;
-                    } else {
-                        return false;
-                    }
-                } else if (calendar.get(Calendar.DAY_OF_WEEK) == Calendar.WEDNESDAY) {
-                    if (extra_information.contains("We")) {
-                        return true;
-                    } else {
-                        return false;
-                    }
-                } else if (calendar.get(Calendar.DAY_OF_WEEK) == Calendar.THURSDAY) {
-                    if (extra_information.contains("Th")) {
-                        return true;
-                    } else {
-                        return false;
-                    }
-                } else if (calendar.get(Calendar.DAY_OF_WEEK) == Calendar.FRIDAY) {
-                    if (extra_information.contains("Fr")) {
-                        return true;
-                    } else {
-                        return false;
-                    }
-                } else if (calendar.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY) {
-                    if (extra_information.contains("Sa")) {
-                        return true;
-                    } else {
-                        return false;
-                    }
-                } else if (calendar.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY) {
-                    if (extra_information.contains("Su")) {
-                        return true;
-                    } else {
-                        return false;
-                    }
-                }
-                return false;
-            } else if (type_of_notification.equals("everyndays")) {
-                long how_many_days_passed = (Simplify_the_time.return_time_in_midnight(System.currentTimeMillis()) - Simplify_the_time.return_time_in_midnight(start_time)) % 86400000L;
-                if (how_many_days_passed == 0) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(System.currentTimeMillis());
+        if (type_of_notification.equals("everyday")) {
+            return true;
+        } else if (type_of_notification.equals("daysperweek") && !extra_information.equals("")) {
+            if (calendar.get(Calendar.DAY_OF_WEEK) == Calendar.MONDAY) {
+                if (extra_information.contains("Mo")) {
                     return true;
                 } else {
                     return false;
                 }
-            } else if (type_of_notification.equals("dayspermonth")) {
-                String[] array = extra_information.split("_");
-                for (int i = 0; i < array.length; i++) {
-                    if (array[i].equals(String.valueOf(calendar.get(Calendar.DAY_OF_MONTH)))) {
-                        return true;
-                    }
+            } else if (calendar.get(Calendar.DAY_OF_WEEK) == Calendar.TUESDAY) {
+                if (extra_information.contains("Tu")) {
+                    return true;
+                } else {
+                    return false;
                 }
+            } else if (calendar.get(Calendar.DAY_OF_WEEK) == Calendar.WEDNESDAY) {
+                if (extra_information.contains("We")) {
+                    return true;
+                } else {
+                    return false;
+                }
+            } else if (calendar.get(Calendar.DAY_OF_WEEK) == Calendar.THURSDAY) {
+                if (extra_information.contains("Th")) {
+                    return true;
+                } else {
+                    return false;
+                }
+            } else if (calendar.get(Calendar.DAY_OF_WEEK) == Calendar.FRIDAY) {
+                if (extra_information.contains("Fr")) {
+                    return true;
+                } else {
+                    return false;
+                }
+            } else if (calendar.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY) {
+                if (extra_information.contains("Sa")) {
+                    return true;
+                } else {
+                    return false;
+                }
+            } else if (calendar.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY) {
+                if (extra_information.contains("Su")) {
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+            return false;
+        } else if (type_of_notification.equals("everyndays")&& !extra_information.equals("")) {
+            long how_many_days_passed = (Simplify_the_time.return_time_in_midnight(System.currentTimeMillis()) - Simplify_the_time.return_time_in_midnight(start_time)) % 86400000L;
+            if (how_many_days_passed == 0) {
+                return true;
+            } else {
                 return false;
+            }
+        } else if (type_of_notification.equals("dayspermonth")&& !extra_information.equals("")) {
+            String[] array = extra_information.split("_");
+            for (int i = 0; i < array.length; i++) {
+                if (array[i].equals(String.valueOf(calendar.get(Calendar.DAY_OF_MONTH)))) {
+                    return true;
+                }
             }
             return false;
         }
+        return false;
     }
 
     /*private int return_icon(String name){
@@ -245,5 +246,9 @@ public class Send_notifcation_at_set_time extends BroadcastReceiver {
         myEdit.putInt("latest_notification_for_habit", notification_id + 3);
         myEdit.commit();
         return notification_id;
+    }
+
+    private boolean are_notifications_enabled(Context context) {
+        return NotificationManagerCompat.from(context).areNotificationsEnabled();
     }
 }

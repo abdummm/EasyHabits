@@ -1,3 +1,4 @@
+/*
 package com.easyhabitsapp.android;
 
 import android.app.Activity;
@@ -158,8 +159,7 @@ public class Bottom_sheet_choose_good_habit_color extends BottomSheetDialogFragm
         purple_color_circle_under_bottom.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Am_i_paid am_i_paid = new Am_i_paid(getContext());
-                if(am_i_paid.did_user_pay()){
+                if(Payment_processer.getInstance().state_of_the_user()){
                     ColorPickerDialog.Builder builder = new ColorPickerDialog.Builder(getContext())
                             .setTitle("ColorPicker")
                             .setPreferenceName("MyColorPickerDialog")
@@ -198,3 +198,4 @@ public class Bottom_sheet_choose_good_habit_color extends BottomSheetDialogFragm
         return view;
     }
 }
+*/

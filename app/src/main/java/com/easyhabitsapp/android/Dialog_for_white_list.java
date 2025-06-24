@@ -495,7 +495,6 @@ public class Dialog_for_white_list extends DialogFragment {
             SharedPreferences sharedPreferences = getActivity().getSharedPreferences("send_the_apps", getContext().MODE_PRIVATE);
             SharedPreferences.Editor myEdit = sharedPreferences.edit();
             myEdit.putString("send_apps", save_me);
-            Log.w("see", save_me);
             myEdit.apply();
         }
     }

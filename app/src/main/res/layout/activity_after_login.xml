@@ -17,13 +17,20 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
+    <View
+        android:id="@+id/gradient_at_top_of_bottom_nav_after_login"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="@drawable/transparent_to_black_shadow"
+        app:layout_constraintBottom_toTopOf="@+id/nav_view"/>
+
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/nav_view"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="0dp"
         android:layout_marginEnd="0dp"
-        android:background="#ECEFF1"
+        android:background="#FFFFFF"
         app:labelVisibilityMode="labeled"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"

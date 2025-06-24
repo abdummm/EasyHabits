@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/card_view_to_show_profile_picture"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp"
+        app:cardBackgroundColor="#FCFDFE"
+        app:cardCornerRadius="20dp"
+        app:cardElevation="30dp"
+        android:layout_marginTop="20dp"
+        app:layout_constraintDimensionRatio="W,1:1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <Button
+                android:id="@+id/view_with_the_profile_picture_for_sale"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:background="@drawable/round_button_colored_fav"
+                android:backgroundTint="@color/black"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/text_view_with_the_description_"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:text="A polar bear"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                app:layout_constraintTop_toBottomOf="@+id/view_with_the_profile_picture_for_sale"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"/>
+
+            <Button
+                android:id="@+id/buy_with_black_bars_at_the_bottom"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="@color/black"
+                android:text="Buy"
+                android:textColor="@color/white"
+                android:textAllCaps="false"
+                app:layout_constraintBottom_toBottomOf="parent"/>
+
+            <!--<Button
+                android:id="@+id/view_with_black_bars_at_the_bottom"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/black"
+                android:text="View"
+                android:textColor="@color/white"
+                android:textAllCaps="false"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"/>
+
+            <View
+                android:id="@+id/pixel_at_the_end_of_the_rarity_of_the_item"
+                android:layout_width="1px"
+                android:layout_height="1px"
+                android:layout_marginStart="10dp"
+                app:layout_constraintTop_toTopOf="@+id/text_view_saying_the_rarity_of_the_item"
+                app:layout_constraintBottom_toBottomOf="@+id/text_view_saying_the_rarity_of_the_item"
+                app:layout_constraintStart_toEndOf="@+id/text_view_saying_the_rarity_of_the_item"/>
+
+            <View
+                android:id="@+id/view_saying_the_rarity"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:background="@drawable/round_box_rarity"
+                android:backgroundTint="@color/black"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/pixel_at_the_end_of_the_rarity_of_the_item"
+                app:layout_constraintTop_toTopOf="@+id/view_with_black_bars_at_the_bottom"
+                app:layout_constraintBottom_toBottomOf="@+id/view_with_black_bars_at_the_bottom"/>
+
+            <TextView
+                android:id="@+id/text_view_saying_the_rarity_of_the_item"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="1 of 1"
+                android:textColor="@color/white"
+                android:layout_marginStart="10dp"
+                android:textStyle="bold"
+                android:textSize="12sp"
+                app:layout_constraintBottom_toBottomOf="@+id/view_with_black_bars_at_the_bottom"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />-->
+
+            <Button
+                android:id="@+id/button_with_a_shopping_cart_buy_profile_picture"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:background="@drawable/round_box_for_shopping_cart"
+                android:layout_marginStart="20dp"
+                android:layout_marginBottom="25dp"
+                android:stateListAnimator="@null"
+                android:elevation="15dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"/>
+
+            <View
+                android:id="@+id/view_with_shopping_cart_buy_profile_picture"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:background="@drawable/round_shopping_cart_24"
+                android:backgroundTint="@color/black"
+                android:elevation="16dp"
+                android:outlineProvider="none"
+                app:layout_constraintStart_toStartOf="@+id/button_with_a_shopping_cart_buy_profile_picture"
+                app:layout_constraintEnd_toEndOf="@+id/button_with_a_shopping_cart_buy_profile_picture"
+                app:layout_constraintTop_toTopOf="@+id/button_with_a_shopping_cart_buy_profile_picture"
+                app:layout_constraintBottom_toBottomOf="@+id/button_with_a_shopping_cart_buy_profile_picture"/>
+
+            <TextView
+                android:id="@+id/text_view_saying_the_rarity_of_the_item"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="1 of 1"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                android:layout_marginTop="15dp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"/>
+
+            <View
+                android:id="@+id/pixel_at_the_start_of_limited_edition"
+                android:layout_width="1px"
+                android:layout_height="1px"
+                app:layout_constraintEnd_toStartOf="@+id/text_view_saying_the_rarity_of_the_item"
+                app:layout_constraintTop_toTopOf="@+id/text_view_saying_the_rarity_of_the_item"
+                app:layout_constraintBottom_toBottomOf="@+id/text_view_saying_the_rarity_of_the_item"/>
+
+            <View
+                android:id="@+id/pixel_at_the_end_of_limited_edition"
+                android:layout_width="1px"
+                android:layout_height="1px"
+                app:layout_constraintStart_toEndOf="@+id/text_view_saying_the_rarity_of_the_item"
+                app:layout_constraintTop_toTopOf="@+id/text_view_saying_the_rarity_of_the_item"
+                app:layout_constraintBottom_toBottomOf="@+id/text_view_saying_the_rarity_of_the_item"/>
+
+            <View
+                android:id="@+id/line_under_rare_buy_profile_picture"
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:background="@color/black"
+                android:layout_marginTop="5dp"
+                app:layout_constraintTop_toBottomOf="@+id/text_view_saying_the_rarity_of_the_item"
+                app:layout_constraintStart_toEndOf="@+id/pixel_at_the_start_of_limited_edition"
+                app:layout_constraintEnd_toStartOf="@+id/pixel_at_the_end_of_limited_edition"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    </androidx.cardview.widget.CardView>
+
+    <View
+        android:id="@+id/item_at_the_bottom_of_card_view"
+        android:layout_width="1px"
+        android:layout_height="1px"
+        android:layout_marginTop="10dp"
+        android:background="@android:color/transparent"
+        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@+id/card_view_to_show_profile_picture"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <!--<Button
+        android:id="@+id/checkout_button_buy_profile_picture"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:elevation="31dp"
+        android:stateListAnimator="@null"
+        android:outlineProvider="none"
+        android:text="Buy"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        android:backgroundTint="@color/black"
+        android:foreground="?selectableItemBackground"
+        app:layout_constraintEnd_toEndOf="@+id/card_view_to_show_profile_picture"
+        app:layout_constraintBottom_toBottomOf="@+id/card_view_to_show_profile_picture"/>
+
+    <Button
+        android:id="@+id/view_profile_picture_for_sale_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:elevation="31dp"
+        android:stateListAnimator="@null"
+        android:outlineProvider="none"
+        android:text="View"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        android:backgroundTint="@color/black"
+        android:foreground="?selectableItemBackground"
+        app:layout_constraintEnd_toEndOf="@+id/card_view_to_show_profile_picture"
+        app:layout_constraintBottom_toTopOf="@+id/checkout_button_buy_profile_picture"/>-->
+
+</androidx.constraintlayout.widget.ConstraintLayout>

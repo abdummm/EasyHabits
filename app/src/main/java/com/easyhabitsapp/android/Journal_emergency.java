@@ -656,10 +656,8 @@ public class Journal_emergency extends AppCompatActivity implements Alert_dialog
             try {
                 ei = new ExifInterface(current_photo_bath);
                 int orientation = ei.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL);
-                Log.w("asdas",String.valueOf(orientation));
                 switch (orientation) {
                     case ExifInterface.ORIENTATION_ROTATE_90:
-                        Log.w("asdas",String.valueOf(orientation));
                         photo = rotate(photo, 90);
 
                     case ExifInterface.ORIENTATION_ROTATE_180:
@@ -908,8 +906,7 @@ public class Journal_emergency extends AppCompatActivity implements Alert_dialog
         return true;
     }
     private void create_new_journal() {
-        Am_i_paid am_i_paid = new Am_i_paid(this);
-        if (am_i_paid.did_user_pay()) {
+        if (Payment_processer.getInstance().state_of_the_user()) {
             SharedPreferences shared = getSharedPreferences("_all_the_journal", MODE_PRIVATE);
             SharedPreferences.Editor edit = shared.edit();
             String old_string = shared.getString("journal", "");
@@ -922,7 +919,7 @@ public class Journal_emergency extends AppCompatActivity implements Alert_dialog
                 edit.commit();
             }
         } else {
-            Buy_premuim buy_premuim = new Buy_premuim("add more than 1 counter", true, "activity");
+            /*Buy_premuim buy_premuim = new Buy_premuim("add more than 1 counter", true, "activity");
             hide_activity();
             buy_premuim.set_the_function(new Buy_premuim.show_the_activity() {
                 @Override
@@ -930,7 +927,7 @@ public class Journal_emergency extends AppCompatActivity implements Alert_dialog
                     show_activity();
                 }
             });
-            getSupportFragmentManager().beginTransaction().add(R.id.hold_buy_premuim_fragment_container_in_journal, buy_premuim, "buy premium").show(buy_premuim).commit();
+            getSupportFragmentManager().beginTransaction().add(R.id.hold_buy_premuim_fragment_container_in_journal, buy_premuim, "buy premium").show(buy_premuim).commit();*/
         }
     }
     private void delete_journal(){

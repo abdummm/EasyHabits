@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/item_hide_content_in_post_menu"
+        android:orderInCategory="0"
+        android:title="Hide content" />
+    <item
+        android:id="@+id/item_block_user_in_post_menu"
+        android:orderInCategory="1"
+        android:title="Block user" />
+</menu>

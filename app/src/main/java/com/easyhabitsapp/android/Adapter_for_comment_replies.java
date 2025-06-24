@@ -53,6 +53,7 @@ public class Adapter_for_comment_replies extends RecyclerView.Adapter<Adapter_fo
     private Up_vote_down_vote_clicked up_vote_down_vote_clicked_listen;
     private gift_button_listen gift_button_listen_listener;
     private save_only_for_pro_lsiten save_only_for_pro_lsiten_listen;
+    private hide_for_reply hide_for_reply_listen;
 
     public void set_reply_clicked_listen(share_button_was_clicked_nested listen) {
         share_button_was_clicked_nested_var = listen;
@@ -83,7 +84,7 @@ public class Adapter_for_comment_replies extends RecyclerView.Adapter<Adapter_fo
     }
 
     public interface gift_button_listen {
-        void gift_was_clicked(String user_id,String document_id,int comment_position,int reply_position,ArrayList<Long> awards);
+        void gift_was_clicked(String user_id,String document_id,int comment_position,int reply_position,ArrayList<Long> awards,int recycle_view_reply_position);
     }
 
     public void set_up_save_is_only_for_bro(save_only_for_pro_lsiten listen) {
@@ -92,6 +93,14 @@ public class Adapter_for_comment_replies extends RecyclerView.Adapter<Adapter_fo
 
     public interface save_only_for_pro_lsiten {
         void save_is_only_for_pro();
+    }
+
+    public void set_up_hide_for_reply(hide_for_reply listen) {
+        hide_for_reply_listen = listen;
+    }
+
+    public interface hide_for_reply {
+        void hide_for_reply(int position);
     }
 
 
@@ -518,6 +527,7 @@ public class Adapter_for_comment_replies extends RecyclerView.Adapter<Adapter_fo
         holder.button_to_watch_upvote_in_card_in_post_comment_reply.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Event_manager_all_in_one.getInstance().record_fire_base_event(holder.constriant_inside_card_inside_post_feed_comment_reply.getContext(), Event_manager_all_in_one.Event_type_fire_base_record.reply_upvote,false);
                 if (am_i_signed_in_with_google(current_item)) {
                     boolean up_vote = current_item.isUp_vote_clicked();
                     boolean down_vote = current_item.isDown_vote_clicked();
@@ -553,6 +563,7 @@ public class Adapter_for_comment_replies extends RecyclerView.Adapter<Adapter_fo
         holder.button_to_watch_downvote_in_card_in_post_comment_reply.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Event_manager_all_in_one.getInstance().record_fire_base_event(holder.constriant_inside_card_inside_post_feed_comment_reply.getContext(), Event_manager_all_in_one.Event_type_fire_base_record.reply_downvote,false);
                 if (am_i_signed_in_with_google(current_item)) {
                     boolean up_vote = current_item.isUp_vote_clicked();
                     boolean down_vote = current_item.isDown_vote_clicked();
@@ -834,7 +845,8 @@ public class Adapter_for_comment_replies extends RecyclerView.Adapter<Adapter_fo
         popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
-                if (item.getItemId() == R.id.report_button_comment_in_tree_dots) {
+                if (item.getOrder() == 0) {
+                    Event_manager_all_in_one.getInstance().record_fire_base_event(holder.constriant_inside_card_inside_post_feed_comment_reply.getContext(), Event_manager_all_in_one.Event_type_fire_base_record.reply_reported,false);
                     if (current_item.isIs_this_archived()) {
                         Toast.makeText(holder.constriant_inside_card_inside_post_feed_comment_reply.getContext(), "Can't report archived posts", Toast.LENGTH_SHORT).show();
                     } else {
@@ -861,6 +873,38 @@ public class Adapter_for_comment_replies extends RecyclerView.Adapter<Adapter_fo
                             up_vote_down_vote_clicked_listen.up_vote_down_vote_button_clicked("report");
                         }
                     }
+                } else if(item.getOrder()==1){
+                    Alert_dialog_show alert_dialog_show = new Alert_dialog_show();
+                    alert_dialog_show.show_alert_dialog(holder.constriant_inside_card_inside_post_feed_comment_reply.getContext(),"Hide Content?","Are you sure you want to hide this content?");
+                    alert_dialog_show.set_ok_button_listen(new Alert_dialog_show.ok_button_clicked() {
+                        @Override
+                        public void ok_button_clicked() {
+                            String user_id = current_item.getUser_id();
+                            String body = current_item.getBody();
+                            Save_and_get.getInstance().save_this(holder.constriant_inside_card_inside_post_feed_comment_reply.getContext(),user_id.concat("small_split_for_save_and_get").concat(body),"hide_reply",true);
+                            Toast.makeText(holder.constriant_inside_card_inside_post_feed_comment_reply.getContext(),"Content hidden",Toast.LENGTH_SHORT).show();
+                            hide_for_reply_listen.hide_for_reply(holder.getAdapterPosition());
+                        }
+                    });
+                } else if(item.getOrder()==2){
+                    Alert_dialog_show alert_dialog_show = new Alert_dialog_show();
+                    alert_dialog_show.show_alert_dialog(holder.constriant_inside_card_inside_post_feed_comment_reply.getContext(),"Block User?","Are you sure you want to block this user?");
+                    alert_dialog_show.set_ok_button_listen(new Alert_dialog_show.ok_button_clicked() {
+                        @Override
+                        public void ok_button_clicked() {
+                            if(current_item.getFirebaseUser().getUid().equals(current_item.getUser_id())){
+                                Toast.makeText(holder.constriant_inside_card_inside_post_feed_comment_reply.getContext(),"You can't block yourself!",Toast.LENGTH_LONG).show();
+                            } else {
+                                /*if (current_item.isSaved() || does_commetn_already_saved(holder, current_item)) {
+                                    remove_the_comment(holder, current_item);
+                                    current_item.setSaved(false);
+                                }*/
+                                Save_and_get.getInstance().save_this(holder.constriant_inside_card_inside_post_feed_comment_reply.getContext(),current_item.getUser_id(),"blocked_users",true);
+                                Toast.makeText(holder.constriant_inside_card_inside_post_feed_comment_reply.getContext(),"User blocked",Toast.LENGTH_SHORT).show();
+                                hide_for_reply_listen.hide_for_reply(holder.getAdapterPosition());
+                            }
+                        }
+                    });
                 }
                 return true;
             }
@@ -906,7 +950,7 @@ public class Adapter_for_comment_replies extends RecyclerView.Adapter<Adapter_fo
         holder.button_to_watch_share_in_card_in_post_in_top_comment_reply.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //share_screen_shot(holder.actual_text_to_show_post_in_card_comment_reply.getText().toString().trim(),"",true);
+                Event_manager_all_in_one.getInstance().record_fire_base_event(holder.constriant_inside_card_inside_post_feed_comment_reply.getContext(), Event_manager_all_in_one.Event_type_fire_base_record.reply_shared,false);
                 share_button_was_clicked_nested_var.share_button_nested(holder.actual_text_to_show_post_in_card_comment_reply.getText().toString().trim());
             }
         });
@@ -918,8 +962,7 @@ public class Adapter_for_comment_replies extends RecyclerView.Adapter<Adapter_fo
             current_item.setIs_this_saved(false);
             remove_the_reply_save(holder, current_item);
         } else {
-            Am_i_paid am_i_paid = new Am_i_paid(holder.constriant_inside_card_inside_post_feed_comment_reply.getContext());
-            if (am_i_paid.did_user_pay()) {
+            if (Payment_processer.getInstance().state_of_the_user()) {
                 save_the_icon(holder, current_item);
                 current_item.setIs_this_saved(true);
                 save_the_comment_reply(holder, current_item);
@@ -1072,6 +1115,7 @@ public class Adapter_for_comment_replies extends RecyclerView.Adapter<Adapter_fo
         holder.button_to_watch_save_in_card_in_post_comment_reply.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Event_manager_all_in_one.getInstance().record_fire_base_event(holder.constriant_inside_card_inside_post_feed_comment_reply.getContext(), Event_manager_all_in_one.Event_type_fire_base_record.reply_saved,false);
                 save_button_pressed(holder, current_item);
             }
         });
@@ -1091,6 +1135,7 @@ public class Adapter_for_comment_replies extends RecyclerView.Adapter<Adapter_fo
         holder.reply_button_in_tem_id_comment_reply.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Event_manager_all_in_one.getInstance().record_fire_base_event(holder.constriant_inside_card_inside_post_feed_comment_reply.getContext(), Event_manager_all_in_one.Event_type_fire_base_record.reply_written,false);
                 if (am_i_signed_in_with_google(current_item)) {
                     reply_button_was_clicked_listen.reply_button_clicked(current_item.getBody(), current_item.getName(), current_item.getUser_id());
                 } else {
@@ -1170,7 +1215,8 @@ public class Adapter_for_comment_replies extends RecyclerView.Adapter<Adapter_fo
         holder.button_to_watch_gift_in_card_in_post_comment_reply.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                gift_button_listen_listener.gift_was_clicked(current_item.getUser_id(),current_item.getDocument_id(),current_item.getComment_position(),current_item.getReply_position(),current_item.getAwards());
+                Event_manager_all_in_one.getInstance().record_fire_base_event(holder.constriant_inside_card_inside_post_feed_comment_reply.getContext(), Event_manager_all_in_one.Event_type_fire_base_record.reply_gifted,false);
+                gift_button_listen_listener.gift_was_clicked(current_item.getUser_id(),current_item.getDocument_id(),current_item.getComment_position(),current_item.getReply_position(),current_item.getAwards(),holder.getAdapterPosition());
             }
         });
     }

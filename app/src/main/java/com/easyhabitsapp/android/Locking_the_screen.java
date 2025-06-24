@@ -414,12 +414,11 @@ public class Locking_the_screen extends AppCompatActivity implements DialogInter
         add_other_apps_to_white_list_lock_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Am_i_paid am_i_paid = new Am_i_paid(Locking_the_screen.this);
-                if(am_i_paid.did_user_pay()){
+                if(Payment_processer.getInstance().state_of_the_user()){
                     Dialog_for_white_list dialog_for_white_list = new Dialog_for_white_list();
                     dialog_for_white_list.show(getSupportFragmentManager(), "dialog_tag");
                 } else {
-                    Buy_premuim buy_premuim = new Buy_premuim("whitelist apps", true, "activity");
+                    /*Buy_premuim buy_premuim = new Buy_premuim("whitelist apps", true, "activity");
                     hide_activity();
                     buy_premuim.set_the_function(new Buy_premuim.show_the_activity() {
                         @Override
@@ -427,7 +426,7 @@ public class Locking_the_screen extends AppCompatActivity implements DialogInter
                             show_activity();
                         }
                     });
-                    getSupportFragmentManager().beginTransaction().add(R.id.hold_buy_premuim_fragment_container_in_lock_screen, buy_premuim, "buy premium").show(buy_premuim).commit();
+                    getSupportFragmentManager().beginTransaction().add(R.id.hold_buy_premuim_fragment_container_in_lock_screen, buy_premuim, "buy premium").show(buy_premuim).commit();*/
                 }
             }
         });
@@ -707,7 +706,6 @@ public class Locking_the_screen extends AppCompatActivity implements DialogInter
         SharedPreferences sharedPreferences = getSharedPreferences("one_minute_emergency", MODE_PRIVATE);
         long time_in_future = sharedPreferences.getLong("one_minute_time", -1);
         long time_left = time_in_future - System.currentTimeMillis();
-        Log.w("hellohello",String.valueOf(time_in_future));
         if((TimeUnit.MILLISECONDS.toSeconds(time_left-900000))< Get_the_time.return_the_seconds(this)) {
             if (time_left > 900000) {
                 button_to_open_one_minute_emergency.setText(String.valueOf(TimeUnit.MILLISECONDS.toSeconds(time_left - 900000)).concat(" seconds"));
@@ -783,7 +781,6 @@ public class Locking_the_screen extends AppCompatActivity implements DialogInter
         final Button button_to_stop_sound = findViewById(R.id.button_to_stop_sound);
         handler_to_flash.postDelayed(new Runnable() {
             public void run() {
-                Log.w("hellohello", "I am here 2");
                 ArcProgress progress_for_lock_circle = findViewById(R.id.progress_for_lock_circle);
                 if (progress_for_lock_circle.getProgress() == 0) {
                     progress_for_lock_circle.setProgress(100000);

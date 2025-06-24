@@ -2,6 +2,7 @@ package com.easyhabitsapp.android;
 
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
@@ -14,12 +15,21 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.DialogFragment;
 
-import nl.dionsegijn.konfetti.KonfettiView;
-import nl.dionsegijn.konfetti.emitters.StreamEmitter;
-import nl.dionsegijn.konfetti.models.Shape;
-import nl.dionsegijn.konfetti.models.Size;
+import java.util.Arrays;
+import java.util.concurrent.TimeUnit;
+
+import nl.dionsegijn.konfetti.core.Angle;
+import nl.dionsegijn.konfetti.core.PartyFactory;
+import nl.dionsegijn.konfetti.core.Position;
+import nl.dionsegijn.konfetti.core.Spread;
+import nl.dionsegijn.konfetti.core.emitter.Emitter;
+import nl.dionsegijn.konfetti.core.emitter.EmitterConfig;
+import nl.dionsegijn.konfetti.core.models.Shape;
+import nl.dionsegijn.konfetti.xml.KonfettiView;
+
 
 public class Dialog_subscribe_to_premuim extends DialogFragment {
     private View mview;
@@ -82,11 +92,27 @@ public class Dialog_subscribe_to_premuim extends DialogFragment {
             text_award_image.setText("you have successfully subscribed to monthly premium!!");
         } else if (mode.equals("year")) {
             text_award_image.setText("you have successfully subscribed to yearly premium!!");
+        } else if (mode.equals("upgrade")) {
+            text_award_image.setText("you have been successfully upgraded to yearly premium!!");
         }
     }
 
     private void set_konfetti() {
-        final KonfettiView konfettiView = mview.findViewById(R.id.konfetti_in_subscribe_to_premuim);
+        KonfettiView konfetti_in_subscribe_to_premuim = mview.findViewById(R.id.konfetti_in_subscribe_to_premuim);
+        final Drawable drawable = ContextCompat.getDrawable(mview.getContext(), R.drawable.silver_award_png);
+        Shape.DrawableShape drawableShape = new Shape.DrawableShape(drawable, true);
+        EmitterConfig emitterConfig = new Emitter(5, TimeUnit.SECONDS).perSecond(100);
+        konfetti_in_subscribe_to_premuim.start(
+                new PartyFactory(emitterConfig)
+                        .angle(Angle.BOTTOM)
+                        .spread(Spread.ROUND)
+                        .shapes(Arrays.asList(Shape.Square.INSTANCE, Shape.Circle.INSTANCE, drawableShape))
+                        .colors(Arrays.asList(0xfce18a, 0xff726d, 0xf4306d, 0xb48def))
+                        .setSpeedBetween(0f, 15f)
+                        .position(new Position.Relative(0.0, 0.0).between(new Position.Relative(1.0, 0.0)))
+                        .build());
+
+        /*final KonfettiView konfettiView = mview.findViewById(R.id.konfetti_in_subscribe_to_premuim);
         konfettiView.build()
                 .addColors(Color.YELLOW, Color.GREEN, Color.MAGENTA)
                 .setDirection(0.0, 359.0)
@@ -96,7 +122,7 @@ public class Dialog_subscribe_to_premuim extends DialogFragment {
                 .addShapes(Shape.Square.INSTANCE, Shape.Circle.INSTANCE)
                 .addSizes(new Size(12, 5f))
                 .setPosition(-50f, konfettiView.getWidth() + 50f, -50f, -50f)
-                .streamFor(300, StreamEmitter.INDEFINITE);
+                .streamFor(300, StreamEmitter.INDEFINITE);*/
     }
 
     public void loaded(){

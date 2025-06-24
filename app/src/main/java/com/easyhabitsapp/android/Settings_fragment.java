@@ -2,27 +2,30 @@ package com.easyhabitsapp.android;
 
 
 import static android.content.Context.MODE_PRIVATE;
-import static com.android.billingclient.api.BillingFlowParams.ProrationMode.DEFERRED;
 
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.Spannable;
 import android.text.SpannableString;
+import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.TextPaint;
 import android.text.TextUtils;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
+import android.text.style.ForegroundColorSpan;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -32,39 +35,25 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.constraintlayout.widget.ConstraintSet;
 import androidx.fragment.app.Fragment;
 
-import com.android.billingclient.api.AcknowledgePurchaseParams;
-import com.android.billingclient.api.AcknowledgePurchaseResponseListener;
-import com.android.billingclient.api.BillingClient;
-import com.android.billingclient.api.BillingClientStateListener;
-import com.android.billingclient.api.BillingFlowParams;
-import com.android.billingclient.api.BillingResult;
 import com.android.billingclient.api.Purchase;
-import com.android.billingclient.api.PurchasesUpdatedListener;
-import com.android.billingclient.api.SkuDetails;
-import com.android.billingclient.api.SkuDetailsParams;
-import com.android.billingclient.api.SkuDetailsResponseListener;
-import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.FirebaseFirestoreSettings;
+import com.google.firebase.firestore.ListenerRegistration;
 import com.google.firebase.firestore.QuerySnapshot;
-import com.google.firebase.functions.FirebaseFunctions;
-import com.google.firebase.functions.HttpsCallableResult;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Arrays;
 import java.util.Calendar;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 
@@ -72,17 +61,15 @@ import java.util.concurrent.TimeUnit;
  * A simple {@link Fragment} subclass.
  */
 public class Settings_fragment extends Fragment {
-    private BillingClient billingClient;
-    private AcknowledgePurchaseResponseListener acknowledgePurchaseResponseListener;
-    private PurchasesUpdatedListener purchasesUpdatedListener;
-    private String monthly_price = "";
-    private String yearly_price = "";
-    private FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
-    private FirebaseUser firebaseUser;
+    //private String monthly_price = "";
+    //private String yearly_price = "";
+    private final FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
+    /*private FirebaseUser firebaseUser;
     private FirebaseAuth mAuth;
     private boolean am_i_visible = false;
-    private FirebaseFunctions firebaseFunctions;
-    private String token;
+    private FirebaseFunctions firebaseFunctions;*/
+    private ListenerRegistration firestore_listener = null;
+    //private String token;
 
 
     public Settings_fragment() {
@@ -109,7 +96,7 @@ public class Settings_fragment extends Fragment {
         version_code_button_listen();
         privacy_policy_click();
         terms_and_conditions();
-        set_up_billing();
+//        set_up_billing();
         buy_coins_button_listen();
         set_the_version_number();
         set_the_premuim_in_text();
@@ -122,6 +109,23 @@ public class Settings_fragment extends Fragment {
         check_refer_online();
         change_my_name_button_listen();
         set_the_text_of_change_my_name_button();
+        set_the_prices();
+        buy_monthly_button_listen();
+        buy_yearly_button_listen();
+        listen_to_purchase_complete();
+        manage_subscription_button_listen();
+        set_up_coins_in_firebase();
+        set_up_button_for_more_information_listen();
+        listen_to_hide_upgrade_yearly();
+        listen_to_purchase_list_for_upgrade();
+        make_the_offer_text_bold();
+        buy_coins_button_listen_under_profile();
+        set_name_for_profile();
+        start_fourteen_day_trial_button_listen();
+        calculate_the_streak();
+        set_the_streak();
+        click_on_profile_picture_button_listen();
+        change_profile_picture_listen();
     }
 
     private void rate_app_button_listen() {
@@ -131,6 +135,7 @@ public class Settings_fragment extends Fragment {
                 @Override
                 public void onClick(View view) {
                     if (getActivity() != null) {
+                        Event_manager_all_in_one.getInstance().record_fire_base_event(getContext(), Event_manager_all_in_one.Event_type_fire_base_record.rate_app_clicked, false);
                         try {
                             startActivity(new Intent(Intent.ACTION_VIEW,
                                     Uri.parse("market://details?id=" + getActivity().getPackageName())));
@@ -150,6 +155,7 @@ public class Settings_fragment extends Fragment {
             button_saying_report_a_bug.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    Event_manager_all_in_one.getInstance().record_fire_base_event(getContext(), Event_manager_all_in_one.Event_type_fire_base_record.report_a_bug_clicked, false);
                     send_email();
                 }
             });
@@ -162,6 +168,7 @@ public class Settings_fragment extends Fragment {
             button_saying_contact_thje_developer.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    Event_manager_all_in_one.getInstance().record_fire_base_event(getContext(), Event_manager_all_in_one.Event_type_fire_base_record.contact_the_developer_clicked, false);
                     send_email();
                 }
             });
@@ -174,6 +181,7 @@ public class Settings_fragment extends Fragment {
             button_saying_the_app_in_setting.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    Event_manager_all_in_one.getInstance().record_fire_base_event(getContext(), Event_manager_all_in_one.Event_type_fire_base_record.app_shared, false);
                     Intent intent = new Intent(android.content.Intent.ACTION_SEND);
                     String shareBody = "Checkout this habit tracker that lets you track bad habits, good habits and mood. It also allows you to post, chat with random people and much more. Download it here \n https://play.google.com/store/apps/details?id=com.easyhabitsapp.android ";
                     intent.setType("text/plain");
@@ -314,125 +322,38 @@ public class Settings_fragment extends Fragment {
         }
     }
 
-    private void set_up_billing() {
-        acknowledgePurchaseResponseListener = new AcknowledgePurchaseResponseListener() {
-            @Override
-            public void onAcknowledgePurchaseResponse(@NonNull @NotNull BillingResult billingResult) {
-                if (billingResult.getResponseCode() == BillingClient.BillingResponseCode.OK) {
-
-                }
-            }
-        };
-
-        purchasesUpdatedListener = new PurchasesUpdatedListener() {
-            @Override
-            public void onPurchasesUpdated(BillingResult billingResult, List<Purchase> purchases) {
-                if (getActivity() != null) {
-                    if (purchasesUpdatedListener != null && purchases != null && am_i_visible) {
-                        if (billingResult.getResponseCode() == BillingClient.BillingResponseCode.OK) {
-                            handle_purchase(purchases);
-                        } else if (billingResult.getResponseCode() == BillingClient.BillingResponseCode.USER_CANCELED) {
-                            Toast.makeText(getActivity(), "Cancelled", Toast.LENGTH_SHORT).show();
-                        } else {
-                            Toast.makeText(getActivity(), "Cancelled", Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                }
-            }
-        };
-        start_billing_connection(true, false);
-    }
-
-    private void start_billing_connection(boolean first_time, boolean special_mode) {
-        if (getActivity() != null) {
-            SharedPreferences sharedPreferences = getActivity().getSharedPreferences("is_user_gifted", MODE_PRIVATE);
-            SharedPreferences.Editor myEdit = sharedPreferences.edit();
-            if (first_time) {
-                billingClient = set_up_clint();
-            }
-            billingClient.startConnection(new BillingClientStateListener() {
-                @Override
-                public void onBillingSetupFinished(@NonNull @NotNull BillingResult billingResult) {
-                    if (billingResult.getResponseCode() == BillingClient.BillingResponseCode.OK) {
-                        // billingClient.queryPurchasesAsync(BillingClient.SkuType.INAPP,purchasesResponseListener);
-                        hide_upgrade_subscription();
-                        if (special_mode) {
-                            List<Purchase> purhcases = billingClient.queryPurchases(BillingClient.SkuType.SUBS).getPurchasesList();
-                            if (purhcases != null && purhcases.size() > 0) {
-                                myEdit.putBoolean("premuim_online", true);
-                                myEdit.commit();
-                                tell_the_user_if_we_found_something(true);
-                            } else {
-                                check_if_user_is_gifted(true);
-                                myEdit.putBoolean("premuim_online", false);
-                                myEdit.commit();
-                            }
-                        }
-                        set_the_prices();
-                        buy_monthly_button_listen();
-                        buy_yearly_button_listen();
-                    } else {
-                        Toast.makeText(getActivity(), "An error occurred. Please try again later", Toast.LENGTH_SHORT).show();
-                    }
-                }
-
-                @Override
-                public void onBillingServiceDisconnected() {
-                    start_billing_connection(false, false);
-                }
-            });
-        } else {
-            if (getContext() != null) {
-                Toast.makeText(getContext(), "A problem happened please contact support", Toast.LENGTH_SHORT).show();
-            }
-        }
-    }
-
-    private BillingClient set_up_clint() {
-        BillingClient billingClient = BillingClient.newBuilder(getActivity())
-                .setListener(purchasesUpdatedListener)
-                .enablePendingPurchases()
-                .build();
-        return billingClient;
-    }
-
     private void set_the_prices() {
         if (getView() != null) {
-            TextView text_saying_price_per_month_in_buy_month = getView().findViewById(R.id.text_saying_price_per_month_in_buy_month);
-            TextView text_saying_price_per_year_in_buy_month = getView().findViewById(R.id.text_saying_price_per_year_in_buy_month);
-            TextView text_saying_old_price = getView().findViewById(R.id.text_saying_old_price);
-            TextView text_saying_billed_year = getView().findViewById(R.id.text_saying_billed_year);
-            SkuDetailsParams skuDetailsParams = SkuDetailsParams.newBuilder().setSkusList(Arrays.asList("1_year_subscription", "1_month_subscription"))
-                    .setType(BillingClient.SkuType.SUBS)
-                    .build();
-            billingClient.querySkuDetailsAsync(skuDetailsParams, new SkuDetailsResponseListener() {
-                @Override
-                public void onSkuDetailsResponse(@NonNull @NotNull BillingResult billingResult, @Nullable @org.jetbrains.annotations.Nullable List<SkuDetails> list) {
-                    if (billingResult.getResponseCode() == BillingClient.BillingResponseCode.OK) {
-                        for (int i = 0; i < list.size(); i++) {
-                            if (list.get(i).getSku().equals("1_month_subscription")) {
-                                text_saying_price_per_month_in_buy_month.setText(list.get(i).getPrice().concat("/mo"));
-                                text_saying_old_price.setText(list.get(i).getPrice().concat("/mo"));
-                                monthly_price = list.get(i).getPrice();
-                                make_text_strike_through();
-                            } else if (list.get(i).getSku().equals("1_year_subscription")) {
-                                Double price = Double.parseDouble(list.get(i).getPrice().replaceAll("[^0-9.]", "")) / 12d;
-                                if (String.valueOf(price).length() >= 4) {
-                                    text_saying_price_per_year_in_buy_month.setText(String.valueOf(price).substring(0, 4).concat("/mo"));
-                                } else {
-                                    text_saying_price_per_year_in_buy_month.setText(String.valueOf(price).concat("/mo"));
-                                }
-                                text_saying_billed_year.setText("Billed annually\n at ".concat(list.get(i).getPrice()));
-                                yearly_price = list.get(i).getPrice();
-                            }
-                        }
+            if (Payment_processer.getInstance().are_sub_prices_ready) {
+                set_the_prices_real();
+            } else {
+                Payment_processer.getInstance().listen_for_sub_2(new Payment_processer.sub_prices_ready_2() {
+                    @Override
+                    public void sub_prices_are_ready_2() {
+                        set_the_prices_real();
                     }
-                }
-            });
+                });
+            }
         }
     }
 
-    private void handle_purchase(List<Purchase> purchases) {
+    private void set_the_prices_real() {
+        TextView text_saying_price_per_month_in_buy_month = getView().findViewById(R.id.text_saying_price_per_month_in_buy_month);
+        TextView text_saying_price_per_year_in_buy_month = getView().findViewById(R.id.text_saying_price_per_year_in_buy_month);
+        TextView text_saying_old_price = getView().findViewById(R.id.text_saying_old_price);
+        TextView text_saying_billed_year = getView().findViewById(R.id.text_saying_billed_year);
+        Payment_processer.getInstance().get_price_sub("new_monthly_subscription", 0);
+        text_saying_price_per_month_in_buy_month.setText(Payment_processer.getInstance().get_price_sub("new_monthly_subscription", 0).concat("/mo"));
+        double old_price = (Payment_processer.getInstance().get_prices_sub_micros("new_yearly_subscription", 0) / 12D) / 1000000D;
+        old_price = ((int) (old_price * 100)) / 100.00;
+        String old_price_string = String.format("%.2f", old_price);
+        text_saying_price_per_year_in_buy_month.setText(old_price_string.concat("/mo"));
+        text_saying_old_price.setText(Payment_processer.getInstance().get_price_sub("new_monthly_subscription", 0).concat("/mo"));
+        text_saying_old_price.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG);
+        text_saying_billed_year.setText("billed annually\n at ".concat(Payment_processer.getInstance().get_price_sub("new_yearly_subscription", 0)));
+    }
+
+    /*private void handle_purchase(List<Purchase> purchases) {
         for (Purchase purchase : purchases) {
             if (purchase.getPurchaseState() == Purchase.PurchaseState.PURCHASED) {
                 if (purchase.getSku().contains("1_month_subscription")) {
@@ -532,7 +453,7 @@ public class Settings_fragment extends Fragment {
                 //Toast.makeText(getActivity(), "purchase is being processed", Toast.LENGTH_SHORT).show();
             }
         }
-    }
+    }*/
 
     private void buy_monthly_button_listen() {
         if (getView() != null) {
@@ -540,20 +461,13 @@ public class Settings_fragment extends Fragment {
             monthly_subscription_button_in_buy_premuim.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    SkuDetailsParams skuDetailsParams = SkuDetailsParams.newBuilder().setSkusList(Arrays.asList("1_month_subscription"))
-                            .setType(BillingClient.SkuType.SUBS)
-                            .build();
-                    billingClient.querySkuDetailsAsync(skuDetailsParams, new SkuDetailsResponseListener() {
-                        @Override
-                        public void onSkuDetailsResponse(@NonNull @NotNull BillingResult billingResult, @Nullable @org.jetbrains.annotations.Nullable List<SkuDetails> list) {
-                            if (billingResult.getResponseCode() == BillingClient.BillingResponseCode.OK) {
-                                BillingFlowParams billingFlowParams = BillingFlowParams.newBuilder()
-                                        .setSkuDetails(list.get(0))
-                                        .build();
-                                billingClient.launchBillingFlow(getActivity(), billingFlowParams);
-                            }
-                        }
-                    });
+                    /*Save_and_retrive_user_id save_and_retrive_user_id = new Save_and_retrive_user_id();
+                    save_and_retrive_user_id.save_a_single_id_subs(getContext(),1,FirebaseAuth.getInstance().getUid());*/
+                    listen_to_coin_update();
+                    Bundle bundle = new Bundle();
+                    bundle.putString("source", "setting");
+                    Event_manager_all_in_one.getInstance().record_fire_base_event(getContext(), Event_manager_all_in_one.Event_type_fire_base_record.monthly_clicked, false, bundle);
+                    Payment_processer.getInstance().launch_product_flow(getActivity(), "new_monthly_subscription", getContext(), 0, FirebaseAuth.getInstance().getUid());
                 }
             });
         }
@@ -565,20 +479,12 @@ public class Settings_fragment extends Fragment {
             yearly_subscription_button_in_buy_premuim.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    SkuDetailsParams skuDetailsParams = SkuDetailsParams.newBuilder().setSkusList(Arrays.asList("1_year_subscription"))
-                            .setType(BillingClient.SkuType.SUBS)
-                            .build();
-                    billingClient.querySkuDetailsAsync(skuDetailsParams, new SkuDetailsResponseListener() {
-                        @Override
-                        public void onSkuDetailsResponse(@NonNull @NotNull BillingResult billingResult, @Nullable @org.jetbrains.annotations.Nullable List<SkuDetails> list) {
-                            if (billingResult.getResponseCode() == BillingClient.BillingResponseCode.OK) {
-                                BillingFlowParams billingFlowParams = BillingFlowParams.newBuilder()
-                                        .setSkuDetails(list.get(0))
-                                        .build();
-                                billingClient.launchBillingFlow(getActivity(), billingFlowParams);
-                            }
-                        }
-                    });
+                    /*Save_and_retrive_user_id save_and_retrive_user_id = new Save_and_retrive_user_id();
+                    save_and_retrive_user_id.save_a_single_id_subs(getContext(),12,FirebaseAuth.getInstance().getUid());*/
+                    Bundle bundle = new Bundle();
+                    bundle.putString("source", "setting");
+                    Event_manager_all_in_one.getInstance().record_fire_base_event(getContext(), Event_manager_all_in_one.Event_type_fire_base_record.yearly_clicked, false, bundle);
+                    Payment_processer.getInstance().launch_product_flow(getActivity(), "new_yearly_subscription", getContext(), 0, FirebaseAuth.getInstance().getUid());
                 }
             });
         }
@@ -600,7 +506,7 @@ public class Settings_fragment extends Fragment {
         }
     }
 
-    public void check_if_user_is_gifted(boolean run_anyways) {
+   /* public void check_if_user_is_gifted(boolean run_anyways) {
         FirebaseFirestoreSettings settings = new FirebaseFirestoreSettings.Builder().setPersistenceEnabled(true).build();
         firebaseFirestore.setFirestoreSettings(settings);
         mAuth = FirebaseAuth.getInstance();
@@ -641,7 +547,7 @@ public class Settings_fragment extends Fragment {
                 myEdit.putLong("last_checked", System.currentTimeMillis());
             }
         }
-    }
+    }*/
 
     /*private void restore_purchases_button_listen() {
         if (getView() != null) {
@@ -661,11 +567,7 @@ public class Settings_fragment extends Fragment {
             buy_first_thing_coins_in_setting.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Give_coins give_coins = new Give_coins("settings");
-                    Settings_fragment old_fragment = (Settings_fragment) getActivity().getSupportFragmentManager().findFragmentByTag("setting");
-                    if (old_fragment != null) {
-                        getActivity().getSupportFragmentManager().beginTransaction().hide(old_fragment).add(R.id.fragment_container, give_coins, "give_coins").show(give_coins).commit();
-                    }
+                    buy_coins_button_clicked();
                 }
             });
         }
@@ -678,16 +580,14 @@ public class Settings_fragment extends Fragment {
         }
     }
 
-    @Override
+   /* @Override
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
         if (hidden) {
-            am_i_visible = false;
         } else {
-            am_i_visible = true;
-            set_the_premuim_in_text();
+//            set_the_premuim_in_text();
         }
-    }
+    }*/
 
     private void set_buy_premuim_true() {
         if (getActivity() != null) {
@@ -708,16 +608,31 @@ public class Settings_fragment extends Fragment {
 
     private void set_the_premuim_in_text() {
         if (getView() != null && getContext() != null) {
-            ConstraintLayout id_for_setting_did_not_buy_yet = getView().findViewById(R.id.id_for_setting_did_not_buy_yet);
+    /*        ConstraintLayout id_for_setting_did_not_buy_yet = getView().findViewById(R.id.id_for_setting_did_not_buy_yet);
             TextView buy_premium_button_in_setting = getView().findViewById(R.id.buy_premium_button_in_setting);
-
             ConstraintLayout setting_bought_yet_laready_layout = getView().findViewById(R.id.setting_bought_yet_laready_layout);
-            TextView buy_premium_button_in_setting_in_already_bought = getView().findViewById(R.id.buy_premium_button_in_setting_in_already_bought);
-            SharedPreferences sharedPreferences = getContext().getSharedPreferences("is_user_gifted", MODE_PRIVATE);
-            boolean online = sharedPreferences.getBoolean("premuim", false);
-            boolean offline = sharedPreferences.getBoolean("premuim_online", false);
-            long premuim_until = sharedPreferences.getLong("premuim_until", 0);
-            if (offline) {
+            TextView buy_premium_button_in_setting_in_already_bought = getView().findViewById(R.id.buy_premium_button_in_setting_in_already_bought);*/
+            /*if (Payment_processer.getInstance().are_sub_prices_ready) {
+                set_up_purchase_screen();
+            } else {
+                Payment_processer.getInstance().listen_for_sub(new Payment_processer.sub_prices_ready() {
+                    @Override
+                    public void sub_prices_are_ready() {
+                        set_up_purchase_screen();
+                    }
+                });
+            }*/
+            if (Payment_processer.getInstance().is_sub_purchase_list_ready) {
+                set_up_purchase_screen();
+            } else {
+                Payment_processer.getInstance().listen_for_sub_list_ready_2(new Payment_processer.sub_purchase_ready_list_2() {
+                    @Override
+                    public void sub_list_is_ready_2() {
+                        set_up_purchase_screen();
+                    }
+                });
+            }
+            /*if (offline) {
                 // bought
                 setting_bought_yet_laready_layout.setVisibility(View.VISIBLE);
                 id_for_setting_did_not_buy_yet.setVisibility(View.GONE);
@@ -731,6 +646,63 @@ public class Settings_fragment extends Fragment {
                 } else {
                     buy_premium_button_in_setting.setText("Premium status: not premium");
                 }
+            }*/
+        }
+    }
+
+    private void set_up_purchase_screen() {
+        if (!Payment_processer.getInstance().sub_purchase_list.isEmpty()) {
+            set_up_purchase_screen_helper("purchased", 0);
+        } else {
+            firebaseFirestore.collection("gifts").document(FirebaseAuth.getInstance().getCurrentUser().getUid()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                    if (task.isSuccessful()) {
+                        DocumentSnapshot document = task.getResult();
+                        if (document.exists()) {
+                            long time = document.getLong("time");
+                            if (time > System.currentTimeMillis() - 86400000L) {
+                                set_up_purchase_screen_helper("gifted", time + 86400000L);
+                            } else {
+                                set_up_purchase_screen_helper("none", 0);
+                            }
+                        } else {
+                            set_up_purchase_screen_helper("none", 0);
+                        }
+                    } else {
+                        //fail
+                    }
+                }
+            });
+        }
+    }
+
+    private void set_up_purchase_screen_helper(String type, long time) {
+        if (getView() != null) {
+            /*ConstraintLayout id_for_setting_did_not_buy_yet = getView().findViewById(R.id.id_for_setting_did_not_buy_yet);
+            TextView buy_premium_button_in_setting = getView().findViewById(R.id.buy_premium_button_in_setting);
+            ConstraintLayout setting_bought_yet_laready_layout = getView().findViewById(R.id.setting_bought_yet_laready_layout);
+            TextView buy_premium_button_in_setting_in_already_bought = getView().findViewById(R.id.buy_premium_button_in_setting_in_already_bought);*/
+            TextView text_saying_pro_or_free_user = getView().findViewById(R.id.text_saying_pro_or_free_user);
+            ConstraintLayout constraint_layout_with_everything_for_buy_premuim = getView().findViewById(R.id.constraint_layout_with_everything_for_buy_premuim);
+            if (type.equals("purchased")) {
+          /*      setting_bought_yet_laready_layout.setVisibility(View.VISIBLE);
+                id_for_setting_did_not_buy_yet.setVisibility(View.GONE);*/
+                text_saying_pro_or_free_user.setText("Pro User");
+                text_saying_pro_or_free_user.setTextColor(Color.BLACK);
+                constraint_layout_with_everything_for_buy_premuim.setVisibility(View.GONE);
+            } else if (type.equals("gifted")) {
+              /*  id_for_setting_did_not_buy_yet.setVisibility(View.VISIBLE);
+                setting_bought_yet_laready_layout.setVisibility(View.GONE);*/
+                text_saying_pro_or_free_user.setText("Pro until ".concat(return_the_date(time)));
+                text_saying_pro_or_free_user.setTextColor(Color.BLACK);
+                constraint_layout_with_everything_for_buy_premuim.setVisibility(View.VISIBLE);
+            } else if (type.equals("none")) {
+               /* id_for_setting_did_not_buy_yet.setVisibility(View.VISIBLE);
+                setting_bought_yet_laready_layout.setVisibility(View.GONE);*/
+                text_saying_pro_or_free_user.setText("Free User");
+                text_saying_pro_or_free_user.setTextColor(Color.parseColor("#808080"));
+                constraint_layout_with_everything_for_buy_premuim.setVisibility(View.VISIBLE);
             }
         }
     }
@@ -741,41 +713,7 @@ public class Settings_fragment extends Fragment {
             upgrade_susbcription_in_setting_premuim.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if (upgrade_susbcription_in_setting_premuim.getText().toString().equals("Downgrade to monthly billing")) {
-                        SkuDetailsParams skuDetailsParams = SkuDetailsParams.newBuilder().setSkusList(Arrays.asList("1_month_subscription"))
-                                .setType(BillingClient.SkuType.SUBS)
-                                .build();
-                        billingClient.querySkuDetailsAsync(skuDetailsParams, new SkuDetailsResponseListener() {
-                            @Override
-                            public void onSkuDetailsResponse(@NonNull @NotNull BillingResult billingResult, @Nullable @org.jetbrains.annotations.Nullable List<SkuDetails> list) {
-                                if (billingResult.getResponseCode() == BillingClient.BillingResponseCode.OK) {
-                                    BillingFlowParams purchaseParams = BillingFlowParams.newBuilder()
-                                            .setSkuDetails(list.get(0))
-                                            .setOldSku("1_year_subscription", token)
-                                            .setReplaceSkusProrationMode(DEFERRED)
-                                            .build();
-                                    billingClient.launchBillingFlow(getActivity(), purchaseParams);
-                                }
-                            }
-                        });
-                    } else if (upgrade_susbcription_in_setting_premuim.getText().toString().equals("upgrade to yearly billing")) {
-                        SkuDetailsParams skuDetailsParams = SkuDetailsParams.newBuilder().setSkusList(Arrays.asList("1_year_subscription"))
-                                .setType(BillingClient.SkuType.SUBS)
-                                .build();
-                        billingClient.querySkuDetailsAsync(skuDetailsParams, new SkuDetailsResponseListener() {
-                            @Override
-                            public void onSkuDetailsResponse(@NonNull @NotNull BillingResult billingResult, @Nullable @org.jetbrains.annotations.Nullable List<SkuDetails> list) {
-                                if (billingResult.getResponseCode() == BillingClient.BillingResponseCode.OK) {
-                                    BillingFlowParams purchaseParams = BillingFlowParams.newBuilder()
-                                            .setSkuDetails(list.get(0))
-                                            .setOldSku("1_month_subscription", token)
-                                            .setReplaceSkusProrationMode(DEFERRED)
-                                            .build();
-                                    billingClient.launchBillingFlow(getActivity(), purchaseParams);
-                                }
-                            }
-                        });
-                    }
+                    Payment_processer.getInstance().upgrade_to_yearly_billing(getActivity(), "new_yearly_subscription", getContext(), 0, FirebaseAuth.getInstance().getCurrentUser().getUid());
                 }
             });
         }
@@ -790,20 +728,50 @@ public class Settings_fragment extends Fragment {
         return String.valueOf(mDay).concat(" / ").concat(Simplify_the_time.return_month(String.valueOf(mMonth))).concat(" / ").concat(String.valueOf(mYear));
     }
 
-    private void hide_upgrade_subscription() {
+    private void check_if_i_should_hide_upgrade_subscription(List<Purchase> purchases) {
         if (getView() != null) {
             Button upgrade_susbcription_in_setting_premuim = getView().findViewById(R.id.upgrade_susbcription_in_setting_premuim);
-            List<Purchase> purhcases = billingClient.queryPurchases(BillingClient.SkuType.SUBS).getPurchasesList();
-            if (purhcases != null && purhcases.size() > 0) {
-                if (purhcases.get(0).getSku().contains("1_year_subscription")) {
-                    //upgrade_susbcription_in_setting_premuim.setText("Downgrade to monthly billing");
-                    upgrade_susbcription_in_setting_premuim.setVisibility(View.GONE);
-                    token = purhcases.get(0).getPurchaseToken();
-                } else if (purhcases.get(0).getSku().contains("1_month_subscription")) {
-                    upgrade_susbcription_in_setting_premuim.setText("upgrade to yearly billing");
-                    token = purhcases.get(0).getPurchaseToken();
-                }
+            for (int i = 0; i < purchases.size(); i++) {
+                FirebaseFirestore.getInstance().collection("tokens_and_user_ids").whereEqualTo("purchase_token", purchases.get(i).getPurchaseToken()).limit(1).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                    @Override
+                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                        if (!queryDocumentSnapshots.isEmpty()) {
+                            List<DocumentSnapshot> snapshots = queryDocumentSnapshots.getDocuments();
+                            for (DocumentSnapshot snapshot : snapshots) {
+                                boolean deferred_or_yearly = snapshot.getBoolean("deferred_or_yearly");
+                                if (deferred_or_yearly) {
+                                    hide_upgrade_yearly_button();
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(getContext(), "A problem occurred, please try again later", Toast.LENGTH_SHORT).show();
+                    }
+                });
             }
+        }
+    }
+
+    private void hide_upgrade_yearly_button() {
+        if (getView() != null) {
+            Button upgrade_susbcription_in_setting_premuim = getView().findViewById(R.id.upgrade_susbcription_in_setting_premuim);
+            upgrade_susbcription_in_setting_premuim.setVisibility(View.GONE);
+        }
+    }
+
+    private void show_upgrade_yearly_button() {
+        if (getView() != null && getContext() != null) {
+            Button upgrade_susbcription_in_setting_premuim = getView().findViewById(R.id.upgrade_susbcription_in_setting_premuim);
+            upgrade_susbcription_in_setting_premuim.setVisibility(View.VISIBLE);
+            ConstraintLayout constraint_layout_for_easyhabits_pro = getView().findViewById(R.id.constraint_layout_for_easyhabits_pro);
+            ConstraintSet constraintSet = new ConstraintSet();
+            constraintSet.clone(constraint_layout_for_easyhabits_pro);
+            constraintSet.connect(R.id.pixel_at_the_end_of_the_pro_area, ConstraintSet.TOP, R.id.upgrade_susbcription_in_setting_premuim, ConstraintSet.BOTTOM, (int) convertDpToPixel(10, getContext()));
+            constraintSet.applyTo(constraint_layout_for_easyhabits_pro);
         }
     }
 
@@ -813,22 +781,9 @@ public class Settings_fragment extends Fragment {
             button_saying_sign_in_with_firebase_settings.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if(return_the_name().equals("no_name_found_135")){
-                        Dialog_to_make_the_user_enter_their_name dialog_to_make_the_user_enter_their_name = new Dialog_to_make_the_user_enter_their_name();
-                        dialog_to_make_the_user_enter_their_name.set_card_clicked_reply(new Dialog_to_make_the_user_enter_their_name.name_is_done() {
-                            @Override
-                            public void name_is_done() {
-                                Bottom_sheet_to_sing_in_to_write_posts bottom_sheet_to_sing_in_to_write_posts = new Bottom_sheet_to_sing_in_to_write_posts();
-                                bottom_sheet_to_sing_in_to_write_posts.setTargetFragment(Settings_fragment.this, 254);
-                                bottom_sheet_to_sing_in_to_write_posts.show(getActivity().getSupportFragmentManager(), "tag");
-                            }
-                        });
-                        dialog_to_make_the_user_enter_their_name.show(getParentFragmentManager(),"");
-                    } else {
-                        Bottom_sheet_to_sing_in_to_write_posts bottom_sheet_to_sing_in_to_write_posts = new Bottom_sheet_to_sing_in_to_write_posts();
-                        bottom_sheet_to_sing_in_to_write_posts.setTargetFragment(Settings_fragment.this, 254);
-                        bottom_sheet_to_sing_in_to_write_posts.show(getActivity().getSupportFragmentManager(), "tag");
-                    }
+                    Bottom_sheet_to_sing_in_to_write_posts bottom_sheet_to_sing_in_to_write_posts = new Bottom_sheet_to_sing_in_to_write_posts();
+                    bottom_sheet_to_sing_in_to_write_posts.setTargetFragment(Settings_fragment.this, 254);
+                    bottom_sheet_to_sing_in_to_write_posts.show(getActivity().getSupportFragmentManager(), "tag");
                     //Toast.makeText(getContext(),"Coming soon...",Toast.LENGTH_LONG).show();
                 }
             });
@@ -850,8 +805,8 @@ public class Settings_fragment extends Fragment {
     private void hide_sign_in_button() {
         if (getView() != null && getContext() != null) {
             Button button_saying_sign_in_with_firebase_settings = getView().findViewById(R.id.button_saying_sign_in_with_firebase_settings);
-            Button button_saying_rate_in_settings = getView().findViewById(R.id.button_saying_rate_in_settings);
-            TextView text_saying_setting_in_setting_tab = getView().findViewById(R.id.text_saying_setting_in_setting_tab);
+            /*Button button_saying_rate_in_settings = getView().findViewById(R.id.button_saying_rate_in_settings);
+            TextView text_saying_setting_in_setting_tab = getView().findViewById(R.id.text_saying_setting_in_setting_tab);*/
             if (how_is_user_logged_in().equals("google")) {
                 button_saying_sign_in_with_firebase_settings.setVisibility(View.GONE);
                 ConstraintLayout constraintLayout = getView().findViewById(R.id.setting_parent_layout);
@@ -885,6 +840,8 @@ public class Settings_fragment extends Fragment {
                 hide_sign_in_button();
                 check_the_gift_then_update_the_text();
                 check_refer_online();
+                Payment_processer.getInstance().set_up_gift_listen(getContext());
+                set_up_coins_in_firebase();
             }
         }
     }
@@ -895,62 +852,68 @@ public class Settings_fragment extends Fragment {
             button_saying_enter_invite_code.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Dialog_for_invite_card dialog_for_invite_card = new Dialog_for_invite_card("enter invite code",FirebaseAuth.getInstance().getCurrentUser().getUid());
+                    Dialog_for_invite_card dialog_for_invite_card = new Dialog_for_invite_card("enter invite code", FirebaseAuth.getInstance().getCurrentUser().getUid());
                     dialog_for_invite_card.set_up_everything_is_ok(new Dialog_for_invite_card.everything_is_ok() {
                         @Override
                         public void everything_is_ok() {
                             button_saying_enter_invite_code.setVisibility(View.GONE);
                             dialog_for_invite_card.dismiss();
-                            Dialog_thank_user_for_purchase dialog_thank_user_for_purchase = new Dialog_thank_user_for_purchase(0, false, 6,true);
-                            dialog_thank_user_for_purchase.show(getActivity().getSupportFragmentManager(), "");
+                            Dialog_gift_months dialog_gift_months = new Dialog_gift_months(6);
+                            dialog_gift_months.show(getActivity().getSupportFragmentManager(), "");
+                            dialog_gift_months.loaded();
                             check_the_gift_then_update_the_text();
                         }
                     });
-                    dialog_for_invite_card.show(getParentFragmentManager(),"");
+                    dialog_for_invite_card.show(getParentFragmentManager(), "");
                 }
             });
         }
     }
 
-    private void get_invite_code_listen(){
-        if(getView()!=null){
+    private void get_invite_code_listen() {
+        if (getView() != null) {
             Button button_saying_enter_invite_code = getView().findViewById(R.id.button_saying_enter_invite_code);
             Button button_saying_get_my_invite_code = getView().findViewById(R.id.button_saying_get_my_invite_code);
             button_saying_get_my_invite_code.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Dialog_for_invite_card dialog_for_invite_card = new Dialog_for_invite_card("get your invite code",FirebaseAuth.getInstance().getCurrentUser().getUid());
-                    dialog_for_invite_card.set_up_everything_is_ok(new Dialog_for_invite_card.everything_is_ok() {
-                        @Override
-                        public void everything_is_ok() {
-                            button_saying_enter_invite_code.setVisibility(View.GONE);
-                            dialog_for_invite_card.dismiss();
-                            Dialog_thank_user_for_purchase dialog_thank_user_for_purchase = new Dialog_thank_user_for_purchase(0, false, 6,true);
-                            dialog_thank_user_for_purchase.show(getActivity().getSupportFragmentManager(), "");
-                            check_the_gift_then_update_the_text();
-                        }
-                    });
-                    dialog_for_invite_card.show(getParentFragmentManager(),"");
+                    if (FirebaseAuth.getInstance().getCurrentUser() != null && getActivity() != null) {
+                        Event_manager_all_in_one.getInstance().record_fire_base_event(getContext(), Event_manager_all_in_one.Event_type_fire_base_record.get_my_referral_code_clicked, false);
+                        Dialog_for_invite_card dialog_for_invite_card = new Dialog_for_invite_card("get your invite code", FirebaseAuth.getInstance().getCurrentUser().getUid());
+                        dialog_for_invite_card.set_up_everything_is_ok(new Dialog_for_invite_card.everything_is_ok() {
+                            @Override
+                            public void everything_is_ok() {
+                                Event_manager_all_in_one.getInstance().record_fire_base_event(getContext(), Event_manager_all_in_one.Event_type_fire_base_record.enter_code_successful, false);
+                                button_saying_enter_invite_code.setVisibility(View.GONE);
+                                dialog_for_invite_card.dismiss();
+                                Dialog_gift_months dialog_gift_months = new Dialog_gift_months(6);
+                                dialog_gift_months.show(getActivity().getSupportFragmentManager(), "");
+                                dialog_gift_months.loaded();
+                                check_the_gift_then_update_the_text();
+                            }
+                        });
+                        dialog_for_invite_card.show(getParentFragmentManager(), "");
+                    }
                 }
             });
         }
     }
 
-    private void hide_refer(){
-        if(getView()!=null){
+    private void hide_refer() {
+        if (getView() != null && getActivity() != null) {
             Button button_saying_enter_invite_code = getView().findViewById(R.id.button_saying_enter_invite_code);
             SharedPreferences sh = getActivity().getSharedPreferences("did_i_register_my_code", MODE_PRIVATE);
-            if(sh.getBoolean("register",false)){
+            if (sh.getBoolean("register", false)) {
                 button_saying_enter_invite_code.setVisibility(View.GONE);
             }
         }
     }
 
     private void check_refer_online() {
-        if (getActivity() != null && getView()!=null) {
+        if (getActivity() != null && getView() != null) {
             Button button_saying_enter_invite_code = getView().findViewById(R.id.button_saying_enter_invite_code);
             SharedPreferences sh = getActivity().getSharedPreferences("did_i_register_my_code", MODE_PRIVATE);
-            if (!sh.getBoolean("register",false)) {
+            if (!sh.getBoolean("register", false) && FirebaseAuth.getInstance().getCurrentUser() != null) {
                 DocumentReference docRef = firebaseFirestore.collection("redeem_refer").document(FirebaseAuth.getInstance().getCurrentUser().getUid());
                 docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                     @Override
@@ -958,7 +921,7 @@ public class Settings_fragment extends Fragment {
                         if (task.isSuccessful()) {
                             DocumentSnapshot document = task.getResult();
                             if (document.exists()) {
-                                SharedPreferences sharedPreferences = getActivity().getSharedPreferences("did_i_register_my_code",MODE_PRIVATE);
+                                SharedPreferences sharedPreferences = getActivity().getSharedPreferences("did_i_register_my_code", MODE_PRIVATE);
                                 SharedPreferences.Editor myEdit = sharedPreferences.edit();
                                 myEdit.putBoolean("register", true);
                                 myEdit.commit();
@@ -982,25 +945,27 @@ public class Settings_fragment extends Fragment {
         }
     }
 
-    private void change_my_name_button_listen(){
-        if(getView()!=null){
+    private void change_my_name_button_listen() {
+        if (getView() != null) {
             Button button_to_change_name_in_settings = getView().findViewById(R.id.button_to_change_name_in_settings);
             button_to_change_name_in_settings.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     SharedPreferences sharedPreferences = getActivity().getSharedPreferences("name_online_for_post", MODE_PRIVATE);
                     String name = sharedPreferences.getString("name", "");
-                    long last_attempt = sharedPreferences.getLong("last_changed",0);
-                    if(name.equals("")){
-                        Dialog_to_make_the_user_enter_their_name dialog_to_make_the_user_enter_their_name = new Dialog_to_make_the_user_enter_their_name();
-                        dialog_to_make_the_user_enter_their_name.show(getParentFragmentManager(),"");
+                    long last_attempt = sharedPreferences.getLong("last_changed", 0);
+                    if ((System.currentTimeMillis() - last_attempt) >= TimeUnit.DAYS.toMillis(3)) {
+                        Dialog_to_make_the_user_enter_their_name dialog_to_make_the_user_enter_their_name = new Dialog_to_make_the_user_enter_their_name("Note: You can only change it once every 3 days", "Change your username");
+                        dialog_to_make_the_user_enter_their_name.set_card_clicked_reply(new Dialog_to_make_the_user_enter_their_name.name_is_done() {
+                            @Override
+                            public void name_is_done() {
+                                set_name_for_profile();
+                                set_the_text_of_change_my_name_button();
+                            }
+                        });
+                        dialog_to_make_the_user_enter_their_name.show(getParentFragmentManager(), "");
                     } else {
-                        if((System.currentTimeMillis() - last_attempt) >= TimeUnit.DAYS.toMillis(3)){
-                            Dialog_to_make_the_user_enter_their_name dialog_to_make_the_user_enter_their_name = new Dialog_to_make_the_user_enter_their_name("Note: You can only change it once every 3 days","Change your username");
-                            dialog_to_make_the_user_enter_their_name.show(getParentFragmentManager(),"");
-                        } else {
-                            Toast.makeText(getContext(),"You can't change your name more than once every 3 days",Toast.LENGTH_LONG).show();
-                        }
+                        Toast.makeText(getContext(), "You can only change your name once every 3 days", Toast.LENGTH_LONG).show();
                     }
                 }
             });
@@ -1010,7 +975,9 @@ public class Settings_fragment extends Fragment {
     private void set_the_text_of_change_my_name_button() {
         if (getView() != null) {
             Button button_to_change_name_in_settings = getView().findViewById(R.id.button_to_change_name_in_settings);
-            if (return_the_name().equals("no_name_found_135")) {
+            if (Save_and_get.getInstance().get_this_boolean(getContext(), "name_online_for_post", "was_name_changed_before")) {
+                button_to_change_name_in_settings.setText("Change my name");
+            } else {
                 button_to_change_name_in_settings.setText("Set my name");
             }
         }
@@ -1034,7 +1001,7 @@ public class Settings_fragment extends Fragment {
                             long time = document.getLong("time");
                             if (time > System.currentTimeMillis() - 86400000L) {
                                 myEdit.putBoolean("premuim", true);
-                                myEdit.putLong("premuim_until", time+86400000L);
+                                myEdit.putLong("premuim_until", time + 86400000L);
                                 myEdit.commit();
                             } else {
                                 myEdit.putBoolean("premuim", false);
@@ -1052,6 +1019,264 @@ public class Settings_fragment extends Fragment {
             });
             //myEdit.putLong("last_checked", System.currentTimeMillis());
             //}
+        }
+    }
+
+    private void listen_to_purchase_complete() {
+        Payment_processer.getInstance().set_up_update_the_premuim_settings(new Payment_processer.update_the_premuim_settings() {
+            @Override
+            public void update_settings() {
+                set_up_purchase_screen();
+//                set_up_coins_in_firebase();
+            }
+        });
+    }
+
+    private void manage_subscription_button_listen() {
+        if (getView() != null) {
+            Button button_saying_the_manage_subscription_in_setting = getView().findViewById(R.id.button_saying_the_manage_subscription_in_setting);
+            button_saying_the_manage_subscription_in_setting.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (getActivity() != null) {
+                        try {
+                            if (Payment_processer.getInstance().is_sub_purchase_list_ready) {
+                                mange_subscription_link();
+                            } else {
+                                Payment_processer.getInstance().listen_for_sub_list_ready(new Payment_processer.sub_purchase_ready_list() {
+                                    @Override
+                                    public void sub_list_is_ready() {
+                                        mange_subscription_link();
+                                    }
+                                });
+                            }
+
+                        } catch (ActivityNotFoundException e) {
+                            Toast.makeText(getContext(), "Can't open automatically, please goto the subscription center in the play store", Toast.LENGTH_LONG).show();
+                        }
+                    }
+                }
+            });
+        }
+    }
+
+    private void mange_subscription_link() {
+        if (Payment_processer.getInstance().sub_purchase_list.isEmpty()) {
+            startActivity(new Intent(Intent.ACTION_VIEW,
+                    Uri.parse("https://play.google.com/store/account/subscriptions")));
+        } else if (Payment_processer.getInstance().sub_purchase_list.get(0).getProducts().get(0).equals("new_monthly_subscription")) {
+            startActivity(new Intent(Intent.ACTION_VIEW,
+                    Uri.parse("https://play.google.com/store/account/subscriptions?sku=new_monthly_subscription&package=" + getActivity().getPackageName())));
+        } else if (Payment_processer.getInstance().sub_purchase_list.get(0).getProducts().get(0).equals("new_yearly_subscription")) {
+            startActivity(new Intent(Intent.ACTION_VIEW,
+                    Uri.parse("https://play.google.com/store/account/subscriptions?sku=new_yearly_subscription&package=" + getActivity().getPackageName())));
+        }
+    }
+
+    private void set_up_coins_in_firebase() {
+        if (getView() != null && FirebaseAuth.getInstance().getUid() != null) {
+            TextView text_view_saying_number_of_coins_in_setting = getView().findViewById(R.id.text_view_saying_number_of_coins_in_setting);
+            ProgressBar progress_bar_to_show_that_coins_are_still_loading = getView().findViewById(R.id.progress_bar_to_show_that_coins_are_still_loading);
+            final DocumentReference docIdRef = FirebaseFirestore.getInstance().collection("coins").document(FirebaseAuth.getInstance().getUid());
+            docIdRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                    if (task.isSuccessful()) {
+                        DocumentSnapshot snapshot = task.getResult();
+                        int coins;
+                        if (snapshot != null && snapshot.exists()) {
+                            coins = (int) ((long) snapshot.get("coins"));
+                        } else {
+                            coins = 0;
+                        }
+                        text_view_saying_number_of_coins_in_setting.setText(String.valueOf(coins));
+                        text_view_saying_number_of_coins_in_setting.setVisibility(View.VISIBLE);
+                        progress_bar_to_show_that_coins_are_still_loading.setVisibility(View.GONE);
+                        if(getView()!=null && getContext()!=null) {
+                            ConstraintLayout constraint_layout_with_coin_image_and_coins = getView().findViewById(R.id.constraint_layout_with_coin_image_and_coins);
+                            ConstraintSet constraintSet = new ConstraintSet();
+                            constraintSet.clone(constraint_layout_with_coin_image_and_coins);
+                            constraintSet.connect(R.id.coins_view_beside_the_numbers, ConstraintSet.END, R.id.text_view_saying_number_of_coins_in_setting, ConstraintSet.START, (int) convertDpToPixel(10, getContext()));
+                            constraintSet.applyTo(constraint_layout_with_coin_image_and_coins);
+                        }
+                    } else {
+                        if (getContext() != null) {
+                            Toast toast = Toast.makeText(getContext(), "Cant load coins", Toast.LENGTH_LONG);
+                            toast.show();
+                        }
+                    }
+                }
+            });
+        }
+    }
+
+    private void set_up_button_for_more_information_listen() {
+        if (getView() != null) {
+            Button button_to_request_more_billing_info_in_setting = getView().findViewById(R.id.button_to_request_more_billing_info_in_setting);
+            button_to_request_more_billing_info_in_setting.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    String body = "Your Google Play Account will be charged after the free trial period ends. The monthly subscription renews automatically each month. The annual subscription renews automatically each year.\n\nSubscription will be auto-renewed within 24 hours before the current period ends. You can manage subscription & turn-off in Google Play Account Settings.";
+                    Dialog_custom dialog_custom = new Dialog_custom("Subscription info.", body);
+                    dialog_custom.show(getParentFragmentManager(), "dialog_custom");
+                }
+            });
+        }
+    }
+
+    public void listen_to_coin_update() {
+        if (firestore_listener == null) {
+            String user_id = FirebaseAuth.getInstance().getCurrentUser().getUid();
+            firestore_listener = FirebaseFirestore.getInstance().collection("coins").document(user_id).addSnapshotListener(new EventListener<DocumentSnapshot>() {
+                @Override
+                public void onEvent(@com.google.firebase.database.annotations.Nullable DocumentSnapshot snapshot,
+                                    @com.google.firebase.database.annotations.Nullable FirebaseFirestoreException e) {
+                    if (e != null) {
+                        return;
+                    }
+                    if (snapshot != null && snapshot.exists()) {
+                        set_up_coins_in_firebase();
+                    } else {
+
+                    }
+                }
+            });
+        }
+    }
+
+    private void listen_to_hide_upgrade_yearly() {
+        Payment_processer.getInstance().set_up_hide_upgrade_yearly(new Payment_processer.hide_upgrade_yearly() {
+            @Override
+            public void hide_the_upgrade_yearly() {
+                hide_upgrade_yearly_button();
+            }
+        });
+    }
+
+    private void listen_to_purchase_list_for_upgrade() {
+        Payment_processer.getInstance().set_up_listen_for_purchase_for_hide_upgrade(new Payment_processer.sub_list_ready_for_hide_for_upgrade() {
+            @Override
+            public void hide_the_upgrade_after_list_is_ready() {
+                if (!Payment_processer.getInstance().sub_purchase_list.isEmpty()) {
+                    check_if_i_should_hide_upgrade_subscription(Payment_processer.getInstance().sub_purchase_list);
+                }
+            }
+        });
+    }
+
+    private void make_the_offer_text_bold() {
+        if (getView() != null) {
+            TextView invite_your_friend_offer_to_get_premuim = getView().findViewById(R.id.invite_your_friend_offer_to_get_premuim);
+            SpannableStringBuilder str = new SpannableStringBuilder("Limited time offer: Invite your friend to Easy Habits and both of you will get 6 months of premium for free. Get started by getting your referral code below, then make sure to enter the code by clicking \"enter referral code\" on your friend's phone ");
+            str.setSpan(new ForegroundColorSpan(Color.parseColor("#DA142C")), 0, 18, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            str.setSpan(new android.text.style.StyleSpan(android.graphics.Typeface.BOLD), 0, 18, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            invite_your_friend_offer_to_get_premuim.setText(str);
+        }
+    }
+
+    private void buy_coins_button_listen_under_profile() {
+        if (getView() != null) {
+            Button button_saying_buy_coins_in_profile_in_settings = getView().findViewById(R.id.button_saying_buy_coins_in_profile_in_settings);
+            button_saying_buy_coins_in_profile_in_settings.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    buy_coins_button_clicked();
+                }
+            });
+        }
+    }
+
+    private void buy_coins_button_clicked() {
+        if (getActivity() != null) {
+            Event_manager_all_in_one.getInstance().record_fire_base_event(getContext(), Event_manager_all_in_one.Event_type_fire_base_record.buy_more_coins_clicked, false);
+            /*Give_coins give_coins = new Give_coins("settings");
+            Settings_fragment old_fragment = (Settings_fragment) getActivity().getSupportFragmentManager().findFragmentByTag("setting");
+            if (old_fragment != null) {
+                getActivity().getSupportFragmentManager().beginTransaction().hide(old_fragment).add(R.id.fragment_container, give_coins, "give_coins").show(give_coins).commit();
+            }*/
+            Bottom_sheet_buy_coins bottom_sheet_buy_coins = new Bottom_sheet_buy_coins();
+            bottom_sheet_buy_coins.show(getParentFragmentManager(),"buy coins");
+        }
+    }
+
+    private void set_name_for_profile() {
+        if (getView() != null && getActivity() != null) {
+            TextView text_view_saying_name = getView().findViewById(R.id.text_view_saying_name);
+            SharedPreferences sharedPreferences = getActivity().getSharedPreferences("name_online_for_post", MODE_PRIVATE);
+            String name = sharedPreferences.getString("name", "");
+            text_view_saying_name.setText(name);
+        }
+    }
+
+    private void start_fourteen_day_trial_button_listen() {
+        if (getView() != null) {
+            Button done_button_at_the_buttom_add_new_habit = getView().findViewById(R.id.done_button_at_the_buttom_add_new_habit);
+            done_button_at_the_buttom_add_new_habit.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Bundle bundle = new Bundle();
+                    bundle.putString("source", "setting");
+                    Event_manager_all_in_one.getInstance().record_fire_base_event(getContext(), Event_manager_all_in_one.Event_type_fire_base_record.yearly_clicked, false, bundle);
+                    Payment_processer.getInstance().launch_product_flow(getActivity(), "new_yearly_subscription", getContext(), 0, FirebaseAuth.getInstance().getUid());
+                }
+            });
+        }
+    }
+
+    private void calculate_the_streak() {
+        if (getContext() != null) {
+            long last_login = Save_and_get.getInstance().get_this_long(getContext(), "track_last_login", "last_login", System.currentTimeMillis());
+            if ((Simplify_the_time.return_time_in_midnight(System.currentTimeMillis()) - Simplify_the_time.return_time_in_midnight(last_login) >= TimeUnit.DAYS.toMillis(2))) {
+                Save_and_get.getInstance().save_this(getContext(), 0, "track_last_login", "streak");
+            } else {
+                if (Simplify_the_time.return_time_in_midnight(last_login) < Simplify_the_time.return_time_in_midnight(System.currentTimeMillis())) {
+                    int old_streak = Save_and_get.getInstance().get_this_int(getContext(), "track_last_login", "streak", 1);
+                    Save_and_get.getInstance().save_this(getContext(), old_streak + 1, "track_last_login", "streak");
+                }
+            }
+            Save_and_get.getInstance().save_this(getContext(), System.currentTimeMillis(), "track_last_login", "last_login");
+        }
+    }
+
+    private void set_the_streak() {
+        if (getView() != null && getContext() != null) {
+            TextView text_view_saying_the_streak_in_profile_in_settings = getView().findViewById(R.id.text_view_saying_the_streak_in_profile_in_settings);
+            int streak = Save_and_get.getInstance().get_this_int(getContext(), "track_last_login", "streak", 1);
+            text_view_saying_the_streak_in_profile_in_settings.setText(String.valueOf(streak));
+        }
+    }
+
+    private void click_on_profile_picture_button_listen(){
+        if(getView()!=null){
+            Button profile_picture_in_settings = getView().findViewById(R.id.profile_picture_in_settings);
+            profile_picture_in_settings.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    change_profile_picture_was_clicked();
+                }
+            });
+        }
+    }
+
+    private void change_profile_picture_listen(){
+        if(getView()!=null){
+            Button button_to_change_picture_in_settings = getView().findViewById(R.id.button_to_change_picture_in_settings);
+            button_to_change_picture_in_settings.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    change_profile_picture_was_clicked();
+                }
+            });
+        }
+    }
+
+    private void change_profile_picture_was_clicked(){
+        if(getView()!=null){
+           /* Bottom_sheet_change_profile_picture bottom_sheet_change_profile_picture = new Bottom_sheet_change_profile_picture();
+            bottom_sheet_change_profile_picture.show(getParentFragmentManager(),"Bottom sheet change profile picture");*/
+            Change_profile_picture change_profile_picture = new Change_profile_picture();
+            getActivity().getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, change_profile_picture, "change profile picture").show(change_profile_picture).commit();
+
         }
     }
 }

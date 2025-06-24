@@ -1,0 +1,779 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#f1f3f9"
+    tools:context=".Add_new_habit_final">
+
+    <TextView
+        android:id="@+id/text_saying_create_at_the_top_of_create_new_habit_in_add_new_habit_final"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="25dp"
+        android:layout_marginTop="25dp"
+        android:text="Create"
+        android:textColor="@color/black"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <View
+        android:id="@+id/cancel_view_in_home_to_add_new_habit_add_new_habit_final"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginEnd="25dp"
+        android:background="@drawable/add_48px"
+        android:backgroundTint="@color/black"
+        android:rotation="45"
+        app:layout_constraintBottom_toBottomOf="@+id/text_saying_create_at_the_top_of_create_new_habit_in_add_new_habit_final"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/text_saying_create_at_the_top_of_create_new_habit_in_add_new_habit_final" />
+
+    <Button
+        android:id="@+id/button_to_cancel_new_habit_in_add_new_habit_add_new_habit_final"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:background="?selectableItemBackgroundBorderless"
+        app:layout_constraintBottom_toBottomOf="@+id/cancel_view_in_home_to_add_new_habit_add_new_habit_final"
+        app:layout_constraintEnd_toEndOf="@+id/cancel_view_in_home_to_add_new_habit_add_new_habit_final"
+        app:layout_constraintStart_toStartOf="@+id/cancel_view_in_home_to_add_new_habit_add_new_habit_final"
+        app:layout_constraintTop_toTopOf="@+id/cancel_view_in_home_to_add_new_habit_add_new_habit_final" />
+
+    <!--<View
+        android:id="@+id/view_top_of_card_to_add_new_habit_add_new_habit_final"
+        android:layout_width="match_parent"
+        android:layout_height="25dp"
+        android:layout_marginTop="30dp"
+        android:background="@drawable/card_view_in_add_new_habit"
+        android:elevation="30dp"
+        app:layout_constraintTop_toBottomOf="@+id/text_saying_create_at_the_top_of_create_new_habit_in_add_new_habit_final" />
+
+    <View
+        android:id="@+id/view_botton_of_card_to_add_new_habit_final"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="#FFFFFF"
+        android:elevation="30dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/view_top_of_card_to_add_new_habit_add_new_habit_final" />-->
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layout_to_finalize_all_information_add_new_habit"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="@drawable/card_view_in_add_new_habit"
+        android:elevation="30dp"
+        android:outlineProvider="none"
+        android:visibility="visible"
+        android:layout_marginTop="30dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/text_saying_create_at_the_top_of_create_new_habit_in_add_new_habit_final">
+
+        <!--<View
+            android:id="@+id/done_view_in_add_new_habit"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginEnd="25dp"
+            android:background="@drawable/done_48px"
+            android:backgroundTint="@color/black"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/done_button_in_add_new_habit"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:background="@android:color/transparent"
+            android:foreground="?selectableItemBackgroundBorderless"
+            app:layout_constraintBottom_toBottomOf="@+id/done_view_in_add_new_habit"
+            app:layout_constraintEnd_toEndOf="@+id/done_view_in_add_new_habit"
+            app:layout_constraintStart_toStartOf="@+id/done_view_in_add_new_habit"
+            app:layout_constraintTop_toTopOf="@+id/done_view_in_add_new_habit" />-->
+
+        <androidx.core.widget.NestedScrollView
+            android:id="@+id/scroll_view_in_the_final_add_habit"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:fillViewport="true"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/layout_containing_all_for_add_new_habit_main_final_screeen"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/text_saying_this_is_name_of_habit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="35dp"
+                    android:layout_marginTop="20dp"
+                    android:text="Habit name"
+                    android:textColor="#CFCFCF"
+                    android:textSize="30sp"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <View
+                    android:id="@+id/view_at_the_bottom_of_habit_name_text"
+                    android:layout_width="1px"
+                    android:layout_height="1px"
+                    app:layout_constraintBottom_toBottomOf="@+id/text_saying_this_is_name_of_habit"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/text_saying_this_is_name_of_habit"
+                    app:layout_constraintVertical_bias="0.75" />
+
+                <EditText
+                    android:id="@+id/edit_text_to_enter_habit_name_final"
+                    android:layout_width="0dp"
+                    android:layout_height="60dp"
+                    android:layout_marginStart="30dp"
+                    android:layout_marginEnd="30dp"
+                    android:background="@drawable/background_of_edit_text_enter_new_habit"
+                    android:backgroundTint="#F3F3F3"
+                    android:elevation="15dp"
+                    android:hint="ex. Workout, Brush teeth..."
+                    android:imeOptions="actionDone"
+                    android:inputType="text"
+                    android:maxLines="1"
+                    android:padding="10dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/view_at_the_bottom_of_habit_name_text" />
+
+                <TextView
+                    android:id="@+id/text_saying_color_and_icon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="35dp"
+                    android:layout_marginTop="30dp"
+                    android:text="Color &amp; Icon"
+                    android:textColor="#CFCFCF"
+                    android:textSize="30sp"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/edit_text_to_enter_habit_name_final" />
+
+                <View
+                    android:id="@+id/view_at_the_bottom_of_color_and_icon_text"
+                    android:layout_width="1px"
+                    android:layout_height="1px"
+                    app:layout_constraintBottom_toBottomOf="@+id/text_saying_color_and_icon"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/text_saying_color_and_icon"
+                    app:layout_constraintVertical_bias="0.75" />
+
+                <View
+                    android:id="@+id/background_of_habit_and_icon_add_new_habit"
+                    android:layout_width="0dp"
+                    android:layout_height="60dp"
+                    android:layout_marginStart="30dp"
+                    android:layout_marginEnd="30dp"
+                    android:background="@drawable/background_of_edit_text_enter_new_habit"
+                    android:backgroundTint="#F3F3F3"
+                    android:elevation="15dp"
+                    android:visibility="visible"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/view_at_the_bottom_of_color_and_icon_text" />
+
+                <View
+                    android:id="@+id/pixel_at_the_middle_of_color_nad_icon_add_new_habit"
+                    android:layout_width="1px"
+                    android:layout_height="1px"
+                    android:background="@android:color/transparent"
+                    app:layout_constraintBottom_toBottomOf="@+id/background_of_habit_and_icon_add_new_habit"
+                    app:layout_constraintEnd_toEndOf="@+id/background_of_habit_and_icon_add_new_habit"
+                    app:layout_constraintStart_toStartOf="@+id/background_of_habit_and_icon_add_new_habit"
+                    app:layout_constraintTop_toTopOf="@+id/background_of_habit_and_icon_add_new_habit" />
+
+                <Button
+                    android:id="@+id/change_color_button_in_add_new_habit_final"
+                    style="?android:attr/borderlessButtonStyle"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_margin="6dp"
+                    android:background="@drawable/white_back_ground_for_build_it_or_quit_add_new_habit"
+                    android:elevation="16dp"
+                    android:outlineProvider="none"
+                    android:textAllCaps="false"
+                    android:textStyle="bold"
+                    android:visibility="visible"
+                    app:layout_constraintBottom_toBottomOf="@+id/background_of_habit_and_icon_add_new_habit"
+                    app:layout_constraintEnd_toEndOf="@+id/pixel_at_the_middle_of_color_nad_icon_add_new_habit"
+                    app:layout_constraintStart_toStartOf="@+id/background_of_habit_and_icon_add_new_habit"
+                    app:layout_constraintTop_toTopOf="@+id/background_of_habit_and_icon_add_new_habit" />
+
+                <Button
+                    android:id="@+id/change_icon_button_in_add_new_habit_final_step"
+                    style="?android:attr/borderlessButtonStyle"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_margin="6dp"
+                    android:background="@drawable/white_back_ground_for_build_it_or_quit_add_new_habit"
+                    android:elevation="16dp"
+                    android:outlineProvider="none"
+                    android:textAllCaps="false"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="@+id/background_of_habit_and_icon_add_new_habit"
+                    app:layout_constraintEnd_toEndOf="@+id/background_of_habit_and_icon_add_new_habit"
+                    app:layout_constraintStart_toEndOf="@+id/pixel_at_the_middle_of_color_nad_icon_add_new_habit"
+                    app:layout_constraintTop_toTopOf="@+id/background_of_habit_and_icon_add_new_habit" />
+
+                <View
+                    android:id="@+id/drawable_with_color_at_the_start_of_color_button_add_new_habit"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_marginStart="2.5dp"
+                    android:layout_marginTop="2.5dp"
+                    android:layout_marginBottom="2.5dp"
+                    android:background="@drawable/white_back_ground_for_build_it_or_quit_add_new_habit"
+                    android:backgroundTint="@color/black"
+                    android:elevation="17dp"
+                    android:outlineProvider="none"
+                    app:layout_constraintBottom_toBottomOf="@+id/change_color_button_in_add_new_habit_final"
+                    app:layout_constraintDimensionRatio="1:1"
+                    app:layout_constraintStart_toStartOf="@+id/change_color_button_in_add_new_habit_final"
+                    app:layout_constraintTop_toTopOf="@+id/change_color_button_in_add_new_habit_final" />
+
+                <View
+                    android:id="@+id/drawable_with_color_at_the_start_of_icon_button_add_new_habit"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_marginStart="2.5dp"
+                    android:background="@drawable/white_back_ground_for_build_it_or_quit_add_new_habit"
+                    android:backgroundTint="@color/black"
+                    android:elevation="17dp"
+                    android:outlineProvider="none"
+                    app:layout_constraintBottom_toBottomOf="@+id/drawable_with_color_at_the_start_of_color_button_add_new_habit"
+                    app:layout_constraintDimensionRatio="1:1"
+                    app:layout_constraintStart_toStartOf="@+id/change_icon_button_in_add_new_habit_final_step"
+                    app:layout_constraintTop_toTopOf="@+id/drawable_with_color_at_the_start_of_color_button_add_new_habit" />
+
+                <com.vanniktech.emoji.EmojiTextView
+                    android:id="@+id/emoji_view_add_new_habit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:elevation="18dp"
+                    android:outlineProvider="none"
+                    android:text="🍒"
+                    android:visibility="visible"
+                    app:emojiSize="25dp"
+                    app:layout_constraintBottom_toBottomOf="@+id/drawable_with_color_at_the_start_of_icon_button_add_new_habit"
+                    app:layout_constraintEnd_toEndOf="@+id/drawable_with_color_at_the_start_of_icon_button_add_new_habit"
+                    app:layout_constraintStart_toStartOf="@+id/drawable_with_color_at_the_start_of_icon_button_add_new_habit"
+                    app:layout_constraintTop_toTopOf="@+id/drawable_with_color_at_the_start_of_icon_button_add_new_habit" />
+
+                <com.vanniktech.emoji.EmojiEditText
+                    android:id="@+id/emoji_edit_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:clickable="false"
+                    android:cursorVisible="false"
+                    android:elevation="18dp"
+                    android:focusable="false"
+                    android:focusableInTouchMode="false"
+                    android:imeOptions="actionDone"
+                    android:outlineProvider="none"
+                    android:visibility="invisible"
+                    app:emojiSize="25dp"
+                    app:layout_constraintBottom_toBottomOf="@+id/drawable_with_color_at_the_start_of_icon_button_add_new_habit"
+                    app:layout_constraintEnd_toEndOf="@+id/drawable_with_color_at_the_start_of_icon_button_add_new_habit"
+                    app:layout_constraintStart_toStartOf="@+id/drawable_with_color_at_the_start_of_icon_button_add_new_habit"
+                    app:layout_constraintTop_toTopOf="@+id/drawable_with_color_at_the_start_of_icon_button_add_new_habit" />
+
+                <TextView
+                    android:id="@+id/text_view_saying_color_at_the_button_add_new_habit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:elevation="17dp"
+                    android:outlineProvider="none"
+                    android:text="Color"
+                    android:textColor="@color/black"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="@+id/change_color_button_in_add_new_habit_final"
+                    app:layout_constraintEnd_toEndOf="@+id/change_color_button_in_add_new_habit_final"
+                    app:layout_constraintStart_toEndOf="@+id/drawable_with_color_at_the_start_of_color_button_add_new_habit"
+                    app:layout_constraintTop_toTopOf="@+id/change_color_button_in_add_new_habit_final" />
+
+                <TextView
+                    android:id="@+id/text_view_saying_icon_at_the_button_add_new_habit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:elevation="17dp"
+                    android:outlineProvider="none"
+                    android:text="Icon"
+                    android:textColor="@color/black"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="@+id/change_icon_button_in_add_new_habit_final_step"
+                    app:layout_constraintEnd_toEndOf="@+id/change_icon_button_in_add_new_habit_final_step"
+                    app:layout_constraintStart_toEndOf="@+id/drawable_with_color_at_the_start_of_icon_button_add_new_habit"
+                    app:layout_constraintTop_toTopOf="@+id/change_icon_button_in_add_new_habit_final_step" />
+
+                <TextView
+                    android:id="@+id/text_saying_type_of_habit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="35dp"
+                    android:layout_marginTop="30dp"
+                    android:text="Type of Habit"
+                    android:textColor="#CFCFCF"
+                    android:textSize="30sp"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/background_of_habit_and_icon_add_new_habit" />
+
+                <View
+                    android:id="@+id/view_at_the_bottom_of_type_of_habit_text"
+                    android:layout_width="1px"
+                    android:layout_height="1px"
+                    app:layout_constraintBottom_toBottomOf="@+id/text_saying_type_of_habit"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/text_saying_type_of_habit"
+                    app:layout_constraintVertical_bias="0.75" />
+
+                <View
+                    android:id="@+id/backgorund_of_both_buttons_to_choose_good_or_bad_in_the_final"
+                    android:layout_width="0dp"
+                    android:layout_height="60dp"
+                    android:layout_marginStart="30dp"
+                    android:layout_marginEnd="30dp"
+                    android:background="@drawable/background_of_edit_text_enter_new_habit"
+                    android:backgroundTint="#F3F3F3"
+                    android:elevation="15dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/view_at_the_bottom_of_type_of_habit_text" />
+
+                <View
+                    android:id="@+id/pixel_at_the_middle_of_two_buttons_build_and_quit_in_the_final"
+                    android:layout_width="1px"
+                    android:layout_height="1px"
+                    android:background="@android:color/transparent"
+                    app:layout_constraintBottom_toBottomOf="@+id/backgorund_of_both_buttons_to_choose_good_or_bad_in_the_final"
+                    app:layout_constraintEnd_toEndOf="@+id/backgorund_of_both_buttons_to_choose_good_or_bad_in_the_final"
+                    app:layout_constraintStart_toStartOf="@+id/backgorund_of_both_buttons_to_choose_good_or_bad_in_the_final"
+                    app:layout_constraintTop_toTopOf="@+id/backgorund_of_both_buttons_to_choose_good_or_bad_in_the_final" />
+
+                <Button
+                    android:id="@+id/white_button_build_habit_add_new_habit_in_the_final"
+                    style="?android:attr/borderlessButtonStyle"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_margin="6dp"
+                    android:background="@drawable/white_back_ground_for_build_it_or_quit_add_new_habit"
+                    android:elevation="16dp"
+                    android:outlineProvider="none"
+                    android:text="Build Up"
+                    android:textAllCaps="false"
+                    android:textStyle="bold"
+                    android:visibility="visible"
+                    app:layout_constraintBottom_toBottomOf="@+id/backgorund_of_both_buttons_to_choose_good_or_bad_in_the_final"
+                    app:layout_constraintEnd_toEndOf="@+id/pixel_at_the_middle_of_two_buttons_build_and_quit_in_the_final"
+                    app:layout_constraintStart_toStartOf="@+id/backgorund_of_both_buttons_to_choose_good_or_bad_in_the_final"
+                    app:layout_constraintTop_toTopOf="@+id/backgorund_of_both_buttons_to_choose_good_or_bad_in_the_final" />
+
+                <Button
+                    android:id="@+id/white_button_quit_add_new_habit_in_the_final"
+                    style="?android:attr/borderlessButtonStyle"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_margin="6dp"
+                    android:background="@drawable/white_back_ground_for_build_it_or_quit_add_new_habit"
+                    android:elevation="16dp"
+                    android:outlineProvider="none"
+                    android:text="Quit"
+                    android:textAllCaps="false"
+                    android:textStyle="bold"
+                    android:visibility="invisible"
+                    app:layout_constraintBottom_toBottomOf="@+id/backgorund_of_both_buttons_to_choose_good_or_bad_in_the_final"
+                    app:layout_constraintEnd_toEndOf="@+id/backgorund_of_both_buttons_to_choose_good_or_bad_in_the_final"
+                    app:layout_constraintStart_toEndOf="@+id/pixel_at_the_middle_of_two_buttons_build_and_quit_in_the_final"
+                    app:layout_constraintTop_toTopOf="@+id/backgorund_of_both_buttons_to_choose_good_or_bad_in_the_final" />
+
+                <Button
+                    android:id="@+id/grey_button_build_habit_add_new_habit_in_the_final"
+                    style="?android:attr/borderlessButtonStyle"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_margin="6dp"
+                    android:background="@drawable/ripple_for_choose_habit_type"
+                    android:backgroundTint="#F3F3F3"
+                    android:elevation="16dp"
+                    android:outlineProvider="none"
+                    android:text="Build Up"
+                    android:textAllCaps="false"
+                    android:textColor="@color/black"
+                    android:textStyle="bold"
+                    android:visibility="invisible"
+                    app:layout_constraintBottom_toBottomOf="@+id/backgorund_of_both_buttons_to_choose_good_or_bad_in_the_final"
+                    app:layout_constraintEnd_toEndOf="@+id/pixel_at_the_middle_of_two_buttons_build_and_quit_in_the_final"
+                    app:layout_constraintStart_toStartOf="@+id/backgorund_of_both_buttons_to_choose_good_or_bad_in_the_final"
+                    app:layout_constraintTop_toTopOf="@+id/backgorund_of_both_buttons_to_choose_good_or_bad_in_the_final" />
+
+                <Button
+                    android:id="@+id/grey_button_quit_add_new_habit_in_the_final"
+                    style="?android:attr/borderlessButtonStyle"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_margin="6dp"
+                    android:background="@drawable/ripple_for_choose_habit_type"
+                    android:backgroundTint="#F3F3F3"
+                    android:elevation="16dp"
+                    android:outlineProvider="none"
+                    android:text="Quit"
+                    android:textAllCaps="false"
+                    android:textColor="@color/black"
+                    android:textStyle="bold"
+                    android:visibility="visible"
+                    app:layout_constraintBottom_toBottomOf="@+id/backgorund_of_both_buttons_to_choose_good_or_bad_in_the_final"
+                    app:layout_constraintEnd_toEndOf="@+id/backgorund_of_both_buttons_to_choose_good_or_bad_in_the_final"
+                    app:layout_constraintStart_toEndOf="@+id/pixel_at_the_middle_of_two_buttons_build_and_quit_in_the_final"
+                    app:layout_constraintTop_toTopOf="@+id/backgorund_of_both_buttons_to_choose_good_or_bad_in_the_final" />
+
+                <TextView
+                    android:id="@+id/text_saying_frequency_in_add_new_habit_final"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="35dp"
+                    android:layout_marginTop="30dp"
+                    android:text="Frequency"
+                    android:textColor="#CFCFCF"
+                    android:textSize="30sp"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/backgorund_of_both_buttons_to_choose_good_or_bad_in_the_final" />
+
+                <View
+                    android:id="@+id/view_at_the_bottom_of_frequency_text"
+                    android:layout_width="1px"
+                    android:layout_height="1px"
+                    app:layout_constraintBottom_toBottomOf="@+id/text_saying_frequency_in_add_new_habit_final"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/text_saying_frequency_in_add_new_habit_final"
+                    app:layout_constraintVertical_bias="0.75" />
+
+                <com.skydoves.powerspinner.PowerSpinnerView
+                    android:id="@+id/spinner_to_choose_frequency_of_habit_add_new_habit_in_final"
+                    android:layout_width="0dp"
+                    android:layout_height="50dp"
+                    android:layout_marginStart="30dp"
+                    android:layout_marginEnd="30dp"
+                    android:background="@drawable/back_ground_for_select_frequency_of_habit_add_new_habit"
+                    android:elevation="15dp"
+                    android:gravity="center"
+                    android:padding="10dp"
+                    android:textColor="@color/black"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/view_at_the_bottom_of_frequency_text"
+                    app:spinner_arrow_tint="@color/black"
+                    app:spinner_divider_color="@color/black"
+                    app:spinner_divider_show="true"
+                    app:spinner_divider_size="0.4dp"
+                    app:spinner_popup_background="@drawable/back_ground_for_select_frequency_of_habit_add_new_habit" />
+
+                <com.nex3z.togglebuttongroup.MultiSelectToggleGroup
+                    android:id="@+id/select_days_of_week_for_specific_days_add_new_habit_final"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:visibility="gone"
+                    app:layout_constraintEnd_toEndOf="@+id/spinner_to_choose_frequency_of_habit_add_new_habit_in_final"
+                    app:layout_constraintStart_toStartOf="@+id/spinner_to_choose_frequency_of_habit_add_new_habit_in_final"
+                    app:layout_constraintTop_toBottomOf="@+id/spinner_to_choose_frequency_of_habit_add_new_habit_in_final"
+                    app:tbgChildSpacing="auto">
+
+                    <com.nex3z.togglebuttongroup.button.CircularToggle
+                        android:id="@+id/day_1_choose_days_of_week_final"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="M" />
+
+                    <com.nex3z.togglebuttongroup.button.CircularToggle
+                        android:id="@+id/day_2_choose_days_of_week_final"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="T" />
+
+                    <com.nex3z.togglebuttongroup.button.CircularToggle
+                        android:id="@+id/day_3_choose_days_of_week_final"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="W" />
+
+                    <com.nex3z.togglebuttongroup.button.CircularToggle
+                        android:id="@+id/day_4_choose_days_of_week_final"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="T" />
+
+                    <com.nex3z.togglebuttongroup.button.CircularToggle
+                        android:id="@+id/day_5_choose_days_of_week_final"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="F" />
+
+                    <com.nex3z.togglebuttongroup.button.CircularToggle
+                        android:id="@+id/day_6_choose_days_of_week_final"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="S" />
+
+                    <com.nex3z.togglebuttongroup.button.CircularToggle
+                        android:id="@+id/day_7_choose_days_of_week_final"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="S" />
+
+                </com.nex3z.togglebuttongroup.MultiSelectToggleGroup>
+
+                <TextView
+                    android:id="@+id/text_saying_frequency_per_day_in_add_new_habit_final"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="35dp"
+                    android:layout_marginTop="30dp"
+                    android:text="Frequency per day"
+                    android:textColor="#CFCFCF"
+                    android:textSize="30sp"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/select_days_of_week_for_specific_days_add_new_habit_final" />
+
+                <View
+                    android:id="@+id/view_at_the_bottom_of_frequency_per_day_text"
+                    android:layout_width="1px"
+                    android:layout_height="1px"
+                    app:layout_constraintBottom_toBottomOf="@+id/text_saying_frequency_per_day_in_add_new_habit_final"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/text_saying_frequency_per_day_in_add_new_habit_final"
+                    app:layout_constraintVertical_bias="0.75" />
+
+                <EditText
+                    android:id="@+id/edit_text_to_enter_how_many_times_per_day"
+                    android:layout_width="0dp"
+                    android:layout_height="60dp"
+                    android:layout_marginStart="30dp"
+                    android:layout_marginEnd="30dp"
+                    android:background="@drawable/background_of_edit_text_enter_new_habit"
+                    android:backgroundTint="#F3F3F3"
+                    android:digits="0123456789"
+                    android:elevation="15dp"
+                    android:hint="Number of times per day"
+                    android:imeOptions="actionDone"
+                    android:inputType="number"
+                    android:maxLines="1"
+                    android:padding="10dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/view_at_the_bottom_of_frequency_per_day_text" />
+
+                <TextView
+                    android:id="@+id/text_saying_notifications_in_add_new_habit_final"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="35dp"
+                    android:layout_marginTop="30dp"
+                    android:text="Notifications"
+                    android:textColor="#CFCFCF"
+                    android:textSize="30sp"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/edit_text_to_enter_how_many_times_per_day" />
+
+                <View
+                    android:id="@+id/view_at_the_bottom_of_notifications_per_day_text"
+                    android:layout_width="1px"
+                    android:layout_height="1px"
+                    app:layout_constraintBottom_toBottomOf="@+id/text_saying_notifications_in_add_new_habit_final"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/text_saying_notifications_in_add_new_habit_final"
+                    app:layout_constraintVertical_bias="0.75" />
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/layout_to_enable_or_disable_notifications"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="30dp"
+                    android:layout_marginEnd="30dp"
+                    android:background="@drawable/background_for_choose_color_add_new_habit"
+                    android:backgroundTint="#F6F6F6"
+                    android:elevation="15dp"
+                    android:visibility="visible"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/view_at_the_bottom_of_notifications_per_day_text">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/layout_with_text_nad_switch_notifications"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="15dp"
+                        android:layout_marginTop="15dp"
+                        android:layout_marginEnd="15dp"
+                        android:visibility="visible"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <TextView
+                            android:id="@+id/text_view_saying_notifications_in_add_new_habit"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Notifications"
+                            android:textColor="@color/black"
+                            android:textSize="18sp"
+                            android:textStyle="bold"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <com.google.android.material.switchmaterial.SwitchMaterial
+                            android:id="@+id/switch_to_turn_on_notifications_add_new_habit_final"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            app:layout_constraintBottom_toBottomOf="@+id/text_view_saying_notifications_in_add_new_habit"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="@+id/text_view_saying_notifications_in_add_new_habit" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <View
+                        android:id="@+id/pizel_at_the_bottom_of_notifications_add_new_habit"
+                        android:layout_width="1px"
+                        android:layout_height="1px"
+                        android:layout_marginTop="15dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/layout_with_text_nad_switch_notifications" />
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/layout_with_more_info_add_notification"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:visibility="gone"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/layout_with_text_nad_switch_notifications">
+
+                        <View
+                            android:id="@+id/line_between_notifications_and_add_new_notifications"
+                            android:layout_width="0dp"
+                            android:layout_height="0.25dp"
+                            android:layout_marginStart="15dp"
+                            android:layout_marginEnd="15dp"
+                            android:background="#808080"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <Button
+                            android:id="@+id/button_add_new_reminder_add_new_habit"
+                            android:layout_width="0dp"
+                            android:layout_height="35dp"
+                            android:layout_marginStart="15dp"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginEnd="15dp"
+                            android:background="@drawable/add_a_reminder_background"
+                            android:text="Add a reminder"
+                            android:textAllCaps="false"
+                            android:textColor="@color/white"
+                            android:textStyle="bold"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/line_between_notifications_and_add_new_notifications" />
+
+                        <View
+                            android:id="@+id/pizel_at_the_bottom_of_notifications_add_new_habit_inside_layout"
+                            android:layout_width="1px"
+                            android:layout_height="1px"
+                            android:layout_marginTop="15dp"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/button_add_new_reminder_add_new_habit" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <!--<View
+                        android:id="@+id/line_between_notifications_and_add_new_notifications"
+                        android:layout_width="0dp"
+                        android:layout_height="1dp"
+
+                    <Button
+                        android:id="@+id/button_to_add_new_reminder"
+                        android:layout_width="0dp"
+                        android:layout_height="35dp"
+                        android:textColor="@color/white"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent" />-->
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recyvle_view_show_reminders"
+                    android:layout_width="0dp"
+                    android:layout_height="85dp"
+                    android:layout_marginStart="30dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginEnd="30dp"
+                    android:layout_marginBottom="20dp"
+                    android:visibility="visible"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/layout_to_enable_or_disable_notifications" />
+
+                <TextView
+                    android:id="@+id/text_saying_no_reminder"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="No reminders added yet"
+                    android:textColor="@color/black"
+                    android:textSize="15sp"
+                    android:textStyle="bold"
+                    android:visibility="gone"
+                    android:layout_marginTop="20dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/layout_to_enable_or_disable_notifications" />
+
+                <Button
+                    android:id="@+id/done_button_at_the_buttom_add_new_habit"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginStart="30dp"
+                    android:layout_marginEnd="30dp"
+                    android:layout_marginBottom="25dp"
+                    android:layout_marginTop="20dp"
+                    android:background="@drawable/background_for_continue_button_add_new_habit"
+                    android:text="Done"
+                    android:textAllCaps="false"
+                    android:textColor="@color/white"
+                    android:textSize="15sp"
+                    android:textStyle="bold"
+                    app:layout_constraintTop_toBottomOf="@+id/layout_to_enable_or_disable_notifications" />
+
+
+                <View
+                    android:id="@+id/pizel_at_the_bottom_of_add_new_habit_final"
+                    android:layout_width="1px"
+                    android:layout_height="1px"
+                    android:layout_marginTop="15dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/done_button_at_the_buttom_add_new_habit" />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.core.widget.NestedScrollView>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

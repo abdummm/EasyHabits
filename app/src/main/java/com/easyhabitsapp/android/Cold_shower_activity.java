@@ -417,7 +417,6 @@ public class Cold_shower_activity extends AppCompatActivity {
     private void update_the_text() {
         TextView minutes_left_in_shower = findViewById(R.id.minutes_left_in_shower);
         TextView seconds_left_in_shower = findViewById(R.id.seconds_left_in_shower);
-        Log.w("shower", String.valueOf(what_is_time_left()));
         if (what_is_time_left() > 0) {
             int minutes = (int) TimeUnit.MILLISECONDS.toMinutes(what_is_time_left());
             int seconds = (int) TimeUnit.MILLISECONDS.toSeconds(what_is_time_left()) - minutes * 60;
@@ -659,7 +658,6 @@ public class Cold_shower_activity extends AppCompatActivity {
                 constraintSet.clear(timer_progress_for_shower_count_down.getId(), ConstraintSet.TOP);
                 constraintSet.connect(timer_progress_for_shower_count_down.getId(), ConstraintSet.TOP, button_for_back_to_emergency.getId(), ConstraintSet.BOTTOM, (int) margin);
                 constraintSet.applyTo(constraintLayout);
-                Log.w("hacker_hacker",String.valueOf(dpFromPx(Starting_timer_for_cold_shower_button.getMeasuredHeight())));
                 constraintLayout.getViewTreeObserver().removeOnGlobalLayoutListener(this);
             }
         });

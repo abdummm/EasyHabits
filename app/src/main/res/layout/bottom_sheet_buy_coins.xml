@@ -1,0 +1,418 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <View
+            android:id="@+id/bar_at_top_of_card_add_new_habit"
+            android:layout_width="27.5dp"
+            android:layout_height="5dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/bar_at_top_of_card"
+            android:backgroundTint="#D8D8D8"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/gift_an_award_in_awards"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="12dp"
+            android:text="Buy Coins"
+            android:textColor="@color/black"
+            android:textSize="17sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/bar_at_top_of_card_add_new_habit" />
+
+        <View
+            android:id="@+id/line_in_awards_bottom_sheet"
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_marginTop="12dp"
+            android:background="#808080"
+            app:layout_constraintTop_toBottomOf="@+id/dismiss_bottom_sheet_add_reminder" />
+
+
+        <Button
+            android:id="@+id/first_buy_button_in_coins_bottom_sheet"
+            android:layout_width="0dp"
+            android:layout_height="200dp"
+            android:layout_marginTop="5dp"
+            android:background="?selectableItemBackground"
+            app:layout_constraintEnd_toStartOf="@+id/second_buy_button_in_coins_bottom_sheet"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/line_in_awards_bottom_sheet" />
+
+        <Button
+            android:id="@+id/second_buy_button_in_coins_bottom_sheet"
+            android:layout_width="0dp"
+            android:layout_height="200dp"
+            android:background="?selectableItemBackground"
+            app:layout_constraintEnd_toStartOf="@+id/third_buy_button_in_coins_bottom_sheet"
+            app:layout_constraintStart_toEndOf="@+id/first_buy_button_in_coins_bottom_sheet"
+            app:layout_constraintTop_toTopOf="@+id/first_buy_button_in_coins_bottom_sheet" />
+
+        <Button
+            android:id="@+id/third_buy_button_in_coins_bottom_sheet"
+            android:layout_width="0dp"
+            android:layout_height="200dp"
+            android:background="?selectableItemBackground"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/second_buy_button_in_coins_bottom_sheet"
+            app:layout_constraintTop_toTopOf="@+id/first_buy_button_in_coins_bottom_sheet" />
+
+        <Button
+            android:id="@+id/fourth_buy_button_in_coins_bottom_sheet"
+            android:layout_width="0dp"
+            android:layout_height="200dp"
+            android:background="?selectableItemBackground"
+            app:layout_constraintEnd_toStartOf="@+id/fifth_buy_button_in_coins_bottom_sheet"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/first_buy_button_in_coins_bottom_sheet" />
+
+        <Button
+            android:id="@+id/fifth_buy_button_in_coins_bottom_sheet"
+            android:layout_width="0dp"
+            android:layout_height="200dp"
+            android:background="?selectableItemBackground"
+            app:layout_constraintEnd_toStartOf="@+id/sixth_buy_button_in_coins_bottom_sheet"
+            app:layout_constraintStart_toEndOf="@+id/fourth_buy_button_in_coins_bottom_sheet"
+            app:layout_constraintTop_toTopOf="@+id/fourth_buy_button_in_coins_bottom_sheet" />
+
+        <Button
+            android:id="@+id/sixth_buy_button_in_coins_bottom_sheet"
+            android:layout_width="0dp"
+            android:layout_height="200dp"
+            android:background="?selectableItemBackground"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/fifth_buy_button_in_coins_bottom_sheet"
+            app:layout_constraintTop_toTopOf="@+id/fourth_buy_button_in_coins_bottom_sheet" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="@+id/first_buy_button_in_coins_bottom_sheet"
+            app:layout_constraintEnd_toEndOf="@+id/first_buy_button_in_coins_bottom_sheet"
+            app:layout_constraintStart_toStartOf="@+id/first_buy_button_in_coins_bottom_sheet"
+            app:layout_constraintTop_toTopOf="@+id/first_buy_button_in_coins_bottom_sheet">
+
+            <View
+                android:id="@+id/first_view_to_buy_coins_in_bottom_sheet"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginStart="22.5dp"
+                android:layout_marginEnd="22.5dp"
+                android:background="@drawable/coin_1fa99"
+                app:layout_constraintDimensionRatio="H,1:1"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/first_text_view_for_first_button_"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:text="400 coins"
+                android:textColor="@color/black"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/first_view_to_buy_coins_in_bottom_sheet" />
+
+            <TextView
+                android:id="@+id/first_text_view_with_price_in_bottom_sheet"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                android:textSize="12sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/first_text_view_for_first_button_" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="@+id/second_buy_button_in_coins_bottom_sheet"
+            app:layout_constraintEnd_toEndOf="@+id/second_buy_button_in_coins_bottom_sheet"
+            app:layout_constraintStart_toStartOf="@+id/second_buy_button_in_coins_bottom_sheet"
+            app:layout_constraintTop_toTopOf="@+id/second_buy_button_in_coins_bottom_sheet">
+
+            <View
+                android:id="@+id/second_view_to_buy_coins_in_bottom_sheet"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginStart="22.5dp"
+                android:layout_marginEnd="22.5dp"
+                android:background="@drawable/dollar_banknote_1f4b5"
+                app:layout_constraintDimensionRatio="H,1:1"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/second_text_view_for_second_button_"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:text="1500 coins"
+                android:textColor="@color/black"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/second_view_to_buy_coins_in_bottom_sheet" />
+
+            <TextView
+                android:id="@+id/second_text_view_with_price_in_bottom_sheet"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                android:textSize="12sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/second_text_view_for_second_button_" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="@+id/third_buy_button_in_coins_bottom_sheet"
+            app:layout_constraintEnd_toEndOf="@+id/third_buy_button_in_coins_bottom_sheet"
+            app:layout_constraintStart_toStartOf="@+id/third_buy_button_in_coins_bottom_sheet"
+            app:layout_constraintTop_toTopOf="@+id/third_buy_button_in_coins_bottom_sheet">
+
+            <View
+                android:id="@+id/third_view_to_buy_coins_in_bottom_sheet"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginStart="22.5dp"
+                android:layout_marginEnd="22.5dp"
+                android:background="@drawable/money_with_wings_1f4b8"
+                app:layout_constraintDimensionRatio="H,1:1"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/third_text_view_for_third_button_"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:text="3600 coins"
+                android:textColor="@color/black"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/third_view_to_buy_coins_in_bottom_sheet" />
+
+            <TextView
+                android:id="@+id/third_text_view_with_price_in_bottom_sheet"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                android:textSize="12sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/third_text_view_for_third_button_" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="@+id/fourth_buy_button_in_coins_bottom_sheet"
+            app:layout_constraintEnd_toEndOf="@+id/fourth_buy_button_in_coins_bottom_sheet"
+            app:layout_constraintStart_toStartOf="@+id/fourth_buy_button_in_coins_bottom_sheet"
+            app:layout_constraintTop_toTopOf="@+id/fourth_buy_button_in_coins_bottom_sheet">
+
+            <View
+                android:id="@+id/fourth_view_to_buy_coins_in_bottom_sheet"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginStart="22.5dp"
+                android:layout_marginEnd="22.5dp"
+                android:background="@drawable/money_bag_1f4b0"
+                app:layout_constraintDimensionRatio="H,1:1"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/fourth_text_view_for_fourth_button_"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:text="8400 coins"
+                android:textColor="@color/black"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/fourth_view_to_buy_coins_in_bottom_sheet" />
+
+            <TextView
+                android:id="@+id/fourth_text_view_with_price_in_bottom_sheet"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                android:textSize="12sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/fourth_text_view_for_fourth_button_" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="@+id/fifth_buy_button_in_coins_bottom_sheet"
+            app:layout_constraintEnd_toEndOf="@+id/fifth_buy_button_in_coins_bottom_sheet"
+            app:layout_constraintStart_toStartOf="@+id/fifth_buy_button_in_coins_bottom_sheet"
+            app:layout_constraintTop_toTopOf="@+id/fifth_buy_button_in_coins_bottom_sheet">
+            <View
+                android:id="@+id/fifth_view_to_buy_coins_in_bottom_sheet"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginStart="22.5dp"
+                android:layout_marginEnd="22.5dp"
+                android:background="@drawable/crown_1f451"
+                app:layout_constraintDimensionRatio="H,1:1"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/fifth_text_view_for_fifth_button_"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:text="16000 coins"
+                android:textColor="@color/black"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/fifth_view_to_buy_coins_in_bottom_sheet" />
+
+            <TextView
+                android:id="@+id/fifth_text_view_with_price_in_bottom_sheet"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                android:textSize="12sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/fifth_text_view_for_fifth_button_" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="@+id/sixth_buy_button_in_coins_bottom_sheet"
+            app:layout_constraintEnd_toEndOf="@+id/sixth_buy_button_in_coins_bottom_sheet"
+            app:layout_constraintStart_toStartOf="@+id/sixth_buy_button_in_coins_bottom_sheet"
+            app:layout_constraintTop_toTopOf="@+id/sixth_buy_button_in_coins_bottom_sheet">
+
+            <View
+                android:id="@+id/sixth_view_to_buy_coins_in_bottom_sheet"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginStart="22.5dp"
+                android:layout_marginEnd="22.5dp"
+                android:background="@drawable/fleur_de_lis_269c_fe0f"
+                app:layout_constraintDimensionRatio="H,1:1"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/sixth_text_view_for_sixth_button_"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:text="40000 coins"
+                android:textColor="@color/black"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/sixth_view_to_buy_coins_in_bottom_sheet" />
+
+            <TextView
+                android:id="@+id/sixth_text_view_with_price_in_bottom_sheet"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                android:textSize="12sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/sixth_text_view_for_sixth_button_" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <View
+            android:id="@+id/pixel_at_bottom_of_add_reminder_bottom_sheet"
+            android:layout_width="1px"
+            android:layout_height="1px"
+            android:layout_marginTop="15dp"
+            android:background="@android:color/transparent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/fourth_buy_button_in_coins_bottom_sheet" />
+
+        <Button
+            android:id="@+id/dismiss_bottom_sheet_add_reminder"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="15dp"
+            android:background="?android:selectableItemBackgroundBorderless"
+            android:foreground="@drawable/z_pink"
+            android:foregroundTint="#ECECEC"
+            app:layout_constraintBottom_toBottomOf="@+id/gift_an_award_in_awards"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/gift_an_award_in_awards" />
+
+        <View
+            android:id="@+id/cancel_view_in_add_reminder_bottom_sheet"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:background="@drawable/close_48px"
+            android:backgroundTint="#565656"
+            android:elevation="10dp"
+            android:outlineProvider="none"
+            app:layout_constraintBottom_toBottomOf="@+id/dismiss_bottom_sheet_add_reminder"
+            app:layout_constraintEnd_toEndOf="@+id/dismiss_bottom_sheet_add_reminder"
+            app:layout_constraintStart_toStartOf="@+id/dismiss_bottom_sheet_add_reminder"
+            app:layout_constraintTop_toTopOf="@+id/dismiss_bottom_sheet_add_reminder" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

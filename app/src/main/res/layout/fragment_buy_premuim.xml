@@ -19,73 +19,142 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-            <View
-                android:id="@+id/view_at_the_top_action_bar_habits"
-                android:layout_width="0dp"
-                android:layout_height="?android:attr/actionBarSize"
-                android:background="@color/fav"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <View
-                android:id="@+id/view_under_top_action_bar_half_color"
-                android:layout_width="0dp"
-                android:layout_height="5dp"
-                android:background="#B0BEC5"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/view_at_the_top_action_bar_habits" />
-
             <Button
                 android:id="@+id/button_to_go_back_at_call_premium"
                 style="?android:attr/borderlessButtonStyle"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:layout_marginStart="10dp"
-                android:background="@drawable/back_button_white"
-                app:layout_constraintBottom_toBottomOf="@+id/view_at_the_top_action_bar_habits"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="15dp"
+                android:background="?android:selectableItemBackgroundBorderless"
+                android:visibility="invisible"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <TextView
-                android:id="@+id/text_saying_buy_premuim_in_buy_premuim"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:text="Buy Premium to Access all features"
-                android:textColor="@color/white"
-                android:textSize="15sp"
-                android:textStyle="bold"
-                app:layout_constraintBottom_toTopOf="@+id/view_under_top_action_bar_half_color"
-                app:layout_constraintStart_toEndOf="@+id/button_to_go_back_at_call_premium"
-                app:layout_constraintTop_toTopOf="@+id/view_at_the_top_action_bar_habits" />
+            <View
+                android:id="@+id/close_view_buy_premuim_close"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:background="@drawable/close_48px"
+                android:backgroundTint="@color/fav"
+                android:visibility="invisible"
+                app:layout_constraintStart_toStartOf="@+id/button_to_go_back_at_call_premium"
+                app:layout_constraintEnd_toEndOf="@+id/button_to_go_back_at_call_premium"
+                app:layout_constraintTop_toTopOf="@+id/button_to_go_back_at_call_premium"
+                app:layout_constraintBottom_toBottomOf="@+id/button_to_go_back_at_call_premium"/>
+
+            <com.mikhaellopez.circularprogressbar.CircularProgressBar
+                android:id="@+id/progress_bar_for_buy_premuim_countdown"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:visibility="visible"
+                app:cpb_progressbar_width="2.5dp"
+                app:cpb_round_border="true"
+                app:cpb_progress="1"
+                app:cpb_progress_max="1"
+                app:cpb_background_progressbar_color="@color/white"
+                app:cpb_progressbar_color="@color/fav"
+                app:layout_constraintStart_toStartOf="@+id/button_to_go_back_at_call_premium"
+                app:layout_constraintEnd_toEndOf="@+id/button_to_go_back_at_call_premium"
+                app:layout_constraintTop_toTopOf="@+id/button_to_go_back_at_call_premium"
+                app:layout_constraintBottom_toBottomOf="@+id/button_to_go_back_at_call_premium"/>
+
 
             <TextView
                 android:id="@+id/text_saying_you_need_premuim"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="30dp"
-                android:layout_marginTop="20dp"
-                android:layout_marginEnd="30dp"
+                android:paddingStart="20dp"
+                android:paddingEnd="20dp"
                 android:gravity="center"
                 android:text="You need premium to add more then two habits"
                 android:textColor="@color/black"
                 android:textSize="22sp"
                 android:textStyle="bold"
+                android:layout_marginTop="12.5dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/view_under_top_action_bar_half_color" />
+                app:layout_constraintTop_toBottomOf="@+id/button_to_go_back_at_call_premium" />
+
+           <!-- <View
+                android:id="@+id/background_of_choose_colors_add_new_habit"
+                android:layout_width="match_parent"
+                android:layout_height="225dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:background="@drawable/background_for_choose_color_add_new_habit"
+                android:backgroundTint="#F6F6F6"
+                android:layout_marginTop="20dp"
+                app:layout_constraintTop_toBottomOf="@+id/text_saying_you_need_premuim" />-->
+
+            <androidx.viewpager2.widget.ViewPager2
+                android:id="@+id/view_pager_to_show_premuim_features"
+                android:layout_width="match_parent"
+                android:layout_height="175dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                app:layout_constraintTop_toBottomOf="@+id/text_saying_you_need_premuim" />
+
+            <ru.tinkoff.scrollingpagerindicator.ScrollingPagerIndicator
+                android:id="@+id/which_one_am_i_on_indicator"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/view_pager_to_show_premuim_features" />
+
+            <View
+                android:id="@+id/red_back_ground_behind_button_and_most_valuable"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:background="@drawable/round_fav_background"
+                android:backgroundTint="#EA152F"
+                android:elevation="20dp"
+                app:layout_constraintBottom_toBottomOf="@+id/view_under_most_valuable"
+                app:layout_constraintEnd_toEndOf="@+id/view_after_second_button"
+                app:layout_constraintStart_toStartOf="@+id/view_before_second_button"
+                app:layout_constraintTop_toBottomOf="@+id/view_at_the_top_of_the_yearly_button" />
+
+            <Button
+                android:id="@+id/monthly_subscription_button_in_buy_premuim"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginTop="50dp"
+                android:background="@drawable/round_fav_background"
+                android:backgroundTint="#EFF0F4"
+                android:elevation="20dp"
+                android:stateListAnimator="@null"
+                app:layout_constraintDimensionRatio="W,1:1"
+                app:layout_constraintEnd_toStartOf="@+id/fourty_fice_percent_in_buy_premuim"
+                app:layout_constraintStart_toEndOf="@+id/fifteen_percent_in_buy_premuim"
+                app:layout_constraintTop_toBottomOf="@+id/which_one_am_i_on_indicator" />
+
+            <Button
+                android:id="@+id/yearly_subscription_button_in_buy_premuim"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginTop="7dp"
+                android:background="@drawable/round_fav_background"
+                android:backgroundTint="#EFF0F4"
+                android:elevation="31dp"
+                android:outlineProvider="none"
+                android:stateListAnimator="@null"
+                app:layout_constraintDimensionRatio="W,1:1"
+                app:layout_constraintEnd_toStartOf="@+id/ninty_five_fice_percent_in_buy_premuim"
+                app:layout_constraintStart_toEndOf="@+id/fifty_five_percent_in_buy_premuim"
+                app:layout_constraintTop_toTopOf="@+id/monthly_subscription_button_in_buy_premuim" />
 
             <TextView
                 android:id="@+id/text_saying_monthly_in_buy_premium"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:elevation="10dp"
+                android:elevation="31dp"
                 android:gravity="center"
                 android:outlineProvider="none"
                 android:text="Monthly"
-                android:textColor="@color/white"
+                android:textColor="@color/black"
                 android:textSize="16sp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="@+id/monthly_subscription_button_in_buy_premuim"
@@ -98,11 +167,11 @@
                 android:id="@+id/text_saying_price_per_month_in_buy_month"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:elevation="10dp"
+                android:elevation="31dp"
                 android:gravity="center"
                 android:outlineProvider="none"
                 android:text="$4.49/mo"
-                android:textColor="@color/white"
+                android:textColor="@color/black"
                 android:textSize="19sp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="@+id/monthly_subscription_button_in_buy_premuim"
@@ -115,11 +184,11 @@
                 android:id="@+id/text_saying_billed_montly"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:elevation="10dp"
+                android:elevation="31dp"
                 android:gravity="center"
                 android:outlineProvider="none"
                 android:text="Billed monthly"
-                android:textColor="@color/white"
+                android:textColor="@color/black"
                 android:textSize="12sp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="@+id/monthly_subscription_button_in_buy_premuim"
@@ -132,11 +201,11 @@
                 android:id="@+id/text_saying_yearly_in_buy_premium"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:elevation="10dp"
+                android:elevation="31dp"
                 android:gravity="center"
                 android:outlineProvider="none"
                 android:text="Yearly"
-                android:textColor="@color/white"
+                android:textColor="@color/black"
                 android:textSize="16sp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="@+id/yearly_subscription_button_in_buy_premuim"
@@ -149,11 +218,11 @@
                 android:id="@+id/text_saying_price_per_year_in_buy_month"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:elevation="10dp"
+                android:elevation="31dp"
                 android:gravity="center"
                 android:outlineProvider="none"
                 android:text="$2.99/mo"
-                android:textColor="@color/white"
+                android:textColor="@color/black"
                 android:textSize="19sp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="@+id/yearly_subscription_button_in_buy_premuim"
@@ -166,11 +235,11 @@
                 android:id="@+id/text_saying_old_price"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:elevation="10dp"
+                android:elevation="31dp"
                 android:gravity="center"
                 android:outlineProvider="none"
                 android:text="$4.49/mo"
-                android:textColor="@color/white"
+                android:textColor="@color/black"
                 android:textSize="13sp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="@+id/yearly_subscription_button_in_buy_premuim"
@@ -183,11 +252,11 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="15dp"
                 android:layout_marginEnd="15dp"
-                android:elevation="10dp"
+                android:elevation="31dp"
                 android:gravity="center"
                 android:outlineProvider="none"
                 android:text="Billed annually\n at 35.88"
-                android:textColor="@color/white"
+                android:textColor="@color/black"
                 android:textSize="12sp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="@+id/yearly_subscription_button_in_buy_premuim"
@@ -195,28 +264,6 @@
                 app:layout_constraintStart_toStartOf="@+id/yearly_subscription_button_in_buy_premuim"
                 app:layout_constraintTop_toTopOf="@+id/yearly_subscription_button_in_buy_premuim"
                 app:layout_constraintVertical_bias="1" />
-
-            <Button
-                android:id="@+id/monthly_subscription_button_in_buy_premuim"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_marginTop="30dp"
-                android:background="@drawable/round_fav_background"
-                app:layout_constraintDimensionRatio="W,1:1"
-                app:layout_constraintEnd_toStartOf="@+id/fourty_fice_percent_in_buy_premuim"
-                app:layout_constraintStart_toEndOf="@+id/fifteen_percent_in_buy_premuim"
-                app:layout_constraintTop_toBottomOf="@+id/text_saying_you_need_premuim" />
-
-            <Button
-                android:id="@+id/yearly_subscription_button_in_buy_premuim"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_marginTop="30dp"
-                android:background="@drawable/round_fav_background"
-                app:layout_constraintDimensionRatio="W,1:1"
-                app:layout_constraintEnd_toStartOf="@+id/ninty_five_fice_percent_in_buy_premuim"
-                app:layout_constraintStart_toEndOf="@+id/fifty_five_percent_in_buy_premuim"
-                app:layout_constraintTop_toBottomOf="@+id/text_saying_you_need_premuim" />
 
             <View
                 android:id="@+id/view_before_second_button"
@@ -245,26 +292,17 @@
                 app:layout_constraintEnd_toEndOf="@+id/yearly_subscription_button_in_buy_premuim"
                 app:layout_constraintStart_toStartOf="@+id/yearly_subscription_button_in_buy_premuim" />
 
-            <View
-                android:id="@+id/red_back_ground_behind_button_and_most_valuable"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:background="@drawable/round_fav_background"
-                android:backgroundTint="#f01630"
-                app:layout_constraintBottom_toBottomOf="@+id/view_under_most_valuable"
-                app:layout_constraintEnd_toEndOf="@+id/view_after_second_button"
-                app:layout_constraintStart_toStartOf="@+id/view_before_second_button"
-                app:layout_constraintTop_toBottomOf="@+id/view_at_the_top_of_the_yearly_button" />
-
             <TextView
                 android:id="@+id/text_saying_most_valuable_in_buy_premuim"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
+                android:layout_marginTop="10dp"
                 android:text="Most Valuable"
                 android:textColor="@color/white"
                 android:textSize="16sp"
                 android:textStyle="bold"
+                android:elevation="31dp"
+                android:outlineProvider="none"
                 app:layout_constraintEnd_toEndOf="@+id/yearly_subscription_button_in_buy_premuim"
                 app:layout_constraintStart_toStartOf="@+id/yearly_subscription_button_in_buy_premuim"
                 app:layout_constraintTop_toBottomOf="@+id/text_saying_billed_year" />
@@ -273,7 +311,7 @@
                 android:id="@+id/view_under_most_valuable"
                 android:layout_width="0.1dp"
                 android:layout_height="0.1dp"
-                android:layout_marginTop="7dp"
+                android:layout_marginTop="5dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/text_saying_most_valuable_in_buy_premuim" />
@@ -314,7 +352,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <TextView
+            <!--<TextView
                 android:id="@+id/text_saying_the_how_many_coins_year_buy_premuim"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -368,21 +406,21 @@
                 app:layout_constraintTop_toTopOf="@+id/text_saying_the_how_many_coins_month_buy_premuim"
                 app:layout_constraintStart_toStartOf="@+id/monthly_subscription_button_in_buy_premuim"
                 app:layout_constraintEnd_toEndOf="@+id/monthly_subscription_button_in_buy_premuim"
-                app:layout_constraintBottom_toBottomOf="@+id/text_saying_the_how_many_coins_month_buy_premuim"/>
+                app:layout_constraintBottom_toBottomOf="@+id/text_saying_the_how_many_coins_month_buy_premuim"/>-->
 
 
             <TextView
                 android:id="@+id/text_view_saying_cancel_any_time_in_buy_premuim"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
                 android:text="Recurring billing. Cancel anytime."
                 android:textColor="@color/black"
+                android:layout_marginTop="15dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/seven_days_free_trial_text_in_buy_premium" />
+                app:layout_constraintTop_toBottomOf="@+id/red_back_ground_behind_button_and_most_valuable" />
 
-            <TextView
+            <!--<TextView
                 android:id="@+id/seven_days_free_trial_text_in_buy_premium"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -396,13 +434,13 @@
                 android:gravity="center"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/text_saying_the_how_many_coins_year_buy_premuim" />
+                app:layout_constraintTop_toBottomOf="@+id/red_back_ground_behind_button_and_most_valuable" />-->
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/layout_showing_privacy_policy_and_temrs_of_use"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
+                android:layout_marginTop="10dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/text_view_saying_cancel_any_time_in_buy_premuim">
@@ -421,7 +459,7 @@
                     android:id="@+id/terms_and_conditions_in_buy_premuim"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="20dp"
+                    android:layout_marginStart="5dp"
                     android:text="Terms and conditions"
                     android:textColor="@color/black"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -430,55 +468,50 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
+            <TextView
+                android:id="@+id/text_saying_made_with_tons_of_love"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Made with tons and tons of ❤️"
+                android:textColor="@color/black"
+                android:layout_marginTop="25dp"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/layout_showing_privacy_policy_and_temrs_of_use"/>
 
             <View
-                android:id="@+id/line_between_leran_more_asnd_acess_to_rest_of_buy_premium"
-                android:layout_width="match_parent"
-                android:layout_height="0.5dp"
-                android:layout_marginTop="10dp"
-                android:background="@color/fav"
-                app:layout_constraintTop_toBottomOf="@+id/layout_showing_privacy_policy_and_temrs_of_use" />
-
-            <TextView
-                android:id="@+id/title_saying_list_of_benifits_of_premuim_version"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
-                android:text="Benefits of the premium version:"
-                android:textColor="@color/fav"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/line_between_leran_more_asnd_acess_to_rest_of_buy_premium" />
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recycle_view_to_show_the_premium_features"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="30dp"
-                android:layout_marginTop="5dp"
-                android:layout_marginStart="30dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/title_saying_list_of_benifits_of_premuim_version" />
-
-            <TextView
-                android:id="@+id/text_saying_much_more_features_in_premium"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Subscribe today and get access to all of this premuim features!!"
-                android:layout_marginTop="15dp"
-                android:textColor="@color/fav"
-                android:textSize="18sp"
-                android:gravity="center"
-                android:textStyle="bold"
+                android:id="@+id/pixel_at_the_bottom_of_buy_premuim"
+                android:layout_width="1px"
+                android:layout_height="1px"
+                android:layout_marginTop="85dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/recycle_view_to_show_the_premium_features"/>
+                app:layout_constraintTop_toBottomOf="@+id/text_saying_made_with_tons_of_love"/>
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.core.widget.NestedScrollView>
+
+    <Button
+        android:id="@+id/done_button_at_the_buttom_add_new_habit"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp"
+        android:layout_marginBottom="25dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/background_for_continue_button_add_new_habit"
+        android:backgroundTint="#EFF0F4"
+        android:text="Start 14 days free trial"
+        android:textAllCaps="false"
+        android:textColor="@color/black"
+        android:textSize="15sp"
+        android:textStyle="bold"
+        android:stateListAnimator="@null"
+        android:elevation="10dp"
+        app:layout_constraintBottom_toBottomOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

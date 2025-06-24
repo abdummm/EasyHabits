@@ -1,8 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:id="@+id/layout_inside_item_premium_feautres_recycleview"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
     android:layout_marginTop="5dp">
 
     <View
@@ -27,15 +31,15 @@
 
     <TextView
         android:id="@+id/text_saying_the_name_of_the_feature_in_buy_premium_recycle_view"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="5dp"
         android:textColor="@color/fav"
         android:textSize="15sp"
         android:textStyle="bold"
+        android:text=""
+        app:layout_constraintEnd_toEndOf="@+id/layout_inside_item_premium_feautres_recycleview"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0"
         app:layout_constraintStart_toEndOf="@+id/cirecle_in_buy_all_premium_recycle_view"
         app:layout_constraintTop_toTopOf="parent" />
 

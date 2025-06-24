@@ -1,55 +1,45 @@
 package com.easyhabitsapp.android;
 
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
+import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
-import com.android.billingclient.api.AcknowledgePurchaseParams;
 import com.android.billingclient.api.AcknowledgePurchaseResponseListener;
 import com.android.billingclient.api.BillingClient;
-import com.android.billingclient.api.BillingClientStateListener;
-import com.android.billingclient.api.BillingResult;
-import com.android.billingclient.api.ConsumeParams;
-import com.android.billingclient.api.ConsumeResponseListener;
-import com.android.billingclient.api.Purchase;
 import com.android.billingclient.api.PurchasesUpdatedListener;
-import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.crashlytics.FirebaseCrashlytics;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.FirebaseFirestoreSettings;
 import com.google.firebase.functions.FirebaseFunctions;
-import com.google.firebase.functions.HttpsCallableResult;
 
-import org.jetbrains.annotations.NotNull;
-
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+import java.util.Random;
+import java.util.concurrent.TimeUnit;
 
 public class after_login extends AppCompatActivity {
     private FragmentManager fragmentManager;
     private com.easyhabitsapp.android.home_fragment home_fragment;
+    private Sharing_fragment sharing_fragment;
     private Posts_fragment posts_fragment;
-    private com.easyhabitsapp.android.chat_fragment chat_fragment;
+    //private com.easyhabitsapp.android.chat_fragment chat_fragment;
     private com.easyhabitsapp.android.habits_fragment habits_fragment;
     private Settings_fragment settings_fragment;
     private com.easyhabitsapp.android.emergency_button_fragment emergency_button_fragment;
@@ -70,14 +60,16 @@ public class after_login extends AppCompatActivity {
         setContentView(R.layout.activity_after_login);
         check_if_i_should_restart();
         home_fragment = new home_fragment();
+        sharing_fragment = new Sharing_fragment();
         posts_fragment = new Posts_fragment();
-        chat_fragment = new chat_fragment();
+        //chat_fragment = new chat_fragment();
         habits_fragment = new habits_fragment();
         settings_fragment = new Settings_fragment();
         emergency_button_fragment = new emergency_button_fragment();
         getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, home_fragment, "home").commitNow();
+        getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, sharing_fragment, "sharing habits").hide(sharing_fragment).commitNow();
         getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, posts_fragment, "posts").hide(posts_fragment).commitNow();
-        getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, chat_fragment, "chat").hide(chat_fragment).commitNow();
+        //getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, chat_fragment, "chat").hide(chat_fragment).commitNow();
         getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, habits_fragment, "habits").hide(habits_fragment).commitNow();
         getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, settings_fragment, "setting").hide(settings_fragment).commitNow();
         getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, emergency_button_fragment, "emergency").hide(emergency_button_fragment).commitNow();
@@ -88,8 +80,15 @@ public class after_login extends AppCompatActivity {
             getSupportActionBar().hide();
         }
         check_extra();
-        check_if_user_is_gifted(false);
-        set_up_billing();
+        //check_if_user_is_gifted(false);
+//        set_up_billing();
+        Payment_processer.getInstance().init(this, after_login.this, getSupportFragmentManager());
+        create_user_name();
+        disable_crashalytics_for_debug();
+        listen_to_payment();
+        listen_to_firebase();
+        add_all_view_homes();
+        add_mood_fragment();
     }
 
 
@@ -98,22 +97,22 @@ public class after_login extends AppCompatActivity {
 
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-            switch (item.getOrder()) {
-                case 0:
-                    continue_switching_or_no(1);
-                    break;
-                case 1:
-                    continue_switching_or_no(2);
-                    break;
-                case 2:
-                    continue_switching_or_no(3);
-                    break;
-                case 3:
-                    continue_switching_or_no(4);
-                    break;
-                case 4:
-                    continue_switching_or_no(5);
-                    break;
+            CharSequence title = item.getTitle();
+            if (title.equals("Home")) {
+                continue_switching_or_no(1);
+                Event_manager_all_in_one.getInstance().record_fire_base_event(after_login.this, Event_manager_all_in_one.Event_type_fire_base_record.home_clicked, false);
+            } else if (title.equals("Sharing")) {
+                continue_switching_or_no(2);
+                Event_manager_all_in_one.getInstance().record_fire_base_event(after_login.this, Event_manager_all_in_one.Event_type_fire_base_record.sharing_clicked, false);
+            } else if (title.equals("Posts")) {
+                continue_switching_or_no(3);
+                Event_manager_all_in_one.getInstance().record_fire_base_event(after_login.this, Event_manager_all_in_one.Event_type_fire_base_record.post_clicked, false);
+            } else if (title.equals("Tools")) {
+                continue_switching_or_no(4);
+                Event_manager_all_in_one.getInstance().record_fire_base_event(after_login.this, Event_manager_all_in_one.Event_type_fire_base_record.tools_clicked, false);
+            } else if (title.equals("Settings")) {
+                continue_switching_or_no(5);
+                Event_manager_all_in_one.getInstance().record_fire_base_event(after_login.this, Event_manager_all_in_one.Event_type_fire_base_record.settings_clicked, false);
             }
             updateNavigationBarState(item.getItemId());
             return true;
@@ -139,8 +138,8 @@ public class after_login extends AppCompatActivity {
         Settings_fragment settings_fragment = (Settings_fragment) getSupportFragmentManager().findFragmentByTag("setting");*/
         com.easyhabitsapp.android.emergency_button_fragment emergency_button_fragment = (com.easyhabitsapp.android.emergency_button_fragment) getSupportFragmentManager().findFragmentByTag("emergency");
         View_home_habit view_home_habit = (View_home_habit) getSupportFragmentManager().findFragmentByTag("view home");
-        add_a_habit add_a_habit = (com.easyhabitsapp.android.add_a_habit) getSupportFragmentManager().findFragmentByTag("add a habit");
-        mood_tracker mood_tracker = (com.easyhabitsapp.android.mood_tracker) getSupportFragmentManager().findFragmentByTag("mood tracker");
+        Add_new_habit_2 add_a_habit_2 = (Add_new_habit_2) getSupportFragmentManager().findFragmentByTag("add a habit");
+        Mood_tracker mood_tracker = (Mood_tracker) getSupportFragmentManager().findFragmentByTag("mood tracker");
         post_a_post post_a_post = (com.easyhabitsapp.android.post_a_post) getSupportFragmentManager().findFragmentByTag("write a post");
         Show_full_post show_full_post = (Show_full_post) getSupportFragmentManager().findFragmentByTag("show full post");
         Write_comment_for_post write_comment_for_post = (Write_comment_for_post) getSupportFragmentManager().findFragmentByTag("write a comment");
@@ -148,17 +147,19 @@ public class after_login extends AppCompatActivity {
         edit_bad_habits edit_bad_habits = (edit_bad_habits) getSupportFragmentManager().findFragmentByTag("edit bad habit");
         Buy_premuim buy_premuim = (Buy_premuim) getSupportFragmentManager().findFragmentByTag("buy premium");
         if (home_fragment != null && home_fragment.isVisible()) {
-            exit_app_dialog();
+            close_app();
+        } else if(sharing_fragment !=null && sharing_fragment.isVisible()){
+            close_app();
         } else if (posts_fragment != null && posts_fragment.isVisible()) {
-            exit_app_dialog();
-        } else if (chat_fragment != null && chat_fragment.isVisible()) {
-            exit_app_dialog();
-        } else if (habits_fragment != null && habits_fragment.isVisible()) {
+            close_app();
+        }/* else if (chat_fragment != null && chat_fragment.isVisible()) {
+            close_app();
+        }*/ else if (habits_fragment != null && habits_fragment.isVisible()) {
             /*if (habits_fragment.return_the_screen() == 3) {
                 habits_fragment.open_a_screen(2);
                 habits_fragment.restart_third_screen_good_information();
             } else if (habits_fragment.return_the_screen() == 2 || habits_fragment.return_the_screen() == 0) {
-                exit_app_dialog();
+                close_app();
             } else if (habits_fragment.return_the_screen() == 1) {
                 if (!habits_fragment.return_edit_mode()) {
                     if (habits_fragment.is_there_is_any_information_saved()) {
@@ -176,18 +177,22 @@ public class after_login extends AppCompatActivity {
                 }
             }*/
         } else if (settings_fragment != null && settings_fragment.isVisible()) {
-            exit_app_dialog();
+            close_app();
         } else if (emergency_button_fragment != null && emergency_button_fragment.isVisible() && home_fragment != null) {
             getSupportFragmentManager().beginTransaction().show(home_fragment).hide(emergency_button_fragment).commitNow();
             emergency_button_fragment.scroll_to_top();
-        } else if (view_home_habit != null && view_home_habit.isVisible() && home_fragment != null) {
-            remove_view_home();
+        } else if (check_if_view_him_is_visible() && home_fragment != null) {
+            hide_view_home();
+            set_default_status_color();
+            color_the_notification_bar_icons_dark();
             getSupportFragmentManager().beginTransaction().show(home_fragment).commitNow();
-        } else if (add_a_habit != null && add_a_habit.isVisible() && home_fragment != null) {
-            getSupportFragmentManager().beginTransaction().show(home_fragment).remove(add_a_habit).commitNow();
+        } else if (add_a_habit_2 != null && add_a_habit_2.isVisible() && home_fragment != null) {
+            getSupportFragmentManager().beginTransaction().show(home_fragment).remove(add_a_habit_2).commitNow();
         } else if (mood_tracker != null && mood_tracker.isVisible() && habits_fragment != null) {
-            remove_mood_tracker();
-            remove_and_add_habits();
+            hide_mood_tracker();
+            //remove_and_add_habits();
+            set_default_status_color();
+            color_the_notification_bar_icons_dark();
             getSupportFragmentManager().beginTransaction().show(habits_fragment).commitNow();
         } else if (post_a_post != null && post_a_post.isVisible() && posts_fragment != null) {
             if (post_a_post.should_i_remove_post_a_post_fragment()) {
@@ -224,32 +229,12 @@ public class after_login extends AppCompatActivity {
         } else if (edit_bad_habits != null && edit_bad_habits.isVisible() && view_home_habit != null) {
             remove_edit_bad_habit();
             getSupportFragmentManager().beginTransaction().show(view_home_habit).commitNow();
-        } else if (buy_premuim != null && buy_premuim.isVisible() && buy_premuim.return_caller().equals("home") && home_fragment != null) {
-            remove_buy_premuim();
-            getSupportFragmentManager().beginTransaction().show(home_fragment).commitNow();
-        } else if (buy_premuim != null && buy_premuim.isVisible() && buy_premuim.return_caller().equals("posts") && posts_fragment != null) {
-            remove_buy_premuim();
-            getSupportFragmentManager().beginTransaction().show(posts_fragment).commitNow();
-        } else if (buy_premuim != null && buy_premuim.isVisible() && buy_premuim.return_caller().equals("show full post") && show_full_post != null) {
-            remove_buy_premuim();
-            getSupportFragmentManager().beginTransaction().show(show_full_post).commitNow();
-        } else if (buy_premuim != null && buy_premuim.isVisible() && buy_premuim.return_caller().equals("chat") && chat_fragment != null) {
-            remove_buy_premuim();
-            getSupportFragmentManager().beginTransaction().show(chat_fragment).commitNow();
-        } else if (buy_premuim != null && buy_premuim.isVisible() && buy_premuim.return_caller().equals("good habits") && habits_fragment != null) {
-            remove_buy_premuim();
-            getSupportFragmentManager().beginTransaction().show(habits_fragment).commitNow();
-        } else if (buy_premuim != null && buy_premuim.isVisible() && buy_premuim.return_caller().equals("activity")) {
-            buy_premuim.go_back_to_activity();
-        } else if (buy_premuim != null && buy_premuim.isVisible() && buy_premuim.return_caller().equals("view home") && habits_fragment != null) {
-            remove_buy_premuim();
-            getSupportFragmentManager().beginTransaction().show(view_home_habit).commitNow();
-        } else if (buy_premuim != null && buy_premuim.isVisible() && buy_premuim.return_caller().equals("mood tracker") && habits_fragment != null){
-            getSupportFragmentManager().beginTransaction().show(mood_tracker).commitNow();
+        } else if (buy_premuim != null && buy_premuim.isVisible()) {
+            buy_premuim.back_was_pressed();
         }
     }
 
-    private void exit_app_dialog() {
+   /* private void exit_app_dialog() {
         new AlertDialog.Builder(this)
                 .setTitle("Exit app")
                 .setMessage("Are you sure you want to exit this app?")
@@ -260,39 +245,43 @@ public class after_login extends AppCompatActivity {
                 })
                 .setNegativeButton(android.R.string.cancel, null)
                 .show();
-    }
+    }*/
 
     private void check_extra() {
         Intent intent = getIntent();
         boolean data = intent.getBooleanExtra("Start_the_emergency_true", false);
-        int id = intent.getIntExtra("open_habit",-1);
+        int id = intent.getIntExtra("open_habit", -1);
         if (data) {
             getSupportFragmentManager().beginTransaction().hide(home_fragment).show(habits_fragment).commitNow();
-        } else if(id != -1){
+        } else if (id != -1) {
             home_fragment.open_a_habit(id);
         }
     }
 
     private void remove_add_object() {
-        add_a_habit add_a_habit = (com.easyhabitsapp.android.add_a_habit) getSupportFragmentManager().findFragmentByTag("add a habit");
-        if (add_a_habit != null && add_a_habit.isVisible()) {
-            getSupportFragmentManager().beginTransaction().hide(add_a_habit).commitNow();
+        Add_new_habit_2 add_a_habit_2 = (Add_new_habit_2) getSupportFragmentManager().findFragmentByTag("add a habit");
+        if (add_a_habit_2 != null && add_a_habit_2.isVisible()) {
+            getSupportFragmentManager().beginTransaction().hide(add_a_habit_2).commitNow();
         }
     }
 
-    private void remove_view_home() {
-        View_home_habit view_home_habit = (View_home_habit) getSupportFragmentManager().findFragmentByTag("view home");
-        if (view_home_habit != null && view_home_habit.isVisible()) {
-            getSupportFragmentManager().beginTransaction().remove(view_home_habit).commitNow();
-            remove_and_add_habits();
+    private void hide_view_home() {
+        Room_database_habits database_habits = Room_database_habits.getInstance(this);
+        List<habits_data_class> list = database_habits.dao_for_habits_data().getAll();
+        for (int i = 0; i < list.size(); i++) {
+            View_home_habit view_home_habit = (View_home_habit) getSupportFragmentManager().findFragmentByTag("view home: ".concat(String.valueOf(list.get(i).getId())));
+            if (view_home_habit != null && view_home_habit.isVisible()) {
+                getSupportFragmentManager().beginTransaction().hide(view_home_habit).commitNow();
+
+            }
         }
     }
 
-    private void remove_mood_tracker() {
-        mood_tracker mood_tracker = (mood_tracker) getSupportFragmentManager().findFragmentByTag("mood tracker");
+    private void hide_mood_tracker() {
+        Mood_tracker mood_tracker = (Mood_tracker) getSupportFragmentManager().findFragmentByTag("mood tracker");
         if (mood_tracker != null && mood_tracker.isVisible()) {
-            getSupportFragmentManager().beginTransaction().remove(mood_tracker).commitNow();
-            remove_and_add_habits();
+            getSupportFragmentManager().beginTransaction().hide(mood_tracker).commitNow();
+//            remove_and_add_habits();
         }
     }
 
@@ -303,14 +292,14 @@ public class after_login extends AppCompatActivity {
         }
     }
 
-    private void remove_and_add_habits() {
+    /*private void remove_and_add_habits() {
         habits_fragment = new habits_fragment();
         habits_fragment old_fragment = (habits_fragment) getSupportFragmentManager().findFragmentByTag("habits");
         if (old_fragment != null) {
             getSupportFragmentManager().beginTransaction().remove(old_fragment).commitNow();
         }
         getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, habits_fragment, "habits").hide(habits_fragment).commitNow();
-    }
+    }*/
 
     private void remove_give_coisn() {
         Give_coins give_coins = (Give_coins) getSupportFragmentManager().findFragmentByTag("give_coins");
@@ -339,9 +328,11 @@ public class after_login extends AppCompatActivity {
         com.easyhabitsapp.android.chat_fragment chat_fragment = (com.easyhabitsapp.android.chat_fragment) getSupportFragmentManager().findFragmentByTag("chat");
         com.easyhabitsapp.android.habits_fragment habits_fragment = (com.easyhabitsapp.android.habits_fragment) getSupportFragmentManager().findFragmentByTag("habits");
         Settings_fragment settings_fragment = (Settings_fragment) getSupportFragmentManager().findFragmentByTag("setting");
+        Sharing_fragment sharing_fragment = (Sharing_fragment) getSupportFragmentManager().findFragmentByTag("sharing habits") ;
         getSupportFragmentManager().beginTransaction().hide(home_fragment).commitNow();
+        getSupportFragmentManager().beginTransaction().hide(sharing_fragment).commitNow();
         getSupportFragmentManager().beginTransaction().hide(posts_fragment).commitNow();
-        getSupportFragmentManager().beginTransaction().hide(chat_fragment).commitNow();
+//        getSupportFragmentManager().beginTransaction().hide(chat_fragment).commitNow();
         getSupportFragmentManager().beginTransaction().hide(habits_fragment).commitNow();
         getSupportFragmentManager().beginTransaction().hide(settings_fragment).commitNow();
     }
@@ -388,11 +379,11 @@ public class after_login extends AppCompatActivity {
                     .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
                             if (which_was_pressed == 1) {
-                                post_was_pressed();
-                            } else if (which_was_pressed == 2) {
-                                chat_was_pressed();
-                            } else if (which_was_pressed == 3) {
                                 home_was_pressed();
+                            } else if (which_was_pressed == 2) {
+                                sharing_was_pressed();
+                            } else if (which_was_pressed == 3) {
+                                post_was_pressed();
                             } else if (which_was_pressed == 4) {
                                 habits_was_pressed();
                             } else if (which_was_pressed == 5) {
@@ -421,11 +412,11 @@ public class after_login extends AppCompatActivity {
                     .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
                             if (which_was_pressed == 1) {
-                                post_was_pressed();
-                            } else if (which_was_pressed == 2) {
-                                chat_was_pressed();
-                            } else if (which_was_pressed == 3) {
                                 home_was_pressed();
+                            } else if (which_was_pressed == 2) {
+                                sharing_was_pressed();
+                            } else if (which_was_pressed == 3) {
+                                post_was_pressed();
                             } else if (which_was_pressed == 4) {
                                 habits_was_pressed();
                             } else if (which_was_pressed == 5) {
@@ -449,11 +440,11 @@ public class after_login extends AppCompatActivity {
                 pressed_programitically = false;
             } else {
                 if (which_was_pressed == 1) {
-                    post_was_pressed();
-                } else if (which_was_pressed == 2) {
-                    chat_was_pressed();
-                } else if (which_was_pressed == 3) {
                     home_was_pressed();
+                } else if (which_was_pressed == 2) {
+                    sharing_was_pressed();
+                } else if (which_was_pressed == 3) {
+                    post_was_pressed();
                 } else if (which_was_pressed == 4) {
                     habits_was_pressed();
                 } else if (which_was_pressed == 5) {
@@ -465,9 +456,9 @@ public class after_login extends AppCompatActivity {
 
     private void home_was_pressed() {
         remove_emergency();
-        remove_view_home();
+        hide_view_home();
         remove_add_object();
-        remove_mood_tracker();
+        hide_mood_tracker();
         define_the_habits();
         remove_the_post_a_post_fragment();
         update_post_remote();
@@ -477,16 +468,39 @@ public class after_login extends AppCompatActivity {
         remove_edit_bad_habit();
         remove_buy_premuim();
         hide_all();
+        set_default_status_color();
+        color_the_notification_bar_icons_dark();
         getSupportFragmentManager().beginTransaction().show(home_fragment).commitNow();
+        //habits_fragment.return_the_first_screen();
+        emergency_button_fragment.scroll_to_top();
+    }
+
+    private void sharing_was_pressed(){
+        remove_emergency();
+        hide_view_home();
+        remove_add_object();
+        hide_mood_tracker();
+        define_the_habits();
+        remove_the_post_a_post_fragment();
+        update_post_remote();
+        remove_the_full_post();
+        remove_the_write_a_comment();
+        remove_give_coisn();
+        remove_edit_bad_habit();
+        remove_buy_premuim();
+        hide_all();
+        set_default_status_color();
+        color_the_notification_bar_icons_dark();
+        getSupportFragmentManager().beginTransaction().show(sharing_fragment).commitNow();
         //habits_fragment.return_the_first_screen();
         emergency_button_fragment.scroll_to_top();
     }
 
     private void post_was_pressed() {
         remove_emergency();
-        remove_view_home();
+        hide_view_home();
         remove_add_object();
-        remove_mood_tracker();
+        hide_mood_tracker();
         define_the_habits();
         remove_the_post_a_post_fragment();
         update_post_remote();
@@ -496,14 +510,16 @@ public class after_login extends AppCompatActivity {
         remove_edit_bad_habit();
         remove_buy_premuim();
         hide_all();
+        set_default_status_color();
+        color_the_notification_bar_icons_dark();
         getSupportFragmentManager().beginTransaction().show(posts_fragment).commitNow();
         //habits_fragment.return_the_first_screen();
         emergency_button_fragment.scroll_to_top();
     }
 
-    private void chat_was_pressed() {
+    /*private void chat_was_pressed() {
         remove_emergency();
-        remove_view_home();
+        hide_view_home();
         remove_add_object();
         remove_mood_tracker();
         define_the_habits();
@@ -515,16 +531,16 @@ public class after_login extends AppCompatActivity {
         remove_edit_bad_habit();
         remove_buy_premuim();
         hide_all();
-        getSupportFragmentManager().beginTransaction().show(chat_fragment).commitNow();
+        //getSupportFragmentManager().beginTransaction().show(chat_fragment).commitNow();
         //habits_fragment.return_the_first_screen();
         emergency_button_fragment.scroll_to_top();
-    }
+    }*/
 
     private void habits_was_pressed() {
         remove_emergency();
-        remove_view_home();
+        hide_view_home();
         remove_add_object();
-        remove_mood_tracker();
+        hide_mood_tracker();
         define_the_habits();
         remove_the_post_a_post_fragment();
         update_post_remote();
@@ -534,6 +550,8 @@ public class after_login extends AppCompatActivity {
         remove_edit_bad_habit();
         remove_buy_premuim();
         hide_all();
+        set_default_status_color();
+        color_the_notification_bar_icons_dark();
         getSupportFragmentManager().beginTransaction().show(habits_fragment).commitNow();
         //habits_fragment.return_the_first_screen();
         emergency_button_fragment.scroll_to_top();
@@ -541,9 +559,9 @@ public class after_login extends AppCompatActivity {
 
     private void settings_was_pressed() {
         remove_emergency();
-        remove_view_home();
+        hide_view_home();
         remove_add_object();
-        remove_mood_tracker();
+        hide_mood_tracker();
         define_the_habits();
         remove_the_post_a_post_fragment();
         update_post_remote();
@@ -553,17 +571,19 @@ public class after_login extends AppCompatActivity {
         remove_edit_bad_habit();
         remove_buy_premuim();
         hide_all();
+        set_default_status_color();
+        color_the_notification_bar_icons_dark();
         getSupportFragmentManager().beginTransaction().show(settings_fragment).commitNow();
         //habits_fragment.return_the_first_screen();
         emergency_button_fragment.scroll_to_top();
     }
 
-    private void remove_show_the_post() {
+    /*private void remove_show_the_post() {
         Show_image_post myFragment = (Show_image_post) getSupportFragmentManager().findFragmentByTag("show post image");
         if (myFragment != null && myFragment.isVisible()) {
             getSupportFragmentManager().beginTransaction().hide(myFragment).commitNow();
         }
-    }
+    }*/
 
     private void remove_the_full_post() {
         Show_full_post myFragment = (Show_full_post) getSupportFragmentManager().findFragmentByTag("show full post");
@@ -586,645 +606,113 @@ public class after_login extends AppCompatActivity {
         }
     }
 
-    public void check_if_user_is_gifted(boolean run_anyways) {
-        FirebaseFirestoreSettings settings = new FirebaseFirestoreSettings.Builder().setPersistenceEnabled(true).build();
-        firebaseFirestore.setFirestoreSettings(settings);
-        mAuth = FirebaseAuth.getInstance();
-        firebaseUser = mAuth.getCurrentUser();
-        SharedPreferences sharedPreferences = getSharedPreferences("is_user_gifted", MODE_PRIVATE);
-        SharedPreferences.Editor myEdit = sharedPreferences.edit();
-        if (FirebaseAuth.getInstance().getCurrentUser() == null) {
-            myEdit.putBoolean("premuim", false);
+    private void create_user_name() {
+        SharedPreferences sharedPreferences = getSharedPreferences("name_online_for_post", MODE_PRIVATE);
+        if (sharedPreferences.getString("name", "").equals("")) {
+            String name = "User".concat(String.format("%04d", new Random().nextInt(10000)));
+            Save_and_get.getInstance().save_this(this, name, "name_online_for_post", "name");
+        }
+    }
+
+    private void disable_crashalytics_for_debug() {
+        FirebaseCrashlytics.getInstance().setCrashlyticsCollectionEnabled(!BuildConfig.DEBUG);
+    }
+
+    private void close_app() {
+        moveTaskToBack(true);
+    }
+
+    private void add_all_view_homes() {
+        Room_database_habits database_habits = Room_database_habits.getInstance(this);
+        List<habits_data_class> list = database_habits.dao_for_habits_data().getAll();
+        for (int i = 0; i < list.size(); i++) {
+            View_home_habit view_home_habit = new View_home_habit();
+            Bundle args = new Bundle();
+            args.putInt("which_id", list.get(i).getId());
+            view_home_habit.setArguments(args);
+            getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, view_home_habit, "view home: ".concat(String.valueOf(list.get(i).getId()))).hide(view_home_habit).commitNow();
+        }
+    }
+
+    private boolean check_if_view_him_is_visible() {
+        Room_database_habits database_habits = Room_database_habits.getInstance(this);
+        List<habits_data_class> list = database_habits.dao_for_habits_data().getAll();
+        for (int i = 0; i < list.size(); i++) {
+            View_home_habit view_home_habit = (View_home_habit) getSupportFragmentManager().findFragmentByTag("view home: ".concat(String.valueOf(list.get(i).getId())));
+            if (view_home_habit != null && view_home_habit.isVisible()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private void set_default_status_color() {
+        Window window = getWindow();
+        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+        window.setStatusBarColor(Color.parseColor("#f1f3f9"));
+    }
+
+    private void listen_to_payment() {
+        if (Payment_processer.getInstance().is_sub_purchase_list_ready) {
+            if (!Payment_processer.getInstance().sub_purchase_list.isEmpty()) {
+                make_views_pro();
+            }
         } else {
-            //if (sharedPreferences.getLong("last_checked", 0) < System.currentTimeMillis() - 86400000L || run_anyways) {
-                firebaseFirestore.collection("gifts").document(firebaseUser.getUid()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                        if (task.isSuccessful()) {
-                            DocumentSnapshot document = task.getResult();
-                            if (document.exists()) {
-                                long time = document.getLong("time");
-                                if (time > System.currentTimeMillis() - 86400000L) {
-                                    myEdit.putBoolean("premuim", true);
-                                    myEdit.putLong("premuim_until", time+86400000L);
-                                    myEdit.commit();
-                                } else {
-                                    myEdit.putBoolean("premuim", false);
-                                    myEdit.commit();
-                                }
-                            } else {
-                                myEdit.putBoolean("premuim", false);
-                                myEdit.commit();
+            Payment_processer.getInstance().set_up_purchase_list_ready_3(new Payment_processer.sub_purchase_ready_3() {
+                @Override
+                public void sub_purchase_is_ready() {
+                    if (!Payment_processer.getInstance().sub_purchase_list.isEmpty()) {
+                        make_views_pro();
+                    }
+                }
+            });
+        }
+    }
+
+    private void listen_to_firebase() {
+        if (FirebaseAuth.getInstance().getCurrentUser() != null) {
+            firebaseFirestore.collection("gifts").document(FirebaseAuth.getInstance().getCurrentUser().getUid()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                    if (task.isSuccessful()) {
+                        DocumentSnapshot document = task.getResult();
+                        if (document.exists()) {
+                            long time = document.getLong("time");
+                            if (time > System.currentTimeMillis() - 86400000L) {
+                                make_views_pro();
                             }
-                        } else {
-                            //fail
                         }
-                    }
-                });
-                //myEdit.putLong("last_checked", System.currentTimeMillis());
-            //}
-        }
-    }
-
-    private void set_up_billing() {
-        acknowledgePurchaseResponseListener = new AcknowledgePurchaseResponseListener() {
-            @Override
-            public void onAcknowledgePurchaseResponse(@NonNull @NotNull BillingResult billingResult) {
-                if (billingResult.getResponseCode() == BillingClient.BillingResponseCode.OK) {
-
-                }
-            }
-        };
-        purchasesUpdatedListener = new PurchasesUpdatedListener() {
-            @Override
-            public void onPurchasesUpdated(@NonNull @NotNull BillingResult billingResult, @Nullable @org.jetbrains.annotations.Nullable List<Purchase> list) {
-
-            }
-        };
-        start_billing_connection(true);
-    }
-
-    public void start_billing_connection(boolean first_time) {
-        SharedPreferences sharedPreferences = getSharedPreferences("is_user_gifted", MODE_PRIVATE);
-        SharedPreferences.Editor myEdit = sharedPreferences.edit();
-        if (first_time) {
-            billingClient = set_up_clint();
-        }
-        billingClient.startConnection(new BillingClientStateListener() {
-            @Override
-            public void onBillingSetupFinished(@NonNull @NotNull BillingResult billingResult) {
-                if (billingResult.getResponseCode() == BillingClient.BillingResponseCode.OK) {
-                    // billingClient.queryPurchasesAsync(BillingClient.SkuType.INAPP,purchasesResponseListener);
-                    List<Purchase> purhcases = billingClient.queryPurchases(BillingClient.SkuType.SUBS).getPurchasesList();
-                    for(int i = 0;i<purhcases.size();i++){
-                        handle_purchases_sub(purhcases.get(i));
-                    }
-                    if (purhcases.size() > 0) {
-                        if(purhcases.get(0).getSku().equals("1_year_subscription")){
-                            myEdit.putString("type", "year");
-                        } else if(purhcases.get(0).getSku().equals("1_month_subscription")){
-                            myEdit.putString("type", "month");
-                        }
-                        myEdit.putBoolean("premuim_online", true);
-                        myEdit.commit();
                     } else {
-                        myEdit.putBoolean("premuim_online", false);
-                        myEdit.commit();
-                    }
-                    List<Purchase> puchases_in_app = billingClient.queryPurchases(BillingClient.SkuType.INAPP).getPurchasesList();
-                    Save_and_retrive_user_id save_and_retrive_user_id = new Save_and_retrive_user_id();
-                    for(int i = 0;i<puchases_in_app.size();i++){
-                        if(purhcases.get(i).getSku().equals("1_month_premium_gift")){
-                            handle_purchase(purhcases.get(i),save_and_retrive_user_id.retrive_the_id(after_login.this,purhcases.get(i).getPurchaseTime(),1));
-                        } else if(purhcases.get(i).getSku().equals("3_month_premium_gift")){
-                            handle_purchase(purhcases.get(i),save_and_retrive_user_id.retrive_the_id(after_login.this,purhcases.get(i).getPurchaseTime(),3));
-                        } else if(purhcases.get(i).getSku().equals("6_month_premium_gift")){
-                            handle_purchase(purhcases.get(i),save_and_retrive_user_id.retrive_the_id(after_login.this,purhcases.get(i).getPurchaseTime(),6));
-                        } else if(purhcases.get(i).getSku().equals("12_month_premium_gift")){
-                            handle_purchase(purhcases.get(i),save_and_retrive_user_id.retrive_the_id(after_login.this,purhcases.get(i).getPurchaseTime(),12));
-                        } else {
-                            handle_purchase(purhcases.get(i),null);
-                        }
-                    }
-
-                } else {
-                    Toast.makeText(after_login.this, "An error occurred. Please try again later", Toast.LENGTH_SHORT).show();
-                }
-            }
-
-            @Override
-            public void onBillingServiceDisconnected() {
-                start_billing_connection(false);
-            }
-        });
-    }
-
-    private BillingClient set_up_clint() {
-        BillingClient billingClient = BillingClient.newBuilder(this)
-                .enablePendingPurchases()
-                .setListener(purchasesUpdatedListener)
-                .build();
-        return billingClient;
-    }
-
-    private void handle_purchase(Purchase purchase,String user_id) {
-        if (purchase.getPurchaseState() == Purchase.PurchaseState.PURCHASED) {
-            Save_and_retrive_user_id save_and_retrive_user_id = new Save_and_retrive_user_id();
-            if (purchase.getSku().equals("1_month_premium_gift")) {
-                ConsumeParams consumeParams =
-                        ConsumeParams.newBuilder()
-                                .setPurchaseToken(purchase.getPurchaseToken())
-                                .build();
-                ConsumeResponseListener listener = new ConsumeResponseListener() {
-                    @Override
-                    public void onConsumeResponse(BillingResult billingResult, String purchaseToken) {
-                        if (billingResult.getResponseCode() == BillingClient.BillingResponseCode.OK) {
-                            Map<String, Object> data = new HashMap<>();
-                            data.put("userId", user_id);
-                            data.put("token", purchaseToken);
-                            data.put("orderId", purchase.getOrderId());
-                            firebaseFunctions = FirebaseFunctions.getInstance();
-                            firebaseFunctions
-                                    .getHttpsCallable("purchaseValidationAndroid")
-                                    .call(data)
-                                    .continueWith(new Continuation<HttpsCallableResult, String>() {
-                                        @Override
-                                        public String then(@NonNull Task<HttpsCallableResult> task) throws Exception {
-                                            if (String.valueOf(task.getResult().getData()).equals("success")) {
-                                                Dialog_thank_user_for_purchase dialog_thank_user_for_purchase = new Dialog_thank_user_for_purchase(0, false, 1);
-                                                dialog_thank_user_for_purchase.show(getSupportFragmentManager(), "");
-                                            } else if (String.valueOf(task.getResult().getData()).equals("error")) {
-                                                Toast.makeText(after_login.this, "Gift failed. You will not be charged and will receive a refund", Toast.LENGTH_LONG).show();
-                                            }
-                                            return "result";
-                                        }
-                                    }).addOnFailureListener(new OnFailureListener() {
-                                @Override
-                                public void onFailure(@NonNull @NotNull Exception e) {
-
-                                }
-                            });
-                            save_and_retrive_user_id.remove_the_id(after_login.this,1);
-                        }
-                    }
-                };
-                billingClient.consumeAsync(consumeParams, listener);
-            } else if (purchase.getSku().equals("3_month_premium_gift")) {
-                ConsumeParams consumeParams =
-                        ConsumeParams.newBuilder()
-                                .setPurchaseToken(purchase.getPurchaseToken())
-                                .build();
-                ConsumeResponseListener listener = new ConsumeResponseListener() {
-                    @Override
-                    public void onConsumeResponse(BillingResult billingResult, String purchaseToken) {
-                        if (billingResult.getResponseCode() == BillingClient.BillingResponseCode.OK) {
-                            Map<String, Object> data = new HashMap<>();
-                            data.put("userId", user_id);
-                            data.put("token", purchaseToken);
-                            data.put("orderId", purchase.getOrderId());
-                            firebaseFunctions = FirebaseFunctions.getInstance();
-                            firebaseFunctions
-                                    .getHttpsCallable("purchaseValidationAndroid_3_month")
-                                    .call(data)
-                                    .continueWith(new Continuation<HttpsCallableResult, String>() {
-                                        @Override
-                                        public String then(@NonNull Task<HttpsCallableResult> task) throws Exception {
-                                            if (String.valueOf(task.getResult().getData()).equals("success")) {
-                                                Dialog_thank_user_for_purchase dialog_thank_user_for_purchase = new Dialog_thank_user_for_purchase(0, false, 3);
-                                                dialog_thank_user_for_purchase.show(getSupportFragmentManager(), "");
-                                            } else if (String.valueOf(task.getResult().getData()).equals("error")) {
-                                                Toast.makeText(after_login.this, "Gift failed. You will not be charged and will receive a refund", Toast.LENGTH_LONG).show();
-                                            }
-                                            return "result";
-                                        }
-                                    }).addOnFailureListener(new OnFailureListener() {
-                                @Override
-                                public void onFailure(@NonNull @NotNull Exception e) {
-
-                                }
-                            });
-                            save_and_retrive_user_id.remove_the_id(after_login.this,3);
-                        }
-                    }
-                };
-
-                billingClient.consumeAsync(consumeParams, listener);
-            } else if (purchase.getSku().equals("6_month_premium_gift")) {
-                ConsumeParams consumeParams =
-                        ConsumeParams.newBuilder()
-                                .setPurchaseToken(purchase.getPurchaseToken())
-                                .build();
-
-                ConsumeResponseListener listener = new ConsumeResponseListener() {
-                    @Override
-                    public void onConsumeResponse(BillingResult billingResult, String purchaseToken) {
-                        if (billingResult.getResponseCode() == BillingClient.BillingResponseCode.OK) {
-                            Map<String, Object> data = new HashMap<>();
-                            data.put("userId", user_id);
-                            data.put("token", purchaseToken);
-                            data.put("orderId", purchase.getOrderId());
-                            firebaseFunctions = FirebaseFunctions.getInstance();
-                            firebaseFunctions
-                                    .getHttpsCallable("purchaseValidationAndroid_6_month")
-                                    .call(data)
-                                    .continueWith(new Continuation<HttpsCallableResult, String>() {
-                                        @Override
-                                        public String then(@NonNull Task<HttpsCallableResult> task) throws Exception {
-                                            if (String.valueOf(task.getResult().getData()).equals("success")) {
-                                                Dialog_thank_user_for_purchase dialog_thank_user_for_purchase = new Dialog_thank_user_for_purchase(0, false, 6);
-                                                dialog_thank_user_for_purchase.show(getSupportFragmentManager(), "");
-                                            } else if (String.valueOf(task.getResult().getData()).equals("error")) {
-                                                Toast.makeText(after_login.this, "Gift failed. You will not be charged and will receive a refund", Toast.LENGTH_LONG).show();
-                                            }
-                                            return "result";
-                                        }
-                                    }).addOnFailureListener(new OnFailureListener() {
-                                @Override
-                                public void onFailure(@NonNull @NotNull Exception e) {
-
-                                }
-                            });
-                            save_and_retrive_user_id.remove_the_id(after_login.this,6);
-                        }
-                    }
-                };
-
-                billingClient.consumeAsync(consumeParams, listener);
-            } else if (purchase.getSku().equals("12_month_premium_gift")) {
-                ConsumeParams consumeParams =
-                        ConsumeParams.newBuilder()
-                                .setPurchaseToken(purchase.getPurchaseToken())
-                                .build();
-
-                ConsumeResponseListener listener = new ConsumeResponseListener() {
-                    @Override
-                    public void onConsumeResponse(BillingResult billingResult, String purchaseToken) {
-                        if (billingResult.getResponseCode() == BillingClient.BillingResponseCode.OK) {
-                            Map<String, Object> data = new HashMap<>();
-                            data.put("userId", user_id);
-                            data.put("token", purchaseToken);
-                            data.put("orderId", purchase.getOrderId());
-                            firebaseFunctions = FirebaseFunctions.getInstance();
-                            firebaseFunctions
-                                    .getHttpsCallable("purchaseValidationAndroid_12_month")
-                                    .call(data)
-                                    .continueWith(new Continuation<HttpsCallableResult, String>() {
-                                        @Override
-                                        public String then(@NonNull Task<HttpsCallableResult> task) throws Exception {
-                                            if (String.valueOf(task.getResult().getData()).equals("success")) {
-                                                Dialog_thank_user_for_purchase dialog_thank_user_for_purchase = new Dialog_thank_user_for_purchase(0, false, 12);
-                                                dialog_thank_user_for_purchase.show(getSupportFragmentManager(), "");
-                                            } else if (String.valueOf(task.getResult().getData()).equals("error")) {
-                                                Toast.makeText(after_login.this, "Gift failed. You will not be charged and will receive a refund", Toast.LENGTH_LONG).show();
-                                            }
-                                            return "result";
-                                        }
-                                    }).addOnFailureListener(new OnFailureListener() {
-                                @Override
-                                public void onFailure(@NonNull @NotNull Exception e) {
-
-                                }
-                            });
-                            save_and_retrive_user_id.remove_the_id(after_login.this,12);
-                        }
-                    }
-                };
-
-                billingClient.consumeAsync(consumeParams, listener);
-            } else if (purchase.getSku().equals("400_coins")){
-                ConsumeParams consumeParams =
-                        ConsumeParams.newBuilder()
-                                .setPurchaseToken(purchase.getPurchaseToken())
-                                .build();
-                ConsumeResponseListener listener = new ConsumeResponseListener() {
-                    @Override
-                    public void onConsumeResponse(BillingResult billingResult, String purchaseToken) {
-                        if (billingResult.getResponseCode() == BillingClient.BillingResponseCode.OK) {
-                            Toast.makeText(after_login.this, "Buying 400 coins...", Toast.LENGTH_LONG).show();
-                            Map<String, Object> data = new HashMap<>();
-                            data.put("token", purchaseToken);
-                            data.put("orderId", purchase.getOrderId());
-                            firebaseFunctions = FirebaseFunctions.getInstance();
-                            firebaseFunctions
-                                    .getHttpsCallable("buy400coins")
-                                    .call(data)
-                                    .continueWith(new Continuation<HttpsCallableResult, String>() {
-                                        @Override
-                                        public String then(@NonNull Task<HttpsCallableResult> task) throws Exception {
-                                            if(String.valueOf(task.getResult().getData()).equals("success")){
-                                                Dialog_thank_user_for_purchase dialog_thank_user_for_purchase = new Dialog_thank_user_for_purchase(400);
-                                                dialog_thank_user_for_purchase.show(getSupportFragmentManager(),"");
-                                            } else if (String.valueOf(task.getResult().getData()).equals("error")){
-                                                Toast.makeText(after_login.this, "Buying failed. You will not be charged and will receive a refund",Toast.LENGTH_LONG).show();
-                                            }
-                                            return "result";
-                                        }
-                                    }).addOnFailureListener(new OnFailureListener() {
-                                @Override
-                                public void onFailure(@NonNull @NotNull Exception e) {
-
-                                }
-                            });
-                        }
-                    }
-                };
-                billingClient.consumeAsync(consumeParams, listener);
-            }  else if (purchase.getSku().equals("1500_coins")){
-                ConsumeParams consumeParams =
-                        ConsumeParams.newBuilder()
-                                .setPurchaseToken(purchase.getPurchaseToken())
-                                .build();
-                ConsumeResponseListener listener = new ConsumeResponseListener() {
-                    @Override
-                    public void onConsumeResponse(BillingResult billingResult, String purchaseToken) {
-                        if (billingResult.getResponseCode() == BillingClient.BillingResponseCode.OK) {
-                            Toast.makeText(after_login.this, "Buying 1500 coins...", Toast.LENGTH_LONG).show();
-                            Map<String, Object> data = new HashMap<>();
-                            data.put("token", purchaseToken);
-                            data.put("orderId", purchase.getOrderId());
-                            firebaseFunctions = FirebaseFunctions.getInstance();
-                            firebaseFunctions
-                                    .getHttpsCallable("buy1500coins")
-                                    .call(data)
-                                    .continueWith(new Continuation<HttpsCallableResult, String>() {
-                                        @Override
-                                        public String then(@NonNull Task<HttpsCallableResult> task) throws Exception {
-                                            Log.w("asdasd",String.valueOf(task.getResult().getData()));
-                                            if(String.valueOf(task.getResult().getData()).equals("success")){
-                                                Dialog_thank_user_for_purchase dialog_thank_user_for_purchase = new Dialog_thank_user_for_purchase(1500);
-                                                dialog_thank_user_for_purchase.show(getSupportFragmentManager(),"");
-                                            } else if (String.valueOf(task.getResult().getData()).equals("error")){
-                                                Toast.makeText(after_login.this, "Buying failed. You will not be charged and will receive a refund",Toast.LENGTH_LONG).show();
-                                            }
-                                            return "result";
-                                        }
-                                    }).addOnFailureListener(new OnFailureListener() {
-                                @Override
-                                public void onFailure(@NonNull @NotNull Exception e) {
-
-                                }
-                            });
-                        }
-                    }
-                };
-
-                billingClient.consumeAsync(consumeParams, listener);
-            }  else if (purchase.getSku().equals("3600_coins")){
-                ConsumeParams consumeParams =
-                        ConsumeParams.newBuilder()
-                                .setPurchaseToken(purchase.getPurchaseToken())
-                                .build();
-
-                ConsumeResponseListener listener = new ConsumeResponseListener() {
-                    @Override
-                    public void onConsumeResponse(BillingResult billingResult, String purchaseToken) {
-                        if (billingResult.getResponseCode() == BillingClient.BillingResponseCode.OK) {
-                            Toast.makeText(after_login.this, "Buying 3600 coins...", Toast.LENGTH_LONG).show();
-                            Map<String, Object> data = new HashMap<>();
-                            data.put("token", purchaseToken);
-                            data.put("orderId", purchase.getOrderId());
-                            firebaseFunctions = FirebaseFunctions.getInstance();
-                            firebaseFunctions
-                                    .getHttpsCallable("buy3600coins")
-                                    .call(data)
-                                    .continueWith(new Continuation<HttpsCallableResult, String>() {
-                                        @Override
-                                        public String then(@NonNull Task<HttpsCallableResult> task) throws Exception {
-                                            Log.w("asdasd",String.valueOf(task.getResult().getData()));
-                                            if(String.valueOf(task.getResult().getData()).equals("success")){
-                                                Dialog_thank_user_for_purchase dialog_thank_user_for_purchase = new Dialog_thank_user_for_purchase(3600);
-                                                dialog_thank_user_for_purchase.show(getSupportFragmentManager(),"");
-                                            } else if (String.valueOf(task.getResult().getData()).equals("error")){
-                                                Toast.makeText(after_login.this, "Buying failed. You will not be charged and will receive a refund",Toast.LENGTH_LONG).show();
-                                            }
-                                            return "result";
-                                        }
-                                    }).addOnFailureListener(new OnFailureListener() {
-                                @Override
-                                public void onFailure(@NonNull @NotNull Exception e) {
-
-                                }
-                            });
-                        }
-                    }
-                };
-
-                billingClient.consumeAsync(consumeParams, listener);
-            }  else if (purchase.getSku().equals("8400_coins")){
-                ConsumeParams consumeParams =
-                        ConsumeParams.newBuilder()
-                                .setPurchaseToken(purchase.getPurchaseToken())
-                                .build();
-
-                ConsumeResponseListener listener = new ConsumeResponseListener() {
-                    @Override
-                    public void onConsumeResponse(BillingResult billingResult, String purchaseToken) {
-                        if (billingResult.getResponseCode() == BillingClient.BillingResponseCode.OK) {
-                            Toast.makeText(after_login.this, "Buying 8400 coins...", Toast.LENGTH_LONG).show();
-                            Map<String, Object> data = new HashMap<>();
-                            data.put("token", purchaseToken);
-                            data.put("orderId", purchase.getOrderId());
-                            firebaseFunctions = FirebaseFunctions.getInstance();
-                            firebaseFunctions
-                                    .getHttpsCallable("buy8400coins")
-                                    .call(data)
-                                    .continueWith(new Continuation<HttpsCallableResult, String>() {
-                                        @Override
-                                        public String then(@NonNull Task<HttpsCallableResult> task) throws Exception {
-                                            Log.w("asdasd",String.valueOf(task.getResult().getData()));
-                                            if(String.valueOf(task.getResult().getData()).equals("success")){
-                                                Dialog_thank_user_for_purchase dialog_thank_user_for_purchase = new Dialog_thank_user_for_purchase(8400);
-                                                dialog_thank_user_for_purchase.show(getSupportFragmentManager(),"");
-                                            } else if (String.valueOf(task.getResult().getData()).equals("error")){
-                                                Toast.makeText(after_login.this, "Buying failed. You will not be charged and will receive a refund",Toast.LENGTH_LONG).show();
-                                            }
-                                            return "result";
-                                        }
-                                    }).addOnFailureListener(new OnFailureListener() {
-                                @Override
-                                public void onFailure(@NonNull @NotNull Exception e) {
-
-                                }
-                            });
-                        }
-                    }
-                };
-                billingClient.consumeAsync(consumeParams, listener);
-            }  else if (purchase.getSku().equals("16000_coins")){
-                ConsumeParams consumeParams =
-                        ConsumeParams.newBuilder()
-                                .setPurchaseToken(purchase.getPurchaseToken())
-                                .build();
-
-                ConsumeResponseListener listener = new ConsumeResponseListener() {
-                    @Override
-                    public void onConsumeResponse(BillingResult billingResult, String purchaseToken) {
-                        if (billingResult.getResponseCode() == BillingClient.BillingResponseCode.OK) {
-                            Toast.makeText(after_login.this, "Buying 16000 coins...", Toast.LENGTH_LONG).show();
-                            Map<String, Object> data = new HashMap<>();
-                            data.put("token", purchaseToken);
-                            data.put("orderId", purchase.getOrderId());
-                            firebaseFunctions = FirebaseFunctions.getInstance();
-                            firebaseFunctions
-                                    .getHttpsCallable("buy16000coins")
-                                    .call(data)
-                                    .continueWith(new Continuation<HttpsCallableResult, String>() {
-                                        @Override
-                                        public String then(@NonNull Task<HttpsCallableResult> task) throws Exception {
-                                            Log.w("asdasd",String.valueOf(task.getResult().getData()));
-                                            if(String.valueOf(task.getResult().getData()).equals("success")){
-                                                Dialog_thank_user_for_purchase dialog_thank_user_for_purchase = new Dialog_thank_user_for_purchase(16000);
-                                                dialog_thank_user_for_purchase.show(getSupportFragmentManager(),"");
-                                            } else if (String.valueOf(task.getResult().getData()).equals("error")){
-                                                Toast.makeText(after_login.this, "Buying failed. You will not be charged and will receive a refund",Toast.LENGTH_LONG).show();
-                                            }
-                                            return "result";
-                                        }
-                                    }).addOnFailureListener(new OnFailureListener() {
-                                @Override
-                                public void onFailure(@NonNull @NotNull Exception e) {
-
-                                }
-                            });
-                        }
-                    }
-                };
-
-                billingClient.consumeAsync(consumeParams, listener);
-            }  else if (purchase.getSku().equals("40000_coins")){
-                ConsumeParams consumeParams =
-                        ConsumeParams.newBuilder()
-                                .setPurchaseToken(purchase.getPurchaseToken())
-                                .build();
-
-                ConsumeResponseListener listener = new ConsumeResponseListener() {
-                    @Override
-                    public void onConsumeResponse(BillingResult billingResult, String purchaseToken) {
-                        if (billingResult.getResponseCode() == BillingClient.BillingResponseCode.OK) {
-                            Toast.makeText(after_login.this, "Buying 40000 coins...", Toast.LENGTH_LONG).show();
-                            Map<String, Object> data = new HashMap<>();
-                            data.put("token", purchaseToken);
-                            data.put("orderId", purchase.getOrderId());
-                            firebaseFunctions = FirebaseFunctions.getInstance();
-                            firebaseFunctions
-                                    .getHttpsCallable("buy40000coins")
-                                    .call(data)
-                                    .continueWith(new Continuation<HttpsCallableResult, String>() {
-                                        @Override
-                                        public String then(@NonNull Task<HttpsCallableResult> task) throws Exception {
-                                            Log.w("asdasd",String.valueOf(task.getResult().getData()));
-                                            if(String.valueOf(task.getResult().getData()).equals("success")){
-                                                Dialog_thank_user_for_purchase dialog_thank_user_for_purchase = new Dialog_thank_user_for_purchase(40000);
-                                                dialog_thank_user_for_purchase.show(getSupportFragmentManager(),"");
-                                            } else if (String.valueOf(task.getResult().getData()).equals("error")){
-                                                Toast.makeText(after_login.this, "Buying failed. You will not be charged and will receive a refund",Toast.LENGTH_LONG).show();
-                                            }
-                                            return "result";
-                                        }
-                                    }).addOnFailureListener(new OnFailureListener() {
-                                @Override
-                                public void onFailure(@NonNull @NotNull Exception e) {
-
-                                }
-                            });
-                        }
-                    }
-                };
-
-                billingClient.consumeAsync(consumeParams, listener);
-            }
-        } else if (purchase.getPurchaseState() == Purchase.PurchaseState.PENDING) {
-            //Toast.makeText(this, "purchase is being processed", Toast.LENGTH_SHORT).show();
-        } else {
-            //Toast.makeText(this, "purchase is being processed", Toast.LENGTH_SHORT).show();
-        }
-    }
-
-    private void handle_purchases_sub(Purchase purchase){
-        if (purchase.getPurchaseState() == Purchase.PurchaseState.PURCHASED) {
-            if (purchase.getSku().equals("1_month_subscription")) {
-                if (!purchase.isAcknowledged()) {
-                    set_buy_premuim_true();
-                    AcknowledgePurchaseParams acknowledgePurchaseParams =
-                            AcknowledgePurchaseParams.newBuilder()
-                                    .setPurchaseToken(purchase.getPurchaseToken())
-                                    .build();
-                    if(am_i_sign_in_with_google()){
-                        Map<String, Object> data = new HashMap<>();
-                        data.put("token", purchase.getPurchaseToken());
-                        data.put("orderId", purchase.getOrderId());
-                        Dialog_subscribe_to_premuim dialog_subscribe_to_premuim = new Dialog_subscribe_to_premuim("month",false);
-                        dialog_subscribe_to_premuim.setCancelable(false);
-                        dialog_subscribe_to_premuim.show(getSupportFragmentManager(), "");
-                        firebaseFunctions = FirebaseFunctions.getInstance();
-                        firebaseFunctions
-                                .getHttpsCallable("monthly_sub_i_buy")
-                                .call(data)
-                                .continueWith(new Continuation<HttpsCallableResult, String>() {
-                                    @Override
-                                    public String then(@NonNull Task<HttpsCallableResult> task) throws Exception {
-                                        if (String.valueOf(task.getResult().getData()).equals("success")) {
-                                            dialog_subscribe_to_premuim.loaded();
-                                            billingClient.acknowledgePurchase(acknowledgePurchaseParams, acknowledgePurchaseResponseListener);
-                                        } else if (String.valueOf(task.getResult().getData()).equals("error")) {
-                                            Toast.makeText(after_login.this, "Verifying purchase with server failed. Please try restarting the app with internet connection. If that doesn't work contact supprt", Toast.LENGTH_LONG).show();                                    }
-                                        return "result";
-                                    }
-                                }).addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull @NotNull Exception e) {
-
-                            }
-                        });
-                    } else {
-                        Dialog_subscribe_to_premuim dialog_subscribe_to_premuim = new Dialog_subscribe_to_premuim("month",true);
-                        dialog_subscribe_to_premuim.setCancelable(false);
-                        dialog_subscribe_to_premuim.show(getSupportFragmentManager(), "");
-                        billingClient.acknowledgePurchase(acknowledgePurchaseParams, acknowledgePurchaseResponseListener);
+                        //fail
                     }
                 }
-            } else if (purchase.getSku().equals("1_year_subscription")) {
-                if (!purchase.isAcknowledged()) {
-                    set_buy_premuim_true();
-                    AcknowledgePurchaseParams acknowledgePurchaseParams =
-                            AcknowledgePurchaseParams.newBuilder()
-                                    .setPurchaseToken(purchase.getPurchaseToken())
-                                    .build();
-                    if(am_i_sign_in_with_google()){
-                        Map<String, Object> data = new HashMap<>();
-                        data.put("token", purchase.getPurchaseToken());
-                        data.put("orderId", purchase.getOrderId());
-                        Dialog_subscribe_to_premuim dialog_subscribe_to_premuim = new Dialog_subscribe_to_premuim("year",false);
-                        dialog_subscribe_to_premuim.setCancelable(false);
-                        dialog_subscribe_to_premuim.show(getSupportFragmentManager(), "");
-                        firebaseFunctions = FirebaseFunctions.getInstance();
-                        firebaseFunctions
-                                .getHttpsCallable("yearly_sub_i_buy")
-                                .call(data)
-                                .continueWith(new Continuation<HttpsCallableResult, String>() {
-                                    @Override
-                                    public String then(@NonNull Task<HttpsCallableResult> task) throws Exception {
-                                        if (String.valueOf(task.getResult().getData()).equals("success")) {
-                                            dialog_subscribe_to_premuim.loaded();
-                                            billingClient.acknowledgePurchase(acknowledgePurchaseParams, acknowledgePurchaseResponseListener);
-                                        } else if (String.valueOf(task.getResult().getData()).equals("error")) {
-                                            Toast.makeText(after_login.this, "Verifying purchase with server failed. Please try restarting the app with internet connection. If that doesn't work contact Support", Toast.LENGTH_LONG).show();
-                                        }
-                                        return "result";
-                                    }
-                                }).addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull @NotNull Exception e) {
+            });
+        }
+    }
 
-                            }
-                        });
-                    } else {
-                        Dialog_subscribe_to_premuim dialog_subscribe_to_premuim = new Dialog_subscribe_to_premuim("year",true);
-                        dialog_subscribe_to_premuim.setCancelable(false);
-                        dialog_subscribe_to_premuim.show(getSupportFragmentManager(), "");
-                        billingClient.acknowledgePurchase(acknowledgePurchaseParams, acknowledgePurchaseResponseListener);
-                    }
-                }
+    private void make_views_pro() {
+        Room_database_habits database_habits = Room_database_habits.getInstance(this);
+        List<habits_data_class> list = database_habits.dao_for_habits_data().getAll();
+        for (int i = 0; i < list.size(); i++) {
+            View_home_habit view_home_habit = (View_home_habit) getSupportFragmentManager().findFragmentByTag("view home: ".concat(String.valueOf(list.get(i).getId())));
+            if (view_home_habit != null) {
+                view_home_habit.make_the_views_pro();
             }
-        } else if (purchase.getPurchaseState() == Purchase.PurchaseState.PENDING) {
-            //Toast.makeText(getActivity(), "purchase is being processed", Toast.LENGTH_SHORT).show();
-        } else {
-            //Toast.makeText(getActivity(), "purchase is being processed", Toast.LENGTH_SHORT).show();
+        }
+        Mood_tracker mood_tracker = (Mood_tracker) getSupportFragmentManager().findFragmentByTag("mood tracker");
+        if (mood_tracker != null) {
+            mood_tracker.make_views_pro();
         }
     }
 
-    private boolean am_i_sign_in_with_google(){
-        if (FirebaseAuth.getInstance().getCurrentUser() != null && FirebaseAuth.getInstance().getCurrentUser().getIdToken(false).getResult().getSignInProvider().equals("google.com")) {
-            return true;
-        } else {
-            return false;
-        }
+    private void color_the_notification_bar_icons_dark() {
+        View decor = getWindow().getDecorView();
+        decor.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
     }
 
-    private void set_buy_premuim_true() {
-            SharedPreferences sharedPreferences = getSharedPreferences("is_user_gifted", Context.MODE_PRIVATE);
-            SharedPreferences.Editor myEdit = sharedPreferences.edit();
-            myEdit.putBoolean("premuim_online", true);
-            myEdit.commit();
-        }
+    private void add_mood_fragment() {
+        Mood_tracker mood_tracker = new Mood_tracker();
+        getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, mood_tracker, "mood tracker").hide(mood_tracker).commitNow();
+    }
+
 }

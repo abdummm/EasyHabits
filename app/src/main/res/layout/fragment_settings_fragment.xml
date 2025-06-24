@@ -5,7 +5,748 @@
     android:id="@+id/setting_scroll_view"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     android:fillViewport="true">
+
+    <!--    <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/setting_parent_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:context="Settings_fragment">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/parent_for_buy_premuim_or_show_already_bought"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/id_for_setting_did_not_buy_yet"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <TextView
+                        android:id="@+id/buy_premium_button_in_setting"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="30dp"
+                        android:gravity="center"
+                        android:text="Premium status:"
+                        android:textColor="@color/fav"
+                        android:textSize="17sp"
+                        android:textStyle="bold"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/text_saying_monthly_in_buy_premium"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:elevation="10dp"
+                        android:gravity="center"
+                        android:outlineProvider="none"
+                        android:text="Monthly"
+                        android:textColor="@color/white"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        app:layout_constraintBottom_toBottomOf="@+id/monthly_subscription_button_in_buy_premuim"
+                        app:layout_constraintEnd_toEndOf="@+id/monthly_subscription_button_in_buy_premuim"
+                        app:layout_constraintStart_toStartOf="@+id/monthly_subscription_button_in_buy_premuim"
+                        app:layout_constraintTop_toTopOf="@+id/monthly_subscription_button_in_buy_premuim"
+                        app:layout_constraintVertical_bias="0.05" />
+
+                    <TextView
+                        android:id="@+id/text_saying_price_per_month_in_buy_month"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:elevation="10dp"
+                        android:gravity="center"
+                        android:outlineProvider="none"
+                        android:text="$4.49/mo"
+                        android:textColor="@color/white"
+                        android:textSize="19sp"
+                        android:textStyle="bold"
+                        app:layout_constraintBottom_toBottomOf="@+id/monthly_subscription_button_in_buy_premuim"
+                        app:layout_constraintEnd_toEndOf="@+id/monthly_subscription_button_in_buy_premuim"
+                        app:layout_constraintStart_toStartOf="@+id/monthly_subscription_button_in_buy_premuim"
+                        app:layout_constraintTop_toTopOf="@+id/monthly_subscription_button_in_buy_premuim"
+                        app:layout_constraintVertical_bias="0.5" />
+
+                    <TextView
+                        android:id="@+id/text_saying_billed_montly"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:elevation="10dp"
+                        android:gravity="center"
+                        android:outlineProvider="none"
+                        android:text="Billed monthly"
+                        android:textColor="@color/white"
+                        android:textSize="12sp"
+                        android:textStyle="bold"
+                        app:layout_constraintBottom_toBottomOf="@+id/monthly_subscription_button_in_buy_premuim"
+                        app:layout_constraintEnd_toEndOf="@+id/monthly_subscription_button_in_buy_premuim"
+                        app:layout_constraintStart_toStartOf="@+id/monthly_subscription_button_in_buy_premuim"
+                        app:layout_constraintTop_toTopOf="@+id/monthly_subscription_button_in_buy_premuim"
+                        app:layout_constraintVertical_bias="0.95" />
+
+                    <TextView
+                        android:id="@+id/text_saying_the_how_many_coins_month_setting"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="15dp"
+                        android:elevation="2dp"
+                        android:paddingStart="10dp"
+                        android:paddingTop="5dp"
+                        android:paddingEnd="10dp"
+                        android:paddingBottom="5dp"
+                        android:text="Includes 500 coins / month"
+                        android:textColor="@color/white"
+                        android:textStyle="bold"
+                        app:layout_constraintEnd_toEndOf="@+id/monthly_subscription_button_in_buy_premuim"
+                        app:layout_constraintStart_toStartOf="@+id/monthly_subscription_button_in_buy_premuim"
+                        app:layout_constraintTop_toBottomOf="@+id/red_back_ground_behind_button_and_most_valuable" />
+
+                    <View
+                        android:id="@+id/orange_sticker_telling_how_much_coins_in_monthly_setting"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:background="@drawable/round_fav_background"
+                        android:backgroundTint="#FD6A02"
+                        app:layout_constraintBottom_toBottomOf="@+id/text_saying_the_how_many_coins_month_setting"
+                        app:layout_constraintEnd_toEndOf="@+id/monthly_subscription_button_in_buy_premuim"
+                        app:layout_constraintStart_toStartOf="@+id/monthly_subscription_button_in_buy_premuim"
+                        app:layout_constraintTop_toTopOf="@+id/text_saying_the_how_many_coins_month_setting" />
+
+                    <TextView
+                        android:id="@+id/text_saying_yearly_in_buy_premium"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:elevation="10dp"
+                        android:gravity="center"
+                        android:outlineProvider="none"
+                        android:text="Yearly"
+                        android:textColor="@color/white"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        app:layout_constraintBottom_toBottomOf="@+id/yearly_subscription_button_in_buy_premuim"
+                        app:layout_constraintEnd_toEndOf="@+id/yearly_subscription_button_in_buy_premuim"
+                        app:layout_constraintStart_toStartOf="@+id/yearly_subscription_button_in_buy_premuim"
+                        app:layout_constraintTop_toTopOf="@+id/yearly_subscription_button_in_buy_premuim"
+                        app:layout_constraintVertical_bias="0.05" />
+
+                    <TextView
+                        android:id="@+id/text_saying_price_per_year_in_buy_month"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:elevation="10dp"
+                        android:gravity="center"
+                        android:outlineProvider="none"
+                        android:text="$2.99/mo"
+                        android:textColor="@color/white"
+                        android:textSize="19sp"
+                        android:textStyle="bold"
+                        app:layout_constraintBottom_toBottomOf="@+id/yearly_subscription_button_in_buy_premuim"
+                        app:layout_constraintEnd_toEndOf="@+id/yearly_subscription_button_in_buy_premuim"
+                        app:layout_constraintStart_toStartOf="@+id/yearly_subscription_button_in_buy_premuim"
+                        app:layout_constraintTop_toTopOf="@+id/yearly_subscription_button_in_buy_premuim"
+                        app:layout_constraintVertical_bias="0.5" />
+
+                    <TextView
+                        android:id="@+id/text_saying_old_price"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:elevation="10dp"
+                        android:gravity="center"
+                        android:outlineProvider="none"
+                        android:text="$4.49/mo"
+                        android:textColor="@color/white"
+                        android:textSize="13sp"
+                        android:textStyle="bold"
+                        app:layout_constraintEnd_toEndOf="@+id/yearly_subscription_button_in_buy_premuim"
+                        app:layout_constraintStart_toStartOf="@+id/yearly_subscription_button_in_buy_premuim"
+                        app:layout_constraintTop_toBottomOf="@+id/text_saying_price_per_year_in_buy_month" />
+
+                    <TextView
+                        android:id="@+id/text_saying_billed_year"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="15dp"
+                        android:layout_marginEnd="15dp"
+                        android:elevation="10dp"
+                        android:gravity="center"
+                        android:outlineProvider="none"
+                        android:text="Billed annually\n at 35.88"
+                        android:textColor="@color/white"
+                        android:textSize="12sp"
+                        android:textStyle="bold"
+                        app:layout_constraintBottom_toBottomOf="@+id/yearly_subscription_button_in_buy_premuim"
+                        app:layout_constraintEnd_toEndOf="@+id/yearly_subscription_button_in_buy_premuim"
+                        app:layout_constraintStart_toStartOf="@+id/yearly_subscription_button_in_buy_premuim"
+                        app:layout_constraintTop_toTopOf="@+id/yearly_subscription_button_in_buy_premuim"
+                        app:layout_constraintVertical_bias="1" />
+
+                    <Button
+                        android:id="@+id/monthly_subscription_button_in_buy_premuim"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:layout_marginTop="20dp"
+                        android:background="@drawable/round_fav_background"
+                        app:layout_constraintDimensionRatio="W,1:1"
+                        app:layout_constraintEnd_toStartOf="@+id/fourty_fice_percent_in_buy_premuim"
+                        app:layout_constraintStart_toEndOf="@+id/fifteen_percent_in_buy_premuim"
+                        app:layout_constraintTop_toBottomOf="@+id/buy_premium_button_in_setting" />
+
+                    <Button
+                        android:id="@+id/yearly_subscription_button_in_buy_premuim"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:layout_marginTop="20dp"
+                        android:background="@drawable/round_fav_background"
+                        app:layout_constraintDimensionRatio="W,1:1"
+                        app:layout_constraintEnd_toStartOf="@+id/ninty_five_fice_percent_in_buy_premuim"
+                        app:layout_constraintStart_toEndOf="@+id/fifty_five_percent_in_buy_premuim"
+                        app:layout_constraintTop_toBottomOf="@+id/buy_premium_button_in_setting" />
+
+                    <View
+                        android:id="@+id/view_before_second_button"
+                        android:layout_width="0.1dp"
+                        android:layout_height="0.1dp"
+                        android:layout_marginEnd="5dp"
+                        app:layout_constraintBottom_toBottomOf="@+id/yearly_subscription_button_in_buy_premuim"
+                        app:layout_constraintEnd_toStartOf="@+id/yearly_subscription_button_in_buy_premuim"
+                        app:layout_constraintTop_toTopOf="@+id/yearly_subscription_button_in_buy_premuim" />
+
+                    <View
+                        android:id="@+id/view_after_second_button"
+                        android:layout_width="0.1dp"
+                        android:layout_height="0.1dp"
+                        android:layout_marginStart="5dp"
+                        app:layout_constraintBottom_toBottomOf="@+id/yearly_subscription_button_in_buy_premuim"
+                        app:layout_constraintStart_toEndOf="@+id/yearly_subscription_button_in_buy_premuim"
+                        app:layout_constraintTop_toTopOf="@+id/yearly_subscription_button_in_buy_premuim" />
+
+                    <View
+                        android:id="@+id/view_at_the_top_of_the_yearly_button"
+                        android:layout_width="0.1dp"
+                        android:layout_height="0.1dp"
+                        android:layout_marginBottom="5dp"
+                        app:layout_constraintBottom_toTopOf="@+id/yearly_subscription_button_in_buy_premuim"
+                        app:layout_constraintEnd_toEndOf="@+id/yearly_subscription_button_in_buy_premuim"
+                        app:layout_constraintStart_toStartOf="@+id/yearly_subscription_button_in_buy_premuim" />
+
+                    <View
+                        android:id="@+id/red_back_ground_behind_button_and_most_valuable"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:background="@drawable/round_fav_background"
+                        android:backgroundTint="#f01630"
+                        app:layout_constraintBottom_toBottomOf="@+id/view_under_most_valuable"
+                        app:layout_constraintEnd_toEndOf="@+id/view_after_second_button"
+                        app:layout_constraintStart_toStartOf="@+id/view_before_second_button"
+                        app:layout_constraintTop_toBottomOf="@+id/view_at_the_top_of_the_yearly_button" />
+
+                    <TextView
+                        android:id="@+id/text_saying_most_valuable_in_buy_premuim"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="15dp"
+                        android:text="Most Valuable"
+                        android:textColor="@color/white"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        app:layout_constraintEnd_toEndOf="@+id/yearly_subscription_button_in_buy_premuim"
+                        app:layout_constraintStart_toStartOf="@+id/yearly_subscription_button_in_buy_premuim"
+                        app:layout_constraintTop_toBottomOf="@+id/text_saying_billed_year" />
+
+                    <View
+                        android:id="@+id/view_under_most_valuable"
+                        android:layout_width="0.1dp"
+                        android:layout_height="0.1dp"
+                        android:layout_marginTop="7dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/text_saying_most_valuable_in_buy_premuim" />
+
+                    <View
+                        android:id="@+id/fifteen_percent_in_buy_premuim"
+                        android:layout_width="0.1dp"
+                        android:layout_height="0.1dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.05"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <View
+                        android:id="@+id/fourty_fice_percent_in_buy_premuim"
+                        android:layout_width="0.1dp"
+                        android:layout_height="0.1dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.45"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <View
+                        android:id="@+id/fifty_five_percent_in_buy_premuim"
+                        android:layout_width="0.1dp"
+                        android:layout_height="0.1dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.55"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <View
+                        android:id="@+id/ninty_five_fice_percent_in_buy_premuim"
+                        android:layout_width="0.1dp"
+                        android:layout_height="0.1dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.95"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/text_saying_the_how_many_coins_year_setting"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="15dp"
+                        android:elevation="2dp"
+                        android:paddingStart="10dp"
+                        android:paddingTop="5dp"
+                        android:paddingEnd="10dp"
+                        android:paddingBottom="5dp"
+                        android:text="Includes 7000 coins / year"
+                        android:textColor="@color/white"
+                        android:textStyle="bold"
+                        app:layout_constraintEnd_toEndOf="@+id/yearly_subscription_button_in_buy_premuim"
+                        app:layout_constraintStart_toStartOf="@+id/yearly_subscription_button_in_buy_premuim"
+                        app:layout_constraintTop_toBottomOf="@+id/red_back_ground_behind_button_and_most_valuable" />
+
+                    <View
+                        android:id="@+id/orange_sticker_telling_how_much_coins_in_year_setting"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:background="@drawable/round_fav_background"
+                        android:backgroundTint="#FD6A02"
+                        app:layout_constraintBottom_toBottomOf="@+id/text_saying_the_how_many_coins_year_setting"
+                        app:layout_constraintEnd_toEndOf="@+id/red_back_ground_behind_button_and_most_valuable"
+                        app:layout_constraintStart_toStartOf="@+id/red_back_ground_behind_button_and_most_valuable"
+                        app:layout_constraintTop_toTopOf="@+id/text_saying_the_how_many_coins_year_setting" />
+
+                    <TextView
+                        android:id="@+id/text_view_saying_cancel_any_time_in_buy_premuim"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="15dp"
+                        android:text="Recurring billing. Cancel anytime."
+                        android:textColor="@color/black"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/seven_days_free_trial_text_in_buy_premium" />
+
+                    <Button
+                        android:id="@+id/button_to_request_more_billing_info_in_setting"
+                        style="?android:attr/borderlessButtonStyle"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:background="@drawable/ripple_for_all_circle"
+                        app:layout_constraintEnd_toEndOf="@+id/info_view_beside_the_billing_info"
+                        app:layout_constraintBottom_toBottomOf="@+id/info_view_beside_the_billing_info"
+                        app:layout_constraintStart_toStartOf="@+id/info_view_beside_the_billing_info"
+                        app:layout_constraintTop_toTopOf="@+id/info_view_beside_the_billing_info" />
+
+                    <View
+                        android:id="@+id/info_view_beside_the_billing_info"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_marginStart="5dp"
+                        android:background="@drawable/info_48px"
+                        app:layout_constraintStart_toEndOf="@+id/text_view_saying_cancel_any_time_in_buy_premuim"
+                        app:layout_constraintTop_toTopOf="@+id/text_view_saying_cancel_any_time_in_buy_premuim"
+                        app:layout_constraintBottom_toBottomOf="@+id/text_view_saying_cancel_any_time_in_buy_premuim"/>
+                    <View
+                        android:id="@+id/holder_to_extend_parent_layout_in_setting"
+                        android:layout_width="0.1dp"
+                        android:layout_height="0.1dp"
+                        app:layout_constraintTop_toBottomOf="@+id/button_to_request_more_billing_info_in_setting"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"/>
+
+                    <TextView
+                        android:id="@+id/seven_days_free_trial_text_in_buy_premium"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginTop="12dp"
+                        android:layout_marginEnd="10dp"
+                        android:gravity="center"
+                        android:text="14 days free trial on both subscriptions"
+                        android:textColor="@color/black"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/text_saying_the_how_many_coins_year_setting" />
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/layout_showing_privacy_policy_and_temrs_of_use"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="15dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/text_view_saying_cancel_any_time_in_buy_premuim">
+
+                        <TextView
+                            android:id="@+id/Privacy_policy_in_buy_premuim"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="privacy policy"
+                            android:textColor="@color/black"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <TextView
+                            android:id="@+id/terms_and_conditions_in_buy_premuim"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="20dp"
+                            android:text="Terms and conditions"
+                            android:textColor="@color/black"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toEndOf="@+id/Privacy_policy_in_buy_premuim"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/setting_bought_yet_laready_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <TextView
+                        android:id="@+id/buy_premium_button_in_setting_in_already_bought"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="30dp"
+                        android:gravity="center"
+                        android:text="Premium status:"
+                        android:textColor="@color/fav"
+                        android:textSize="17sp"
+                        android:textStyle="bold"
+                        android:textAlignment="center"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginEnd="20dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <Button
+                        android:id="@+id/upgrade_susbcription_in_setting_premuim"
+                        style="?android:attr/borderlessButtonStyle"
+                        android:layout_width="0dp"
+                        android:layout_height="50dp"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginTop="20dp"
+                        android:layout_marginEnd="20dp"
+                        android:background="@drawable/round_rectangle_fav_color"
+                        android:elevation="3dp"
+                        android:text="Upgrade to Yearly Billing"
+                        android:textAllCaps="true"
+                        android:textColor="@color/white"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.5"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/buy_premium_button_in_setting_in_already_bought" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <View
+                android:id="@+id/line_between_leran_more_asnd_acess_to_rest_of_buy_premium"
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layout_marginTop="10dp"
+                android:background="@color/fav"
+                app:layout_constraintTop_toBottomOf="@+id/parent_for_buy_premuim_or_show_already_bought" />
+
+            <TextView
+                android:id="@+id/text_view_showing_coins_around"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="Coins: "
+                android:textColor="@color/fav"
+                android:textStyle="bold"
+                android:textSize="17sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/line_between_leran_more_asnd_acess_to_rest_of_buy_premium" />
+
+            <Button
+                android:id="@+id/buy_first_thing_coins_in_setting"
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="20dp"
+                android:background="@drawable/round_rectangle_fav_color"
+                android:elevation="3dp"
+                android:text="Buy Coins"
+                android:textColor="@color/white"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/text_view_showing_coins_around" />
+
+            <View
+                android:id="@+id/line_between_buy_coins_and_rest_of_settings"
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layout_marginTop="20dp"
+                android:background="@color/fav"
+                app:layout_constraintTop_toBottomOf="@+id/buy_first_thing_coins_in_setting" />
+
+            <TextView
+                android:id="@+id/invite_your_friend_offer_to_get_premuim"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:gravity="center"
+                android:text="Limited time offer: Invite your friend to Easy Habits and both of you will get 6 months of premium for free. Get started by getting your referral code below, then make sure to enter the code by clicking &quot;enter referral code&quot; on your friend's phone "
+                android:textColor="@color/black"
+                android:textSize="14sp"
+                android:textAlignment="center"
+                android:paddingStart="15dp"
+                android:paddingEnd="15dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/line_between_buy_coins_and_rest_of_settings" />
+
+
+
+            <View
+                android:id="@+id/second_line_under_the_first_line_above_the_settings"
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layout_marginTop="10dp"
+                android:background="@color/fav"
+                app:layout_constraintTop_toBottomOf="@+id/invite_your_friend_offer_to_get_premuim" />
+
+            <TextView
+                android:id="@+id/text_saying_setting_in_setting_tab"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:text="Settings"
+                android:textColor="@color/black"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/second_line_under_the_first_line_above_the_settings" />
+
+            <Button
+                android:id="@+id/button_saying_get_my_invite_code"
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/ripple_for_all"
+                android:drawableStart="@drawable/nearby_share_24px"
+                android:drawablePadding="10dp"
+                android:gravity="center|start"
+                android:paddingStart="20dp"
+                android:text="Get my referral code"
+                android:textAllCaps="false"
+                android:textStyle="bold"
+                android:layout_marginTop="10dp"
+                app:layout_constraintTop_toBottomOf="@+id/text_saying_setting_in_setting_tab" />
+
+            <Button
+                android:id="@+id/button_saying_enter_invite_code"
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/ripple_for_all"
+                android:drawableStart="@drawable/magic_button_24"
+                android:drawablePadding="10dp"
+                android:gravity="center|start"
+                android:paddingStart="20dp"
+                android:text="Enter referral code"
+                android:textAllCaps="false"
+                android:textStyle="bold"
+                app:layout_constraintTop_toBottomOf="@+id/button_saying_get_my_invite_code" />
+
+            <Button
+                android:id="@+id/button_saying_sign_in_with_firebase_settings"
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/ripple_for_all"
+                android:drawableStart="@drawable/round_login_24"
+                android:drawablePadding="10dp"
+                android:gravity="center|start"
+                android:paddingStart="20dp"
+                android:text="Sign in with google"
+                android:textAllCaps="false"
+                android:textStyle="bold"
+                app:layout_constraintTop_toBottomOf="@+id/button_saying_enter_invite_code" />
+
+
+            <Button
+                android:id="@+id/button_saying_rate_in_settings"
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/ripple_for_all"
+                android:drawableStart="@drawable/outline_thumb_up_24"
+                android:drawablePadding="10dp"
+                android:gravity="center|start"
+                android:paddingStart="20dp"
+                android:text="Rate app"
+                android:textAllCaps="false"
+                android:textStyle="bold"
+                app:layout_constraintTop_toBottomOf="@+id/button_saying_sign_in_with_firebase_settings" />
+
+            <Button
+                android:id="@+id/button_saying_report_a_bug"
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/ripple_for_all"
+                android:drawableStart="@drawable/round_warning_24"
+                android:drawablePadding="10dp"
+                android:gravity="center|start"
+                android:paddingStart="20dp"
+                android:text="Report a bug"
+                android:textAllCaps="false"
+                android:textStyle="bold"
+                app:layout_constraintTop_toBottomOf="@+id/button_saying_rate_in_settings" />
+
+            <Button
+                android:id="@+id/button_saying_contact_thje_developer"
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/ripple_for_all"
+                android:drawableStart="@drawable/round_alternate_email_24"
+                android:drawablePadding="10dp"
+                android:gravity="center|start"
+                android:paddingStart="20dp"
+                android:text="Contact the developer"
+                android:textAllCaps="false"
+                android:textStyle="bold"
+                app:layout_constraintTop_toBottomOf="@+id/button_saying_report_a_bug" />
+
+            <Button
+                android:id="@+id/button_saying_the_app_in_setting"
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/ripple_for_all"
+                android:drawableStart="@drawable/round_share_24"
+                android:drawablePadding="10dp"
+                android:gravity="center|start"
+                android:paddingStart="20dp"
+                android:text="Share app"
+                android:textAllCaps="false"
+                android:textStyle="bold"
+                app:layout_constraintTop_toBottomOf="@+id/button_saying_contact_thje_developer" />
+
+            <Button
+                android:id="@+id/button_to_change_name_in_settings"
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/ripple_for_all"
+                android:drawableStart="@drawable/round_edit_24"
+                android:drawablePadding="10dp"
+                android:gravity="center|start"
+                android:paddingStart="20dp"
+                android:text="Change my name"
+                android:textAllCaps="false"
+                android:textStyle="bold"
+                app:layout_constraintTop_toBottomOf="@+id/button_saying_the_app_in_setting" />
+
+            <Button
+                android:id="@+id/button_saying_the_manage_subscription_in_setting"
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/ripple_for_all"
+                android:drawableStart="@drawable/settings_account_box_48px"
+                android:drawablePadding="10dp"
+                android:gravity="center|start"
+                android:paddingStart="20dp"
+                android:text="Manage Subscription"
+                android:textAllCaps="false"
+                android:textStyle="bold"
+                app:layout_constraintTop_toBottomOf="@+id/button_to_change_name_in_settings" />
+
+            <Button
+                android:id="@+id/button_saying_the_privacy_policy_in_setting"
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/ripple_for_all"
+                android:drawableStart="@drawable/round_shield_24"
+                android:drawablePadding="10dp"
+                android:gravity="center|start"
+                android:paddingStart="20dp"
+                android:text="Privacy Policy"
+                android:textAllCaps="false"
+                android:textStyle="bold"
+                app:layout_constraintTop_toBottomOf="@+id/button_saying_the_manage_subscription_in_setting" />
+
+            <Button
+                android:id="@+id/button_saying_the_terms_and_conditions_in_setting"
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/ripple_for_all"
+                android:drawableStart="@drawable/round_receipt_long_24"
+                android:drawablePadding="10dp"
+                android:gravity="center|start"
+                android:paddingStart="20dp"
+                android:text="Terms and conditions"
+                android:textAllCaps="false"
+                android:textStyle="bold"
+                app:layout_constraintTop_toBottomOf="@+id/button_saying_the_privacy_policy_in_setting" />
+
+            <Button
+                android:id="@+id/button_saying_version_number_in_setting"
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/ripple_for_all"
+                android:drawableStart="@drawable/round_tag_24"
+                android:drawablePadding="10dp"
+                android:gravity="center|start"
+                android:paddingStart="20dp"
+                android:text="Version number: "
+                android:textAllCaps="false"
+                android:textStyle="bold"
+                app:layout_constraintTop_toBottomOf="@+id/button_saying_the_terms_and_conditions_in_setting" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>-->
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/setting_parent_layout"
@@ -13,205 +754,376 @@
         android:layout_height="wrap_content"
         tools:context="Settings_fragment">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/parent_for_buy_premuim_or_show_already_bought"
-            android:layout_width="match_parent"
+        <TextView
+            android:id="@+id/text_view_saying_profile_in_settings"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="35dp"
+            android:layout_marginTop="30dp"
+            android:text="Profile"
+            android:textColor="#CFCFCF"
+            android:textSize="30sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <View
+            android:id="@+id/view_at_the_bottom_of_profile_setting"
+            android:layout_width="1px"
+            android:layout_height="1px"
+            app:layout_constraintBottom_toBottomOf="@+id/text_view_saying_profile_in_settings"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/text_view_saying_profile_in_settings"
+            app:layout_constraintVertical_bias="0.75" />
+
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/constraint_layout_all_about_profile_in_setting"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:background="@drawable/setting_round_corner_white"
+            app:cardCornerRadius="15dp"
+            app:cardElevation="30dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toBottomOf="@+id/view_at_the_bottom_of_profile_setting">
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/id_for_setting_did_not_buy_yet"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:visibility="gone"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
+                android:layout_height="match_parent">
+
+                <Button
+                    android:id="@+id/profile_picture_in_settings"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginTop="15dp"
+                    android:background="?android:selectableItemBackgroundBorderless"
+                    android:foreground="@drawable/circle_colored_fav_for_journal"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
-                    android:id="@+id/buy_premium_button_in_setting"
+                    android:id="@+id/text_view_saying_name"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="12.5dp"
+                    android:layout_marginEnd="5dp"
+                    android:ellipsize="end"
+                    android:gravity="start"
+                    android:text="Name"
+                    android:textColor="@color/black"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="@+id/profile_picture_in_settings"
+                    app:layout_constraintEnd_toStartOf="@+id/gray_start_for_coins_view_setting"
+                    app:layout_constraintStart_toEndOf="@+id/profile_picture_in_settings" />
+
+                <View
+                    android:id="@+id/line_in_profile_under_profile_pic"
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:layout_marginTop="15dp"
+                    android:background="#CFCFCF"
+                    app:layout_constraintTop_toBottomOf="@+id/profile_picture_in_settings" />
+
+                <Button
+                    android:id="@+id/button_saying_buy_coins_in_profile_in_settings"
+                    style="?android:attr/borderlessButtonStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/ripple_for_all"
+                    android:drawableStart="@drawable/monetization_on_24px"
+                    android:drawableTint="@color/fav"
+                    android:drawablePadding="10dp"
+                    android:gravity="center|start"
+                    android:paddingStart="20dp"
+                    android:text="Buy coins"
+                    android:textAllCaps="false"
+                    android:textStyle="bold"
+                    app:layout_constraintTop_toBottomOf="@+id/line_in_profile_under_profile_pic" />
+
+                <View
+                    android:id="@+id/line_under_buy_coins_in_profile_pic"
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:background="#CFCFCF"
+                    app:layout_constraintTop_toBottomOf="@+id/button_saying_buy_coins_in_profile_in_settings" />
+
+                <Button
+                    android:id="@+id/button_to_change_picture_in_settings"
+                    style="?android:attr/borderlessButtonStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/ripple_for_all"
+                    android:drawableStart="@drawable/photo_camera_24px"
+                    android:drawablePadding="10dp"
+                    android:gravity="center|start"
+                    android:paddingStart="20dp"
+                    android:text="Change my profile picture"
+                    android:textAllCaps="false"
+                    android:textStyle="bold"
+                    android:drawableTint="@color/fav"
+                    app:layout_constraintTop_toBottomOf="@+id/line_under_buy_coins_in_profile_pic" />
+
+                <View
+                    android:id="@+id/line_under_change_my_profile_picture_in_sign_in"
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:background="#CFCFCF"
+                    app:layout_constraintTop_toBottomOf="@+id/button_to_change_picture_in_settings" />
+
+                <Button
+                    android:id="@+id/button_saying_sign_in_with_firebase_settings"
+                    style="?android:attr/borderlessButtonStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/ripple_for_all"
+                    android:drawableStart="@drawable/round_login_24"
+                    android:drawablePadding="10dp"
+                    android:gravity="center|start"
+                    android:paddingStart="20dp"
+                    android:text="Sign in with google"
+                    android:textAllCaps="false"
+                    android:textStyle="bold"
+                    app:layout_constraintTop_toBottomOf="@+id/line_under_change_my_profile_picture_in_sign_in" />
+
+                <View
+                    android:id="@+id/line_under_sign_in_with_google"
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:background="#CFCFCF"
+                    app:layout_constraintTop_toBottomOf="@+id/button_saying_sign_in_with_firebase_settings" />
+
+                <Button
+                    android:id="@+id/button_to_change_name_in_settings"
+                    style="?android:attr/borderlessButtonStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/ripple_for_all"
+                    android:drawableStart="@drawable/round_edit_24"
+                    android:drawablePadding="10dp"
+                    android:gravity="center|start"
+                    android:paddingStart="20dp"
+                    android:text="Change my name"
+                    android:textAllCaps="false"
+                    android:textStyle="bold"
+                    android:drawableTint="@color/fav"
+                    app:layout_constraintTop_toBottomOf="@+id/line_under_sign_in_with_google" />
+
+                <View
+                    android:id="@+id/pixel_in_top_of_the_coins_view"
+                    android:layout_width="1px"
+                    android:layout_height="1px"
+                    android:layout_marginBottom="2.5dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintBottom_toTopOf="@+id/constraint_layout_with_coin_image_and_coins"/>
+
+                <View
+                    android:id="@+id/pixel_in_bottom_of_the_coins_view"
+                    android:layout_width="1px"
+                    android:layout_height="1px"
+                    android:layout_marginTop="2.5dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/constraint_layout_with_coin_image_and_coins"/>
+
+                <View
+                    android:id="@+id/gray_corner_at_the_end_of_coins_view"
+                    android:layout_width="20dp"
+                    android:layout_height="0dp"
+                    android:layout_marginEnd="10dp"
+                    android:background="@drawable/end_round_for_button"
+                    app:layout_constraintBottom_toTopOf="@+id/pixel_in_bottom_of_the_coins_view"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/pixel_in_top_of_the_coins_view" />
+
+                <View
+                    android:id="@+id/gray_middle_for_coins_view_settings"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:background="#f2f3f5"
+                    app:layout_constraintEnd_toEndOf="@+id/constraint_layout_with_coin_image_and_coins"
+                    app:layout_constraintStart_toStartOf="@+id/constraint_layout_with_coin_image_and_coins"
+                    app:layout_constraintBottom_toTopOf="@+id/pixel_in_bottom_of_the_coins_view"
+                    app:layout_constraintTop_toBottomOf="@+id/pixel_in_top_of_the_coins_view" />
+
+                <View
+                    android:id="@+id/gray_start_for_coins_view_setting"
+                    android:layout_width="30dp"
+                    android:layout_height="0dp"
+                    android:background="@drawable/end_round_for_button"
+                    android:rotation="180"
+                    app:layout_constraintBottom_toTopOf="@+id/pixel_in_bottom_of_the_coins_view"
+                    app:layout_constraintEnd_toStartOf="@+id/gray_middle_for_coins_view_settings"
+                    app:layout_constraintTop_toBottomOf="@+id/pixel_in_top_of_the_coins_view" />
+
+                <View
+                    android:id="@+id/plus_icon_in_coins_view"
+                    android:layout_width="22.5dp"
+                    android:layout_height="22.5dp"
+                    android:background="@drawable/round_whiite_plus"
+                    android:backgroundTint="#BCBCBC"
+                    app:layout_constraintStart_toStartOf="@+id/gray_start_for_coins_view_setting"
+                    app:layout_constraintEnd_toEndOf="@+id/gray_start_for_coins_view_setting"
+                    app:layout_constraintTop_toTopOf="@+id/gray_start_for_coins_view_setting"
+                    app:layout_constraintBottom_toBottomOf="@+id/gray_start_for_coins_view_setting"/>
+
+                <Button
+                    android:id="@+id/buy_first_thing_coins_in_setting"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:background="@drawable/ripple_for_add_coins"
+                    app:layout_constraintStart_toStartOf="@+id/gray_start_for_coins_view_setting"
+                    app:layout_constraintTop_toTopOf="@+id/gray_middle_for_coins_view_settings"
+                    app:layout_constraintBottom_toBottomOf="@+id/gray_middle_for_coins_view_settings"
+                    app:layout_constraintEnd_toEndOf="@+id/gray_corner_at_the_end_of_coins_view"/>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/constraint_layout_with_coin_image_and_coins"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                app:layout_constraintEnd_toStartOf="@+id/gray_corner_at_the_end_of_coins_view"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintEnd_toEndOf="parent">
+
+
+                <TextView
+                    android:id="@+id/text_view_saying_number_of_coins_in_setting"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="30dp"
-                    android:gravity="center"
-                    android:text="Premium status:"
-                    android:textColor="@color/fav"
-                    android:textSize="17sp"
+                    android:text="2000"
+                    android:textColor="@color/black"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:visibility="gone"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <View
+                    android:id="@+id/coins_view_beside_the_numbers"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginEnd="10dp"
+                    android:background="@drawable/coin_1fa99"
+                    app:layout_constraintBottom_toBottomOf="@+id/text_view_saying_number_of_coins_in_setting"
+                    app:layout_constraintEnd_toStartOf="@+id/progress_bar_to_show_that_coins_are_still_loading"
+                    app:layout_constraintTop_toTopOf="@+id/text_view_saying_number_of_coins_in_setting" />
+
+                <ProgressBar
+                    android:id="@+id/progress_bar_to_show_that_coins_are_still_loading"
+                    android:layout_width="22.5dp"
+                    android:layout_height="22.5dp"
+                    android:indeterminate="true"
+                    android:indeterminateTint="#BCBCBC"
+                    android:indeterminateTintMode="src_atop"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                app:layout_constraintBottom_toTopOf="@+id/line_in_profile_under_profile_pic"
+                app:layout_constraintEnd_toEndOf="parent">
+
+                <TextView
+                    android:id="@+id/text_view_saying_the_streak_in_profile_in_settings"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="10dp"
+                    android:textStyle="bold"
+                    android:textColor="@color/black"
+                    android:text="51"
+                    android:textSize="19sp"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"/>
+
+                <View
+                    android:id="@+id/fire_emoji_beside_streak_in_setting"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_marginEnd="4dp"
+                    android:background="@drawable/fire_1f525"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/text_view_saying_the_streak_in_profile_in_settings"/>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.cardview.widget.CardView>
+
+        <TextView
+            android:id="@+id/text_view_saying_premuim_in_settings"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="35dp"
+            android:layout_marginTop="30dp"
+            android:text="Easy Habits Pro"
+            android:textColor="#CFCFCF"
+            android:textSize="30sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/constraint_layout_all_about_profile_in_setting" />
+
+        <View
+            android:id="@+id/view_at_the_bottom_of_premuim_setting"
+            android:layout_width="1px"
+            android:layout_height="1px"
+            app:layout_constraintBottom_toBottomOf="@+id/text_view_saying_premuim_in_settings"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/text_view_saying_premuim_in_settings"
+            app:layout_constraintVertical_bias="0.75" />
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/constraint_layout_all_about_premuim_in_setting"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:background="@drawable/setting_round_corner_white"
+            app:cardCornerRadius="15dp"
+            app:cardElevation="30dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/view_at_the_bottom_of_premuim_setting">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/constraint_layout_for_easyhabits_pro"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/text_saying_pro_or_free_user"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="20dp"
+                    android:text="Free user"
+                    android:textColor="#808080"
+                    android:textSize="20sp"
                     android:textStyle="bold"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
-                <TextView
-                    android:id="@+id/text_saying_monthly_in_buy_premium"
-                    android:layout_width="wrap_content"
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/constraint_layout_with_everything_for_buy_premuim"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:elevation="10dp"
-                    android:gravity="center"
-                    android:outlineProvider="none"
-                    android:text="Monthly"
-                    android:textColor="@color/white"
-                    android:textSize="16sp"
-                    android:textStyle="bold"
-                    app:layout_constraintBottom_toBottomOf="@+id/monthly_subscription_button_in_buy_premuim"
-                    app:layout_constraintEnd_toEndOf="@+id/monthly_subscription_button_in_buy_premuim"
-                    app:layout_constraintStart_toStartOf="@+id/monthly_subscription_button_in_buy_premuim"
-                    app:layout_constraintTop_toTopOf="@+id/monthly_subscription_button_in_buy_premuim"
-                    app:layout_constraintVertical_bias="0.05" />
-
-                <TextView
-                    android:id="@+id/text_saying_price_per_month_in_buy_month"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:elevation="10dp"
-                    android:gravity="center"
-                    android:outlineProvider="none"
-                    android:text="$4.49/mo"
-                    android:textColor="@color/white"
-                    android:textSize="19sp"
-                    android:textStyle="bold"
-                    app:layout_constraintBottom_toBottomOf="@+id/monthly_subscription_button_in_buy_premuim"
-                    app:layout_constraintEnd_toEndOf="@+id/monthly_subscription_button_in_buy_premuim"
-                    app:layout_constraintStart_toStartOf="@+id/monthly_subscription_button_in_buy_premuim"
-                    app:layout_constraintTop_toTopOf="@+id/monthly_subscription_button_in_buy_premuim"
-                    app:layout_constraintVertical_bias="0.5" />
-
-                <TextView
-                    android:id="@+id/text_saying_billed_montly"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:elevation="10dp"
-                    android:gravity="center"
-                    android:outlineProvider="none"
-                    android:text="Billed monthly"
-                    android:textColor="@color/white"
-                    android:textSize="12sp"
-                    android:textStyle="bold"
-                    app:layout_constraintBottom_toBottomOf="@+id/monthly_subscription_button_in_buy_premuim"
-                    app:layout_constraintEnd_toEndOf="@+id/monthly_subscription_button_in_buy_premuim"
-                    app:layout_constraintStart_toStartOf="@+id/monthly_subscription_button_in_buy_premuim"
-                    app:layout_constraintTop_toTopOf="@+id/monthly_subscription_button_in_buy_premuim"
-                    app:layout_constraintVertical_bias="0.95" />
-
-                <TextView
-                    android:id="@+id/text_saying_the_how_many_coins_month_setting"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="15dp"
-                    android:elevation="2dp"
-                    android:paddingStart="10dp"
-                    android:paddingTop="5dp"
-                    android:paddingEnd="10dp"
-                    android:paddingBottom="5dp"
-                    android:text="Includes 500 coins / month"
-                    android:textColor="@color/white"
-                    android:textStyle="bold"
-                    app:layout_constraintEnd_toEndOf="@+id/monthly_subscription_button_in_buy_premuim"
-                    app:layout_constraintStart_toStartOf="@+id/monthly_subscription_button_in_buy_premuim"
-                    app:layout_constraintTop_toBottomOf="@+id/red_back_ground_behind_button_and_most_valuable" />
-
-                <View
-                    android:id="@+id/orange_sticker_telling_how_much_coins_in_monthly_setting"
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    android:background="@drawable/round_fav_background"
-                    android:backgroundTint="#FD6A02"
-                    app:layout_constraintBottom_toBottomOf="@+id/text_saying_the_how_many_coins_month_setting"
-                    app:layout_constraintEnd_toEndOf="@+id/monthly_subscription_button_in_buy_premuim"
-                    app:layout_constraintStart_toStartOf="@+id/monthly_subscription_button_in_buy_premuim"
-                    app:layout_constraintTop_toTopOf="@+id/text_saying_the_how_many_coins_month_setting" />
-
-                <TextView
-                    android:id="@+id/text_saying_yearly_in_buy_premium"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:elevation="10dp"
-                    android:gravity="center"
-                    android:outlineProvider="none"
-                    android:text="Yearly"
-                    android:textColor="@color/white"
-                    android:textSize="16sp"
-                    android:textStyle="bold"
-                    app:layout_constraintBottom_toBottomOf="@+id/yearly_subscription_button_in_buy_premuim"
-                    app:layout_constraintEnd_toEndOf="@+id/yearly_subscription_button_in_buy_premuim"
-                    app:layout_constraintStart_toStartOf="@+id/yearly_subscription_button_in_buy_premuim"
-                    app:layout_constraintTop_toTopOf="@+id/yearly_subscription_button_in_buy_premuim"
-                    app:layout_constraintVertical_bias="0.05" />
-
-                <TextView
-                    android:id="@+id/text_saying_price_per_year_in_buy_month"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:elevation="10dp"
-                    android:gravity="center"
-                    android:outlineProvider="none"
-                    android:text="$2.99/mo"
-                    android:textColor="@color/white"
-                    android:textSize="19sp"
-                    android:textStyle="bold"
-                    app:layout_constraintBottom_toBottomOf="@+id/yearly_subscription_button_in_buy_premuim"
-                    app:layout_constraintEnd_toEndOf="@+id/yearly_subscription_button_in_buy_premuim"
-                    app:layout_constraintStart_toStartOf="@+id/yearly_subscription_button_in_buy_premuim"
-                    app:layout_constraintTop_toTopOf="@+id/yearly_subscription_button_in_buy_premuim"
-                    app:layout_constraintVertical_bias="0.5" />
-
-                <TextView
-                    android:id="@+id/text_saying_old_price"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:elevation="10dp"
-                    android:gravity="center"
-                    android:outlineProvider="none"
-                    android:text="$4.49/mo"
-                    android:textColor="@color/white"
-                    android:textSize="13sp"
-                    android:textStyle="bold"
-                    app:layout_constraintEnd_toEndOf="@+id/yearly_subscription_button_in_buy_premuim"
-                    app:layout_constraintStart_toStartOf="@+id/yearly_subscription_button_in_buy_premuim"
-                    app:layout_constraintTop_toBottomOf="@+id/text_saying_price_per_year_in_buy_month" />
-
-                <TextView
-                    android:id="@+id/text_saying_billed_year"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="15dp"
-                    android:layout_marginEnd="15dp"
-                    android:elevation="10dp"
-                    android:gravity="center"
-                    android:outlineProvider="none"
-                    android:text="Billed annually\n at 35.88"
-                    android:textColor="@color/white"
-                    android:textSize="12sp"
-                    android:textStyle="bold"
-                    app:layout_constraintBottom_toBottomOf="@+id/yearly_subscription_button_in_buy_premuim"
-                    app:layout_constraintEnd_toEndOf="@+id/yearly_subscription_button_in_buy_premuim"
-                    app:layout_constraintStart_toStartOf="@+id/yearly_subscription_button_in_buy_premuim"
-                    app:layout_constraintTop_toTopOf="@+id/yearly_subscription_button_in_buy_premuim"
-                    app:layout_constraintVertical_bias="1" />
-
-                <Button
-                    android:id="@+id/monthly_subscription_button_in_buy_premuim"
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    android:layout_marginTop="20dp"
-                    android:background="@drawable/round_fav_background"
-                    app:layout_constraintDimensionRatio="W,1:1"
-                    app:layout_constraintEnd_toStartOf="@+id/fourty_fice_percent_in_buy_premuim"
-                    app:layout_constraintStart_toEndOf="@+id/fifteen_percent_in_buy_premuim"
-                    app:layout_constraintTop_toBottomOf="@+id/buy_premium_button_in_setting" />
-
-                <Button
-                    android:id="@+id/yearly_subscription_button_in_buy_premuim"
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    android:layout_marginTop="20dp"
-                    android:background="@drawable/round_fav_background"
-                    app:layout_constraintDimensionRatio="W,1:1"
-                    app:layout_constraintEnd_toStartOf="@+id/ninty_five_fice_percent_in_buy_premuim"
-                    app:layout_constraintStart_toEndOf="@+id/fifty_five_percent_in_buy_premuim"
-                    app:layout_constraintTop_toBottomOf="@+id/buy_premium_button_in_setting" />
+                    app:layout_constraintTop_toBottomOf="@+id/text_saying_pro_or_free_user">
 
                 <View
                     android:id="@+id/view_before_second_button"
@@ -246,10 +1158,158 @@
                     android:layout_height="0dp"
                     android:background="@drawable/round_fav_background"
                     android:backgroundTint="#f01630"
+                    android:elevation="20dp"
                     app:layout_constraintBottom_toBottomOf="@+id/view_under_most_valuable"
                     app:layout_constraintEnd_toEndOf="@+id/view_after_second_button"
                     app:layout_constraintStart_toStartOf="@+id/view_before_second_button"
                     app:layout_constraintTop_toBottomOf="@+id/view_at_the_top_of_the_yearly_button" />
+
+                <Button
+                    android:id="@+id/monthly_subscription_button_in_buy_premuim"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:background="@drawable/round_fav_background"
+                    android:backgroundTint="#EFF0F4"
+                    android:elevation="20dp"
+                    android:stateListAnimator="@null"
+                    android:layout_marginTop="20dp"
+                    app:layout_constraintDimensionRatio="W,1:1"
+                    app:layout_constraintEnd_toStartOf="@+id/fourty_fice_percent_in_buy_premuim"
+                    app:layout_constraintStart_toEndOf="@+id/fifteen_percent_in_buy_premuim"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <Button
+                    android:id="@+id/yearly_subscription_button_in_buy_premuim"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:background="@drawable/round_fav_background"
+                    android:backgroundTint="#EFF0F4"
+                    android:elevation="20dp"
+                    android:outlineProvider="none"
+                    android:stateListAnimator="@null"
+                    app:layout_constraintDimensionRatio="W,1:1"
+                    app:layout_constraintEnd_toStartOf="@+id/ninty_five_fice_percent_in_buy_premuim"
+                    app:layout_constraintStart_toEndOf="@+id/fifty_five_percent_in_buy_premuim"
+                    app:layout_constraintTop_toTopOf="@+id/monthly_subscription_button_in_buy_premuim" />
+
+                <TextView
+                    android:id="@+id/text_saying_monthly_in_buy_premium"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:elevation="20dp"
+                    android:gravity="center"
+                    android:outlineProvider="none"
+                    android:text="Monthly"
+                    android:textColor="@color/black"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="@+id/monthly_subscription_button_in_buy_premuim"
+                    app:layout_constraintEnd_toEndOf="@+id/monthly_subscription_button_in_buy_premuim"
+                    app:layout_constraintStart_toStartOf="@+id/monthly_subscription_button_in_buy_premuim"
+                    app:layout_constraintTop_toTopOf="@+id/monthly_subscription_button_in_buy_premuim"
+                    app:layout_constraintVertical_bias="0.05" />
+
+                <TextView
+                    android:id="@+id/text_saying_price_per_month_in_buy_month"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:elevation="20dp"
+                    android:gravity="center"
+                    android:outlineProvider="none"
+                    android:text="$4.49/mo"
+                    android:textColor="@color/black"
+                    android:textSize="19sp"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="@+id/monthly_subscription_button_in_buy_premuim"
+                    app:layout_constraintEnd_toEndOf="@+id/monthly_subscription_button_in_buy_premuim"
+                    app:layout_constraintStart_toStartOf="@+id/monthly_subscription_button_in_buy_premuim"
+                    app:layout_constraintTop_toTopOf="@+id/monthly_subscription_button_in_buy_premuim"
+                    app:layout_constraintVertical_bias="0.5" />
+
+                <TextView
+                    android:id="@+id/text_saying_billed_montly"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:elevation="20dp"
+                    android:gravity="center"
+                    android:outlineProvider="none"
+                    android:text="Billed monthly"
+                    android:textColor="@color/black"
+                    android:textSize="12sp"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="@+id/monthly_subscription_button_in_buy_premuim"
+                    app:layout_constraintEnd_toEndOf="@+id/monthly_subscription_button_in_buy_premuim"
+                    app:layout_constraintStart_toStartOf="@+id/monthly_subscription_button_in_buy_premuim"
+                    app:layout_constraintTop_toTopOf="@+id/monthly_subscription_button_in_buy_premuim"
+                    app:layout_constraintVertical_bias="0.95" />
+
+                <TextView
+                    android:id="@+id/text_saying_yearly_in_buy_premium"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:elevation="20dp"
+                    android:gravity="center"
+                    android:outlineProvider="none"
+                    android:text="Yearly"
+                    android:textColor="@color/black"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="@+id/yearly_subscription_button_in_buy_premuim"
+                    app:layout_constraintEnd_toEndOf="@+id/yearly_subscription_button_in_buy_premuim"
+                    app:layout_constraintStart_toStartOf="@+id/yearly_subscription_button_in_buy_premuim"
+                    app:layout_constraintTop_toTopOf="@+id/yearly_subscription_button_in_buy_premuim"
+                    app:layout_constraintVertical_bias="0.05" />
+
+                <TextView
+                    android:id="@+id/text_saying_price_per_year_in_buy_month"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:elevation="20dp"
+                    android:gravity="center"
+                    android:outlineProvider="none"
+                    android:text="$2.99/mo"
+                    android:textColor="@color/black"
+                    android:textSize="19sp"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="@+id/yearly_subscription_button_in_buy_premuim"
+                    app:layout_constraintEnd_toEndOf="@+id/yearly_subscription_button_in_buy_premuim"
+                    app:layout_constraintStart_toStartOf="@+id/yearly_subscription_button_in_buy_premuim"
+                    app:layout_constraintTop_toTopOf="@+id/yearly_subscription_button_in_buy_premuim"
+                    app:layout_constraintVertical_bias="0.5" />
+
+                <TextView
+                    android:id="@+id/text_saying_old_price"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:elevation="20dp"
+                    android:gravity="center"
+                    android:outlineProvider="none"
+                    android:text="$4.49/mo"
+                    android:textColor="@color/black"
+                    android:textSize="13sp"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="@+id/yearly_subscription_button_in_buy_premuim"
+                    app:layout_constraintStart_toStartOf="@+id/yearly_subscription_button_in_buy_premuim"
+                    app:layout_constraintTop_toBottomOf="@+id/text_saying_price_per_year_in_buy_month" />
+
+                <TextView
+                    android:id="@+id/text_saying_billed_year"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginEnd="15dp"
+                    android:elevation="20dp"
+                    android:gravity="center"
+                    android:outlineProvider="none"
+                    android:text="Billed annually\n at 35.88"
+                    android:textColor="@color/black"
+                    android:textSize="12sp"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="@+id/yearly_subscription_button_in_buy_premuim"
+                    app:layout_constraintEnd_toEndOf="@+id/yearly_subscription_button_in_buy_premuim"
+                    app:layout_constraintStart_toStartOf="@+id/yearly_subscription_button_in_buy_premuim"
+                    app:layout_constraintTop_toTopOf="@+id/yearly_subscription_button_in_buy_premuim"
+                    app:layout_constraintVertical_bias="1" />
 
                 <TextView
                     android:id="@+id/text_saying_most_valuable_in_buy_premuim"
@@ -260,6 +1320,8 @@
                     android:textColor="@color/white"
                     android:textSize="16sp"
                     android:textStyle="bold"
+                    android:elevation="20dp"
+                    android:outlineProvider="none"
                     app:layout_constraintEnd_toEndOf="@+id/yearly_subscription_button_in_buy_premuim"
                     app:layout_constraintStart_toStartOf="@+id/yearly_subscription_button_in_buy_premuim"
                     app:layout_constraintTop_toBottomOf="@+id/text_saying_billed_year" />
@@ -310,65 +1372,65 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
-                    android:id="@+id/text_saying_the_how_many_coins_year_setting"
-                    android:layout_width="0dp"
+                    android:id="@+id/text_saying_made_with_tons_of_love"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="15dp"
-                    android:elevation="2dp"
-                    android:paddingStart="10dp"
-                    android:paddingTop="5dp"
-                    android:paddingEnd="10dp"
-                    android:paddingBottom="5dp"
-                    android:text="Includes 7000 coins / year"
-                    android:textColor="@color/white"
+                    android:layout_marginTop="10dp"
+                    android:text="Made with tons and tons of ❤️"
+                    android:textColor="@color/black"
+                    android:textSize="16sp"
                     android:textStyle="bold"
-                    app:layout_constraintEnd_toEndOf="@+id/yearly_subscription_button_in_buy_premuim"
-                    app:layout_constraintStart_toStartOf="@+id/yearly_subscription_button_in_buy_premuim"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/red_back_ground_behind_button_and_most_valuable" />
 
-                <View
-                    android:id="@+id/orange_sticker_telling_how_much_coins_in_year_setting"
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    android:background="@drawable/round_fav_background"
-                    android:backgroundTint="#FD6A02"
-                    app:layout_constraintBottom_toBottomOf="@+id/text_saying_the_how_many_coins_year_setting"
-                    app:layout_constraintEnd_toEndOf="@+id/red_back_ground_behind_button_and_most_valuable"
-                    app:layout_constraintStart_toStartOf="@+id/red_back_ground_behind_button_and_most_valuable"
-                    app:layout_constraintTop_toTopOf="@+id/text_saying_the_how_many_coins_year_setting" />
+                <Button
+                    android:id="@+id/done_button_at_the_buttom_add_new_habit"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginStart="30dp"
+                    android:layout_marginEnd="30dp"
+                    android:layout_marginBottom="25dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/background_for_continue_button_add_new_habit"
+                    android:backgroundTint="#EFF0F4"
+                    android:text="Start 14 days free trial"
+                    android:textAllCaps="false"
+                    android:textColor="@color/black"
+                    android:textSize="15sp"
+                    android:textStyle="bold"
+                    android:stateListAnimator="@null"
+                    android:elevation="10dp"
+                    app:layout_constraintTop_toBottomOf="@+id/text_saying_made_with_tons_of_love" />
 
                 <TextView
                     android:id="@+id/text_view_saying_cancel_any_time_in_buy_premuim"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="15dp"
+                    android:layout_marginTop="20dp"
                     android:text="Recurring billing. Cancel anytime."
-                    android:textColor="@color/black"
+                    android:textColor="#808080"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/seven_days_free_trial_text_in_buy_premium" />
+                    app:layout_constraintTop_toBottomOf="@+id/done_button_at_the_buttom_add_new_habit" />
 
-                <TextView
-                    android:id="@+id/seven_days_free_trial_text_in_buy_premium"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                <Button
+                    android:id="@+id/button_to_request_more_billing_info_in_setting"
+                    style="?android:attr/borderlessButtonStyle"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:background="?android:selectableItemBackgroundBorderless"
+                    android:foreground="@drawable/info_48px"
                     android:layout_marginStart="10dp"
-                    android:layout_marginTop="12dp"
-                    android:layout_marginEnd="10dp"
-                    android:gravity="center"
-                    android:text="7 days free trial on both subscriptions"
-                    android:textColor="@color/black"
-                    android:textSize="22sp"
-                    android:textStyle="bold"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/text_saying_the_how_many_coins_year_setting" />
+                    app:layout_constraintStart_toEndOf="@+id/text_view_saying_cancel_any_time_in_buy_premuim"
+                    app:layout_constraintBottom_toBottomOf="@+id/text_view_saying_cancel_any_time_in_buy_premuim"
+                    app:layout_constraintTop_toTopOf="@+id/text_view_saying_cancel_any_time_in_buy_premuim" />
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/layout_showing_privacy_policy_and_temrs_of_use"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="15dp"
+                    android:layout_marginTop="10dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/text_view_saying_cancel_any_time_in_buy_premuim">
@@ -396,271 +1458,394 @@
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <Button
+                    android:id="@+id/upgrade_susbcription_in_setting_premuim"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginTop="20dp"
+                    android:background="@drawable/background_for_continue_button_add_new_habit"
+                    android:backgroundTint="#EFF0F4"
+                    android:elevation="10dp"
+                    android:stateListAnimator="@null"
+                    android:text="Upgrade to yearly billing"
+                    android:textAllCaps="false"
+                    android:textColor="@color/black"
+                    android:textSize="15sp"
+                    android:textStyle="bold"
+                    android:visibility="gone"
+                    app:layout_constraintTop_toBottomOf="@+id/text_saying_pro_or_free_user" />
+
+                <View
+                    android:id="@+id/pixel_at_the_end_of_the_pro_area"
+                    android:layout_width="1px"
+                    android:layout_height="1px"
+                    android:layout_marginTop="10dp"
+                    android:background="@android:color/transparent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/constraint_layout_with_everything_for_buy_premuim"/>
+
+
             </androidx.constraintlayout.widget.ConstraintLayout>
 
+        </androidx.cardview.widget.CardView>
+
+
+        <TextView
+            android:id="@+id/text_view_saying_refer_in_settings"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="35dp"
+            android:text="Referrals"
+            android:textColor="#CFCFCF"
+            android:textSize="30sp"
+            android:textStyle="bold"
+            android:layout_marginTop="30dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/constraint_layout_all_about_premuim_in_setting" />
+
+        <View
+            android:id="@+id/view_at_the_bottom_of_referel_setting"
+            android:layout_width="1px"
+            android:layout_height="1px"
+            app:layout_constraintBottom_toBottomOf="@+id/text_view_saying_refer_in_settings"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/text_view_saying_refer_in_settings"
+            app:layout_constraintVertical_bias="0.75" />
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/constraint_layout_all_about_referal_in_setting"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:background="@drawable/setting_round_corner_white"
+            app:cardCornerRadius="15dp"
+            app:cardElevation="30dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/view_at_the_bottom_of_referel_setting">
+
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/setting_bought_yet_laready_layout"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
+                android:layout_height="match_parent">
 
                 <TextView
-                    android:id="@+id/buy_premium_button_in_setting_in_already_bought"
+                    android:id="@+id/invite_your_friend_offer_to_get_premuim"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="30dp"
+                    android:layout_marginTop="10dp"
                     android:gravity="center"
-                    android:text="Premium status:"
-                    android:textColor="@color/fav"
-                    android:textSize="17sp"
-                    android:textStyle="bold"
+                    android:text="Limited time offer: Invite your friend to Easy Habits and both of you will get 6 months of premium for free. Get started by getting your referral code below, then make sure to enter the code by clicking &quot;enter referral code&quot; on your friend's phone "
+                    android:textColor="@color/black"
+                    android:textSize="14sp"
                     android:textAlignment="center"
-                    android:layout_marginStart="20dp"
-                    android:layout_marginEnd="20dp"
+                    android:paddingStart="15dp"
+                    android:paddingEnd="15dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <Button
-                    android:id="@+id/upgrade_susbcription_in_setting_premuim"
+                    android:id="@+id/button_saying_get_my_invite_code"
                     style="?android:attr/borderlessButtonStyle"
-                    android:layout_width="0dp"
-                    android:layout_height="50dp"
-                    android:layout_marginStart="20dp"
-                    android:layout_marginTop="20dp"
-                    android:layout_marginEnd="20dp"
-                    android:background="@drawable/round_rectangle_fav_color"
-                    android:elevation="3dp"
-                    android:text="Upgrade Subscription"
-                    android:textAllCaps="true"
-                    android:textColor="@color/white"
-                    android:textSize="18sp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/ripple_for_all"
+                    android:drawableStart="@drawable/nearby_share_24px"
+                    android:drawablePadding="10dp"
+                    android:gravity="center|start"
+                    android:paddingStart="20dp"
+                    android:paddingEnd="20dp"
+                    android:layout_marginTop="10dp"
+                    android:text="Get my referral code"
+                    android:textAllCaps="false"
                     android:textStyle="bold"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.5"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/buy_premium_button_in_setting_in_already_bought" />
+                    app:layout_constraintTop_toBottomOf="@+id/invite_your_friend_offer_to_get_premuim" />
 
+                <View
+                    android:id="@+id/line_in_the_middle_the_two_lines_two_referal_codes"
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:background="#CFCFCF"
+                    app:layout_constraintTop_toBottomOf="@+id/button_saying_get_my_invite_code"/>
+
+                <Button
+                    android:id="@+id/button_saying_enter_invite_code"
+                    style="?android:attr/borderlessButtonStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/ripple_for_all"
+                    android:drawableStart="@drawable/magic_button_24"
+                    android:drawablePadding="10dp"
+                    android:gravity="center|start"
+                    android:paddingStart="20dp"
+                    android:text="Enter referral code"
+                    android:textAllCaps="false"
+                    android:textStyle="bold"
+                    app:layout_constraintTop_toBottomOf="@+id/line_in_the_middle_the_two_lines_two_referal_codes" />
+
+                <View
+                    android:id="@+id/line_above_share_app_in_referel"
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:background="#CFCFCF"
+                    app:layout_constraintTop_toBottomOf="@+id/button_saying_enter_invite_code"/>
+
+                <Button
+                    android:id="@+id/button_saying_the_app_in_setting"
+                    style="?android:attr/borderlessButtonStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/ripple_for_all"
+                    android:drawableStart="@drawable/round_share_24"
+                    android:drawablePadding="10dp"
+                    android:gravity="center|start"
+                    android:paddingStart="20dp"
+                    android:text="Share app"
+                    android:textAllCaps="false"
+                    android:textStyle="bold"
+                    app:layout_constraintTop_toBottomOf="@+id/line_above_share_app_in_referel" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <View
-            android:id="@+id/line_between_leran_more_asnd_acess_to_rest_of_buy_premium"
-            android:layout_width="match_parent"
-            android:layout_height="0.5dp"
-            android:layout_marginTop="10dp"
-            android:background="@color/fav"
-            app:layout_constraintTop_toBottomOf="@+id/parent_for_buy_premuim_or_show_already_bought" />
-
-        <Button
-            android:id="@+id/buy_first_thing_coins_in_setting"
-            style="?android:attr/borderlessButtonStyle"
-            android:layout_width="0dp"
-            android:layout_height="50dp"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="20dp"
-            android:layout_marginEnd="20dp"
-            android:background="@drawable/round_rectangle_fav_color"
-            android:elevation="3dp"
-            android:text="Buy Coins"
-            android:textColor="@color/white"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/line_between_leran_more_asnd_acess_to_rest_of_buy_premium" />
-
-        <View
-            android:id="@+id/line_between_buy_coins_and_rest_of_settings"
-            android:layout_width="match_parent"
-            android:layout_height="0.5dp"
-            android:layout_marginTop="20dp"
-            android:background="@color/fav"
-            app:layout_constraintTop_toBottomOf="@+id/buy_first_thing_coins_in_setting" />
+        </androidx.cardview.widget.CardView>
 
         <TextView
-            android:id="@+id/text_saying_setting_in_setting_tab"
+            android:id="@+id/text_view_saying_support_in_settings"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="10dp"
-            android:text="Settings"
-            android:textColor="@color/black"
-            android:textSize="14sp"
+            android:layout_marginStart="35dp"
+            android:text="Support"
+            android:textColor="#CFCFCF"
+            android:textSize="30sp"
             android:textStyle="bold"
+            android:layout_marginTop="30dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/line_between_buy_coins_and_rest_of_settings" />
+            app:layout_constraintTop_toBottomOf="@+id/constraint_layout_all_about_referal_in_setting" />
 
-        <Button
-            android:id="@+id/button_saying_get_my_invite_code"
-            style="?android:attr/borderlessButtonStyle"
-            android:layout_width="match_parent"
+        <View
+            android:id="@+id/view_at_the_bottom_of_support_setting"
+            android:layout_width="1px"
+            android:layout_height="1px"
+            app:layout_constraintBottom_toBottomOf="@+id/text_view_saying_support_in_settings"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/text_view_saying_support_in_settings"
+            app:layout_constraintVertical_bias="0.75" />
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/constraint_layout_all_about_support_in_setting"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:background="@drawable/ripple_for_all"
-            android:drawableStart="@drawable/nearby_share_24px"
-            android:drawablePadding="10dp"
-            android:gravity="center|start"
-            android:paddingStart="20dp"
-            android:text="Get my referral code"
-            android:textAllCaps="false"
-            android:textStyle="bold"
-            android:layout_marginTop="10dp"
-            app:layout_constraintTop_toBottomOf="@+id/text_saying_setting_in_setting_tab" />
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:background="@drawable/setting_round_corner_white"
+            app:cardCornerRadius="15dp"
+            app:cardElevation="30dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/view_at_the_bottom_of_support_setting">
 
-        <Button
-            android:id="@+id/button_saying_enter_invite_code"
-            style="?android:attr/borderlessButtonStyle"
-            android:layout_width="match_parent"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <Button
+                    android:id="@+id/button_saying_contact_thje_developer"
+                    style="?android:attr/borderlessButtonStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/ripple_for_all"
+                    android:drawableStart="@drawable/round_alternate_email_24"
+                    android:drawablePadding="10dp"
+                    android:gravity="center|start"
+                    android:paddingStart="20dp"
+                    android:text="Contact support"
+                    android:textAllCaps="false"
+                    android:textStyle="bold"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <View
+                    android:id="@+id/line_under_contact_the_developer_in_settings"
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:background="#CFCFCF"
+                    app:layout_constraintTop_toBottomOf="@+id/button_saying_contact_thje_developer"/>
+
+                <Button
+                    android:id="@+id/button_saying_report_a_bug"
+                    style="?android:attr/borderlessButtonStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/ripple_for_all"
+                    android:drawableStart="@drawable/round_warning_24"
+                    android:drawablePadding="10dp"
+                    android:gravity="center|start"
+                    android:paddingStart="20dp"
+                    android:text="Report a bug"
+                    android:textAllCaps="false"
+                    android:textStyle="bold"
+                    app:layout_constraintTop_toBottomOf="@+id/line_under_contact_the_developer_in_settings" />
+
+                <View
+                    android:id="@+id/line_under_report_a_bug_support"
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:background="#CFCFCF"
+                    app:layout_constraintTop_toBottomOf="@+id/button_saying_report_a_bug"/>
+
+                <Button
+                    android:id="@+id/button_saying_rate_in_settings"
+                    style="?android:attr/borderlessButtonStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/ripple_for_all"
+                    android:drawableStart="@drawable/outline_thumb_up_24"
+                    android:drawablePadding="10dp"
+                    android:gravity="center|start"
+                    android:paddingStart="20dp"
+                    android:text="Rate app"
+                    android:textAllCaps="false"
+                    android:textStyle="bold"
+                    app:layout_constraintTop_toBottomOf="@+id/line_under_report_a_bug_support" />
+
+                <View
+                    android:id="@+id/line_under_rate_app"
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:background="#CFCFCF"
+                    app:layout_constraintTop_toBottomOf="@+id/button_saying_rate_in_settings"/>
+
+                <Button
+                    android:id="@+id/button_saying_the_manage_subscription_in_setting"
+                    style="?android:attr/borderlessButtonStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/ripple_for_all"
+                    android:drawableStart="@drawable/settings_account_box_48px"
+                    android:drawablePadding="10dp"
+                    android:gravity="center|start"
+                    android:paddingStart="20dp"
+                    android:text="Manage Subscription"
+                    android:textAllCaps="false"
+                    android:textStyle="bold"
+                    app:layout_constraintTop_toBottomOf="@+id/line_under_rate_app" />
+
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.cardview.widget.CardView>
+
+        <TextView
+            android:id="@+id/text_view_saying_terms_and_conditions_in_settings"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/ripple_for_all"
-            android:drawableStart="@drawable/magic_button_24"
-            android:drawablePadding="10dp"
-            android:gravity="center|start"
-            android:paddingStart="20dp"
-            android:text="Enter referral code"
-            android:textAllCaps="false"
+            android:layout_marginStart="35dp"
+            android:text="T&amp;Cs"
+            android:textColor="#CFCFCF"
+            android:textSize="30sp"
             android:textStyle="bold"
-            app:layout_constraintTop_toBottomOf="@+id/button_saying_get_my_invite_code" />
+            android:layout_marginTop="30dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/constraint_layout_all_about_support_in_setting" />
 
-        <Button
-            android:id="@+id/button_saying_sign_in_with_firebase_settings"
-            style="?android:attr/borderlessButtonStyle"
-            android:layout_width="match_parent"
+        <View
+            android:id="@+id/view_at_the_bottom_of_terms_and_conditions_setting"
+            android:layout_width="1px"
+            android:layout_height="1px"
+            app:layout_constraintBottom_toBottomOf="@+id/text_view_saying_terms_and_conditions_in_settings"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/text_view_saying_terms_and_conditions_in_settings"
+            app:layout_constraintVertical_bias="0.75" />
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/constraint_layout_all_about_terms_and_conditions_in_setting"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:background="@drawable/ripple_for_all"
-            android:drawableStart="@drawable/round_login_24"
-            android:drawablePadding="10dp"
-            android:gravity="center|start"
-            android:paddingStart="20dp"
-            android:text="Sign in with google"
-            android:textAllCaps="false"
-            android:textStyle="bold"
-            app:layout_constraintTop_toBottomOf="@+id/button_saying_enter_invite_code" />
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:background="@drawable/setting_round_corner_white"
+            app:cardCornerRadius="15dp"
+            app:cardElevation="30dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/view_at_the_bottom_of_terms_and_conditions_setting">
 
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
-        <Button
-            android:id="@+id/button_saying_rate_in_settings"
-            style="?android:attr/borderlessButtonStyle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/ripple_for_all"
-            android:drawableStart="@drawable/outline_thumb_up_24"
-            android:drawablePadding="10dp"
-            android:gravity="center|start"
-            android:paddingStart="20dp"
-            android:text="Rate app"
-            android:textAllCaps="false"
-            android:textStyle="bold"
-            app:layout_constraintTop_toBottomOf="@+id/button_saying_sign_in_with_firebase_settings" />
+                <Button
+                    android:id="@+id/button_saying_the_terms_and_conditions_in_setting"
+                    style="?android:attr/borderlessButtonStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/ripple_for_all"
+                    android:drawableStart="@drawable/round_receipt_long_24"
+                    android:drawablePadding="10dp"
+                    android:gravity="center|start"
+                    android:paddingStart="20dp"
+                    android:text="Terms and conditions"
+                    android:textAllCaps="false"
+                    android:textStyle="bold"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-        <Button
-            android:id="@+id/button_saying_report_a_bug"
-            style="?android:attr/borderlessButtonStyle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/ripple_for_all"
-            android:drawableStart="@drawable/round_warning_24"
-            android:drawablePadding="10dp"
-            android:gravity="center|start"
-            android:paddingStart="20dp"
-            android:text="Report a bug"
-            android:textAllCaps="false"
-            android:textStyle="bold"
-            app:layout_constraintTop_toBottomOf="@+id/button_saying_rate_in_settings" />
+                <View
+                    android:id="@+id/line_under_terms_and_condtions_in_support"
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:background="#CFCFCF"
+                    app:layout_constraintTop_toBottomOf="@+id/button_saying_the_terms_and_conditions_in_setting"/>
 
-        <Button
-            android:id="@+id/button_saying_contact_thje_developer"
-            style="?android:attr/borderlessButtonStyle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/ripple_for_all"
-            android:drawableStart="@drawable/round_alternate_email_24"
-            android:drawablePadding="10dp"
-            android:gravity="center|start"
-            android:paddingStart="20dp"
-            android:text="Contact the developer"
-            android:textAllCaps="false"
-            android:textStyle="bold"
-            app:layout_constraintTop_toBottomOf="@+id/button_saying_report_a_bug" />
+                <Button
+                    android:id="@+id/button_saying_the_privacy_policy_in_setting"
+                    style="?android:attr/borderlessButtonStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/ripple_for_all"
+                    android:drawableStart="@drawable/round_shield_24"
+                    android:drawablePadding="10dp"
+                    android:gravity="center|start"
+                    android:paddingStart="20dp"
+                    android:text="Privacy Policy"
+                    android:textAllCaps="false"
+                    android:textStyle="bold"
+                    app:layout_constraintTop_toBottomOf="@+id/line_under_terms_and_condtions_in_support" />
 
-        <Button
-            android:id="@+id/button_saying_the_app_in_setting"
-            style="?android:attr/borderlessButtonStyle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/ripple_for_all"
-            android:drawableStart="@drawable/round_share_24"
-            android:drawablePadding="10dp"
-            android:gravity="center|start"
-            android:paddingStart="20dp"
-            android:text="Share"
-            android:textAllCaps="false"
-            android:textStyle="bold"
-            app:layout_constraintTop_toBottomOf="@+id/button_saying_contact_thje_developer" />
+                <View
+                    android:id="@+id/line_under_privacy_policy_terms_and_conditions"
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:background="#CFCFCF"
+                    app:layout_constraintTop_toBottomOf="@+id/button_saying_the_privacy_policy_in_setting"/>
 
-        <Button
-            android:id="@+id/button_to_change_name_in_settings"
-            style="?android:attr/borderlessButtonStyle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/ripple_for_all"
-            android:drawableStart="@drawable/round_edit_24"
-            android:drawablePadding="10dp"
-            android:gravity="center|start"
-            android:paddingStart="20dp"
-            android:text="Change my name"
-            android:textAllCaps="false"
-            android:textStyle="bold"
-            app:layout_constraintTop_toBottomOf="@+id/button_saying_the_app_in_setting" />
+                <Button
+                    android:id="@+id/button_saying_version_number_in_setting"
+                    style="?android:attr/borderlessButtonStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/ripple_for_all"
+                    android:drawableStart="@drawable/round_tag_24"
+                    android:drawablePadding="10dp"
+                    android:gravity="center|start"
+                    android:paddingStart="20dp"
+                    android:text="Version number: "
+                    android:textAllCaps="false"
+                    android:textStyle="bold"
+                    app:layout_constraintTop_toBottomOf="@+id/line_under_privacy_policy_terms_and_conditions" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.cardview.widget.CardView>
 
-        <Button
-            android:id="@+id/button_saying_the_privacy_policy_in_setting"
-            style="?android:attr/borderlessButtonStyle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/ripple_for_all"
-            android:drawableStart="@drawable/round_shield_24"
-            android:drawablePadding="10dp"
-            android:gravity="center|start"
-            android:paddingStart="20dp"
-            android:text="Privacy Policy"
-            android:textAllCaps="false"
-            android:textStyle="bold"
-            app:layout_constraintTop_toBottomOf="@+id/button_to_change_name_in_settings" />
-
-        <Button
-            android:id="@+id/button_saying_the_terms_and_conditions_in_setting"
-            style="?android:attr/borderlessButtonStyle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/ripple_for_all"
-            android:drawableStart="@drawable/round_receipt_long_24"
-            android:drawablePadding="10dp"
-            android:gravity="center|start"
-            android:paddingStart="20dp"
-            android:text="Terms and conditions"
-            android:textAllCaps="false"
-            android:textStyle="bold"
-            app:layout_constraintTop_toBottomOf="@+id/button_saying_the_privacy_policy_in_setting" />
-
-        <Button
-            android:id="@+id/button_saying_version_number_in_setting"
-            style="?android:attr/borderlessButtonStyle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/ripple_for_all"
-            android:drawableStart="@drawable/round_tag_24"
-            android:drawablePadding="10dp"
-            android:gravity="center|start"
-            android:paddingStart="20dp"
-            android:text="Version number: "
-            android:textAllCaps="false"
-            android:textStyle="bold"
-            app:layout_constraintTop_toBottomOf="@+id/button_saying_the_terms_and_conditions_in_setting" />
+        <View
+            android:id="@+id/pixel_at_the_bottom_settings"
+            android:layout_width="1px"
+            android:layout_height="1px"
+            android:background="@android:color/transparent"
+            android:layout_marginTop="15dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/constraint_layout_all_about_terms_and_conditions_in_setting"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

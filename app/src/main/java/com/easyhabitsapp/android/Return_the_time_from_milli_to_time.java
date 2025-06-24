@@ -21,7 +21,6 @@ public class Return_the_time_from_milli_to_time {
         String read_the_file = remove_the_repeats(context);
         String[] date_split = read_the_file.split("split");
         total_string = "start".concat("_split_").concat(date_split[0]).concat("_split_here_");
-        Log.w("hey_there",total_string);
         for (int i = 1; i < date_split.length; i++) {
             if(!total_string.contains(date_split[i])) {
                 total_string = total_string.concat("end".concat("_split_").concat(date_split[i].concat("_split_here_")));

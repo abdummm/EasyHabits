@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <View
+            android:id="@+id/bar_at_top_of_card_add_new_habit"
+            android:layout_width="27.5dp"
+            android:layout_height="5dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/bar_at_top_of_card"
+            android:backgroundTint="#808080"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/gift_an_award_in_awards"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="12dp"
+            android:text="Add a reminder"
+            android:textColor="@color/black"
+            android:textSize="17sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/bar_at_top_of_card_add_new_habit" />
+
+        <View
+            android:id="@+id/line_in_awards_bottom_sheet"
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_marginTop="12dp"
+            android:background="#808080"
+            app:layout_constraintTop_toBottomOf="@+id/dismiss_bottom_sheet_add_reminder" />
+
+        <com.nex3z.togglebuttongroup.MultiSelectToggleGroup
+            android:id="@+id/select_days_of_week_for_specific_days_add_new_habit_reminder_bottom_sheet"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="30dp"
+            android:visibility="visible"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/line_in_awards_bottom_sheet"
+            app:tbgChildSpacing="auto">
+
+            <com.nex3z.togglebuttongroup.button.CircularToggle
+                android:id="@+id/day_1_choose_days_of_week_reminder_bottom_sheet"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="S" />
+
+            <com.nex3z.togglebuttongroup.button.CircularToggle
+                android:id="@+id/day_2_choose_days_of_week_reminder_bottom_sheet"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="M" />
+
+            <com.nex3z.togglebuttongroup.button.CircularToggle
+                android:id="@+id/day_3_choose_days_of_week_reminder_bottom_sheet"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="T" />
+
+            <com.nex3z.togglebuttongroup.button.CircularToggle
+                android:id="@+id/day_4_choose_days_of_week_reminder_bottom_sheet"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="W" />
+
+            <com.nex3z.togglebuttongroup.button.CircularToggle
+                android:id="@+id/day_5_choose_days_of_week_reminder_bottom_sheet"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="T" />
+
+            <com.nex3z.togglebuttongroup.button.CircularToggle
+                android:id="@+id/day_6_choose_days_of_week_reminder_bottom_sheet"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="F" />
+
+            <com.nex3z.togglebuttongroup.button.CircularToggle
+                android:id="@+id/day_7_choose_days_of_week_reminder_bottom_sheet"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="S" />
+
+        </com.nex3z.togglebuttongroup.MultiSelectToggleGroup>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraint_layout_time_picker_add_reminder"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/select_days_of_week_for_specific_days_add_new_habit_reminder_bottom_sheet">
+
+            <NumberPicker
+                android:id="@+id/hour_date_picker_add_reminder"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/minute_date_picker_add_reminder"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <NumberPicker
+                android:id="@+id/minute_date_picker_add_reminder"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/am_pm_picker_add_reminder"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/hour_date_picker_add_reminder" />
+
+            <NumberPicker
+                android:id="@+id/am_pm_picker_add_reminder"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/minute_date_picker_add_reminder"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <View
+            android:id="@+id/pixel_at_bottom_of_add_reminder_bottom_sheet"
+            android:layout_width="1px"
+            android:layout_height="1px"
+            android:layout_marginTop="15dp"
+            android:background="@android:color/transparent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/constraint_layout_time_picker_add_reminder" />
+
+        <Button
+            android:id="@+id/dismiss_bottom_sheet_add_reminder"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="15dp"
+            android:background="?android:selectableItemBackgroundBorderless"
+            android:foreground="@drawable/z_pink"
+            android:foregroundTint="#ECECEC"
+            app:layout_constraintBottom_toBottomOf="@+id/gift_an_award_in_awards"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/gift_an_award_in_awards" />
+
+        <View
+            android:id="@+id/cancel_view_in_add_reminder_bottom_sheet"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:background="@drawable/close_48px"
+            android:backgroundTint="#565656"
+            android:elevation="10dp"
+            android:outlineProvider="none"
+            app:layout_constraintStart_toStartOf="@+id/dismiss_bottom_sheet_add_reminder"
+            app:layout_constraintEnd_toEndOf="@+id/dismiss_bottom_sheet_add_reminder"
+            app:layout_constraintTop_toTopOf="@+id/dismiss_bottom_sheet_add_reminder"
+            app:layout_constraintBottom_toBottomOf="@+id/dismiss_bottom_sheet_add_reminder"/>
+
+        <Button
+            android:id="@+id/ok_bottom_sheet_add_reminder"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginEnd="15dp"
+            android:background="?android:selectableItemBackgroundBorderless"
+            android:foreground="@drawable/z_pink"
+            android:foregroundTint="#ECECEC"
+            app:layout_constraintBottom_toBottomOf="@+id/gift_an_award_in_awards"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/gift_an_award_in_awards" />
+
+        <View
+            android:id="@+id/ok_view_in_add_reminder_bottom_sheet"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:background="@drawable/done_48px_thick"
+            android:backgroundTint="#565656"
+            android:elevation="10dp"
+            android:outlineProvider="none"
+            app:layout_constraintStart_toStartOf="@+id/ok_bottom_sheet_add_reminder"
+            app:layout_constraintEnd_toEndOf="@+id/ok_bottom_sheet_add_reminder"
+            app:layout_constraintTop_toTopOf="@+id/ok_bottom_sheet_add_reminder"
+            app:layout_constraintBottom_toBottomOf="@+id/ok_bottom_sheet_add_reminder"/>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

@@ -464,7 +464,6 @@ public class Add_and_show_events extends DialogFragment implements TimePickerDia
                         old_string = "";
                     }
                     String save_the_milli = String.valueOf(convert_time_to_milli(get_the_tag(), all_day_or_certain_time));
-                    Log.w("testing_the_system", save_the_milli);
                     myEdit.putString("events", old_string.concat(save_the_milli).concat("split").concat(event_name).concat("split").concat(event_description).concat("split").concat(selected_color).concat("split").concat(all_day_or_certain_time).concat("split").concat(reminder_time).concat("split").concat(checked_or_no).concat("max_divide"));
                     myEdit.apply();
                     getDialog().dismiss();

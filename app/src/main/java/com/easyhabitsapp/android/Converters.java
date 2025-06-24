@@ -23,11 +23,15 @@ public class Converters {
 
     @TypeConverter
     public static String fromArrayList(ArrayList<Long> list) {
-        String save_me= "";
-        for(int i =0; i <list.size();i++){
-            save_me = save_me.concat(String.valueOf(list.get(i))).concat("_");
+        if (list != null) {
+            String save_me = "";
+            for (int i = 0; i < list.size(); i++) {
+                save_me = save_me.concat(String.valueOf(list.get(i))).concat("_");
+            }
+            return save_me;
+        } else {
+            return "";
         }
-        return save_me;
     }
     @TypeConverter
     public static HashMap<Long,Integer> fromString_hash(String value) {
@@ -46,12 +50,16 @@ public class Converters {
 
     @TypeConverter
     public static String fromHashMap(HashMap<Long,Integer> list) {
-        String save_me= "";
-        for (Map.Entry<Long, Integer> entry : list.entrySet()) {
-            long key = entry.getKey();
-            Integer value = entry.getValue();
-            save_me = save_me.concat(String.valueOf(key)).concat(":").concat(String.valueOf(value)).concat("_");
+        String save_me = "";
+        if (list != null) {
+            for (Map.Entry<Long, Integer> entry : list.entrySet()) {
+                long key = entry.getKey();
+                Integer value = entry.getValue();
+                save_me = save_me.concat(String.valueOf(key)).concat(":").concat(String.valueOf(value)).concat("_");
+            }
+            return save_me;
+        } else {
+            return "";
         }
-        return save_me;
     }
 }

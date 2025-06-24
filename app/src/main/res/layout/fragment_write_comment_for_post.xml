@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:id="@+id/write_comment_for_post_id_layout"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context="com.easyhabitsapp2.android.Write_comment_for_post">
+    tools:context="com.easyhabitsapp.android.Write_comment_for_post">
 
     <View
         android:id="@+id/view_at_the_top_action_bar_habits"

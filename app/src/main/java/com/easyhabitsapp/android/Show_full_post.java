@@ -53,6 +53,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
@@ -70,7 +71,6 @@ public class Show_full_post extends Fragment {
     private int m_streak;
     private String m_span;
     private boolean m_image;
-    private String m_user_id;
     private ArrayList<HashMap<String, Object>> m_comments;
     private ArrayList<Long> m_awards;
     private boolean is_this_upvote;
@@ -106,6 +106,20 @@ public class Show_full_post extends Fragment {
     private Adapter_for_comment_post adapter;
     private LinearLayoutManager linearLayoutManager;
     private final ArrayList<Example_item_comments_feed> example_list = new ArrayList<>();
+    private hide_button_clicked hide_button_click_listener;
+
+    private ArrayList<String> blocked_users = new ArrayList<>();
+    private ArrayList<String> hidden_comments = new ArrayList<>();
+
+    private HashMap<String,Integer> hashmap_with_ids_and_position = new HashMap<String, Integer>();
+
+    public void set_hide_button_listen(hide_button_clicked listener) {
+        hide_button_click_listener = listener;
+    }
+
+    public interface hide_button_clicked {
+        void hide_button_clicked();
+    }
 
 
     @Override
@@ -142,12 +156,11 @@ public class Show_full_post extends Fragment {
             position = bundle.getInt("position");
             m_title = bundle.getString("title");
             m_body = bundle.getString("body");
-           // m_category = bundle.getString("category");
+            // m_category = bundle.getString("category");
             m_time = (Date) bundle.getSerializable("time");
             //m_streak = bundle.getInt("streak");
             m_span = bundle.getString("span");
             m_image = bundle.getBoolean("image");
-            m_user_id =  FirebaseAuth.getInstance().getCurrentUser().getUid();
             m_comments = (ArrayList<HashMap<String, Object>>) bundle.getSerializable("comments");
             m_awards = (ArrayList<Long>) bundle.getSerializable("awards");
             is_this_upvote = bundle.getBoolean("is_this_upvoted");
@@ -171,7 +184,6 @@ public class Show_full_post extends Fragment {
             name_of_the_user = bundle.getString("name_of_posted");
             what_is_the_type_of_this = bundle.getString("what_is_the_type_of_this", "normal");
             real_user_id = bundle.getString("user_id");
-            Log.w("test123",what_is_the_type_of_this);
             if (what_is_the_type_of_this.equals("normal")) {
                 if (position == -1) {
                     position_of_comment = bundle.getInt("comment_position", 0);
@@ -199,6 +211,7 @@ public class Show_full_post extends Fragment {
                 } else if (position == -2) {
                     add_reply_at_start();
                 }
+                set_up_blocked_users_and_hidden_comments();
                 set_up_the_comments();
                 share_button_listen();
                 set_the_text_at_the_top();
@@ -223,6 +236,7 @@ public class Show_full_post extends Fragment {
                 add_comment_button_listen();
                 sort_stuff_correctly();
                 add_comment_at_start();
+                set_up_blocked_users_and_hidden_comments();
                 set_up_the_comments();
                 share_button_listen();
                 set_the_text_at_the_top();
@@ -249,6 +263,7 @@ public class Show_full_post extends Fragment {
                 sort_stuff_correctly();
                 //add_comment_at_start();
                 add_reply_at_start();
+                set_up_blocked_users_and_hidden_comments();
                 set_up_the_comments();
                 share_button_listen();
                 set_the_text_at_the_top();
@@ -696,35 +711,78 @@ public class Show_full_post extends Fragment {
                     popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                         @Override
                         public boolean onMenuItemClick(MenuItem item) {
-                            if (was_this_reported) {
-                                Toast toast = Toast.makeText(getActivity(), "Already reported", Toast.LENGTH_SHORT);
-                                toast.show();
-                            } else if (am_i_signed_in_with_google()) {
-                                new AlertDialog.Builder(getContext())
-                                        .setTitle("Report post?")
-                                        .setMessage("Are you sure you want to report this post?")
+                            if (item.getOrder() == 0) {
+                                Event_manager_all_in_one.getInstance().record_fire_base_event(getContext(), Event_manager_all_in_one.Event_type_fire_base_record.post_reported,false);
+                                if (was_this_reported) {
+                                    Toast toast = Toast.makeText(getActivity(), "Already reported", Toast.LENGTH_SHORT);
+                                    toast.show();
+                                } else if (am_i_signed_in_with_google()) {
+                                    new AlertDialog.Builder(getContext())
+                                            .setTitle("Report post?")
+                                            .setMessage("Are you sure you want to report this post?")
 
-                                        // Specifying a listener allows you to take an action before dismissing the dialog.
-                                        // The dialog is automatically dismissed when a dialog button is clicked.
-                                        .setPositiveButton("yes", new DialogInterface.OnClickListener() {
-                                            public void onClick(DialogInterface dialog, int which) {
-                                                report_post();
+                                            // Specifying a listener allows you to take an action before dismissing the dialog.
+                                            // The dialog is automatically dismissed when a dialog button is clicked.
+                                            .setPositiveButton("yes", new DialogInterface.OnClickListener() {
+                                                public void onClick(DialogInterface dialog, int which) {
+                                                    report_post();
+                                                }
+                                            })
+                                            .setNegativeButton("cancel", null)
+                                            .show();
+                                } else {
+                                    new AlertDialog.Builder(getContext())
+                                            .setTitle("Sign in with google")
+                                            .setMessage("In order to prevent malicious reports sign in with google to be able to report")
+                                            .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                                                public void onClick(DialogInterface dialog, int which) {
+                                                    Bottom_sheet_to_sing_in_to_write_posts bottom_sheet_to_sing_in_to_write_posts = new Bottom_sheet_to_sing_in_to_write_posts();
+                                                    bottom_sheet_to_sing_in_to_write_posts.setTargetFragment(Show_full_post.this, 254);
+                                                    bottom_sheet_to_sing_in_to_write_posts.show(getActivity().getSupportFragmentManager(), "tag");
+                                                }
+                                            }).setNegativeButton("cancel", null)
+                                            .show();
+                                }
+                            } else if (item.getOrder() == 1) {
+                                Alert_dialog_show alert_dialog_show = new Alert_dialog_show();
+                                alert_dialog_show.show_alert_dialog(getContext(), "Hide Post?", "Are you sure you want to hide this post?");
+                                alert_dialog_show.set_ok_button_listen(new Alert_dialog_show.ok_button_clicked() {
+                                    @Override
+                                    public void ok_button_clicked() {
+                                        if (is_this_saved(getContext(), m_document_id)) {
+                                            remove_the_post(m_document_id);
+                                        }
+                                        if (is_this_your_post(m_document_id)) {
+                                            remove_your_post(m_document_id);
+                                        }
+                                        Save_and_get.getInstance().save_this(getContext(), m_document_id, "hide_posts", true);
+                                        Toast.makeText(getContext(), "Post hidden", Toast.LENGTH_SHORT).show();
+                                        hide_button_click_listener.hide_button_clicked();
+                                        go_back_to_posts_without_updating();
+                                    }
+                                });
+                            } else if (item.getOrder() == 2) {
+                                Alert_dialog_show alert_dialog_show = new Alert_dialog_show();
+                                alert_dialog_show.show_alert_dialog(getContext(), "Block User?", "Are you sure you want to block this user?");
+                                alert_dialog_show.set_ok_button_listen(new Alert_dialog_show.ok_button_clicked() {
+                                    @Override
+                                    public void ok_button_clicked() {
+                                        if (FirebaseAuth.getInstance().getCurrentUser().getUid().equals(real_user_id)) {
+                                            Toast.makeText(getContext(), "You can't block yourself!", Toast.LENGTH_LONG).show();
+                                        } else {
+                                            if (is_this_saved(getContext(), m_document_id)) {
+                                                remove_the_post(m_document_id);
                                             }
-                                        })
-                                        .setNegativeButton("cancel", null)
-                                        .show();
-                            } else {
-                                new AlertDialog.Builder(getContext())
-                                        .setTitle("Sign in with google")
-                                        .setMessage("In order to prevent malicious reports sign in with google to be able to report")
-                                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                                            public void onClick(DialogInterface dialog, int which) {
-                                                Bottom_sheet_to_sing_in_to_write_posts bottom_sheet_to_sing_in_to_write_posts = new Bottom_sheet_to_sing_in_to_write_posts();
-                                                bottom_sheet_to_sing_in_to_write_posts.setTargetFragment(Show_full_post.this, 254);
-                                                bottom_sheet_to_sing_in_to_write_posts.show(getActivity().getSupportFragmentManager(), "tag");
+                                            if (is_this_your_post(m_document_id)) {
+                                                remove_your_post(m_document_id);
                                             }
-                                        }).setNegativeButton("cancel", null)
-                                        .show();
+                                            Save_and_get.getInstance().save_this(getContext(), real_user_id, "blocked_users", true);
+                                            Toast.makeText(getContext(), "User blocked", Toast.LENGTH_SHORT).show();
+                                            hide_button_click_listener.hide_button_clicked();
+                                            go_back_to_posts_without_updating();
+                                        }
+                                    }
+                                });
                             }
                             return true;
                         }
@@ -778,7 +836,7 @@ public class Show_full_post extends Fragment {
                 public void onClick(View view) {
                     Posts_fragment old_fragment = (Posts_fragment) getActivity().getSupportFragmentManager().findFragmentByTag("posts");
                     if (old_fragment != null) {
-                        old_fragment.update_the_adapter(position, m_title, m_body, m_category, m_time, (long) m_streak, m_span, m_image, m_user_id, m_comments, m_awards, is_this_upvote, is_this_down_vote, m_document_id, m_is_this_from_fire_base, m_upvotes, m_downvotes, post_saved, plus_or_minus, m_is_this_laoding, i_already_loaded, upvote_or_down_vote_was_clicked, m_firebaseFirestore, FirebaseAuth.getInstance().getCurrentUser(), was_this_reported, m_list_of_reports, am_i_loading_up_voote_down_vote_from_fire_base, did_i_see_this_tem, m_list_of_seen_posts, m_is_post_by_dev, which_post_called_me, name_of_the_user);
+                        old_fragment.update_the_adapter(position, m_title, m_body, m_category, m_time, (long) m_streak, m_span, m_image, real_user_id, m_comments, m_awards, is_this_upvote, is_this_down_vote, m_document_id, m_is_this_from_fire_base, m_upvotes, m_downvotes, post_saved, plus_or_minus, m_is_this_laoding, i_already_loaded, upvote_or_down_vote_was_clicked, m_firebaseFirestore, FirebaseAuth.getInstance().getCurrentUser(), was_this_reported, m_list_of_reports, am_i_loading_up_voote_down_vote_from_fire_base, did_i_see_this_tem, m_list_of_seen_posts, m_is_post_by_dev, which_post_called_me, name_of_the_user);
                         getActivity().getSupportFragmentManager().beginTransaction().remove(Show_full_post.this).show(old_fragment).commit();
                     }
                 }
@@ -798,14 +856,13 @@ public class Show_full_post extends Fragment {
                         set_up_the_save(false);
                         post_saved = false;
                     } else {
-                        Am_i_paid am_i_paid = new Am_i_paid(getContext());
-                        if (am_i_paid.did_user_pay()) {
+                        if (Payment_processer.getInstance().state_of_the_user()) {
                             save_the_post(m_document_id, m_title, m_body, m_span, m_time.getTime(), m_category, m_streak);
                             set_up_the_save(true);
                             post_saved = true;
                         } else {
-                            Buy_premuim buy_premuim = new Buy_premuim("save posts", true, "show full post");
                             Show_full_post old_fragment = (Show_full_post) getActivity().getSupportFragmentManager().findFragmentByTag("show full post");
+                            Buy_premuim buy_premuim = new Buy_premuim("save posts", true, old_fragment);
                             if (old_fragment != null) {
                                 getActivity().getSupportFragmentManager().beginTransaction().hide(old_fragment).add(R.id.fragment_container, buy_premuim, "buy premium").show(buy_premuim).commit();
                             }
@@ -816,19 +873,19 @@ public class Show_full_post extends Fragment {
             button_to_watch_save_in_card_in_post.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    Event_manager_all_in_one.getInstance().record_fire_base_event(getContext(), Event_manager_all_in_one.Event_type_fire_base_record.post_saved,false);
                     if (post_saved) {
                         remove_the_post(m_document_id);
                         set_up_the_save(false);
                         post_saved = false;
                     } else {
-                        Am_i_paid am_i_paid = new Am_i_paid(getContext());
-                        if (am_i_paid.did_user_pay()) {
+                        if (Payment_processer.getInstance().state_of_the_user()) {
                             save_the_post(m_document_id, m_title, m_body, m_span, m_time.getTime(), m_category, m_streak);
                             set_up_the_save(true);
                             post_saved = true;
                         } else {
-                            Buy_premuim buy_premuim = new Buy_premuim("save posts", true, "show full post");
                             Show_full_post old_fragment = (Show_full_post) getActivity().getSupportFragmentManager().findFragmentByTag("show full post");
+                            Buy_premuim buy_premuim = new Buy_premuim("save posts", true, old_fragment);
                             if (old_fragment != null) {
                                 getActivity().getSupportFragmentManager().beginTransaction().hide(old_fragment).add(R.id.fragment_container, buy_premuim, "buy premium").show(buy_premuim).commit();
                             }
@@ -884,20 +941,20 @@ public class Show_full_post extends Fragment {
             button_to_watch_upvote_in_card_in_post.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    Event_manager_all_in_one.getInstance().record_fire_base_event(getContext(), Event_manager_all_in_one.Event_type_fire_base_record.post_upvoted,false);
                     if (am_i_loading_up_voote_down_vote_from_fire_base) {
                         Toast toast = Toast.makeText(getContext(), "You are up voting and down voting too quickly!!", Toast.LENGTH_SHORT);
                         toast.show();
                     } else if (am_i_signed_in_with_google()) {
                         upvote_or_down_vote_was_clicked = true;
                         int mode;
-                        if (m_upvotes.contains(m_user_id)) {
+                        if (m_upvotes.contains(FirebaseAuth.getInstance().getCurrentUser().getUid())) {
                             mode = 1;
-                        } else if (m_downvotes.contains(m_user_id)) {
+                        } else if (m_downvotes.contains(FirebaseAuth.getInstance().getCurrentUser().getUid())) {
                             mode = 2;
                         } else {
                             mode = 3;
                         }
-                        Log.w("mode", String.valueOf(mode));
                         int likes_from_post = (m_upvotes.size() - m_downvotes.size()) + plus_or_minus;
                         if (is_this_upvote) {
                             color_the_up_vote_and_down_vote(0);
@@ -967,15 +1024,16 @@ public class Show_full_post extends Fragment {
             button_to_watch_downvote_in_card_in_post.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    Event_manager_all_in_one.getInstance().record_fire_base_event(getContext(), Event_manager_all_in_one.Event_type_fire_base_record.post_downvoted,false);
                     if (am_i_loading_up_voote_down_vote_from_fire_base) {
                         Toast toast = Toast.makeText(getContext(), "You are up voting and down voting too quickly!!", Toast.LENGTH_SHORT);
                         toast.show();
                     } else if (am_i_signed_in_with_google()) {
                         upvote_or_down_vote_was_clicked = true;
                         int mode;
-                        if (m_upvotes.contains(m_user_id)) {
+                        if (m_upvotes.contains(FirebaseAuth.getInstance().getCurrentUser().getUid())) {
                             mode = 1;
-                        } else if (m_downvotes.contains(m_user_id)) {
+                        } else if (m_downvotes.contains(FirebaseAuth.getInstance().getCurrentUser().getUid())) {
                             mode = 2;
                         } else {
                             mode = 3;
@@ -1244,7 +1302,7 @@ public class Show_full_post extends Fragment {
         if (getActivity() != null) {
             Posts_fragment old_fragment = (Posts_fragment) getActivity().getSupportFragmentManager().findFragmentByTag("posts");
             if (old_fragment != null) {
-                old_fragment.update_the_adapter(position, m_title, m_body, m_category, m_time, (long) m_streak, m_span, m_image, m_user_id, m_comments, m_awards, is_this_upvote, is_this_down_vote, m_document_id, m_is_this_from_fire_base, m_upvotes, m_downvotes, post_saved, plus_or_minus, m_is_this_laoding, i_already_loaded, upvote_or_down_vote_was_clicked, m_firebaseFirestore, FirebaseAuth.getInstance().getCurrentUser(), was_this_reported, m_list_of_reports, am_i_loading_up_voote_down_vote_from_fire_base, did_i_see_this_tem, m_list_of_seen_posts, m_is_post_by_dev, which_post_called_me, name_of_the_user);
+                old_fragment.update_the_adapter(position, m_title, m_body, m_category, m_time, (long) m_streak, m_span, m_image, real_user_id, m_comments, m_awards, is_this_upvote, is_this_down_vote, m_document_id, m_is_this_from_fire_base, m_upvotes, m_downvotes, post_saved, plus_or_minus, m_is_this_laoding, i_already_loaded, upvote_or_down_vote_was_clicked, m_firebaseFirestore, FirebaseAuth.getInstance().getCurrentUser(), was_this_reported, m_list_of_reports, am_i_loading_up_voote_down_vote_from_fire_base, did_i_see_this_tem, m_list_of_seen_posts, m_is_post_by_dev, which_post_called_me, name_of_the_user);
                 getActivity().getSupportFragmentManager().beginTransaction().remove(Show_full_post.this).show(old_fragment).commit();
             }
         }
@@ -1254,7 +1312,7 @@ public class Show_full_post extends Fragment {
         if (getActivity() != null) {
             Posts_fragment old_fragment = (Posts_fragment) getActivity().getSupportFragmentManager().findFragmentByTag("posts");
             if (old_fragment != null) {
-                old_fragment.update_the_adapter(position, m_title, m_body, m_category, m_time, (long) m_streak, m_span, m_image, m_user_id, m_comments, m_awards, is_this_upvote, is_this_down_vote, m_document_id, m_is_this_from_fire_base, m_upvotes, m_downvotes, post_saved, plus_or_minus, m_is_this_laoding, i_already_loaded, upvote_or_down_vote_was_clicked, m_firebaseFirestore, FirebaseAuth.getInstance().getCurrentUser(), was_this_reported, m_list_of_reports, am_i_loading_up_voote_down_vote_from_fire_base, did_i_see_this_tem, m_list_of_seen_posts, m_is_post_by_dev, which_post_called_me, name_of_the_user);
+                old_fragment.update_the_adapter(position, m_title, m_body, m_category, m_time, (long) m_streak, m_span, m_image, real_user_id, m_comments, m_awards, is_this_upvote, is_this_down_vote, m_document_id, m_is_this_from_fire_base, m_upvotes, m_downvotes, post_saved, plus_or_minus, m_is_this_laoding, i_already_loaded, upvote_or_down_vote_was_clicked, m_firebaseFirestore, FirebaseAuth.getInstance().getCurrentUser(), was_this_reported, m_list_of_reports, am_i_loading_up_voote_down_vote_from_fire_base, did_i_see_this_tem, m_list_of_seen_posts, m_is_post_by_dev, which_post_called_me, name_of_the_user);
             }
         }
     }
@@ -1302,13 +1360,12 @@ public class Show_full_post extends Fragment {
                 String text = bundle.getString("sign_in", "anonymous");
                 if (text.equals("google")) {
                     if (FirebaseAuth.getInstance().getCurrentUser() != null) {
-                        m_user_id = FirebaseAuth.getInstance().getCurrentUser().getUid();
-                        if (m_upvotes.contains(m_user_id)) {
+                        if (m_upvotes.contains(FirebaseAuth.getInstance().getCurrentUser().getUid())) {
                             is_this_upvote = true;
                         } else {
                             is_this_upvote = false;
                         }
-                        if (m_downvotes.contains(m_user_id)) {
+                        if (m_downvotes.contains(FirebaseAuth.getInstance().getCurrentUser().getUid())) {
                             is_this_down_vote = true;
                         } else {
                             is_this_down_vote = false;
@@ -1331,10 +1388,10 @@ public class Show_full_post extends Fragment {
                     if (am_i_signed_in_with_google()) {
                         Write_comment_for_post write_comment_for_post = new Write_comment_for_post();
                         Bundle bundle = new Bundle();
+                        bundle.putString("type","comment");
                         bundle.putString("title", m_title);
                         bundle.putString("body", m_body);
                         bundle.putString("id", m_document_id);
-                        bundle.putInt("position", -1);
                         write_comment_for_post.setArguments(bundle);
                         getActivity().getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, write_comment_for_post, "write a comment").hide(Show_full_post.this).commit();
                     } else {
@@ -1438,6 +1495,7 @@ public class Show_full_post extends Fragment {
                 public void reply_was_clicked_in_commenmt(int position, String body, int recycle_view_position) {
                     Write_comment_for_post write_comment_for_post = new Write_comment_for_post();
                     Bundle bundle = new Bundle();
+                    bundle.putString("type","reply");
                     bundle.putString("title", body);
                     bundle.putString("body", "");
                     bundle.putString("id", m_document_id);
@@ -1452,6 +1510,7 @@ public class Show_full_post extends Fragment {
                 public void reply_button_clicked_nested_one(String name, String body, String user_id, int position, int recycle_view_position) {
                     Write_comment_for_post write_comment_for_post = new Write_comment_for_post();
                     Bundle bundle = new Bundle();
+                    bundle.putString("type","reply_to_reply");
                     bundle.putString("title", body);
                     bundle.putString("body", "");
                     bundle.putString("id", m_document_id);
@@ -1482,7 +1541,7 @@ public class Show_full_post extends Fragment {
             });
             adapter.set_up_gift_listen(new Adapter_for_comment_post.gift_button_listen() {
                 @Override
-                public void gift_was_clicked(String user_id, String document_id, int comment_position, int reply_position, ArrayList<Long> awards) {
+                public void gift_was_clicked(String user_id, String document_id, int comment_position, int reply_position, ArrayList<Long> awards,int recycle_view_comment_position,int recycle_view_reply_position) {
                     if (comment_position == -100 && reply_position == -100) {
                         Bottom_sheet_to_give_coins bottom_sheet_to_give_coins = new Bottom_sheet_to_give_coins(position, real_user_id, m_document_id, awards, "show");
                         bottom_sheet_to_give_coins.set_update_gift(new Bottom_sheet_to_give_coins.update_gift_listen() {
@@ -1494,7 +1553,7 @@ public class Show_full_post extends Fragment {
                         });
                         bottom_sheet_to_give_coins.show(getParentFragmentManager(), "");
                     } else if (reply_position == -100) {
-                        Bottom_sheet_to_give_coins bottom_sheet_to_give_coins = new Bottom_sheet_to_give_coins(position_of_comment, real_user_id, m_document_id, comment_position, awards, "show");
+                        Bottom_sheet_to_give_coins bottom_sheet_to_give_coins = new Bottom_sheet_to_give_coins(recycle_view_comment_position, user_id, m_document_id, comment_position, awards, "show");
                         bottom_sheet_to_give_coins.set_update_gift(new Bottom_sheet_to_give_coins.update_gift_listen() {
                             @Override
                             public void gift_was_clicked(int index, ArrayList<Long> arrayList_of_awards) {
@@ -1504,11 +1563,11 @@ public class Show_full_post extends Fragment {
                         });
                         bottom_sheet_to_give_coins.show(getParentFragmentManager(), "");
                     } else {
-                        Bottom_sheet_to_give_coins bottom_sheet_to_give_coins = new Bottom_sheet_to_give_coins(position_of_reply, real_user_id, m_document_id, comment_position, reply_position, awards, "show");
+                        Bottom_sheet_to_give_coins bottom_sheet_to_give_coins = new Bottom_sheet_to_give_coins(recycle_view_comment_position, user_id, m_document_id, comment_position, reply_position, awards, "show");
                         bottom_sheet_to_give_coins.set_update_gift(new Bottom_sheet_to_give_coins.update_gift_listen() {
                             @Override
                             public void gift_was_clicked(int index, ArrayList<Long> arrayList_of_awards) {
-                                example_list.set(index, new Example_item_comments_feed(example_list.get(index).getBody(), arrayList_of_awards, example_list.get(index).isDev(), example_list.get(index).getUp_vote_list(), example_list.get(index).getDown_vote_list(), example_list.get(index).getReport_list(), (int) example_list.get(index).getStreak(), user_id, example_list.get(index).getReplies(), m_firebaseFirestore, example_list.get(index).getPosition(), m_document_id, example_list.get(index).getTime(), example_list.get(index).getCategory(), FirebaseAuth.getInstance().getCurrentUser(), example_list.get(index).getName(), m_title, m_body, m_span, m_time, m_category, m_streak, name_of_the_user));
+                                example_list.set(index, new Example_item_comments_feed(example_list.get(index).getBody(), example_list.get(index).getAwards(), example_list.get(index).isDev(), example_list.get(index).getUp_vote_list(), example_list.get(index).getDown_vote_list(), example_list.get(index).getReport_list(), (int) example_list.get(index).getStreak(), user_id, example_list.get(index).getReplies(), m_firebaseFirestore, example_list.get(index).getPosition(), m_document_id, example_list.get(index).getTime(), example_list.get(index).getCategory(), FirebaseAuth.getInstance().getCurrentUser(), example_list.get(index).getName(), m_title, m_body, m_span, m_time, m_category, m_streak, name_of_the_user));
                                 adapter.notifyDataSetChanged();
                             }
                         });
@@ -1520,18 +1579,26 @@ public class Show_full_post extends Fragment {
                 @Override
                 public void save_is_for_pro(String mode) {
                     if (mode.equals("comment")) {
-                        Buy_premuim buy_premuim = new Buy_premuim("save comments", true, "show full post");
                         Show_full_post old_fragment = (Show_full_post) getActivity().getSupportFragmentManager().findFragmentByTag("show full post");
+                        Buy_premuim buy_premuim = new Buy_premuim("save comments", true, old_fragment);
                         if (old_fragment != null) {
                             getActivity().getSupportFragmentManager().beginTransaction().hide(old_fragment).add(R.id.fragment_container, buy_premuim, "buy premium").show(buy_premuim).commit();
                         }
                     } else {
-                        Buy_premuim buy_premuim = new Buy_premuim("save replies", true, "show full post");
                         Show_full_post old_fragment = (Show_full_post) getActivity().getSupportFragmentManager().findFragmentByTag("show full post");
+                        Buy_premuim buy_premuim = new Buy_premuim("save replies", true, old_fragment);
                         if (old_fragment != null) {
                             getActivity().getSupportFragmentManager().beginTransaction().hide(old_fragment).add(R.id.fragment_container, buy_premuim, "buy premium").show(buy_premuim).commit();
                         }
                     }
+                }
+            });
+            adapter.set_hide_button_listen_in_comment(new Adapter_for_comment_post.hide_buttoun_clicked() {
+                @Override
+                public void hide_buttoun_clicked(int position) {
+                    example_list.remove(position);
+                    adapter.notifyItemRemoved(position);
+                    adapter.notifyItemRangeChanged(position, example_list.size());
                 }
             });
         }
@@ -1547,6 +1614,7 @@ public class Show_full_post extends Fragment {
             button_showing_rippl_for_share_in_view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    Event_manager_all_in_one.getInstance().record_fire_base_event(getContext(), Event_manager_all_in_one.Event_type_fire_base_record.post_shared,false);
                     share_screen_shot(first_letter_capital(m_title), first_letter_capital(m_body), false);
                 }
             });
@@ -1655,8 +1723,10 @@ public class Show_full_post extends Fragment {
             for (int i = 0; i < m_comments.size(); i++) {
                 Map<String, Object> map = m_comments.get(i);
                 ArrayList<String> report_list = (ArrayList<String>) map.get("reports");
-                if (report_list != null && report_list.size() <= 5) {
-                    map.put("position_of_real", i);
+                String user_id = (String) map.get("user_id");
+                String body = (String) map.get("body");
+                map.put("position_of_real", i);
+                if (report_list != null && report_list.size() <= 5 && should_i_show_this_comment(user_id, user_id.concat("small_split_for_save_and_get").concat(body))) {
                     remove_reports_list.add(m_comments.get(i));
                 }
             }
@@ -1684,7 +1754,7 @@ public class Show_full_post extends Fragment {
                                 int position, Timestamp date, String
                                         category, ArrayList<HashMap<String, Object>> comments, String name_of_the_user) {
         if (getView() != null) {
-            put_the_comment_in_your_comments(body, position, name_of_the_user, date.toDate().getTime());
+            put_the_comment_in_your_comments(body,position,name_of_the_user,date.toDate().getTime());
             TextView text_telling_the_number_of_comments_in_card_in_post = getView().findViewById(R.id.text_telling_the_number_of_comments_in_card_in_post);
             TextView text_saying_the_the_comments_are_empty = getView().findViewById(R.id.text_saying_the_the_comments_are_empty);
             RecyclerView recycle_view_to_show_the_comments = getView().findViewById(R.id.recycle_view_to_show_the_comments);
@@ -1699,9 +1769,9 @@ public class Show_full_post extends Fragment {
     }
 
     public void reply_to_the_comment(ArrayList<HashMap<String, Object>> replies,
-                                     int position_of_recycle_view, int position_of_comment, int position_of_reply) {
+                                     int position_of_recycle_view, int reply_position,int position_of_comment) {
         if (getView() != null) {
-            put_the_reply_in_your_replies(example_list.get(position_of_recycle_view).getBody(), position_of_comment, example_list.get(position_of_recycle_view).getName(), example_list.get(position_of_recycle_view).getTime().getTime(), example_list.get(position_of_recycle_view).getCategory(), example_list.get(position_of_recycle_view).getStreak(), replies.get(position_of_reply), position_of_reply);
+            put_the_reply_in_your_replies(example_list.get(position_of_recycle_view).getBody(), example_list.get(position_of_recycle_view).getPosition(), example_list.get(position_of_recycle_view).getName(), example_list.get(position_of_recycle_view).getTime().getTime(), replies.get(reply_position), reply_position);
             example_list.set(position_of_recycle_view, new Example_item_comments_feed(example_list.get(position_of_recycle_view).getBody(), example_list.get(position_of_recycle_view).getAwards(), example_list.get(position_of_recycle_view).isDev(), example_list.get(position_of_recycle_view).getUp_vote_list(), example_list.get(position_of_recycle_view).getDown_vote_list(), example_list.get(position_of_recycle_view).getReport_list(), example_list.get(position_of_recycle_view).getStreak(), example_list.get(position_of_recycle_view).getUser_id(), replies, m_firebaseFirestore, position_of_comment, m_document_id, example_list.get(position_of_recycle_view).getTime(), example_list.get(position_of_recycle_view).getCategory(), FirebaseAuth.getInstance().getCurrentUser(), example_list.get(position_of_recycle_view).getName(), example_list.get(position_of_recycle_view).getTitle_of_the_main_post(), example_list.get(position_of_recycle_view).getBody_of_the_main_post(), example_list.get(position_of_recycle_view).getSpan_of_the_main_post(), example_list.get(position_of_recycle_view).getTime_of_the_main_post(), example_list.get(position_of_recycle_view).getCategory_of_the_main_post(), example_list.get(position_of_recycle_view).getStreak_of_the_main_post(), example_list.get(position_of_recycle_view).getName_of_the_main_post()));
             adapter.notifyDataSetChanged();
         }
@@ -1715,7 +1785,7 @@ public class Show_full_post extends Fragment {
     }
 
     private void put_the_comment_in_your_comments(String body_of_the_comment,
-                                                  int position_of_the_comment, String name_of_the_comment, long time_of_the_comment) {
+                                                  int position, String name_of_the_comment, long time_of_the_comment) {
         if (getActivity() != null) {
             SharedPreferences sharedPreferences = getActivity().getSharedPreferences("your_comments", MODE_PRIVATE);
             String old = sharedPreferences.getString("your_comments", "");
@@ -1725,15 +1795,13 @@ public class Show_full_post extends Fragment {
             String m_body = this.m_body.replace("small_split", "").replace("big_divide", "");
             body_of_the_comment = body_of_the_comment.replace("small_split", "").replace("big_divide", "");
             name_of_the_comment = name_of_the_comment.replace("small_split", "").replace("big_divide", "");
-            String save_me = m_document_id.concat("small_split").concat(name_of_the_user).concat("small_split").concat(m_title).concat("small_split").concat(m_body).concat("small_split").concat(m_span).concat("small_split").concat(String.valueOf(m_time.getTime())).concat("small_split").concat(body_of_the_comment).concat("small_split").concat(String.valueOf(position_of_the_comment)).concat("small_split").concat(name_of_the_comment).concat("small_split").concat(String.valueOf(time_of_the_comment)).concat("big_divide");
+            String save_me = m_document_id.concat("small_split").concat(name_of_the_user).concat("small_split").concat(m_title).concat("small_split").concat(m_body).concat("small_split").concat(m_span).concat("small_split").concat(String.valueOf(m_time.getTime())).concat("small_split").concat(body_of_the_comment).concat("small_split").concat(String.valueOf(position)).concat("small_split").concat(name_of_the_comment).concat("small_split").concat(String.valueOf(time_of_the_comment)).concat("big_divide");
             myEdit.putString("your_comments", old.concat(save_me));
             myEdit.commit();
         }
     }
 
-    private void put_the_reply_in_your_replies(String body_of_the_comment,
-                                               int position_of_the_comment, String name_of_the_comment, long time_of_the_comment, String
-                                                       category, long streak_of_the_comment, HashMap<String, Object> map, int position_of_the_reply) {
+    private void put_the_reply_in_your_replies(String body_of_the_comment,int comment_position, String name_of_the_comment, long time_of_the_comment, HashMap<String, Object> map, int reply_position) {
         if (getActivity() != null) {
             String body_of_the_reply = (String) map.get("body");
             String name_of_the_reply = (String) map.get("name");
@@ -1751,7 +1819,7 @@ public class Show_full_post extends Fragment {
             name_of_the_comment = name_of_the_comment.replace("small_split", "").replace("big_divide", "");
             body_of_the_reply = body_of_the_reply.replace("small_split", "").replace("big_divide", "");
             name_of_the_reply = name_of_the_reply.replace("small_split", "").replace("big_divide", "");
-            String save_me = m_document_id.concat("small_split").concat(name_of_the_user).concat("small_split").concat(m_title).concat("small_split").concat(m_body).concat("small_split").concat(m_span).concat("small_split").concat(String.valueOf(m_time.getTime())).concat("small_split").concat(body_of_the_comment).concat("small_split").concat(String.valueOf(position_of_the_comment)).concat("small_split").concat(name_of_the_comment).concat("small_split").concat(String.valueOf(time_of_the_comment)).concat("small_split").concat(body_of_the_reply).concat("small_split").concat(String.valueOf(position_of_the_reply)).concat("small_split").concat(name_of_the_reply).concat("small_split").concat(String.valueOf(time_of_the_reply)).concat("big_divide");
+            String save_me = m_document_id.concat("small_split").concat(name_of_the_user).concat("small_split").concat(m_title).concat("small_split").concat(m_body).concat("small_split").concat(m_span).concat("small_split").concat(String.valueOf(m_time.getTime())).concat("small_split").concat(body_of_the_comment).concat("small_split").concat(String.valueOf(comment_position)).concat("small_split").concat(name_of_the_comment).concat("small_split").concat(String.valueOf(time_of_the_comment)).concat("small_split").concat(body_of_the_reply).concat("small_split").concat(String.valueOf(reply_position)).concat("small_split").concat(name_of_the_reply).concat("small_split").concat(String.valueOf(time_of_the_reply)).concat("big_divide");
             myEdit.putString("your_comments", old.concat(save_me));
             myEdit.commit();
         }
@@ -1881,8 +1949,53 @@ public class Show_full_post extends Fragment {
                     popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                         @Override
                         public boolean onMenuItemClick(MenuItem item) {
-                            Toast.makeText(getActivity(), "can't report archived posts", Toast.LENGTH_SHORT).show();
-                            return true;
+                            if (item.getOrder() == 0) {
+                                Toast.makeText(getActivity(), "can't report archived posts", Toast.LENGTH_SHORT).show();
+                                return true;
+                            } else if (item.getOrder() == 1) {
+                                Alert_dialog_show alert_dialog_show = new Alert_dialog_show();
+                                alert_dialog_show.show_alert_dialog(getContext(), "Hide Post?", "Are you sure you want to hide this post?");
+                                alert_dialog_show.set_ok_button_listen(new Alert_dialog_show.ok_button_clicked() {
+                                    @Override
+                                    public void ok_button_clicked() {
+                                        if (is_this_saved(getContext(), m_document_id)) {
+                                            remove_the_post(m_document_id);
+                                        }
+                                        if (is_this_your_post(m_document_id)) {
+                                            remove_your_post(m_document_id);
+                                        }
+                                        Save_and_get.getInstance().save_this(getContext(), m_document_id, "hide_posts", true);
+                                        Toast.makeText(getContext(), "Post hidden", Toast.LENGTH_SHORT).show();
+                                        hide_button_click_listener.hide_button_clicked();
+                                        go_back_to_posts_without_updating();
+                                    }
+                                });
+                                return true;
+                            } else if (item.getOrder() == 2) {
+                                Alert_dialog_show alert_dialog_show = new Alert_dialog_show();
+                                alert_dialog_show.show_alert_dialog(getContext(), "Block User?", "Are you sure you want to block this user?");
+                                alert_dialog_show.set_ok_button_listen(new Alert_dialog_show.ok_button_clicked() {
+                                    @Override
+                                    public void ok_button_clicked() {
+                                        if (is_this_your_post(m_document_id)) {
+                                            Toast.makeText(getContext(), "You can't block yourself", Toast.LENGTH_SHORT).show();
+                                        } else {
+                                            if (is_this_saved(getContext(), m_document_id)) {
+                                                remove_the_post(m_document_id);
+                                            }
+                                            if (is_this_your_post(m_document_id)) {
+                                                remove_your_post(m_document_id);
+                                            }
+//                                            Save_and_get.getInstance().save_this(getContext(), real_user_id, "blocked_users", true);
+                                            Toast.makeText(getContext(), "User blocked", Toast.LENGTH_SHORT).show();
+                                            hide_button_click_listener.hide_button_clicked();
+                                            go_back_to_posts_without_updating();
+                                        }
+                                    }
+                                });
+                                return true;
+                            }
+                            return false;
                         }
                     });
                     popupMenu.inflate(R.menu.report_in_full_post);
@@ -1943,6 +2056,7 @@ public class Show_full_post extends Fragment {
             button_to_watch_gift_in_card_in_post.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    Event_manager_all_in_one.getInstance().record_fire_base_event(getContext(), Event_manager_all_in_one.Event_type_fire_base_record.post_gifted,false);
                     if (am_i_signed_in_with_google()) {
                         Bottom_sheet_to_give_coins bottom_sheet_to_give_coins = new Bottom_sheet_to_give_coins(position, real_user_id, m_document_id, m_awards, "show");
                         bottom_sheet_to_give_coins.set_update_gift(new Bottom_sheet_to_give_coins.update_gift_listen() {
@@ -1998,4 +2112,89 @@ public class Show_full_post extends Fragment {
             });
         }
     }
+
+    private void go_back_to_posts_without_updating() {
+        Posts_fragment old_fragment = (Posts_fragment) getActivity().getSupportFragmentManager().findFragmentByTag("posts");
+        if (old_fragment != null) {
+            getActivity().getSupportFragmentManager().beginTransaction().remove(Show_full_post.this).show(old_fragment).commit();
+        }
+    }
+
+    private boolean is_this_saved(Context context, String document_id) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences("saved_posts", MODE_PRIVATE);
+        String old = sharedPreferences.getString("posts", "");
+        if (!old.isEmpty()) {
+            String[] big_split = old.split("big_divide");
+            for (int i = 0; i < big_split.length; i++) {
+                String[] small_split = big_split[i].split("small_split");
+                if (small_split[5].equals(document_id)) {
+                    return true;
+                }
+            }
+            return false;
+        } else {
+            return false;
+        }
+    }
+
+    private void set_up_blocked_users_and_hidden_comments() {
+        String blocked_user_ids_string = Save_and_get.getInstance().get_this(getContext(), "blocked_users", "blocked_users");
+        String hidden_comments_sting = Save_and_get.getInstance().get_this(getContext(), "hide_comment", "hide_comment");
+        if (!blocked_user_ids_string.equals("")) {
+            String[] blocked_user_ids_array = blocked_user_ids_string.split(Save_and_get.getInstance().return_split_keyword());
+            blocked_users.addAll(Arrays.asList(blocked_user_ids_array));
+        }
+        if (!hidden_comments_sting.equals("")) {
+            String[] hidden_post_id_array = hidden_comments_sting.split(Save_and_get.getInstance().return_split_keyword());
+            hidden_comments.addAll(Arrays.asList(hidden_post_id_array));
+        }
+    }
+
+    private boolean should_i_show_this_comment(String user_id, String body_and_user_id) {
+        if (!blocked_users.contains(user_id) && !hidden_comments.contains(body_and_user_id)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    private boolean is_this_your_post(String document_id) {
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("posted_posts", MODE_PRIVATE);
+        SharedPreferences.Editor myEdit = sharedPreferences.edit();
+        String old = sharedPreferences.getString("posts", "");
+        String[] big_split = old.split("big_divide");
+        for (int i = 0; i < big_split.length; i++) {
+            String[] small_split = big_split[i].split("small_split");
+            if (small_split[5].equals(document_id)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private void remove_your_post(String document_id) {
+        if (getContext() != null) {
+            SharedPreferences sharedPreferences = getContext().getSharedPreferences("posted_posts", MODE_PRIVATE);
+            SharedPreferences.Editor myEdit = sharedPreferences.edit();
+            String old = sharedPreferences.getString("posts", "");
+            if (old != null && !old.isEmpty()) {
+                String[] big_split = old.split("big_divide");
+                String save_me = "";
+                for (int i = 0; i < big_split.length; i++) {
+                    String[] small_split = big_split[i].split("small_split");
+                    if (!small_split[5].equals(document_id)) {
+                        save_me = save_me.concat(big_split[i]).concat("big_divide");
+                    }
+                }
+                myEdit.putString("posts", save_me);
+                myEdit.commit();
+            }
+        }
+    }
+
+    private void put_all_comments_in_a_hashmap(){
+
+    }
+
+
 }

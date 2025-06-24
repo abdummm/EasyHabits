@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/card_to_show_bad_habits_in_home_main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:clickable="true"
+    android:focusable="true"
+    android:foreground="?android:attr/selectableItemBackground"
+    app:cardBackgroundColor="#F6F6F6"
+    app:cardCornerRadius="25dp"
+    app:cardElevation="0dp"
+    android:layout_marginStart="10dp"
+    android:layout_marginEnd="10dp"
+    app:layout_constraintBottom_toBottomOf="parent">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <View
+            android:id="@+id/circle_in_the_middle_of_view_pager"
+            android:layout_width="65dp"
+            android:layout_height="65dp"
+            android:background="@drawable/circle_colored_fav_for_journal"
+            android:backgroundTint="@color/black"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.vanniktech.emoji.EmojiTextView
+            android:id="@+id/icon_of_the_premuim_feature"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            app:emojiSize="40dp"
+            app:layout_constraintStart_toStartOf="@+id/circle_in_the_middle_of_view_pager"
+            app:layout_constraintEnd_toEndOf="@+id/circle_in_the_middle_of_view_pager"
+            app:layout_constraintTop_toTopOf="@+id/circle_in_the_middle_of_view_pager"
+            app:layout_constraintBottom_toBottomOf="@+id/circle_in_the_middle_of_view_pager"/>
+
+        <TextView
+            android:id="@+id/text_view_saying_the_name_of_of_premuim_feature"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Add more than five habits"
+            android:textColor="@color/black"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            android:gravity="center"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/circle_in_the_middle_of_view_pager" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.cardview.widget.CardView>

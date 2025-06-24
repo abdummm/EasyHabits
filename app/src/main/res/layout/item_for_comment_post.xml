@@ -211,9 +211,9 @@
 
                 <View
                     android:id="@+id/upvote_view_in_post_card_comment"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:background="@drawable/round_arrow_drop_up_24"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:background="@drawable/thumb_up_24px"
                     app:layout_constraintBottom_toBottomOf="@+id/button_to_watch_upvote_in_card_in_post_comment"
                     app:layout_constraintEnd_toEndOf="@+id/button_to_watch_upvote_in_card_in_post_comment"
                     app:layout_constraintStart_toStartOf="@+id/button_to_watch_upvote_in_card_in_post_comment"

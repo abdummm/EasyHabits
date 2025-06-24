@@ -187,8 +187,7 @@ public class Counter_activity extends AppCompatActivity implements Bottom_sheet_
     }
 
     private void add_another_counter() {
-        Am_i_paid am_i_paid = new Am_i_paid(this);
-        if (am_i_paid.did_user_pay()) {
+        if (Payment_processer.getInstance().state_of_the_user()) {
             String new_counter = "Counter".concat("##split_small_split_small##").concat("0").concat("__split_counter_split_counter__");
             SharedPreferences sharedPreferences = getSharedPreferences("Counter", MODE_PRIVATE);
             String string = sharedPreferences.getString("counter", "");
@@ -202,7 +201,7 @@ public class Counter_activity extends AppCompatActivity implements Bottom_sheet_
                 myEdit.commit();
             }
         } else {
-            Buy_premuim buy_premuim = new Buy_premuim("add more than 1 counter", true, "activity");
+           /* Buy_premuim buy_premuim = new Buy_premuim("add more than 1 counter", true, "activity");
             hide_activity();
             buy_premuim.set_the_function(new Buy_premuim.show_the_activity() {
                 @Override
@@ -210,7 +209,7 @@ public class Counter_activity extends AppCompatActivity implements Bottom_sheet_
                     show_activity();
                 }
             });
-            getSupportFragmentManager().beginTransaction().add(R.id.hold_buy_premuim_fragment_container_in_counter, buy_premuim, "buy premium").show(buy_premuim).commit();
+            getSupportFragmentManager().beginTransaction().add(R.id.hold_buy_premuim_fragment_container_in_counter, buy_premuim, "buy premium").show(buy_premuim).commit();*/
         }
     }
 

@@ -71,7 +71,6 @@ public class Dialog_view_history_for_weight_tracker extends DialogFragment {
             String weight = sharedPreferences.getString("weight", "");
             String units = sharedPreferences.getString("units", "");
             if (weight != null) {
-                Log.w("weight", weight);
                 String[] weight_split = weight.split("split");
                 list = new ArrayList<>();
                 if (units != null && units.equals("metric")) {

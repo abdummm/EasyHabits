@@ -260,7 +260,6 @@ public class stats_fragment extends Fragment {
             calender_for_last_day_of_month_only.set(Calendar.MONTH, return_month_string_to_int(splitter[0]));
             calender_for_last_day_of_month_only.set(Calendar.YEAR, Integer.parseInt(splitter[1]));
             calender_for_last_day_of_month_only.set(Calendar.DAY_OF_MONTH, 1);
-            Log.w("testtest", String.valueOf(calender_for_last_day_of_month_only.getActualMaximum(Calendar.DAY_OF_MONTH)));
             return calender_for_last_day_of_month_only.getActualMaximum(Calendar.DAY_OF_MONTH);
         } else {
             return 1;
@@ -8336,7 +8335,6 @@ public class stats_fragment extends Fragment {
             }
             time = time.concat("_");
             time = time.concat(splitter[1]);
-            Log.w("google_new", time);
             return time;
         } else {
             return "";

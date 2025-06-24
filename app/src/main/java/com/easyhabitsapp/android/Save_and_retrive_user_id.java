@@ -9,13 +9,13 @@ import java.util.concurrent.TimeUnit;
 
 public class Save_and_retrive_user_id {
 
-    public void save_the_id(Context context, Purchase purchase,String mode,String user_id,int length_in_month){
+    /*public void save_the_id(Context context, Purchase purchase,String mode,String user_id,int length_in_month){
         SharedPreferences sharedPreferences = context.getSharedPreferences("pending_buys", Context.MODE_PRIVATE);
         SharedPreferences.Editor myEdit = sharedPreferences.edit();
         String old = sharedPreferences.getString("pending_buys","");
         if(mode.equals("main")){
-            if(old!=null && !old.isEmpty()){
-                if(is_this_saved(purchase.getPurchaseTime(),old)){
+            if(!old.isEmpty()){
+                if(should_i_save(purchase.getPurchaseTime(),old)){
                     myEdit.putString("pending_buys",old.concat(String.valueOf(purchase.getPurchaseTime())).concat("small_split").concat(user_id).concat("max_divide"));
                     myEdit.commit();
                 }
@@ -46,7 +46,7 @@ public class Save_and_retrive_user_id {
         return split[0];
     }
 
-    private boolean is_this_saved(long time,String old){
+    private boolean should_i_save(long time,String old){
         boolean should_i_save = true;
         String[] big = old.split("max_divide");
         for(int i = 0;i<big.length;i++){
@@ -78,5 +78,41 @@ public class Save_and_retrive_user_id {
         SharedPreferences sharedPreferences = context.getSharedPreferences("pending_buys", Context.MODE_PRIVATE);
         SharedPreferences.Editor myEdit = sharedPreferences.edit();
         myEdit.putString(String.valueOf(month).concat("_month"),"");
+    }*/
+
+    /*public void save_a_single_id(Context context,int month,String user_id){
+        SharedPreferences sharedPreferences = context.getSharedPreferences("pending_user_id_gift", Context.MODE_PRIVATE);
+        SharedPreferences.Editor myEdit = sharedPreferences.edit();
+        myEdit.putString(String.valueOf(month).concat("_month"),user_id);
+        myEdit.commit();
     }
+
+    public String get_a_single_id(Context context,int month){
+        SharedPreferences sharedPreferences = context.getSharedPreferences("pending_user_id_gift", Context.MODE_PRIVATE);
+        return sharedPreferences.getString(String.valueOf(month).concat("_month"),"");
+    }
+
+    public void save_a_single_id_coins(Context context,int how_many_coins,String user_id){
+        SharedPreferences sharedPreferences = context.getSharedPreferences("pending_user_id_gift", Context.MODE_PRIVATE);
+        SharedPreferences.Editor myEdit = sharedPreferences.edit();
+        myEdit.putString(String.valueOf(how_many_coins).concat("_coins"),user_id);
+        myEdit.commit();
+    }
+
+    public String get_a_single_id_coins(Context context,int how_many_coins){
+        SharedPreferences sharedPreferences = context.getSharedPreferences("pending_user_id_gift", Context.MODE_PRIVATE);
+        return sharedPreferences.getString(String.valueOf(how_many_coins).concat("_coins"),"");
+    }
+
+    public void save_a_single_id_subs(Context context,int how_many_months,String user_id){
+        SharedPreferences sharedPreferences = context.getSharedPreferences("pending_user_id_gift", Context.MODE_PRIVATE);
+        SharedPreferences.Editor myEdit = sharedPreferences.edit();
+        myEdit.putString(String.valueOf(how_many_months).concat("_months"),user_id);
+        myEdit.commit();
+    }
+
+    public String get_a_single_id_subs(Context context,int how_many_months){
+        SharedPreferences sharedPreferences = context.getSharedPreferences("pending_user_id_gift", Context.MODE_PRIVATE);
+        return sharedPreferences.getString(String.valueOf(how_many_months).concat("_months"),"");
+    }*/
 }

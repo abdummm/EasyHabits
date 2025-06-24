@@ -51,7 +51,7 @@ public class Adapter_for_emergency extends RecyclerView.Adapter<Adapter_for_emer
     @Override
     public void onBindViewHolder(@NonNull final Adapter_for_emergency.ExampleViewHolder holder, final int position) {
         final Example_item_emergency current_item = m_example_list.get(position);
-        if(current_item.getText().equals("Mood tracker")){
+        /*if(current_item.getText().equals("Mood tracker")){
             holder.not_mood_tracker_in_the_card.setVisibility(View.GONE);
             holder.mood_tracker_in_the_card.setVisibility(View.VISIBLE);
             holder.layout_saying_more_comming_soon_in_card.setVisibility(View.GONE);
@@ -59,7 +59,7 @@ public class Adapter_for_emergency extends RecyclerView.Adapter<Adapter_for_emer
             set_the_on_button_click_listen(holder);
             set_entry_today(holder,current_item.isEntry_today());
             holder.text_saying_thanks_for_your_input.setText("Today's input has been recorded");
-        } else if(current_item.getText().equals("More Coming Soon...")){
+        } else*/ if(current_item.getText().equals("More Coming Soon...")){
             holder.layout_saying_more_comming_soon_in_card.setVisibility(View.VISIBLE);
             holder.not_mood_tracker_in_the_card.setVisibility(View.GONE);
             holder.mood_tracker_in_the_card.setVisibility(View.GONE);

@@ -970,7 +970,6 @@ public class Add_bad_habits_in_home_button extends AppCompatActivity implements 
             goal5 = 0;
         }
         long time_left_in_days = return_the_streak();
-        Log.w("google", String.valueOf(return_the_streak()));
         if (time_left_in_days < goal1 && time_left_in_days < goal2 && time_left_in_days < goal3 && time_left_in_days < goal4 && time_left_in_days < goal5) {
             return true;
         } else {
@@ -1026,7 +1025,6 @@ public class Add_bad_habits_in_home_button extends AppCompatActivity implements 
             if (check_the_goal_int()) {
                 if (check_the_goals()) {
                     if (check_if_streak_is_bigger()) {
-                        Log.w("habit", "test");
                         SharedPreferences sharedPreferences = getSharedPreferences("main_streak", MODE_PRIVATE);
                         SharedPreferences.Editor my_edit = sharedPreferences.edit();
                         String[] small_split = first_screen_result.split("__small_split__");
@@ -1091,12 +1089,10 @@ public class Add_bad_habits_in_home_button extends AppCompatActivity implements 
     private int return_the_streak() {
         EditText enter_streak_edittext = findViewById(R.id.enter_streak_edittext);
         if (enter_streak_edittext.getText().toString().length() > 0) {
-            Log.w("time_milli", enter_streak_edittext.getText().toString());
             return Integer.parseInt(enter_streak_edittext.getText().toString());
         } else {
             SharedPreferences shared = getSharedPreferences("main_streak", MODE_PRIVATE);
             long milli = shared.getLong("time_in_milli", 0);
-            Log.w("time_milli", String.valueOf(milli));
             return (int) TimeUnit.MILLISECONDS.toDays(System.currentTimeMillis() - milli);
         }
     }

@@ -126,11 +126,9 @@ public class phone_usage_emergency extends AppCompatActivity {
             for (AppUsageInfo appUsageInfo : smallInfoList) {
                 // Do according to your requirement
                 if (packageManager.getLaunchIntentForPackage(appUsageInfo.packageName) != null) {
-                    Log.w("test2", appUsageInfo.packageName + " : " + appUsageInfo.timeInForeground + "\n\n");
                     app_for_ground = app_for_ground + appUsageInfo.timeInForeground;
                 }
             }
-            Log.w("test", String.valueOf(app_for_ground));
 
         } else {
             Toast.makeText(this, "Sorry can't load information", Toast.LENGTH_SHORT).show();

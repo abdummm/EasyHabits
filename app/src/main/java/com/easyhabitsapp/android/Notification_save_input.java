@@ -5,6 +5,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -33,6 +34,8 @@ public class Notification_save_input extends BroadcastReceiver {
         save_the_input_for_good_habit_input(intent.getStringExtra("yes_or_no"),System.currentTimeMillis());
         cancel_notification();
         start_activity();
+        show_toast();
+        Event_manager_all_in_one.getInstance().record_fire_base_event(context, Event_manager_all_in_one.Event_type_fire_base_record.user_recorded_inter_action_from_notification,false);
     }
 
     private void save_the_input_for_good_habit_input(String yes_or_no, long time_in_milli) {
@@ -89,6 +92,7 @@ public class Notification_save_input extends BroadcastReceiver {
 
     private void start_activity(){
         Intent activity = new Intent(context, after_login.class).putExtra("open_habit",id);
+        activity.setClassName(context.getPackageName(), after_login.class.getName());
         activity.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(activity);
     }
@@ -110,5 +114,9 @@ public class Notification_save_input extends BroadcastReceiver {
         } else {
             return habits_data_class.getRelapse_amount();
         }
+    }
+
+    private void show_toast(){
+        Toast.makeText(context, "Input recorded!", Toast.LENGTH_SHORT).show();
     }
 }

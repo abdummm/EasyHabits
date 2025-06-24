@@ -174,11 +174,11 @@ public class emergency_button_fragment extends Fragment {
                 Intent intent = new Intent(getActivity(), Pushups_emergency.class);
                 startActivity(intent);
                 getActivity().overridePendingTransition(0, 0);
-            } else if (text.equals("Quotes")) {
+            }/* else if (text.equals("Quotes")) {
                 Intent intent = new Intent(getActivity(), Motivational_quotes.class);
                 startActivity(intent);
                 getActivity().overridePendingTransition(0, 0);
-            } else if (text.equals("Mediation")) {
+            }*/ else if (text.equals("Mediation")) {
                /*Intent intent = new Intent(getActivity(), Motivational_quotes.class);
                 startActivity(intent);
                 getActivity().overridePendingTransition(0, 0);*/

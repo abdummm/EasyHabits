@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/dialog_to_thank_user_for_purchase"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/title_of_the_dialog"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Sending Your Gift"
+        android:textColor="#CFCFCF"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+    <View
+        android:id="@+id/pixel_at_the_seventy_five_of_the_text"
+        android:layout_width="1px"
+        android:layout_height="1px"
+        app:layout_constraintVertical_bias="0.75"
+        app:layout_constraintTop_toTopOf="@+id/title_of_the_dialog"
+        app:layout_constraintBottom_toBottomOf="@+id/title_of_the_dialog"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:cardElevation="30dp"
+        app:cardCornerRadius="15dp"
+        app:layout_constraintTop_toBottomOf="@+id/pixel_at_the_seventy_five_of_the_text">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <Button
+                android:id="@+id/ok_for_permission"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:layout_marginEnd="5dp"
+                android:backgroundTint="@android:color/transparent"
+                android:stateListAnimator="@null"
+                android:text="@android:string/ok"
+                android:textColor="@color/fav"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/text_saying_gift_is_sent"
+                app:layout_constraintVertical_bias="1" />
+
+
+            <View
+                android:id="@+id/show_the_award_image"
+                android:layout_width="143dp"
+                android:layout_height="151dp"
+                android:visibility="invisible"
+                app:layout_constraintBottom_toTopOf="@+id/ok_for_permission"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/text_saying_gift_is_sent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginEnd="10dp"
+                android:gravity="center"
+                android:text="Your gift has been sent!!"
+                android:textAlignment="center"
+                android:textColor="@color/fav"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                android:visibility="invisible"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/show_the_award_image" />
+
+            <nl.dionsegijn.konfetti.xml.KonfettiView
+                android:id="@+id/konfetti_in_gift_for_others"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:layout_constraintBottom_toTopOf="@+id/ok_for_permission"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ProgressBar
+                android:id="@+id/progressBar_cyclic_for_the_gift_dialog"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:minWidth="40dp"
+                android:minHeight="40dp"
+                android:visibility="visible"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
+</androidx.constraintlayout.widget.ConstraintLayout>

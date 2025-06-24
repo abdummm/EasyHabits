@@ -1,8 +1,11 @@
 package com.easyhabitsapp.android;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
@@ -27,18 +30,22 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.PopupMenu;
 import androidx.cardview.widget.CardView;
+import androidx.constraintlayout.helper.widget.Layer;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.constraintlayout.widget.ConstraintSet;
 import androidx.core.content.ContextCompat;
@@ -76,7 +83,9 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
@@ -141,10 +150,12 @@ public class View_home_habit extends Fragment implements PopupMenu.OnMenuItemCli
     private Long start_date;
     private int value_for_position;
     private LineChart line_chart_for_streak;
-    private View[] list_of_all_the_calender_views;
+    private Drawable[] list_of_all_the_calender_views;
     private ArrayList<Integer> each_streak_lengths;
     private ArrayList<Integer> days_of_months_good_habit;
     private HashMap<Long, Integer> hash_map_amount;
+    private long nano_time;
+    private HashMap<String, Long> test_times = new HashMap<>();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -163,62 +174,199 @@ public class View_home_habit extends Fragment implements PopupMenu.OnMenuItemCli
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
         if (!hidden) {
-            call_me_on_start();
+            set_status_bar_color();
+            set_the_color_of_the_notifications_status();
+            scroll_to_top();
         }
     }
 
     private void call_me_on_start() {
+        Event_manager_all_in_one.getInstance().record_fire_base_event(getContext(), Event_manager_all_in_one.Event_type_fire_base_record.habit_opened, false);
+        start_time();
         open_the_and_shared();
+        end_time("open_the_and_shared");
+        start_time();
         add_the_days_per_month_to_the_calender();
+        end_time("add_the_days_per_month_to_the_calender");
+        start_time();
         put_all_the_relapses_into_a_array_list();
-        calculate_all_the_streaks();
-        displaying_streak_for_user();
-        back_button_listen();
-        color_the_stuff();
+        end_time("put_all_the_relapses_into_a_array_list");
+        start_time();
         declare_start_date();
+        end_time("declare_start_date");
+        start_time();
+        calculate_all_the_streaks();
+        end_time("calculate_all_the_streaks");
+        start_time();
+        displaying_streak_for_user();
+        end_time("displaying_streak_for_user");
+        start_time();
+        back_button_listen();
+        end_time("back_button_listen");
+        start_time();
+        color_the_stuff();
+        end_time("color_the_stuff");
+        start_time();
         color_the_4_drawables();
+        end_time("color_the_4_drawables");
+        start_time();
         color_the_middle();
+        end_time("color_the_middle");
+        start_time();
         define_the_buttons();
+        end_time("define_the_buttons");
+        start_time();
         set_the_first_day_of_the_week_number();
+        end_time("set_the_first_day_of_the_week_number");
+        start_time();
         set_the_days_on_the_real_text();
+        end_time("set_the_days_on_the_real_text");
+        start_time();
         back_and_front_button_listen();
+        end_time("back_and_front_button_listen");
+        start_time();
         color_the_today_value();
+        end_time("color_the_today_value");
+        start_time();
         calender_button_listeners();
+        end_time("calender_button_listeners");
+        start_time();
         remove_the_hiding_buttons();
+        end_time("remove_the_hiding_buttons");
+        start_time();
         color_today();
+        end_time("color_today");
+        start_time();
         color_the_calender();
+        end_time("color_the_calender");
+        start_time();
         set_up_share_and_yes_or_no_buttons();
+        end_time("set_up_share_and_yes_or_no_buttons");
+        start_time();
         yes_and_no_button_listen_under_the_calender();
+        end_time("yes_and_no_button_listen_under_the_calender");
+        start_time();
         divide_it_into_weeks();
+        end_time("divide_it_into_weeks");
+        start_time();
         clear_the_middle();
+        end_time("clear_the_middle");
+        start_time();
         make_the_middle_come_again();
+        end_time("make_the_middle_come_again");
+        start_time();
         hide_or_un_hide_the_button(1);
+        end_time("hide_or_un_hide_the_button");
+        start_time();
         color_the_button_under_the_calender();
+        end_time("color_the_button_under_the_calender");
+        start_time();
         calculate_the_average_streak();
+        end_time("calculate_the_average_streak");
+        start_time();
         calculate_the_best_streak();
+        end_time("calculate_the_best_streak");
+        start_time();
         calculate_the_current_streak();
+        end_time("calculate_the_current_streak");
+        start_time();
         set_the_text_for_in_card();
+        end_time("set_the_text_for_in_card");
+        start_time();
         set_up_day_of_week_bar_chart();
+        end_time("set_up_day_of_week_bar_chart");
+        start_time();
         draw_pie_chart();
+        end_time("draw_pie_chart");
+        start_time();
         set_up_the_various_streak_chart();
+        end_time("set_up_the_various_streak_chart");
+        start_time();
         setup_the_four_information_card();
+        end_time("setup_the_four_information_card");
+        start_time();
         add_the_views();
+        end_time("add_the_views");
+        start_time();
         set_the_title_of_the_year_habit();
+        end_time("set_the_title_of_the_year_habit");
+        start_time();
         forward_and_back_button_listen();
+        end_time("forward_and_back_button_listen");
+        start_time();
         restart_all_the_year_values();
+        end_time("restart_all_the_year_values");
+        start_time();
         set_the_title_of_the_year_habit();
+        end_time("set_the_title_of_the_year_habit");
+        start_time();
         set_the_leap_year();
+        end_time("set_the_leap_year");
+        start_time();
         put_values_into_year_in_good_habits();
+        end_time("put_values_into_year_in_good_habits");
+        start_time();
         set_the_buttons();
+        end_time("set_the_buttons");
+        start_time();
         three_dots_to_delete_or_edit_at_top();
+        end_time("three_dots_to_delete_or_edit_at_top");
+        start_time();
         watch_all_the_share_button();
+        end_time("watch_all_the_share_button");
+        start_time();
         make_the_views_transparent();
+        end_time("make_the_views_transparent");
+        start_time();
         uy_premuim_multiple_button_listen();
+        end_time("uy_premuim_multiple_button_listen");
+        start_time();
         change_the_text_if_it_is_a_good_habit();
+        end_time("change_the_text_if_it_is_a_good_habit");
+        start_time();
         change_the_text_above_realpse_graphs_if_it_is_a_good_habit();
+        end_time("change_the_text_above_realpse_graphs_if_it_is_a_good_habit");
+        start_time();
         change_the_four_text_good_habit();
+        end_time("change_the_four_text_good_habit");
+        start_time();
         plus_and_minus_for_amount();
+        end_time("plus_and_minus_for_amount");
+        start_time();
         amount_text_watcher();
+        end_time("amount_text_watcher");
+        start_time();
+        set_visiblity_of_months_days();
+        end_time("set_visiblity_of_months_days");
+        print_test_times();
+    }
+
+    private void start_time() {
+        nano_time = System.nanoTime();
+    }
+
+    private void end_time(String name) {
+        test_times.put(name, System.nanoTime() - nano_time);
+    }
+
+    private void print_test_times() {
+        ArrayList<Long> list = new ArrayList<>();
+        LinkedHashMap<String, Long> sortedMap = new LinkedHashMap<>();
+        for (Map.Entry<String, Long> entry : test_times.entrySet()) {
+            list.add(entry.getValue());
+        }
+        Collections.sort(list);
+        Collections.reverse(list);
+        long total_time = 0;
+        for (long num : list) {
+            for (Map.Entry<String, Long> entry : test_times.entrySet()) {
+                if (entry.getValue().equals(num)) {
+                    total_time = total_time + num;
+                    sortedMap.put(entry.getKey(), num);
+                }
+            }
+        }
+        double seconds = (double) total_time / 1_000_000_000.0;
     }
 
     private void open_the_and_shared() {
@@ -273,13 +421,14 @@ public class View_home_habit extends Fragment implements PopupMenu.OnMenuItemCli
             back_button_in_view_information_good_habits.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    habits_fragment habits_fragment = new habits_fragment();
-                    View_home_habit view_home_habit = (View_home_habit) getActivity().getSupportFragmentManager().findFragmentByTag("view home");
+                    return_status_bar_color();
+                    return_icons_color_to_dark();
+                    View_home_habit view_home_habit = (View_home_habit) getActivity().getSupportFragmentManager().findFragmentByTag("view home: ".concat(return_the_information_from_save(5)));
                     home_fragment home_fragment = (com.easyhabitsapp.android.home_fragment) getActivity().getSupportFragmentManager().findFragmentByTag("home");
-                    com.easyhabitsapp.android.habits_fragment old_habits = (com.easyhabitsapp.android.habits_fragment) getActivity().getSupportFragmentManager().findFragmentByTag("habits");
+                    //com.easyhabitsapp.android.habits_fragment old_habits = (com.easyhabitsapp.android.habits_fragment) getActivity().getSupportFragmentManager().findFragmentByTag("habits");
                     if (view_home_habit != null) {
                         if (getActivity() != null && home_fragment != null) {
-                            getActivity().getSupportFragmentManager().beginTransaction().remove(view_home_habit).remove(old_habits).add(R.id.fragment_container, habits_fragment, "habits").hide(habits_fragment).show(home_fragment).commit();
+                            getActivity().getSupportFragmentManager().beginTransaction().hide(view_home_habit).show(home_fragment).commitNow();
                         }
                     }
                 }
@@ -8181,77 +8330,78 @@ public class View_home_habit extends Fragment implements PopupMenu.OnMenuItemCli
     }
 
     private int return_which_day_is_linked_to_calender(int which) {
-        if (calender_button_showing_shadow_1.getText().toString().equals(String.valueOf(which))) {
+        String which_string = String.valueOf(which);
+        if (calender_button_showing_shadow_1.getText().toString().equals(which_string)) {
             return 1;
-        } else if (calender_button_showing_shadow_2.getText().toString().equals(String.valueOf(which))) {
+        } else if (calender_button_showing_shadow_2.getText().toString().equals(which_string)) {
             return 2;
-        } else if (calender_button_showing_shadow_3.getText().toString().equals(String.valueOf(which))) {
+        } else if (calender_button_showing_shadow_3.getText().toString().equals(which_string)) {
             return 3;
-        } else if (calender_button_showing_shadow_4.getText().toString().equals(String.valueOf(which))) {
+        } else if (calender_button_showing_shadow_4.getText().toString().equals(which_string)) {
             return 4;
-        } else if (calender_button_showing_shadow_5.getText().toString().equals(String.valueOf(which))) {
+        } else if (calender_button_showing_shadow_5.getText().toString().equals(which_string)) {
             return 5;
-        } else if (calender_button_showing_shadow_6.getText().toString().equals(String.valueOf(which))) {
+        } else if (calender_button_showing_shadow_6.getText().toString().equals(which_string)) {
             return 6;
-        } else if (calender_button_showing_shadow_7.getText().toString().equals(String.valueOf(which))) {
+        } else if (calender_button_showing_shadow_7.getText().toString().equals(which_string)) {
             return 7;
-        } else if (calender_button_showing_shadow_8.getText().toString().equals(String.valueOf(which))) {
+        } else if (calender_button_showing_shadow_8.getText().toString().equals(which_string)) {
             return 8;
-        } else if (calender_button_showing_shadow_9.getText().toString().equals(String.valueOf(which))) {
+        } else if (calender_button_showing_shadow_9.getText().toString().equals(which_string)) {
             return 9;
-        } else if (calender_button_showing_shadow_10.getText().toString().equals(String.valueOf(which))) {
+        } else if (calender_button_showing_shadow_10.getText().toString().equals(which_string)) {
             return 10;
-        } else if (calender_button_showing_shadow_11.getText().toString().equals(String.valueOf(which))) {
+        } else if (calender_button_showing_shadow_11.getText().toString().equals(which_string)) {
             return 11;
-        } else if (calender_button_showing_shadow_12.getText().toString().equals(String.valueOf(which))) {
+        } else if (calender_button_showing_shadow_12.getText().toString().equals(which_string)) {
             return 12;
-        } else if (calender_button_showing_shadow_13.getText().toString().equals(String.valueOf(which))) {
+        } else if (calender_button_showing_shadow_13.getText().toString().equals(which_string)) {
             return 13;
-        } else if (calender_button_showing_shadow_14.getText().toString().equals(String.valueOf(which))) {
+        } else if (calender_button_showing_shadow_14.getText().toString().equals(which_string)) {
             return 14;
-        } else if (calender_button_showing_shadow_15.getText().toString().equals(String.valueOf(which))) {
+        } else if (calender_button_showing_shadow_15.getText().toString().equals(which_string)) {
             return 15;
-        } else if (calender_button_showing_shadow_16.getText().toString().equals(String.valueOf(which))) {
+        } else if (calender_button_showing_shadow_16.getText().toString().equals(which_string)) {
             return 16;
-        } else if (calender_button_showing_shadow_17.getText().toString().equals(String.valueOf(which))) {
+        } else if (calender_button_showing_shadow_17.getText().toString().equals(which_string)) {
             return 17;
-        } else if (calender_button_showing_shadow_18.getText().toString().equals(String.valueOf(which))) {
+        } else if (calender_button_showing_shadow_18.getText().toString().equals(which_string)) {
             return 18;
-        } else if (calender_button_showing_shadow_19.getText().toString().equals(String.valueOf(which))) {
+        } else if (calender_button_showing_shadow_19.getText().toString().equals(which_string)) {
             return 19;
-        } else if (calender_button_showing_shadow_20.getText().toString().equals(String.valueOf(which))) {
+        } else if (calender_button_showing_shadow_20.getText().toString().equals(which_string)) {
             return 20;
-        } else if (calender_button_showing_shadow_21.getText().toString().equals(String.valueOf(which))) {
+        } else if (calender_button_showing_shadow_21.getText().toString().equals(which_string)) {
             return 21;
-        } else if (calender_button_showing_shadow_22.getText().toString().equals(String.valueOf(which))) {
+        } else if (calender_button_showing_shadow_22.getText().toString().equals(which_string)) {
             return 22;
-        } else if (calender_button_showing_shadow_23.getText().toString().equals(String.valueOf(which))) {
+        } else if (calender_button_showing_shadow_23.getText().toString().equals(which_string)) {
             return 23;
-        } else if (calender_button_showing_shadow_24.getText().toString().equals(String.valueOf(which))) {
+        } else if (calender_button_showing_shadow_24.getText().toString().equals(which_string)) {
             return 24;
-        } else if (calender_button_showing_shadow_25.getText().toString().equals(String.valueOf(which))) {
+        } else if (calender_button_showing_shadow_25.getText().toString().equals(which_string)) {
             return 25;
-        } else if (calender_button_showing_shadow_26.getText().toString().equals(String.valueOf(which))) {
+        } else if (calender_button_showing_shadow_26.getText().toString().equals(which_string)) {
             return 26;
-        } else if (calender_button_showing_shadow_27.getText().toString().equals(String.valueOf(which))) {
+        } else if (calender_button_showing_shadow_27.getText().toString().equals(which_string)) {
             return 27;
-        } else if (calender_button_showing_shadow_28.getText().toString().equals(String.valueOf(which))) {
+        } else if (calender_button_showing_shadow_28.getText().toString().equals(which_string)) {
             return 28;
-        } else if (calender_button_showing_shadow_29.getText().toString().equals(String.valueOf(which))) {
+        } else if (calender_button_showing_shadow_29.getText().toString().equals(which_string)) {
             return 29;
-        } else if (calender_button_showing_shadow_30.getText().toString().equals(String.valueOf(which))) {
+        } else if (calender_button_showing_shadow_30.getText().toString().equals(which_string)) {
             return 30;
-        } else if (calender_button_showing_shadow_31.getText().toString().equals(String.valueOf(which))) {
+        } else if (calender_button_showing_shadow_31.getText().toString().equals(which_string)) {
             return 31;
-        } else if (calender_button_showing_shadow_32.getText().toString().equals(String.valueOf(which))) {
+        } else if (calender_button_showing_shadow_32.getText().toString().equals(which_string)) {
             return 32;
-        } else if (calender_button_showing_shadow_33.getText().toString().equals(String.valueOf(which))) {
+        } else if (calender_button_showing_shadow_33.getText().toString().equals(which_string)) {
             return 33;
-        } else if (calender_button_showing_shadow_34.getText().toString().equals(String.valueOf(which))) {
+        } else if (calender_button_showing_shadow_34.getText().toString().equals(which_string)) {
             return 34;
-        } else if (calender_button_showing_shadow_35.getText().toString().equals(String.valueOf(which))) {
+        } else if (calender_button_showing_shadow_35.getText().toString().equals(which_string)) {
             return 35;
-        } else if (calender_button_showing_shadow_36.getText().toString().equals(String.valueOf(which))) {
+        } else if (calender_button_showing_shadow_36.getText().toString().equals(which_string)) {
             return 36;
         } else {
             return 37;
@@ -8439,8 +8589,9 @@ public class View_home_habit extends Fragment implements PopupMenu.OnMenuItemCli
                 for (int i = 1; i <= return_last_day_of_month(); i++) {
                     calendar.set(year, month, i);
                     long time_in_milli = calendar.getTimeInMillis();
-                    if (Simplify_the_time.return_time_in_midnight(time_in_milli) >= Simplify_the_time.return_time_in_midnight(start_date)) {
-                        if (Simplify_the_time.return_time_in_midnight(time_in_milli) <= Simplify_the_time.return_time_in_midnight(System.currentTimeMillis())) {
+                    long time_at_midnight = Simplify_the_time.return_time_in_midnight(time_in_milli);
+                    if (time_at_midnight >= Simplify_the_time.return_time_in_midnight(start_date)) {
+                        if (time_at_midnight <= Simplify_the_time.return_time_in_midnight(System.currentTimeMillis())) {
                             if (return_state_of_day(time_in_milli)) {
                                 colors[i] = yes_color;
                             } else {
@@ -8459,147 +8610,148 @@ public class View_home_habit extends Fragment implements PopupMenu.OnMenuItemCli
                 }
             }
             for (int i = 1; i <= return_last_day_of_month(); i++) {
-                if (return_which_day_is_linked_to_calender(i) == 1) {
+                int which_day = return_which_day_is_linked_to_calender(i);
+                if (which_day == 1) {
                     if (calender_button_showing_shadow_1.getCurrentTextColor() != Color.WHITE) {
                         calender_button_showing_shadow_1.setTextColor(Color.parseColor(colors[i]));
                     }
-                } else if (return_which_day_is_linked_to_calender(i) == 2) {
+                } else if (which_day == 2) {
                     if (calender_button_showing_shadow_2.getCurrentTextColor() != Color.WHITE) {
                         calender_button_showing_shadow_2.setTextColor(Color.parseColor(colors[i]));
                     }
-                } else if (return_which_day_is_linked_to_calender(i) == 3) {
+                } else if (which_day == 3) {
                     if (calender_button_showing_shadow_3.getCurrentTextColor() != Color.WHITE) {
                         calender_button_showing_shadow_3.setTextColor(Color.parseColor(colors[i]));
                     }
-                } else if (return_which_day_is_linked_to_calender(i) == 4) {
+                } else if (which_day == 4) {
                     if (calender_button_showing_shadow_4.getCurrentTextColor() != Color.WHITE) {
                         calender_button_showing_shadow_4.setTextColor(Color.parseColor(colors[i]));
                     }
-                } else if (return_which_day_is_linked_to_calender(i) == 5) {
+                } else if (which_day == 5) {
                     if (calender_button_showing_shadow_5.getCurrentTextColor() != Color.WHITE) {
                         calender_button_showing_shadow_5.setTextColor(Color.parseColor(colors[i]));
                     }
-                } else if (return_which_day_is_linked_to_calender(i) == 6) {
+                } else if (which_day == 6) {
                     if (calender_button_showing_shadow_6.getCurrentTextColor() != Color.WHITE) {
                         calender_button_showing_shadow_6.setTextColor(Color.parseColor(colors[i]));
                     }
-                } else if (return_which_day_is_linked_to_calender(i) == 7) {
+                } else if (which_day == 7) {
                     if (calender_button_showing_shadow_7.getCurrentTextColor() != Color.WHITE) {
                         calender_button_showing_shadow_7.setTextColor(Color.parseColor(colors[i]));
                     }
-                } else if (return_which_day_is_linked_to_calender(i) == 8) {
+                } else if (which_day == 8) {
                     if (calender_button_showing_shadow_8.getCurrentTextColor() != Color.WHITE) {
                         calender_button_showing_shadow_8.setTextColor(Color.parseColor(colors[i]));
                     }
-                } else if (return_which_day_is_linked_to_calender(i) == 9) {
+                } else if (which_day == 9) {
                     if (calender_button_showing_shadow_9.getCurrentTextColor() != Color.WHITE) {
                         calender_button_showing_shadow_9.setTextColor(Color.parseColor(colors[i]));
                     }
-                } else if (return_which_day_is_linked_to_calender(i) == 10) {
+                } else if (which_day == 10) {
                     if (calender_button_showing_shadow_10.getCurrentTextColor() != Color.WHITE) {
                         calender_button_showing_shadow_10.setTextColor(Color.parseColor(colors[i]));
                     }
-                } else if (return_which_day_is_linked_to_calender(i) == 11) {
+                } else if (which_day == 11) {
                     if (calender_button_showing_shadow_11.getCurrentTextColor() != Color.WHITE) {
                         calender_button_showing_shadow_11.setTextColor(Color.parseColor(colors[i]));
                     }
-                } else if (return_which_day_is_linked_to_calender(i) == 12) {
+                } else if (which_day == 12) {
                     if (calender_button_showing_shadow_12.getCurrentTextColor() != Color.WHITE) {
                         calender_button_showing_shadow_12.setTextColor(Color.parseColor(colors[i]));
                     }
-                } else if (return_which_day_is_linked_to_calender(i) == 13) {
+                } else if (which_day == 13) {
                     if (calender_button_showing_shadow_13.getCurrentTextColor() != Color.WHITE) {
                         calender_button_showing_shadow_13.setTextColor(Color.parseColor(colors[i]));
                     }
-                } else if (return_which_day_is_linked_to_calender(i) == 14) {
+                } else if (which_day == 14) {
                     if (calender_button_showing_shadow_14.getCurrentTextColor() != Color.WHITE) {
                         calender_button_showing_shadow_14.setTextColor(Color.parseColor(colors[i]));
                     }
-                } else if (return_which_day_is_linked_to_calender(i) == 15) {
+                } else if (which_day == 15) {
                     if (calender_button_showing_shadow_15.getCurrentTextColor() != Color.WHITE) {
                         calender_button_showing_shadow_15.setTextColor(Color.parseColor(colors[i]));
                     }
-                } else if (return_which_day_is_linked_to_calender(i) == 16) {
+                } else if (which_day == 16) {
                     if (calender_button_showing_shadow_16.getCurrentTextColor() != Color.WHITE) {
                         calender_button_showing_shadow_16.setTextColor(Color.parseColor(colors[i]));
                     }
-                } else if (return_which_day_is_linked_to_calender(i) == 17) {
+                } else if (which_day == 17) {
                     if (calender_button_showing_shadow_17.getCurrentTextColor() != Color.WHITE) {
                         calender_button_showing_shadow_17.setTextColor(Color.parseColor(colors[i]));
                     }
-                } else if (return_which_day_is_linked_to_calender(i) == 18) {
+                } else if (which_day == 18) {
                     if (calender_button_showing_shadow_18.getCurrentTextColor() != Color.WHITE) {
                         calender_button_showing_shadow_18.setTextColor(Color.parseColor(colors[i]));
                     }
-                } else if (return_which_day_is_linked_to_calender(i) == 19) {
+                } else if (which_day == 19) {
                     if (calender_button_showing_shadow_19.getCurrentTextColor() != Color.WHITE) {
                         calender_button_showing_shadow_19.setTextColor(Color.parseColor(colors[i]));
                     }
-                } else if (return_which_day_is_linked_to_calender(i) == 20) {
+                } else if (which_day == 20) {
                     if (calender_button_showing_shadow_20.getCurrentTextColor() != Color.WHITE) {
                         calender_button_showing_shadow_20.setTextColor(Color.parseColor(colors[i]));
                     }
-                } else if (return_which_day_is_linked_to_calender(i) == 21) {
+                } else if (which_day == 21) {
                     if (calender_button_showing_shadow_21.getCurrentTextColor() != Color.WHITE) {
                         calender_button_showing_shadow_21.setTextColor(Color.parseColor(colors[i]));
                     }
-                } else if (return_which_day_is_linked_to_calender(i) == 22) {
+                } else if (which_day == 22) {
                     if (calender_button_showing_shadow_22.getCurrentTextColor() != Color.WHITE) {
                         calender_button_showing_shadow_22.setTextColor(Color.parseColor(colors[i]));
                     }
-                } else if (return_which_day_is_linked_to_calender(i) == 23) {
+                } else if (which_day == 23) {
                     if (calender_button_showing_shadow_23.getCurrentTextColor() != Color.WHITE) {
                         calender_button_showing_shadow_23.setTextColor(Color.parseColor(colors[i]));
                     }
-                } else if (return_which_day_is_linked_to_calender(i) == 24) {
+                } else if (which_day == 24) {
                     if (calender_button_showing_shadow_24.getCurrentTextColor() != Color.WHITE) {
                         calender_button_showing_shadow_24.setTextColor(Color.parseColor(colors[i]));
                     }
-                } else if (return_which_day_is_linked_to_calender(i) == 25) {
+                } else if (which_day == 25) {
                     if (calender_button_showing_shadow_25.getCurrentTextColor() != Color.WHITE) {
                         calender_button_showing_shadow_25.setTextColor(Color.parseColor(colors[i]));
                     }
-                } else if (return_which_day_is_linked_to_calender(i) == 26) {
+                } else if (which_day == 26) {
                     if (calender_button_showing_shadow_26.getCurrentTextColor() != Color.WHITE) {
                         calender_button_showing_shadow_26.setTextColor(Color.parseColor(colors[i]));
                     }
-                } else if (return_which_day_is_linked_to_calender(i) == 27) {
+                } else if (which_day == 27) {
                     if (calender_button_showing_shadow_27.getCurrentTextColor() != Color.WHITE) {
                         calender_button_showing_shadow_27.setTextColor(Color.parseColor(colors[i]));
                     }
-                } else if (return_which_day_is_linked_to_calender(i) == 28) {
+                } else if (which_day == 28) {
                     if (calender_button_showing_shadow_28.getCurrentTextColor() != Color.WHITE) {
                         calender_button_showing_shadow_28.setTextColor(Color.parseColor(colors[i]));
                     }
-                } else if (return_which_day_is_linked_to_calender(i) == 29) {
+                } else if (which_day == 29) {
                     if (calender_button_showing_shadow_29.getCurrentTextColor() != Color.WHITE) {
                         calender_button_showing_shadow_29.setTextColor(Color.parseColor(colors[i]));
                     }
-                } else if (return_which_day_is_linked_to_calender(i) == 30) {
+                } else if (which_day == 30) {
                     if (calender_button_showing_shadow_30.getCurrentTextColor() != Color.WHITE) {
                         calender_button_showing_shadow_30.setTextColor(Color.parseColor(colors[i]));
                     }
-                } else if (return_which_day_is_linked_to_calender(i) == 31) {
+                } else if (which_day == 31) {
                     if (calender_button_showing_shadow_31.getCurrentTextColor() != Color.WHITE) {
                         calender_button_showing_shadow_31.setTextColor(Color.parseColor(colors[i]));
                     }
-                } else if (return_which_day_is_linked_to_calender(i) == 32) {
+                } else if (which_day == 32) {
                     if (calender_button_showing_shadow_32.getCurrentTextColor() != Color.WHITE) {
                         calender_button_showing_shadow_32.setTextColor(Color.parseColor(colors[i]));
                     }
-                } else if (return_which_day_is_linked_to_calender(i) == 33) {
+                } else if (which_day == 33) {
                     if (calender_button_showing_shadow_33.getCurrentTextColor() != Color.WHITE) {
                         calender_button_showing_shadow_33.setTextColor(Color.parseColor(colors[i]));
                     }
-                } else if (return_which_day_is_linked_to_calender(i) == 34) {
+                } else if (which_day == 34) {
                     if (calender_button_showing_shadow_34.getCurrentTextColor() != Color.WHITE) {
                         calender_button_showing_shadow_34.setTextColor(Color.parseColor(colors[i]));
                     }
-                } else if (return_which_day_is_linked_to_calender(i) == 35) {
+                } else if (which_day == 35) {
                     if (calender_button_showing_shadow_35.getCurrentTextColor() != Color.WHITE) {
                         calender_button_showing_shadow_35.setTextColor(Color.parseColor(colors[i]));
                     }
-                } else if (return_which_day_is_linked_to_calender(i) == 36) {
+                } else if (which_day == 36) {
                     if (calender_button_showing_shadow_36.getCurrentTextColor() != Color.WHITE) {
                         calender_button_showing_shadow_36.setTextColor(Color.parseColor(colors[i]));
                     }
@@ -8630,24 +8782,17 @@ public class View_home_habit extends Fragment implements PopupMenu.OnMenuItemCli
             String month_from_text = String.valueOf(return_month_string_to_int(splitter_temp_from_text[0]));
             String year_from_text = String.valueOf(splitter_temp_from_text[1]);
             String[] splitter_for_colored_value = color_the_today.split("_");
-            if (calendar_new.getTimeInMillis() < Simplify_the_time.return_time_in_midnight(start_date)) {
+            /*if (calendar_new.getTimeInMillis() < Simplify_the_time.return_time_in_midnight(start_date)) {
                 hide_or_un_hide_the_button(0);
-            } else {
-                if (calender_year > real_year) {
+            } else {*/
+            if (calender_year > real_year) {
+                hide_or_un_hide_the_button(0);
+            } else if (calender_year == real_year) {
+                if (calender_month > real_month) {
                     hide_or_un_hide_the_button(0);
-                } else if (calender_year == real_year) {
-                    if (calender_month > real_month) {
+                } else if (calender_month == real_month) {
+                    if (calender_day > real_day) {
                         hide_or_un_hide_the_button(0);
-                    } else if (calender_month == real_month) {
-                        if (calender_day > real_day) {
-                            hide_or_un_hide_the_button(0);
-                        } else {
-                            if (month_from_text.equals(splitter_for_colored_value[1]) && year_from_text.equals(splitter_for_colored_value[2])) {
-                                hide_or_un_hide_the_button(1);
-                            } else {
-                                hide_or_un_hide_the_button(0);
-                            }
-                        }
                     } else {
                         if (month_from_text.equals(splitter_for_colored_value[1]) && year_from_text.equals(splitter_for_colored_value[2])) {
                             hide_or_un_hide_the_button(1);
@@ -8661,6 +8806,12 @@ public class View_home_habit extends Fragment implements PopupMenu.OnMenuItemCli
                     } else {
                         hide_or_un_hide_the_button(0);
                     }
+                }
+            } else {
+                if (month_from_text.equals(splitter_for_colored_value[1]) && year_from_text.equals(splitter_for_colored_value[2])) {
+                    hide_or_un_hide_the_button(1);
+                } else {
+                    hide_or_un_hide_the_button(0);
                 }
             }
         }
@@ -8679,20 +8830,20 @@ public class View_home_habit extends Fragment implements PopupMenu.OnMenuItemCli
             Button negative_button_beside_amount_in_view_habit = getView().findViewById(R.id.negative_button_beside_amount_in_view_habit);
             Button positive_button_beside_amount_in_view_habit = getView().findViewById(R.id.positive_button_beside_amount_in_view_habit);
             if (which == 0) {
-                if (return_the_information_from_save(6).equals("bad")) {
+                if (return_the_information_from_save(6).equals("Quit")) {
                     button_saying_yes_under_calender_in_good_habits.setVisibility(View.GONE);
                     button_saying_no_under_calender_in_good_habits.setVisibility(View.GONE);
                 } else {
-                    if (return_the_information_from_save(7).equals("yes/no")) {
+                    if (return_type_of_habit().equals("yes/no")) {
                         button_saying_yes_under_calender_in_good_habits.setVisibility(View.GONE);
                         button_saying_no_under_calender_in_good_habits.setVisibility(View.GONE);
-                    } else if (return_the_information_from_save(7).equals("amount")) {
+                    } else if (return_type_of_habit().equals("amount")) {
                         how_many_times_did_you_do_this_habit_edit_text.setVisibility(View.GONE);
                         negative_view_beside_amount_in_view_habit.setVisibility(View.GONE);
                         positive_view_beside_amount_in_view_habit.setVisibility(View.GONE);
                         negative_button_beside_amount_in_view_habit.setVisibility(View.GONE);
                         positive_button_beside_amount_in_view_habit.setVisibility(View.GONE);
-                    } else if (return_the_information_from_save(7).equals("timer")) {
+                    } else if (return_type_of_habit().equals("timer")) {
 
                     }
                 }
@@ -8704,7 +8855,7 @@ public class View_home_habit extends Fragment implements PopupMenu.OnMenuItemCli
                 constraintSet.connect(button_too_share_calender_in_good_habits.getId(), ConstraintSet.TOP, calender_in_stats.getId(), ConstraintSet.TOP, (int) convertDpToPixel(return_the_length_of_stat() + 7, getContext()));
                 constraintSet.applyTo(constraintLayout);
             } else {
-                if (return_the_information_from_save(6).equals("bad")) {
+                if (return_the_information_from_save(6).equals("Quit")) {
                     button_saying_yes_under_calender_in_good_habits.setVisibility(View.VISIBLE);
                     button_saying_no_under_calender_in_good_habits.setVisibility(View.VISIBLE);
                     ConstraintLayout constraintLayout = getView().findViewById(R.id.layout_containting_the_calender);
@@ -8714,7 +8865,7 @@ public class View_home_habit extends Fragment implements PopupMenu.OnMenuItemCli
                     constraintSet.connect(button_too_share_calender_in_good_habits.getId(), ConstraintSet.TOP, button_saying_no_under_calender_in_good_habits.getId(), ConstraintSet.BOTTOM, (int) convertDpToPixel(15, getContext()));
                     constraintSet.applyTo(constraintLayout);
                 } else {
-                    if (return_the_information_from_save(7).equals("yes/no")) {
+                    if (return_type_of_habit().equals("yes/no")) {
                         button_saying_yes_under_calender_in_good_habits.setVisibility(View.VISIBLE);
                         button_saying_no_under_calender_in_good_habits.setVisibility(View.VISIBLE);
                         ConstraintLayout constraintLayout = getView().findViewById(R.id.layout_containting_the_calender);
@@ -8723,7 +8874,7 @@ public class View_home_habit extends Fragment implements PopupMenu.OnMenuItemCli
                         constraintSet.connect(text_asking_did_you_relapse_in_share.getId(), ConstraintSet.TOP, constraintLayout.getId(), ConstraintSet.TOP, (int) convertDpToPixel(return_the_length_of_stat() + 28, getContext()));
                         constraintSet.connect(button_too_share_calender_in_good_habits.getId(), ConstraintSet.TOP, button_saying_no_under_calender_in_good_habits.getId(), ConstraintSet.BOTTOM, (int) convertDpToPixel(15, getContext()));
                         constraintSet.applyTo(constraintLayout);
-                    } else if (return_the_information_from_save(7).equals("amount")) {
+                    } else if (return_type_of_habit().equals("amount")) {
                         how_many_times_did_you_do_this_habit_edit_text.setVisibility(View.VISIBLE);
                         negative_view_beside_amount_in_view_habit.setVisibility(View.VISIBLE);
                         positive_view_beside_amount_in_view_habit.setVisibility(View.VISIBLE);
@@ -8735,7 +8886,7 @@ public class View_home_habit extends Fragment implements PopupMenu.OnMenuItemCli
                         constraintSet.connect(text_asking_did_you_relapse_in_share.getId(), ConstraintSet.TOP, constraintLayout.getId(), ConstraintSet.TOP, (int) convertDpToPixel(return_the_length_of_stat() + 28, getContext()));
                         constraintSet.connect(button_too_share_calender_in_good_habits.getId(), ConstraintSet.TOP, how_many_times_did_you_do_this_habit_edit_text.getId(), ConstraintSet.BOTTOM, (int) convertDpToPixel(15, getContext()));
                         constraintSet.applyTo(constraintLayout);
-                    } else if (return_the_information_from_save(7).equals("timer")) {
+                    } else if (return_type_of_habit().equals("timer")) {
 
                     }
                 }
@@ -8984,11 +9135,12 @@ public class View_home_habit extends Fragment implements PopupMenu.OnMenuItemCli
             EditText how_many_times_did_you_do_this_habit_edit_text = getView().findViewById(R.id.how_many_times_did_you_do_this_habit_edit_text);
             String yes_color = "#06a94d";
             String no_color = "#FF2400";
+            String empty_color = "#000000";
             String[] splitter_temp = month_and_year_in_calender_for_good_habits.getText().toString().split(" ");
             String month = String.valueOf(return_month_string_to_int(splitter_temp[0]));
             String year = String.valueOf(splitter_temp[1]);
             String[] splitter = color_the_today.split("_");
-            if (return_the_information_from_save(6).equals("bad")) {
+            if (return_the_information_from_save(6).equals("Quit")) {
                 if (month.equals(splitter[1]) && year.equals(splitter[2])) {
                     if (colors[Integer.parseInt(splitter[0])].equals(no_color)) {
                         if (!button_saying_yes_under_calender_in_good_habits.getText().toString().contains("✓")) {
@@ -9008,10 +9160,17 @@ public class View_home_habit extends Fragment implements PopupMenu.OnMenuItemCli
                             button_saying_yes_under_calender_in_good_habits.setTextColor(Color.BLACK);
                             button_saying_yes_under_calender_in_good_habits.setText(button_saying_yes_under_calender_in_good_habits.getText().toString().replace(" ✓", ""));
                         }
+                    } else if (colors[Integer.parseInt(splitter[0])].equals(empty_color)) {
+                        button_saying_yes_under_calender_in_good_habits.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#d6d7d7")));
+                        button_saying_yes_under_calender_in_good_habits.setTextColor(Color.BLACK);
+                        button_saying_yes_under_calender_in_good_habits.setText(button_saying_yes_under_calender_in_good_habits.getText().toString().replace(" ✓", ""));
+                        button_saying_no_under_calender_in_good_habits.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#d6d7d7")));
+                        button_saying_no_under_calender_in_good_habits.setTextColor(Color.BLACK);
+                        button_saying_no_under_calender_in_good_habits.setText(button_saying_no_under_calender_in_good_habits.getText().toString().replace(" ✓", ""));
                     }
                 }
-            } else if (return_the_information_from_save(6).equals("good")) {
-                if (return_the_information_from_save(7).equals("yes/no")) {
+            } else if (return_the_information_from_save(6).equals("Build_up")) {
+                if (return_type_of_habit().equals("yes/no")) {
                     if (month.equals(splitter[1]) && year.equals(splitter[2])) {
                         if (colors[Integer.parseInt(splitter[0])].equals(yes_color)) {
                             if (!button_saying_yes_under_calender_in_good_habits.getText().toString().contains("✓")) {
@@ -9031,9 +9190,16 @@ public class View_home_habit extends Fragment implements PopupMenu.OnMenuItemCli
                                 button_saying_yes_under_calender_in_good_habits.setTextColor(Color.BLACK);
                                 button_saying_yes_under_calender_in_good_habits.setText(button_saying_yes_under_calender_in_good_habits.getText().toString().replace(" ✓", ""));
                             }
+                        } else if (colors[Integer.parseInt(splitter[0])].equals(empty_color)) {
+                            button_saying_yes_under_calender_in_good_habits.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#d6d7d7")));
+                            button_saying_yes_under_calender_in_good_habits.setTextColor(Color.BLACK);
+                            button_saying_yes_under_calender_in_good_habits.setText(button_saying_yes_under_calender_in_good_habits.getText().toString().replace(" ✓", ""));
+                            button_saying_no_under_calender_in_good_habits.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#d6d7d7")));
+                            button_saying_no_under_calender_in_good_habits.setTextColor(Color.BLACK);
+                            button_saying_no_under_calender_in_good_habits.setText(button_saying_no_under_calender_in_good_habits.getText().toString().replace(" ✓", ""));
                         }
                     }
-                } else if (return_the_information_from_save(7).equals("amount")) {
+                } else if (return_type_of_habit().equals("amount")) {
                     String[] splitter_for_good = color_the_today.split("_");
                     int day_amount = Integer.parseInt(splitter_for_good[0]);
                     int month_amount = Integer.parseInt(splitter_for_good[1]);
@@ -9051,7 +9217,7 @@ public class View_home_habit extends Fragment implements PopupMenu.OnMenuItemCli
                             how_many_times_did_you_do_this_habit_edit_text.setSelection(how_many_times_did_you_do_this_habit_edit_text.getText().toString().length());
                         }
                     }
-                } else if (return_the_information_from_save(7).equals("timer")) {
+                } else if (return_type_of_habit().equals("timer")) {
 
                 }
             }
@@ -9066,6 +9232,7 @@ public class View_home_habit extends Fragment implements PopupMenu.OnMenuItemCli
             button_saying_yes_under_calender_in_good_habits.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    Event_manager_all_in_one.getInstance().record_fire_base_event(getContext(), Event_manager_all_in_one.Event_type_fire_base_record.user_recorded_inter_action, false);
                     if (!button_saying_yes_under_calender_in_good_habits.getText().toString().contains("✓")) {
                         String[] split_for_day_month_year = color_the_today.split("_");
                         String[] month_and_year = month_and_year_in_calender_for_good_habits.getText().toString().split(" ");
@@ -9076,6 +9243,7 @@ public class View_home_habit extends Fragment implements PopupMenu.OnMenuItemCli
                         calendar.set(calender_year, calender_month, calender_day);
                         save_the_input_for_good_habit_input("yes", calendar.getTimeInMillis());
                         put_all_the_relapses_into_a_array_list();
+                        update_start_date(calendar.getTimeInMillis());
                         calculate_all_the_streaks();
                         button_saying_yes_under_calender_in_good_habits.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(return_the_information_from_save(4))));
                         button_saying_yes_under_calender_in_good_habits.setTextColor(Color.WHITE);
@@ -9112,6 +9280,7 @@ public class View_home_habit extends Fragment implements PopupMenu.OnMenuItemCli
             button_saying_no_under_calender_in_good_habits.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    Event_manager_all_in_one.getInstance().record_fire_base_event(getContext(), Event_manager_all_in_one.Event_type_fire_base_record.user_recorded_inter_action, false);
                     if (!button_saying_no_under_calender_in_good_habits.getText().toString().contains("✓")) {
                         String[] split_for_day_month_year = color_the_today.split("_");
                         String[] month_and_year = month_and_year_in_calender_for_good_habits.getText().toString().split(" ");
@@ -9122,6 +9291,7 @@ public class View_home_habit extends Fragment implements PopupMenu.OnMenuItemCli
                         calendar.set(calender_year, calender_month, calender_day);
                         save_the_input_for_good_habit_input("no", calendar.getTimeInMillis());
                         put_all_the_relapses_into_a_array_list();
+                        update_start_date(calendar.getTimeInMillis());
                         calculate_all_the_streaks();
                         button_saying_no_under_calender_in_good_habits.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(return_the_information_from_save(4))));
                         button_saying_no_under_calender_in_good_habits.setTextColor(Color.WHITE);
@@ -10179,7 +10349,7 @@ public class View_home_habit extends Fragment implements PopupMenu.OnMenuItemCli
     }
 
     private boolean return_state_of_day(long milli) {
-        if (return_the_information_from_save(6).equals("bad")) {
+        if (return_the_information_from_save(6).equals("Quit")) {
             int index = Collections.binarySearch(history_of_relapse, Simplify_the_time.return_time_in_midnight(milli));
             if (index >= 0) {
                 return false;
@@ -10187,55 +10357,55 @@ public class View_home_habit extends Fragment implements PopupMenu.OnMenuItemCli
                 return true;
             }
         } else {
-            if (return_the_information_from_save(7).equals("yes/no")) {
-                if (return_the_information_from_save(8).equals("everyday")) {
+            if (return_type_of_habit().equals("yes/no")) {
+                if (return_frequency().equals("everyday")) {
                     int index = Collections.binarySearch(history_of_relapse, Simplify_the_time.return_time_in_midnight(milli));
                     if (index >= 0) {
                         return true;
                     } else {
                         return false;
                     }
-                } else if (return_the_information_from_save(8).equals("daysperweek")) {
+                } else if (return_frequency().equals("daysperweek")) {
                     Calendar calender = Calendar.getInstance();
                     calender.setTimeInMillis(milli);
                     if (calender.get(Calendar.DAY_OF_WEEK) == Calendar.MONDAY) {
-                        if (!return_the_information_from_save(10).contains("Mo") || Collections.binarySearch(history_of_relapse, Simplify_the_time.return_time_in_midnight(milli)) >= 0) {
+                        if (!return_days_per_week().contains("Mo") || Collections.binarySearch(history_of_relapse, Simplify_the_time.return_time_in_midnight(milli)) >= 0) {
                             return true;
                         } else {
                             return false;
                         }
                     } else if (calender.get(Calendar.DAY_OF_WEEK) == Calendar.TUESDAY) {
-                        if (!return_the_information_from_save(10).contains("Tu") || Collections.binarySearch(history_of_relapse, Simplify_the_time.return_time_in_midnight(milli)) >= 0) {
+                        if (!return_days_per_week().contains("Tu") || Collections.binarySearch(history_of_relapse, Simplify_the_time.return_time_in_midnight(milli)) >= 0) {
                             return true;
                         } else {
                             return false;
                         }
                     } else if (calender.get(Calendar.DAY_OF_WEEK) == Calendar.WEDNESDAY) {
-                        if (!return_the_information_from_save(10).contains("We") || Collections.binarySearch(history_of_relapse, Simplify_the_time.return_time_in_midnight(milli)) >= 0) {
+                        if (!return_days_per_week().contains("We") || Collections.binarySearch(history_of_relapse, Simplify_the_time.return_time_in_midnight(milli)) >= 0) {
                             return true;
                         } else {
                             return false;
                         }
                     } else if (calender.get(Calendar.DAY_OF_WEEK) == Calendar.THURSDAY) {
-                        if (!return_the_information_from_save(10).contains("Th") || Collections.binarySearch(history_of_relapse, Simplify_the_time.return_time_in_midnight(milli)) >= 0) {
+                        if (!return_days_per_week().contains("Th") || Collections.binarySearch(history_of_relapse, Simplify_the_time.return_time_in_midnight(milli)) >= 0) {
                             return true;
                         } else {
                             return false;
                         }
                     } else if (calender.get(Calendar.DAY_OF_WEEK) == Calendar.FRIDAY) {
-                        if (!return_the_information_from_save(10).contains("Fr") || Collections.binarySearch(history_of_relapse, Simplify_the_time.return_time_in_midnight(milli)) >= 0) {
+                        if (!return_days_per_week().contains("Fr") || Collections.binarySearch(history_of_relapse, Simplify_the_time.return_time_in_midnight(milli)) >= 0) {
                             return true;
                         } else {
                             return false;
                         }
                     } else if (calender.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY) {
-                        if (!return_the_information_from_save(10).contains("Sa") || Collections.binarySearch(history_of_relapse, Simplify_the_time.return_time_in_midnight(milli)) >= 0) {
+                        if (!return_days_per_week().contains("Sa") || Collections.binarySearch(history_of_relapse, Simplify_the_time.return_time_in_midnight(milli)) >= 0) {
                             return true;
                         } else {
                             return false;
                         }
                     } else if (calender.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY) {
-                        if (!return_the_information_from_save(10).contains("Su") || Collections.binarySearch(history_of_relapse, Simplify_the_time.return_time_in_midnight(milli)) >= 0) {
+                        if (!return_days_per_week().contains("Su") || Collections.binarySearch(history_of_relapse, Simplify_the_time.return_time_in_midnight(milli)) >= 0) {
                             return true;
                         } else {
                             return false;
@@ -10243,7 +10413,7 @@ public class View_home_habit extends Fragment implements PopupMenu.OnMenuItemCli
                     } else {
                         return false; //shoudn't happen
                     }
-                } else if (return_the_information_from_save(8).equals("everyndays")) {
+                } else if (return_frequency().equals("everyndays")) {
                     int index = Collections.binarySearch(history_of_relapse, Simplify_the_time.return_time_in_midnight(milli));
                     if (index >= 0) {
                         return true;
@@ -10264,7 +10434,7 @@ public class View_home_habit extends Fragment implements PopupMenu.OnMenuItemCli
                             return false;
                         }
                     }
-                } else if (return_the_information_from_save(8).equals("dayspermonth")) {
+                } else if (return_frequency().equals("dayspermonth")) {
                     //return true;
                     Calendar calender = Calendar.getInstance();
                     calender.setTimeInMillis(milli);
@@ -10279,16 +10449,16 @@ public class View_home_habit extends Fragment implements PopupMenu.OnMenuItemCli
                             return false;
                         }
                     }
-                } else if (return_the_information_from_save(8).equals("timesaperiod")) {
+                } else if (return_frequency().equals("timesaperiod")) {
                     return true;
                 } else {
                     return false; // shoudn't happen
                 }
-            } else if (return_the_information_from_save(7).equals("amount")) {
-                if (return_the_information_from_save(8).equals("everyday")) {
+            } else if (return_type_of_habit().equals("amount")) {
+                if (return_frequency().equals("everyday")) {
                     if (hash_map_amount != null && hash_map_amount.containsKey(Simplify_the_time.return_time_in_midnight(milli))) {
                         int amount = hash_map_amount.get(Simplify_the_time.return_time_in_midnight(milli));
-                        if (amount >= Integer.parseInt(return_the_information_from_save(9))) {
+                        if (amount >= Integer.parseInt(return_the_information_from_save(10))) {
                             return true;
                         } else {
                             return false;
@@ -10296,47 +10466,47 @@ public class View_home_habit extends Fragment implements PopupMenu.OnMenuItemCli
                     } else {
                         return false;
                     }
-                } else if (return_the_information_from_save(8).equals("daysperweek")) {
+                } else if (return_frequency().equals("daysperweek")) {
                     Calendar calender = Calendar.getInstance();
                     calender.setTimeInMillis(milli);
                     if (calender.get(Calendar.DAY_OF_WEEK) == Calendar.MONDAY) {
-                        if (!return_the_information_from_save(10).contains("Mo") || (hash_map_amount.containsKey(Simplify_the_time.return_time_in_midnight(milli)) && is_amount_good_for_streak(Simplify_the_time.return_time_in_midnight(milli)))) {
+                        if (!return_days_per_week().contains("Mo") || (hash_map_amount.containsKey(Simplify_the_time.return_time_in_midnight(milli)) && is_amount_good_for_streak(Simplify_the_time.return_time_in_midnight(milli)))) {
                             return true;
                         } else {
                             return false;
                         }
                     } else if (calender.get(Calendar.DAY_OF_WEEK) == Calendar.TUESDAY) {
-                        if (!return_the_information_from_save(10).contains("Tu") || (hash_map_amount.containsKey(Simplify_the_time.return_time_in_midnight(milli)) && is_amount_good_for_streak(Simplify_the_time.return_time_in_midnight(milli)))) {
+                        if (!return_days_per_week().contains("Tu") || (hash_map_amount.containsKey(Simplify_the_time.return_time_in_midnight(milli)) && is_amount_good_for_streak(Simplify_the_time.return_time_in_midnight(milli)))) {
                             return true;
                         } else {
                             return false;
                         }
                     } else if (calender.get(Calendar.DAY_OF_WEEK) == Calendar.WEDNESDAY) {
-                        if (!return_the_information_from_save(10).contains("We") || (hash_map_amount.containsKey(Simplify_the_time.return_time_in_midnight(milli)) && is_amount_good_for_streak(Simplify_the_time.return_time_in_midnight(milli)))) {
+                        if (!return_days_per_week().contains("We") || (hash_map_amount.containsKey(Simplify_the_time.return_time_in_midnight(milli)) && is_amount_good_for_streak(Simplify_the_time.return_time_in_midnight(milli)))) {
                             return true;
                         } else {
                             return false;
                         }
                     } else if (calender.get(Calendar.DAY_OF_WEEK) == Calendar.THURSDAY) {
-                        if (!return_the_information_from_save(10).contains("Th") || (hash_map_amount.containsKey(Simplify_the_time.return_time_in_midnight(milli)) && is_amount_good_for_streak(Simplify_the_time.return_time_in_midnight(milli)))) {
+                        if (!return_days_per_week().contains("Th") || (hash_map_amount.containsKey(Simplify_the_time.return_time_in_midnight(milli)) && is_amount_good_for_streak(Simplify_the_time.return_time_in_midnight(milli)))) {
                             return true;
                         } else {
                             return false;
                         }
                     } else if (calender.get(Calendar.DAY_OF_WEEK) == Calendar.FRIDAY) {
-                        if (!return_the_information_from_save(10).contains("Fr") || (hash_map_amount.containsKey(Simplify_the_time.return_time_in_midnight(milli)) && is_amount_good_for_streak(Simplify_the_time.return_time_in_midnight(milli)))) {
+                        if (!return_days_per_week().contains("Fr") || (hash_map_amount.containsKey(Simplify_the_time.return_time_in_midnight(milli)) && is_amount_good_for_streak(Simplify_the_time.return_time_in_midnight(milli)))) {
                             return true;
                         } else {
                             return false;
                         }
                     } else if (calender.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY) {
-                        if (!return_the_information_from_save(10).contains("Sa") || (hash_map_amount.containsKey(Simplify_the_time.return_time_in_midnight(milli)) && is_amount_good_for_streak(Simplify_the_time.return_time_in_midnight(milli)))) {
+                        if (!return_days_per_week().contains("Sa") || (hash_map_amount.containsKey(Simplify_the_time.return_time_in_midnight(milli)) && is_amount_good_for_streak(Simplify_the_time.return_time_in_midnight(milli)))) {
                             return true;
                         } else {
                             return false;
                         }
                     } else if (calender.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY) {
-                        if (!return_the_information_from_save(10).contains("Su") || (hash_map_amount.containsKey(Simplify_the_time.return_time_in_midnight(milli)) && is_amount_good_for_streak(Simplify_the_time.return_time_in_midnight(milli)))) {
+                        if (!return_days_per_week().contains("Su") || (hash_map_amount.containsKey(Simplify_the_time.return_time_in_midnight(milli)) && is_amount_good_for_streak(Simplify_the_time.return_time_in_midnight(milli)))) {
                             return true;
                         } else {
                             return false;
@@ -10344,14 +10514,14 @@ public class View_home_habit extends Fragment implements PopupMenu.OnMenuItemCli
                     } else {
                         return false; //shoudn't happen
                     }
-                } else if (return_the_information_from_save(8).equals("everyndays")) {
+                } else if (return_frequency().equals("everyndays")) {
                     if (hash_map_amount.containsKey(Simplify_the_time.return_time_in_midnight(milli)) && is_amount_good_for_streak(Simplify_the_time.return_time_in_midnight(milli))) {
                         return true;
                     } else {
                         if (hash_map_amount.size() > 0) {
                             milli = Simplify_the_time.return_time_in_midnight(milli);
                             for (int i = 1; i < Integer.parseInt(return_the_information_from_save(10)); i++) {
-                                if (hash_map_amount.containsKey(milli - TimeUnit.DAYS.toMillis(i)) && hash_map_amount.get(milli - TimeUnit.DAYS.toMillis(i)) >= Integer.parseInt(return_the_information_from_save(9))) {
+                                if (hash_map_amount.containsKey(milli - TimeUnit.DAYS.toMillis(i)) && hash_map_amount.get(milli - TimeUnit.DAYS.toMillis(i)) >= Integer.parseInt(return_the_information_from_save(10))) {
                                     return true;
                                 }
                             }
@@ -10360,12 +10530,12 @@ public class View_home_habit extends Fragment implements PopupMenu.OnMenuItemCli
                             return false;
                         }
                     }
-                } else if (return_the_information_from_save(8).equals("dayspermonth")) {
+                } else if (return_frequency().equals("dayspermonth")) {
                     return false;
                 } else {
                     return false; // should not happen
                 }
-            } else if (return_the_information_from_save(7).equals("timer")) {
+            } else if (return_type_of_habit().equals("timer")) {
                 return false;
             } else {
                 return false;
@@ -10374,13 +10544,40 @@ public class View_home_habit extends Fragment implements PopupMenu.OnMenuItemCli
     }
 
     private void declare_start_date() {
-        start_date = Long.parseLong(return_the_information_from_save(2));
+        if (return_the_information_from_save(6).equals("Quit")) {
+            if (!history_of_relapse.isEmpty()) {
+                start_date = history_of_relapse.get(0);
+            } else {
+                start_date = Simplify_the_time.return_time_in_midnight(System.currentTimeMillis());
+            }
+        } else if (return_the_information_from_save(6).equals("Build_up")) {
+            if (return_type_of_habit().equals("yes/no")) {
+                if (!history_of_relapse.isEmpty()) {
+                    start_date = history_of_relapse.get(0);
+                } else {
+                    start_date = Simplify_the_time.return_time_in_midnight(System.currentTimeMillis());
+                }
+            } else if (return_type_of_habit().equals("amount")) {
+                if (hash_map_amount.isEmpty()) {
+                    start_date = Simplify_the_time.return_time_in_midnight(System.currentTimeMillis());
+                } else {
+                    start_date = Collections.min(hash_map_amount.keySet());
+                }
+            } else if (return_type_of_habit().equals("timer")) {
+
+            }
+        }
+        /*if(history_of_relapse.isEmpty()){
+            start_date = Simplify_the_time.return_time_in_midnight(System.currentTimeMillis());
+        } else {
+            start_date = Collections.min(history_of_relapse);
+        }*/
     }
 
     private String return_the_information_from_save(int which) {
         Room_database_habits room_database_habits = Room_database_habits.getInstance(getContext());
         List<habits_data_class> list = room_database_habits.dao_for_habits_data().getAll();
-        habits_data_class habits_data_class = list.get(value_for_position);
+        habits_data_class habits_data_class = return_habits_class();
         if (which == 1) {
             return habits_data_class.getName_of_the_habit();
         }
@@ -10409,7 +10606,7 @@ public class View_home_habit extends Fragment implements PopupMenu.OnMenuItemCli
             return String.valueOf(habits_data_class.getExtra_type_info());
         }
         if (which == 10) {
-            return habits_data_class.getHabits_freq_extra();
+            return String.valueOf(habits_data_class.getHabits_freq_extra());
         }
         return ""; // cant be otherwise
     }
@@ -10417,21 +10614,21 @@ public class View_home_habit extends Fragment implements PopupMenu.OnMenuItemCli
     private void put_all_the_relapses_into_a_array_list() {
         Room_database_habits room_database_habits = Room_database_habits.getInstance(getContext());
         List<habits_data_class> list = room_database_habits.dao_for_habits_data().getAll();
-        habits_data_class habits_data_class = list.get(value_for_position);
+        habits_data_class habits_data_class = return_habits_class();
         history_of_relapse = new ArrayList<>();
         hash_map_amount = new HashMap<>();
-        if (return_the_information_from_save(6).equals("bad")) {
+        if (return_the_information_from_save(6).equals("Quit")) {
             if (habits_data_class.getRelapse() != null && !habits_data_class.getRelapse().isEmpty()) {
                 history_of_relapse.addAll(return_relapses());
             }
-        } else if (return_the_information_from_save(6).equals("good")) {
-            if (return_the_information_from_save(7).equals("yes/no")) {
+        } else if (return_the_information_from_save(6).equals("Build_up")) {
+            if (return_type_of_habit().equals("yes/no")) {
                 if (habits_data_class.getRelapse() != null && !habits_data_class.getRelapse().isEmpty()) {
                     history_of_relapse.addAll(return_relapses());
                 }
-            } else if (return_the_information_from_save(7).equals("amount")) {
+            } else if (return_type_of_habit().equals("amount")) {
                 hash_map_amount.putAll(return_relapse_amount());
-            } else if (return_the_information_from_save(7).equals("timer")) {
+            } else if (return_type_of_habit().equals("timer")) {
 
             }
         }
@@ -10507,7 +10704,6 @@ public class View_home_habit extends Fragment implements PopupMenu.OnMenuItemCli
 
     private void calculate_the_average_streak() {
         if (getView() != null) {
-            Log.w("new_test", "inside average" + each_streak_lengths.toString());
             TextView actual_average_in_text_number_in_good_habits = getView().findViewById(R.id.actual_average_in_text_number_in_good_habits);
             int sum = 0;
             for (Integer mark : each_streak_lengths) {
@@ -10546,7 +10742,7 @@ public class View_home_habit extends Fragment implements PopupMenu.OnMenuItemCli
     }
 
     private void set_the_text_for_in_card() {
-        if (getView() != null) {
+        /*if (getView() != null) {
             TextView text_saying_the_progress_in_good_habits = getView().findViewById(R.id.text_saying_the_progress_in_good_habits);
             TextView text_saying_the_real_progress_in_good_habits = getView().findViewById(R.id.text_saying_the_real_progress_in_good_habits);
             ProgressBar progress_bar_showing_good_habit_progress_in_good_habits = getView().findViewById(R.id.progress_bar_showing_good_habit_progress_in_good_habits);
@@ -10560,7 +10756,7 @@ public class View_home_habit extends Fragment implements PopupMenu.OnMenuItemCli
                 text_saying_the_real_progress_in_good_habits.setText(String.valueOf(percent).concat("%"));
             }
             progress_bar_showing_good_habit_progress_in_good_habits.setProgress(percent);
-        }
+        }*/
     }
 
     private void set_up_day_of_week_bar_chart() {
@@ -10724,7 +10920,7 @@ public class View_home_habit extends Fragment implements PopupMenu.OnMenuItemCli
             int friday = 0;
             int saturday = 0;
             int sunday = 0;
-            if (return_the_information_from_save(6).equals("bad")) {
+            if (return_the_information_from_save(6).equals("Quit")) {
                 for (int i = 0; i < relapse.size(); i++) {
                     Calendar calendar = Calendar.getInstance();
                     calendar.setTimeInMillis(relapse.get(i));
@@ -10745,8 +10941,8 @@ public class View_home_habit extends Fragment implements PopupMenu.OnMenuItemCli
                     }
                 }
             } else {
-                if (return_the_information_from_save(7).equals("yes/no")) {
-                    if (return_the_information_from_save(8).equals("everyday")) {
+                if (return_type_of_habit().equals("yes/no")) {
+                    if (return_frequency().equals("everyday")) {
                         for (int i = 0; i < relapse.size(); i++) {
                             Calendar calendar = Calendar.getInstance();
                             calendar.setTimeInMillis(relapse.get(i));
@@ -10766,7 +10962,7 @@ public class View_home_habit extends Fragment implements PopupMenu.OnMenuItemCli
                                 sunday = sunday + 1;
                             }
                         }
-                    } else if (return_the_information_from_save(8).equals("daysperweek")) {
+                    } else if (return_frequency().equals("daysperweek")) {
                     /*for (int i = 0; i < relapse.size(); i++) {
                         Calendar calendar = Calendar.getInstance();
                         calendar.setTimeInMillis(relapse.get(i));
@@ -10786,7 +10982,7 @@ public class View_home_habit extends Fragment implements PopupMenu.OnMenuItemCli
                             sunday = sunday + 1;
                         }
                     }*/
-                        long start_date = Simplify_the_time.return_time_in_midnight(Long.parseLong(return_the_information_from_save(2)));
+                        long start_date = Simplify_the_time.return_time_in_midnight(this.start_date);
                         long difference = Simplify_the_time.return_time_in_midnight(System.currentTimeMillis()) - Simplify_the_time.return_time_in_midnight(start_date) + TimeUnit.DAYS.toMillis(1);
                         Calendar calendar = Calendar.getInstance();
                         if (difference % TimeUnit.DAYS.toMillis(1) != 0) {
@@ -10812,25 +11008,25 @@ public class View_home_habit extends Fragment implements PopupMenu.OnMenuItemCli
                                     sunday = sunday + 1;
                                 }
                             } else {
-                                if (calendar.get(Calendar.DAY_OF_WEEK) == Calendar.MONDAY && !return_the_information_from_save(10).contains("Mo")) {
+                                if (calendar.get(Calendar.DAY_OF_WEEK) == Calendar.MONDAY && !return_days_per_week().contains("Mo")) {
                                     monday++;
-                                } else if (calendar.get(Calendar.DAY_OF_WEEK) == Calendar.TUESDAY && !return_the_information_from_save(10).contains("Tu")) {
+                                } else if (calendar.get(Calendar.DAY_OF_WEEK) == Calendar.TUESDAY && !return_days_per_week().contains("Tu")) {
                                     tuesday++;
-                                } else if (calendar.get(Calendar.DAY_OF_WEEK) == Calendar.WEDNESDAY && !return_the_information_from_save(10).contains("We")) {
+                                } else if (calendar.get(Calendar.DAY_OF_WEEK) == Calendar.WEDNESDAY && !return_days_per_week().contains("We")) {
                                     wednesday++;
-                                } else if (calendar.get(Calendar.DAY_OF_WEEK) == Calendar.THURSDAY && !return_the_information_from_save(10).contains("Th")) {
+                                } else if (calendar.get(Calendar.DAY_OF_WEEK) == Calendar.THURSDAY && !return_days_per_week().contains("Th")) {
                                     thursday++;
-                                } else if (calendar.get(Calendar.DAY_OF_WEEK) == Calendar.FRIDAY && !return_the_information_from_save(10).contains("Fr")) {
+                                } else if (calendar.get(Calendar.DAY_OF_WEEK) == Calendar.FRIDAY && !return_days_per_week().contains("Fr")) {
                                     friday++;
-                                } else if (calendar.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY && !return_the_information_from_save(10).contains("Sa")) {
+                                } else if (calendar.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY && !return_days_per_week().contains("Sa")) {
                                     saturday++;
-                                } else if (calendar.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY && !return_the_information_from_save(10).contains("Su")) {
+                                } else if (calendar.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY && !return_days_per_week().contains("Su")) {
                                     sunday++;
                                 }
                             }
                         }
-                    } else if (return_the_information_from_save(8).equals("everyndays")) {
-                        long start_date = Simplify_the_time.return_time_in_midnight(Long.parseLong(return_the_information_from_save(2)));
+                    } else if (return_frequency().equals("everyndays")) {
+                        long start_date = Simplify_the_time.return_time_in_midnight(this.start_date);
                         long difference = Simplify_the_time.return_time_in_midnight(System.currentTimeMillis()) - Simplify_the_time.return_time_in_midnight(start_date) + TimeUnit.DAYS.toMillis(1);
                         Calendar calendar = Calendar.getInstance();
                         if (difference % TimeUnit.DAYS.toMillis(1) != 0) {
@@ -10881,9 +11077,9 @@ public class View_home_habit extends Fragment implements PopupMenu.OnMenuItemCli
                                 }
                             }
                         }
-                    } else if (return_the_information_from_save(8).equals("dayspermonth")) {
+                    } else if (return_frequency().equals("dayspermonth")) {
                         Calendar calender = Calendar.getInstance();
-                        long start_date = Simplify_the_time.return_time_in_midnight(Long.parseLong(return_the_information_from_save(2)));
+                        long start_date = Simplify_the_time.return_time_in_midnight(this.start_date);
                         long difference = Simplify_the_time.return_time_in_midnight(System.currentTimeMillis()) - Simplify_the_time.return_time_in_midnight(start_date) + TimeUnit.DAYS.toMillis(1);
                         int sum = 0;
                         if (difference % TimeUnit.DAYS.toMillis(1) != 0) {
@@ -10930,11 +11126,11 @@ public class View_home_habit extends Fragment implements PopupMenu.OnMenuItemCli
                             }
                         }
                     }
-                } else if (return_the_information_from_save(7).equals("amount")) {
-                    if (return_the_information_from_save(8).equals("everyday")) {
+                } else if (return_type_of_habit().equals("amount")) {
+                    if (return_frequency().equals("everyday")) {
                         for (HashMap.Entry<Long, Integer> entry : hash_map_amount.entrySet()) {
                             int value = entry.getValue();
-                            if (value >= Integer.parseInt(return_the_information_from_save(9))) {
+                            if (value >= Integer.parseInt(return_the_information_from_save(10))) {
                                 Calendar calendar = Calendar.getInstance();
                                 calendar.setTimeInMillis(entry.getKey());
                                 if (calendar.get(Calendar.DAY_OF_WEEK) == Calendar.MONDAY) {
@@ -10954,8 +11150,8 @@ public class View_home_habit extends Fragment implements PopupMenu.OnMenuItemCli
                                 }
                             }
                         }
-                    } else if (return_the_information_from_save(8).equals("daysperweek")) {
-                        long start_date = Simplify_the_time.return_time_in_midnight(Long.parseLong(return_the_information_from_save(2)));
+                    } else if (return_frequency().equals("daysperweek")) {
+                        long start_date = Simplify_the_time.return_time_in_midnight(this.start_date);
                         long difference = Simplify_the_time.return_time_in_midnight(System.currentTimeMillis()) - Simplify_the_time.return_time_in_midnight(start_date) + TimeUnit.DAYS.toMillis(1);
                         Calendar calendar = Calendar.getInstance();
                         if (difference % TimeUnit.DAYS.toMillis(1) != 0) {
@@ -10980,25 +11176,25 @@ public class View_home_habit extends Fragment implements PopupMenu.OnMenuItemCli
                                     sunday = sunday + 1;
                                 }
                             } else {
-                                if (calendar.get(Calendar.DAY_OF_WEEK) == Calendar.MONDAY && !return_the_information_from_save(10).contains("Mo")) {
+                                if (calendar.get(Calendar.DAY_OF_WEEK) == Calendar.MONDAY && !return_days_per_week().contains("Mo")) {
                                     monday++;
-                                } else if (calendar.get(Calendar.DAY_OF_WEEK) == Calendar.TUESDAY && !return_the_information_from_save(10).contains("Tu")) {
+                                } else if (calendar.get(Calendar.DAY_OF_WEEK) == Calendar.TUESDAY && !return_days_per_week().contains("Tu")) {
                                     tuesday++;
-                                } else if (calendar.get(Calendar.DAY_OF_WEEK) == Calendar.WEDNESDAY && !return_the_information_from_save(10).contains("We")) {
+                                } else if (calendar.get(Calendar.DAY_OF_WEEK) == Calendar.WEDNESDAY && !return_days_per_week().contains("We")) {
                                     wednesday++;
-                                } else if (calendar.get(Calendar.DAY_OF_WEEK) == Calendar.THURSDAY && !return_the_information_from_save(10).contains("Th")) {
+                                } else if (calendar.get(Calendar.DAY_OF_WEEK) == Calendar.THURSDAY && !return_days_per_week().contains("Th")) {
                                     thursday++;
-                                } else if (calendar.get(Calendar.DAY_OF_WEEK) == Calendar.FRIDAY && !return_the_information_from_save(10).contains("Fr")) {
+                                } else if (calendar.get(Calendar.DAY_OF_WEEK) == Calendar.FRIDAY && !return_days_per_week().contains("Fr")) {
                                     friday++;
-                                } else if (calendar.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY && !return_the_information_from_save(10).contains("Sa")) {
+                                } else if (calendar.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY && !return_days_per_week().contains("Sa")) {
                                     saturday++;
-                                } else if (calendar.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY && !return_the_information_from_save(10).contains("Su")) {
+                                } else if (calendar.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY && !return_days_per_week().contains("Su")) {
                                     sunday++;
                                 }
                             }
                         }
-                    } else if (return_the_information_from_save(8).equals("everyndays")) {
-                        long start_date = Simplify_the_time.return_time_in_midnight(Long.parseLong(return_the_information_from_save(2)));
+                    } else if (return_frequency().equals("everyndays")) {
+                        long start_date = Simplify_the_time.return_time_in_midnight(this.start_date);
                         long difference = Simplify_the_time.return_time_in_midnight(System.currentTimeMillis()) - Simplify_the_time.return_time_in_midnight(start_date) + TimeUnit.DAYS.toMillis(1);
                         Calendar calendar = Calendar.getInstance();
                         if (difference % TimeUnit.DAYS.toMillis(1) != 0) {
@@ -11026,7 +11222,7 @@ public class View_home_habit extends Fragment implements PopupMenu.OnMenuItemCli
                                 if (hash_map_amount.size() > 0) {
                                     long milli = Simplify_the_time.return_time_in_midnight(calendar.getTimeInMillis());
                                     for (int j = 1; j < Integer.parseInt(return_the_information_from_save(10)); j++) {
-                                        if (hash_map_amount.containsKey(milli - TimeUnit.DAYS.toMillis(j)) && hash_map_amount.get(milli - TimeUnit.DAYS.toMillis(j)) >= Integer.parseInt(return_the_information_from_save(9))) {
+                                        if (hash_map_amount.containsKey(milli - TimeUnit.DAYS.toMillis(j)) && hash_map_amount.get(milli - TimeUnit.DAYS.toMillis(j)) >= Integer.parseInt(return_the_information_from_save(10))) {
                                             if (calendar.get(Calendar.DAY_OF_WEEK) == Calendar.MONDAY) {
                                                 monday = monday + 1;
                                             } else if (calendar.get(Calendar.DAY_OF_WEEK) == Calendar.TUESDAY) {
@@ -11048,9 +11244,9 @@ public class View_home_habit extends Fragment implements PopupMenu.OnMenuItemCli
                                 }
                             }
                         }
-                    } else if (return_the_information_from_save(8).equals("dayspermonth")) {
+                    } else if (return_frequency().equals("dayspermonth")) {
                         Calendar calender = Calendar.getInstance();
-                        long start_date = Simplify_the_time.return_time_in_midnight(Long.parseLong(return_the_information_from_save(2)));
+                        long start_date = Simplify_the_time.return_time_in_midnight(this.start_date);
                         long difference = Simplify_the_time.return_time_in_midnight(System.currentTimeMillis()) - Simplify_the_time.return_time_in_midnight(start_date) + TimeUnit.DAYS.toMillis(1);
                         int sum = 0;
                         if (difference % TimeUnit.DAYS.toMillis(1) != 0) {
@@ -11096,7 +11292,7 @@ public class View_home_habit extends Fragment implements PopupMenu.OnMenuItemCli
                             }
                         }
                     }
-                } else if (return_the_information_from_save(7).equals("timer")) {
+                } else if (return_type_of_habit().equals("timer")) {
 
                 }
             }
@@ -11111,8 +11307,7 @@ public class View_home_habit extends Fragment implements PopupMenu.OnMenuItemCli
             PieChart mChart = getView().findViewById(R.id.chart_to_show_pie_of_yes_or_no_pie);
             Button this_pie_chart_is_only_available_for_pro_users_pie_chart_view_home = getView().findViewById(R.id.this_pie_chart_is_only_available_for_pro_users_pie_chart_view_home);
             TextView text_view_saying_that_there_is_not_enough_data_to_draw_this_chart = getView().findViewById(R.id.text_view_saying_that_there_is_not_enough_data_to_draw_this_chart);
-            Am_i_paid am_i_paid = new Am_i_paid(getContext());
-            if (am_i_paid.did_user_pay()) {
+            if (Payment_processer.getInstance().state_of_the_user()) {
                 this_pie_chart_is_only_available_for_pro_users_pie_chart_view_home.setVisibility(View.INVISIBLE);
                 String[] split_yes_no = return_info_about_pie().split("split");
                 if (Integer.parseInt(split_yes_no[0]) > 0 || Integer.parseInt(split_yes_no[1]) > 0) {
@@ -11123,12 +11318,12 @@ public class View_home_habit extends Fragment implements PopupMenu.OnMenuItemCli
                     LegendEntry entry = new LegendEntry();
                     LegendEntry entry2 = new LegendEntry();
                     if (Integer.parseInt(split_yes_no[0]) > 0) {
-                        if (return_the_information_from_save(6).equals("bad")) {
+                        if (return_the_information_from_save(6).equals("Quit")) {
                             pieChartEntries.add(new PieEntry(Float.parseFloat(split_yes_no[0]), String.valueOf(split_yes_no[0]).concat(" Yes")));
                             entry.formColor = ColorUtils.blendARGB(color, Color.RED, 0.7F);
                             entry.label = "Relapsed";
                             entries.add(entry);
-                        } else if (return_the_information_from_save(6).equals("good")) {
+                        } else if (return_the_information_from_save(6).equals("Build_up")) {
                             pieChartEntries.add(new PieEntry(Float.parseFloat(split_yes_no[0]), String.valueOf(split_yes_no[0]).concat(" Yes")));
                             entry.formColor = color;
                             entry.label = "Completed";
@@ -11136,12 +11331,12 @@ public class View_home_habit extends Fragment implements PopupMenu.OnMenuItemCli
                         }
                     }
                     if (Integer.parseInt(split_yes_no[1]) > 0) {
-                        if (return_the_information_from_save(6).equals("bad")) {
+                        if (return_the_information_from_save(6).equals("Quit")) {
                             pieChartEntries.add(new PieEntry(Float.parseFloat(split_yes_no[1]), String.valueOf(split_yes_no[1]).concat(" No")));
                             entry2.formColor = color;
                             entry2.label = "Didn't Relapse";
                             entries.add(entry2);
-                        } else if (return_the_information_from_save(6).equals("good")) {
+                        } else if (return_the_information_from_save(6).equals("Build_up")) {
                             pieChartEntries.add(new PieEntry(Float.parseFloat(split_yes_no[1]), String.valueOf(split_yes_no[1]).concat(" No")));
                             entry2.formColor = ColorUtils.blendARGB(color, Color.RED, 0.7F);
                             entry2.label = "not completed";
@@ -11221,20 +11416,20 @@ public class View_home_habit extends Fragment implements PopupMenu.OnMenuItemCli
         if (getView() != null && getActivity() != null) {
             int yes = 0;
             int no = 0;
-            if (return_the_information_from_save(6).equals("bad")) {
+            if (return_the_information_from_save(6).equals("Quit")) {
                 yes = return_relapses().size();
-                int total_days = (int) TimeUnit.MILLISECONDS.toDays(Simplify_the_time.return_time_in_midnight(System.currentTimeMillis()) - Simplify_the_time.return_time_in_midnight(Long.parseLong(return_the_information_from_save(2)))) + 1;
+                int total_days = (int) TimeUnit.MILLISECONDS.toDays(Simplify_the_time.return_time_in_midnight(System.currentTimeMillis()) - Simplify_the_time.return_time_in_midnight(this.start_date)) + 1;
                 no = total_days - yes;
                 return String.valueOf(no).concat("split").concat(String.valueOf(yes));
             } else {
-                if (return_the_information_from_save(7).equals("yes/no")) {
-                    if (return_the_information_from_save(8).equals("everyday")) {
+                if (return_type_of_habit().equals("yes/no")) {
+                    if (return_frequency().equals("everyday")) {
                         yes = return_relapses().size();
-                        int total_days = (int) TimeUnit.MILLISECONDS.toDays(Simplify_the_time.return_time_in_midnight(System.currentTimeMillis()) - Simplify_the_time.return_time_in_midnight(Long.parseLong(return_the_information_from_save(2)))) + 1;
+                        int total_days = (int) TimeUnit.MILLISECONDS.toDays(Simplify_the_time.return_time_in_midnight(System.currentTimeMillis()) - Simplify_the_time.return_time_in_midnight(this.start_date)) + 1;
                         no = total_days - yes;
                         return String.valueOf(yes).concat("split").concat(String.valueOf(no));
-                    } else if (return_the_information_from_save(8).equals("daysperweek")) {
-                        long start_date = Simplify_the_time.return_time_in_midnight(Long.parseLong(return_the_information_from_save(2)));
+                    } else if (return_frequency().equals("daysperweek")) {
+                        long start_date = Simplify_the_time.return_time_in_midnight(this.start_date);
                         long difference = Simplify_the_time.return_time_in_midnight(System.currentTimeMillis()) - Simplify_the_time.return_time_in_midnight(start_date) + TimeUnit.DAYS.toMillis(1);
                         Calendar calendar = Calendar.getInstance();
                         if (difference % TimeUnit.DAYS.toMillis(1) != 0) {
@@ -11246,19 +11441,19 @@ public class View_home_habit extends Fragment implements PopupMenu.OnMenuItemCli
                             if (index >= 0) {
                                 yes++;
                             } else {
-                                if (calendar.get(Calendar.DAY_OF_WEEK) == Calendar.MONDAY && !return_the_information_from_save(10).contains("Mo")) {
+                                if (calendar.get(Calendar.DAY_OF_WEEK) == Calendar.MONDAY && !return_days_per_week().contains("Mo")) {
                                     yes++;
-                                } else if (calendar.get(Calendar.DAY_OF_WEEK) == Calendar.TUESDAY && !return_the_information_from_save(10).contains("Tu")) {
+                                } else if (calendar.get(Calendar.DAY_OF_WEEK) == Calendar.TUESDAY && !return_days_per_week().contains("Tu")) {
                                     yes++;
-                                } else if (calendar.get(Calendar.DAY_OF_WEEK) == Calendar.WEDNESDAY && !return_the_information_from_save(10).contains("We")) {
+                                } else if (calendar.get(Calendar.DAY_OF_WEEK) == Calendar.WEDNESDAY && !return_days_per_week().contains("We")) {
                                     yes++;
-                                } else if (calendar.get(Calendar.DAY_OF_WEEK) == Calendar.THURSDAY && !return_the_information_from_save(10).contains("Th")) {
+                                } else if (calendar.get(Calendar.DAY_OF_WEEK) == Calendar.THURSDAY && !return_days_per_week().contains("Th")) {
                                     yes++;
-                                } else if (calendar.get(Calendar.DAY_OF_WEEK) == Calendar.FRIDAY && !return_the_information_from_save(10).contains("Fr")) {
+                                } else if (calendar.get(Calendar.DAY_OF_WEEK) == Calendar.FRIDAY && !return_days_per_week().contains("Fr")) {
                                     yes++;
-                                } else if (calendar.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY && !return_the_information_from_save(10).contains("Sa")) {
+                                } else if (calendar.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY && !return_days_per_week().contains("Sa")) {
                                     yes++;
-                                } else if (calendar.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY && !return_the_information_from_save(10).contains("Su")) {
+                                } else if (calendar.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY && !return_days_per_week().contains("Su")) {
                                     yes++;
                                 } else {
                                     no++;
@@ -11266,10 +11461,10 @@ public class View_home_habit extends Fragment implements PopupMenu.OnMenuItemCli
                             }
                         }
                         return String.valueOf(yes).concat("split").concat(String.valueOf(no));
-                    } else if (return_the_information_from_save(8).equals("everyndays")) {
+                    } else if (return_frequency().equals("everyndays")) {
                         ArrayList<Long> filter_list = new ArrayList<>();
                         ArrayList<Long> filter_list_at_midnight = new ArrayList<>();
-                        long start_date = Simplify_the_time.return_time_in_midnight(Long.parseLong(return_the_information_from_save(2)));
+                        long start_date = Simplify_the_time.return_time_in_midnight(this.start_date);
                         long difference = Simplify_the_time.return_time_in_midnight(System.currentTimeMillis()) - Simplify_the_time.return_time_in_midnight(start_date) + TimeUnit.DAYS.toMillis(1);
                         Calendar calendar = Calendar.getInstance();
                         int sum = 0;
@@ -11304,9 +11499,9 @@ public class View_home_habit extends Fragment implements PopupMenu.OnMenuItemCli
                             }
                         }
                         return String.valueOf(yes).concat("split").concat(String.valueOf(no));
-                    } else if (return_the_information_from_save(8).equals("dayspermonth")) {
+                    } else if (return_frequency().equals("dayspermonth")) {
                         Calendar calender = Calendar.getInstance();
-                        long start_date = Simplify_the_time.return_time_in_midnight(Long.parseLong(return_the_information_from_save(2)));
+                        long start_date = Simplify_the_time.return_time_in_midnight(this.start_date);
                         long difference = Simplify_the_time.return_time_in_midnight(System.currentTimeMillis()) - Simplify_the_time.return_time_in_midnight(start_date) + TimeUnit.DAYS.toMillis(1);
                         int sum = 0;
                         if (difference % TimeUnit.DAYS.toMillis(1) != 0) {
@@ -11330,14 +11525,20 @@ public class View_home_habit extends Fragment implements PopupMenu.OnMenuItemCli
                     } else {
                         return "";
                     }
-                } else if (return_the_information_from_save(7).equals("amount")) {
-                    if (return_the_information_from_save(8).equals("everyday")) {
-                        yes = hash_map_amount.size();
-                        int total_days = (int) TimeUnit.MILLISECONDS.toDays(Simplify_the_time.return_time_in_midnight(System.currentTimeMillis()) - Simplify_the_time.return_time_in_midnight(Long.parseLong(return_the_information_from_save(2)))) + 1;
+                } else if (return_type_of_habit().equals("amount")) {
+                    if (return_frequency().equals("everyday")) {
+                        int value_for_amount = Integer.parseInt(return_the_information_from_save(10));
+                        for (long value : hash_map_amount.values()) {
+                            if (value >= value_for_amount) {
+                                yes = yes + 1;
+                            }
+                        }
+                        //yes = hash_map_amount.size();
+                        int total_days = (int) TimeUnit.MILLISECONDS.toDays(Simplify_the_time.return_time_in_midnight(System.currentTimeMillis()) - Simplify_the_time.return_time_in_midnight(this.start_date)) + 1;
                         no = total_days - yes;
                         return String.valueOf(yes).concat("split").concat(String.valueOf(no));
-                    } else if (return_the_information_from_save(8).equals("daysperweek")) {
-                        long start_date = Simplify_the_time.return_time_in_midnight(Long.parseLong(return_the_information_from_save(2)));
+                    } else if (return_frequency().equals("daysperweek")) {
+                        long start_date = Simplify_the_time.return_time_in_midnight(this.start_date);
                         long difference = Simplify_the_time.return_time_in_midnight(System.currentTimeMillis()) - Simplify_the_time.return_time_in_midnight(start_date) + TimeUnit.DAYS.toMillis(1);
                         Calendar calendar = Calendar.getInstance();
                         if (difference % TimeUnit.DAYS.toMillis(1) != 0) {
@@ -11348,19 +11549,19 @@ public class View_home_habit extends Fragment implements PopupMenu.OnMenuItemCli
                             if (hash_map_amount.containsKey(Simplify_the_time.return_time_in_midnight(calendar.getTimeInMillis())) && is_amount_good_for_streak(Simplify_the_time.return_time_in_midnight(calendar.getTimeInMillis()))) {
                                 yes++;
                             } else {
-                                if (calendar.get(Calendar.DAY_OF_WEEK) == Calendar.MONDAY && !return_the_information_from_save(10).contains("Mo")) {
+                                if (calendar.get(Calendar.DAY_OF_WEEK) == Calendar.MONDAY && !return_days_per_week().contains("Mo")) {
                                     yes++;
-                                } else if (calendar.get(Calendar.DAY_OF_WEEK) == Calendar.TUESDAY && !return_the_information_from_save(10).contains("Tu")) {
+                                } else if (calendar.get(Calendar.DAY_OF_WEEK) == Calendar.TUESDAY && !return_days_per_week().contains("Tu")) {
                                     yes++;
-                                } else if (calendar.get(Calendar.DAY_OF_WEEK) == Calendar.WEDNESDAY && !return_the_information_from_save(10).contains("We")) {
+                                } else if (calendar.get(Calendar.DAY_OF_WEEK) == Calendar.WEDNESDAY && !return_days_per_week().contains("We")) {
                                     yes++;
-                                } else if (calendar.get(Calendar.DAY_OF_WEEK) == Calendar.THURSDAY && !return_the_information_from_save(10).contains("Th")) {
+                                } else if (calendar.get(Calendar.DAY_OF_WEEK) == Calendar.THURSDAY && !return_days_per_week().contains("Th")) {
                                     yes++;
-                                } else if (calendar.get(Calendar.DAY_OF_WEEK) == Calendar.FRIDAY && !return_the_information_from_save(10).contains("Fr")) {
+                                } else if (calendar.get(Calendar.DAY_OF_WEEK) == Calendar.FRIDAY && !return_days_per_week().contains("Fr")) {
                                     yes++;
-                                } else if (calendar.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY && !return_the_information_from_save(10).contains("Sa")) {
+                                } else if (calendar.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY && !return_days_per_week().contains("Sa")) {
                                     yes++;
-                                } else if (calendar.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY && !return_the_information_from_save(10).contains("Su")) {
+                                } else if (calendar.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY && !return_days_per_week().contains("Su")) {
                                     yes++;
                                 } else {
                                     no++;
@@ -11368,10 +11569,10 @@ public class View_home_habit extends Fragment implements PopupMenu.OnMenuItemCli
                             }
                         }
                         return String.valueOf(yes).concat("split").concat(String.valueOf(no));
-                    } else if (return_the_information_from_save(8).equals("everyndays")) {
+                    } else if (return_frequency().equals("everyndays")) {
                         ArrayList<Long> filter_list = new ArrayList<>();
                         ArrayList<Long> filter_list_at_midnight = new ArrayList<>();
-                        long start_date = Simplify_the_time.return_time_in_midnight(Long.parseLong(return_the_information_from_save(2)));
+                        long start_date = Simplify_the_time.return_time_in_midnight(this.start_date);
                         long difference = Simplify_the_time.return_time_in_midnight(System.currentTimeMillis()) - Simplify_the_time.return_time_in_midnight(start_date) + TimeUnit.DAYS.toMillis(1);
                         Calendar calendar = Calendar.getInstance();
                         int sum = 0;
@@ -11390,7 +11591,7 @@ public class View_home_habit extends Fragment implements PopupMenu.OnMenuItemCli
                                 if (hash_map_amount.size() > 0) {
                                     long milli = Simplify_the_time.return_time_in_midnight(calendar.getTimeInMillis());
                                     for (int j = 1; j < Integer.parseInt(return_the_information_from_save(10)); j++) {
-                                        if (hash_map_amount.containsKey(milli - TimeUnit.DAYS.toMillis(j)) && hash_map_amount.get(milli - TimeUnit.DAYS.toMillis(j)) >= Integer.parseInt(return_the_information_from_save(9))) {
+                                        if (hash_map_amount.containsKey(milli - TimeUnit.DAYS.toMillis(j)) && hash_map_amount.get(milli - TimeUnit.DAYS.toMillis(j)) >= Integer.parseInt(return_the_information_from_save(10))) {
                                             yes++;
                                             break;
                                         }
@@ -11399,9 +11600,9 @@ public class View_home_habit extends Fragment implements PopupMenu.OnMenuItemCli
                             }
                         }
                         return String.valueOf(yes).concat("split").concat(String.valueOf(no));
-                    } else if (return_the_information_from_save(8).equals("dayspermonth")) {
+                    } else if (return_frequency().equals("dayspermonth")) {
                         Calendar calender = Calendar.getInstance();
-                        long start_date = Simplify_the_time.return_time_in_midnight(Long.parseLong(return_the_information_from_save(2)));
+                        long start_date = Simplify_the_time.return_time_in_midnight(this.start_date);
                         long difference = Simplify_the_time.return_time_in_midnight(System.currentTimeMillis()) - Simplify_the_time.return_time_in_midnight(start_date) + TimeUnit.DAYS.toMillis(1);
                         if (difference % TimeUnit.DAYS.toMillis(1) != 0) {
                             difference = difference + (TimeUnit.DAYS.toMillis(1) - (difference % TimeUnit.DAYS.toMillis(1)));
@@ -11423,7 +11624,7 @@ public class View_home_habit extends Fragment implements PopupMenu.OnMenuItemCli
                     } else {
                         return "";
                     }
-                } else if (return_the_information_from_save(7).equals("timer")) {
+                } else if (return_type_of_habit().equals("timer")) {
                     return "";
                 } else {
                     return "";
@@ -11439,8 +11640,7 @@ public class View_home_habit extends Fragment implements PopupMenu.OnMenuItemCli
             Button this_streak_chart_is_only_available_for_pro_users_pie_chart_view_home = getView().findViewById(R.id.this_streak_chart_is_only_available_for_pro_users_pie_chart_view_home);
             TextView text_saying_thet_there_is_not_enough_data_to_draw_various_streaks = getView().findViewById(R.id.text_saying_thet_there_is_not_enough_data_to_draw_various_streaks);
             line_chart_for_streak = getView().findViewById(R.id.cahrt_showing_various_chart_length_for_different_streaks);
-            Am_i_paid am_i_paid = new Am_i_paid(getContext());
-            if (am_i_paid.did_user_pay()) {
+            if (Payment_processer.getInstance().state_of_the_user()) {
                 this_streak_chart_is_only_available_for_pro_users_pie_chart_view_home.setVisibility(View.INVISIBLE);
                 //process the data
                 ArrayList<Entry> y_values = new ArrayList<>();
@@ -11573,10 +11773,9 @@ public class View_home_habit extends Fragment implements PopupMenu.OnMenuItemCli
             TextView text_saying_the_how_many_times_for_this_year_actual = getView().findViewById(R.id.text_saying_the_how_many_times_for_this_year_actual);
             TextView text_saying_the_how_many_times_for_this_all_time_actual = getView().findViewById(R.id.text_saying_the_how_many_times_for_this_all_time_actual);
             Button this_relapses_is_only_available_for_pro_users_pie_chart_view_home = getView().findViewById(R.id.this_relapses_is_only_available_for_pro_users_pie_chart_view_home);
-            Am_i_paid am_i_paid = new Am_i_paid(getContext());
-            if (am_i_paid.did_user_pay()) {
+            if (Payment_processer.getInstance().state_of_the_user()) {
                 this_relapses_is_only_available_for_pro_users_pie_chart_view_home.setVisibility(View.INVISIBLE);
-                if (return_the_information_from_save(6).equals("bad")) {
+                if (return_the_information_from_save(6).equals("Quit")) {
                     ArrayList<Long> relapse = return_relapses();
                     long week_ago = Simplify_the_time.return_time_in_midnight(System.currentTimeMillis() - (6 * 86400000L));
                     long month_ago = Simplify_the_time.return_time_in_midnight(System.currentTimeMillis() - (29 * 86400000L));
@@ -11619,8 +11818,8 @@ public class View_home_habit extends Fragment implements PopupMenu.OnMenuItemCli
                         text_saying_the_how_many_times_for_this_all_time_actual.setText("No data");
                     }
                 } else {
-                    if (return_the_information_from_save(7).equals("yes/no")) {
-                        if (return_the_information_from_save(8).equals("everyday")) {
+                    if (return_type_of_habit().equals("yes/no")) {
+                        if (return_frequency().equals("everyday")) {
                             ArrayList<Long> relapse = return_relapses();
                             long week_ago = Simplify_the_time.return_time_in_midnight(System.currentTimeMillis() - (6 * 86400000L));
                             long month_ago = Simplify_the_time.return_time_in_midnight(System.currentTimeMillis() - (29 * 86400000L));
@@ -11662,7 +11861,7 @@ public class View_home_habit extends Fragment implements PopupMenu.OnMenuItemCli
                                 text_saying_the_how_many_times_for_this_year_actual.setText("No data");
                                 text_saying_the_how_many_times_for_this_all_time_actual.setText("No data");
                             }
-                        } else if (return_the_information_from_save(8).equals("daysperweek")) {
+                        } else if (return_frequency().equals("daysperweek")) {
                             long week_ago = Simplify_the_time.return_time_in_midnight(System.currentTimeMillis() - (6 * 86400000L));
                             long month_ago = Simplify_the_time.return_time_in_midnight(System.currentTimeMillis() - (29 * 86400000L));
                             long year_ago = Simplify_the_time.return_time_in_midnight(System.currentTimeMillis() - (364 * 86400000L));
@@ -11674,7 +11873,7 @@ public class View_home_habit extends Fragment implements PopupMenu.OnMenuItemCli
                             ArrayList<Long> filter_list_at_midnight = new ArrayList<>();
                             ArrayList<Long> relapse = return_relapses();
                             filter_list = return_relapses();
-                            long start_date = Simplify_the_time.return_time_in_midnight(Long.parseLong(return_the_information_from_save(2)));
+                            long start_date = Simplify_the_time.return_time_in_midnight(this.start_date);
                             long difference = Simplify_the_time.return_time_in_midnight(System.currentTimeMillis()) - Simplify_the_time.return_time_in_midnight(start_date) + TimeUnit.DAYS.toMillis(1);
                             Calendar calendar = Calendar.getInstance();
                             int sum = 0;
@@ -11687,7 +11886,7 @@ public class View_home_habit extends Fragment implements PopupMenu.OnMenuItemCli
                             for (int i = 0; i < TimeUnit.MILLISECONDS.toDays(difference); i++) {
                                 calendar.setTimeInMillis(Simplify_the_time.return_time_in_midnight(Simplify_the_time.return_time_in_midnight(start_date) + TimeUnit.DAYS.toMillis(i)));
                                 if (calendar.get(Calendar.DAY_OF_WEEK) == Calendar.MONDAY) {
-                                    if (return_the_information_from_save(10).contains("Mo")) {
+                                    if (return_days_per_week().contains("Mo")) {
                                         if (filter_list_at_midnight.contains(Simplify_the_time.return_time_in_midnight(Simplify_the_time.return_time_in_midnight(start_date) + TimeUnit.DAYS.toMillis(i)))) {
                                             if (calendar.getTimeInMillis() >= week_ago) {
                                                 week_data++;
@@ -11715,7 +11914,7 @@ public class View_home_habit extends Fragment implements PopupMenu.OnMenuItemCli
                                         }
                                     }
                                 } else if (calendar.get(Calendar.DAY_OF_WEEK) == Calendar.TUESDAY) {
-                                    if (return_the_information_from_save(10).contains("Tu")) {
+                                    if (return_days_per_week().contains("Tu")) {
                                         if (filter_list_at_midnight.contains(Simplify_the_time.return_time_in_midnight(Simplify_the_time.return_time_in_midnight(start_date) + TimeUnit.DAYS.toMillis(i)))) {
                                             if (calendar.getTimeInMillis() >= week_ago) {
                                                 week_data++;
@@ -11743,7 +11942,7 @@ public class View_home_habit extends Fragment implements PopupMenu.OnMenuItemCli
                                         }
                                     }
                                 } else if (calendar.get(Calendar.DAY_OF_WEEK) == Calendar.WEDNESDAY) {
-                                    if (return_the_information_from_save(10).contains("We")) {
+                                    if (return_days_per_week().contains("We")) {
                                         if (filter_list_at_midnight.contains(Simplify_the_time.return_time_in_midnight(Simplify_the_time.return_time_in_midnight(start_date) + TimeUnit.DAYS.toMillis(i)))) {
                                             if (calendar.getTimeInMillis() >= week_ago) {
                                                 week_data++;
@@ -11771,7 +11970,7 @@ public class View_home_habit extends Fragment implements PopupMenu.OnMenuItemCli
                                         }
                                     }
                                 } else if (calendar.get(Calendar.DAY_OF_WEEK) == Calendar.THURSDAY) {
-                                    if (return_the_information_from_save(10).contains("Th")) {
+                                    if (return_days_per_week().contains("Th")) {
                                         if (filter_list_at_midnight.contains(Simplify_the_time.return_time_in_midnight(Simplify_the_time.return_time_in_midnight(start_date) + TimeUnit.DAYS.toMillis(i)))) {
                                             if (calendar.getTimeInMillis() >= week_ago) {
                                                 week_data++;
@@ -11799,7 +11998,7 @@ public class View_home_habit extends Fragment implements PopupMenu.OnMenuItemCli
                                         }
                                     }
                                 } else if (calendar.get(Calendar.DAY_OF_WEEK) == Calendar.FRIDAY) {
-                                    if (return_the_information_from_save(10).contains("Fr")) {
+                                    if (return_days_per_week().contains("Fr")) {
                                         if (filter_list_at_midnight.contains(Simplify_the_time.return_time_in_midnight(Simplify_the_time.return_time_in_midnight(start_date) + TimeUnit.DAYS.toMillis(i)))) {
                                             if (calendar.getTimeInMillis() >= week_ago) {
                                                 week_data++;
@@ -11827,7 +12026,7 @@ public class View_home_habit extends Fragment implements PopupMenu.OnMenuItemCli
                                         }
                                     }
                                 } else if (calendar.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY) {
-                                    if (return_the_information_from_save(10).contains("Sa")) {
+                                    if (return_days_per_week().contains("Sa")) {
                                         if (filter_list_at_midnight.contains(Simplify_the_time.return_time_in_midnight(Simplify_the_time.return_time_in_midnight(start_date) + TimeUnit.DAYS.toMillis(i)))) {
                                             if (calendar.getTimeInMillis() >= week_ago) {
                                                 week_data++;
@@ -11855,7 +12054,7 @@ public class View_home_habit extends Fragment implements PopupMenu.OnMenuItemCli
                                         }
                                     }
                                 } else if (calendar.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY) {
-                                    if (return_the_information_from_save(10).contains("Su")) {
+                                    if (return_days_per_week().contains("Su")) {
                                         if (filter_list_at_midnight.contains(Simplify_the_time.return_time_in_midnight(Simplify_the_time.return_time_in_midnight(start_date) + TimeUnit.DAYS.toMillis(i)))) {
                                             if (calendar.getTimeInMillis() >= week_ago) {
                                                 week_data++;
@@ -11896,7 +12095,7 @@ public class View_home_habit extends Fragment implements PopupMenu.OnMenuItemCli
                                 text_saying_the_how_many_times_for_this_year_actual.setText(String.valueOf(year_data));
                                 text_saying_the_how_many_times_for_this_all_time_actual.setText(String.valueOf(all_data));
                             }
-                        } else if (return_the_information_from_save(8).equals("everyndays")) {
+                        } else if (return_frequency().equals("everyndays")) {
                             long week_ago = Simplify_the_time.return_time_in_midnight(System.currentTimeMillis() - (6 * 86400000L));
                             long month_ago = Simplify_the_time.return_time_in_midnight(System.currentTimeMillis() - (29 * 86400000L));
                             long year_ago = Simplify_the_time.return_time_in_midnight(System.currentTimeMillis() - (364 * 86400000L));
@@ -11907,7 +12106,7 @@ public class View_home_habit extends Fragment implements PopupMenu.OnMenuItemCli
                             ArrayList<Long> filter_list = new ArrayList<>();
                             ArrayList<Long> filter_list_at_midnight = new ArrayList<>();
                             ArrayList<Long> relapse = return_relapses();
-                            if (return_the_information_from_save(7).equals("amount") || return_the_information_from_save(7).equals("timer")) {
+                            if (return_type_of_habit().equals("amount") || return_type_of_habit().equals("timer")) {
                                 for (int i = 0; i < relapse.size(); i++) {
                                     if (is_amount_good_for_streak(relapse.get(i))) {
                                         filter_list.add(relapse.get(i));
@@ -11916,7 +12115,7 @@ public class View_home_habit extends Fragment implements PopupMenu.OnMenuItemCli
                             } else {
                                 filter_list = return_relapses();
                             }
-                            long start_date = Simplify_the_time.return_time_in_midnight(Long.parseLong(return_the_information_from_save(2)));
+                            long start_date = Simplify_the_time.return_time_in_midnight(this.start_date);
                             long difference = Simplify_the_time.return_time_in_midnight(System.currentTimeMillis()) - Simplify_the_time.return_time_in_midnight(start_date) + TimeUnit.DAYS.toMillis(1);
                             Calendar calendar = Calendar.getInstance();
                             for (int i = 0; i < filter_list.size(); i++) {
@@ -11974,7 +12173,7 @@ public class View_home_habit extends Fragment implements PopupMenu.OnMenuItemCli
                                 text_saying_the_how_many_times_for_this_year_actual.setText(String.valueOf(year_data));
                                 text_saying_the_how_many_times_for_this_all_time_actual.setText(String.valueOf(all_data));
                             }
-                        } else if (return_the_information_from_save(8).equals("dayspermonth")) {
+                        } else if (return_frequency().equals("dayspermonth")) {
                             long week_ago = Simplify_the_time.return_time_in_midnight(System.currentTimeMillis() - (6 * 86400000L));
                             long month_ago = Simplify_the_time.return_time_in_midnight(System.currentTimeMillis() - (29 * 86400000L));
                             long year_ago = Simplify_the_time.return_time_in_midnight(System.currentTimeMillis() - (364 * 86400000L));
@@ -11985,7 +12184,7 @@ public class View_home_habit extends Fragment implements PopupMenu.OnMenuItemCli
                             ArrayList<Long> filter_list = new ArrayList<>();
                             ArrayList<Long> filter_list_at_midnight = new ArrayList<>();
                             Calendar calender = Calendar.getInstance();
-                            long start_date = Simplify_the_time.return_time_in_midnight(Long.parseLong(return_the_information_from_save(2)));
+                            long start_date = Simplify_the_time.return_time_in_midnight(this.start_date);
                             long difference = Simplify_the_time.return_time_in_midnight(System.currentTimeMillis()) - Simplify_the_time.return_time_in_midnight(start_date) + TimeUnit.DAYS.toMillis(1);
                             ArrayList<Long> relapse = return_relapses();
                             filter_list = return_relapses();
@@ -12040,8 +12239,8 @@ public class View_home_habit extends Fragment implements PopupMenu.OnMenuItemCli
                                 text_saying_the_how_many_times_for_this_all_time_actual.setText(String.valueOf(all_data));
                             }
                         }
-                    } else if (return_the_information_from_save(7).equals("amount")) {
-                        if (return_the_information_from_save(8).equals("everyday")) {
+                    } else if (return_type_of_habit().equals("amount")) {
+                        if (return_frequency().equals("everyday")) {
                             int week_data = 0;
                             int month_data = 0;
                             int year_data = 0;
@@ -12052,7 +12251,7 @@ public class View_home_habit extends Fragment implements PopupMenu.OnMenuItemCli
                             long year_ago = time_right_now - (TimeUnit.DAYS.toMillis(365));
                             for (HashMap.Entry<Long, Integer> entry : hash_map_amount.entrySet()) {
                                 int value = entry.getValue();
-                                if (value >= Integer.parseInt(return_the_information_from_save(9))) {
+                                if (value >= Integer.parseInt(return_the_information_from_save(10))) {
                                     long key = entry.getKey();
                                     long time_in_map = Simplify_the_time.return_time_in_midnight(key);
                                     if (time_in_map > week_ago) {
@@ -12078,7 +12277,7 @@ public class View_home_habit extends Fragment implements PopupMenu.OnMenuItemCli
                                 text_saying_the_how_many_times_for_this_year_actual.setText(String.valueOf(year_data));
                                 text_saying_the_how_many_times_for_this_all_time_actual.setText(String.valueOf(all_data));
                             }
-                        } else if (return_the_information_from_save(8).equals("daysperweek")) {
+                        } else if (return_frequency().equals("daysperweek")) {
                             long week_ago = Simplify_the_time.return_time_in_midnight(System.currentTimeMillis() - (6 * 86400000L));
                             long month_ago = Simplify_the_time.return_time_in_midnight(System.currentTimeMillis() - (29 * 86400000L));
                             long year_ago = Simplify_the_time.return_time_in_midnight(System.currentTimeMillis() - (364 * 86400000L));
@@ -12086,7 +12285,7 @@ public class View_home_habit extends Fragment implements PopupMenu.OnMenuItemCli
                             int month_data = 0;
                             int year_data = 0;
                             int all_data = 0;
-                            long start_date = Simplify_the_time.return_time_in_midnight(Long.parseLong(return_the_information_from_save(2)));
+                            long start_date = Simplify_the_time.return_time_in_midnight(this.start_date);
                             long difference = Simplify_the_time.return_time_in_midnight(System.currentTimeMillis()) - Simplify_the_time.return_time_in_midnight(start_date) + TimeUnit.DAYS.toMillis(1);
                             Calendar calendar = Calendar.getInstance();
                             int sum = 0;
@@ -12096,8 +12295,8 @@ public class View_home_habit extends Fragment implements PopupMenu.OnMenuItemCli
                             for (int i = 0; i < TimeUnit.MILLISECONDS.toDays(difference); i++) {
                                 calendar.setTimeInMillis(Simplify_the_time.return_time_in_midnight(Simplify_the_time.return_time_in_midnight(start_date) + TimeUnit.DAYS.toMillis(i)));
                                 if (calendar.get(Calendar.DAY_OF_WEEK) == Calendar.MONDAY) {
-                                    if (return_the_information_from_save(10).contains("Mo")) {
-                                        if (hash_map_amount.containsKey(Simplify_the_time.return_time_in_midnight(Simplify_the_time.return_time_in_midnight(start_date) + TimeUnit.DAYS.toMillis(i))) && hash_map_amount.get(Simplify_the_time.return_time_in_midnight(calendar.getTimeInMillis())) >= Integer.parseInt(return_the_information_from_save(9))) {
+                                    if (return_days_per_week().contains("Mo")) {
+                                        if (hash_map_amount.containsKey(Simplify_the_time.return_time_in_midnight(Simplify_the_time.return_time_in_midnight(start_date) + TimeUnit.DAYS.toMillis(i))) && hash_map_amount.get(Simplify_the_time.return_time_in_midnight(calendar.getTimeInMillis())) >= Integer.parseInt(return_the_information_from_save(10))) {
                                             if (calendar.getTimeInMillis() >= week_ago) {
                                                 week_data++;
                                             }
@@ -12124,8 +12323,8 @@ public class View_home_habit extends Fragment implements PopupMenu.OnMenuItemCli
                                         }
                                     }
                                 } else if (calendar.get(Calendar.DAY_OF_WEEK) == Calendar.TUESDAY) {
-                                    if (return_the_information_from_save(10).contains("Tu")) {
-                                        if (hash_map_amount.containsKey(Simplify_the_time.return_time_in_midnight(Simplify_the_time.return_time_in_midnight(start_date) + TimeUnit.DAYS.toMillis(i))) && hash_map_amount.get(Simplify_the_time.return_time_in_midnight(calendar.getTimeInMillis())) >= Integer.parseInt(return_the_information_from_save(9))) {
+                                    if (return_days_per_week().contains("Tu")) {
+                                        if (hash_map_amount.containsKey(Simplify_the_time.return_time_in_midnight(Simplify_the_time.return_time_in_midnight(start_date) + TimeUnit.DAYS.toMillis(i))) && hash_map_amount.get(Simplify_the_time.return_time_in_midnight(calendar.getTimeInMillis())) >= Integer.parseInt(return_the_information_from_save(10))) {
                                             if (calendar.getTimeInMillis() >= week_ago) {
                                                 week_data++;
                                             }
@@ -12152,8 +12351,8 @@ public class View_home_habit extends Fragment implements PopupMenu.OnMenuItemCli
                                         }
                                     }
                                 } else if (calendar.get(Calendar.DAY_OF_WEEK) == Calendar.WEDNESDAY) {
-                                    if (return_the_information_from_save(10).contains("We")) {
-                                        if (hash_map_amount.containsKey(Simplify_the_time.return_time_in_midnight(Simplify_the_time.return_time_in_midnight(start_date) + TimeUnit.DAYS.toMillis(i))) && hash_map_amount.get(Simplify_the_time.return_time_in_midnight(calendar.getTimeInMillis())) >= Integer.parseInt(return_the_information_from_save(9))) {
+                                    if (return_days_per_week().contains("We")) {
+                                        if (hash_map_amount.containsKey(Simplify_the_time.return_time_in_midnight(Simplify_the_time.return_time_in_midnight(start_date) + TimeUnit.DAYS.toMillis(i))) && hash_map_amount.get(Simplify_the_time.return_time_in_midnight(calendar.getTimeInMillis())) >= Integer.parseInt(return_the_information_from_save(10))) {
                                             if (calendar.getTimeInMillis() >= week_ago) {
                                                 week_data++;
                                             }
@@ -12180,8 +12379,8 @@ public class View_home_habit extends Fragment implements PopupMenu.OnMenuItemCli
                                         }
                                     }
                                 } else if (calendar.get(Calendar.DAY_OF_WEEK) == Calendar.THURSDAY) {
-                                    if (return_the_information_from_save(10).contains("Th")) {
-                                        if (hash_map_amount.containsKey(Simplify_the_time.return_time_in_midnight(Simplify_the_time.return_time_in_midnight(start_date) + TimeUnit.DAYS.toMillis(i))) && hash_map_amount.get(Simplify_the_time.return_time_in_midnight(calendar.getTimeInMillis())) >= Integer.parseInt(return_the_information_from_save(9))) {
+                                    if (return_days_per_week().contains("Th")) {
+                                        if (hash_map_amount.containsKey(Simplify_the_time.return_time_in_midnight(Simplify_the_time.return_time_in_midnight(start_date) + TimeUnit.DAYS.toMillis(i))) && hash_map_amount.get(Simplify_the_time.return_time_in_midnight(calendar.getTimeInMillis())) >= Integer.parseInt(return_the_information_from_save(10))) {
                                             if (calendar.getTimeInMillis() >= week_ago) {
                                                 week_data++;
                                             }
@@ -12208,8 +12407,8 @@ public class View_home_habit extends Fragment implements PopupMenu.OnMenuItemCli
                                         }
                                     }
                                 } else if (calendar.get(Calendar.DAY_OF_WEEK) == Calendar.FRIDAY) {
-                                    if (return_the_information_from_save(10).contains("Fr")) {
-                                        if (hash_map_amount.containsKey(Simplify_the_time.return_time_in_midnight(Simplify_the_time.return_time_in_midnight(start_date) + TimeUnit.DAYS.toMillis(i))) && hash_map_amount.get(Simplify_the_time.return_time_in_midnight(calendar.getTimeInMillis())) >= Integer.parseInt(return_the_information_from_save(9))) {
+                                    if (return_days_per_week().contains("Fr")) {
+                                        if (hash_map_amount.containsKey(Simplify_the_time.return_time_in_midnight(Simplify_the_time.return_time_in_midnight(start_date) + TimeUnit.DAYS.toMillis(i))) && hash_map_amount.get(Simplify_the_time.return_time_in_midnight(calendar.getTimeInMillis())) >= Integer.parseInt(return_the_information_from_save(10))) {
                                             if (calendar.getTimeInMillis() >= week_ago) {
                                                 week_data++;
                                             }
@@ -12236,8 +12435,8 @@ public class View_home_habit extends Fragment implements PopupMenu.OnMenuItemCli
                                         }
                                     }
                                 } else if (calendar.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY) {
-                                    if (return_the_information_from_save(10).contains("Sa")) {
-                                        if (hash_map_amount.containsKey(Simplify_the_time.return_time_in_midnight(Simplify_the_time.return_time_in_midnight(start_date) + TimeUnit.DAYS.toMillis(i))) && hash_map_amount.get(Simplify_the_time.return_time_in_midnight(calendar.getTimeInMillis())) >= Integer.parseInt(return_the_information_from_save(9))) {
+                                    if (return_days_per_week().contains("Sa")) {
+                                        if (hash_map_amount.containsKey(Simplify_the_time.return_time_in_midnight(Simplify_the_time.return_time_in_midnight(start_date) + TimeUnit.DAYS.toMillis(i))) && hash_map_amount.get(Simplify_the_time.return_time_in_midnight(calendar.getTimeInMillis())) >= Integer.parseInt(return_the_information_from_save(10))) {
                                             if (calendar.getTimeInMillis() >= week_ago) {
                                                 week_data++;
                                             }
@@ -12264,8 +12463,8 @@ public class View_home_habit extends Fragment implements PopupMenu.OnMenuItemCli
                                         }
                                     }
                                 } else if (calendar.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY) {
-                                    if (return_the_information_from_save(10).contains("Su")) {
-                                        if (hash_map_amount.containsKey(Simplify_the_time.return_time_in_midnight(Simplify_the_time.return_time_in_midnight(start_date) + TimeUnit.DAYS.toMillis(i))) && hash_map_amount.get(Simplify_the_time.return_time_in_midnight(calendar.getTimeInMillis())) >= Integer.parseInt(return_the_information_from_save(9))) {
+                                    if (return_days_per_week().contains("Su")) {
+                                        if (hash_map_amount.containsKey(Simplify_the_time.return_time_in_midnight(Simplify_the_time.return_time_in_midnight(start_date) + TimeUnit.DAYS.toMillis(i))) && hash_map_amount.get(Simplify_the_time.return_time_in_midnight(calendar.getTimeInMillis())) >= Integer.parseInt(return_the_information_from_save(10))) {
                                             if (calendar.getTimeInMillis() >= week_ago) {
                                                 week_data++;
                                             }
@@ -12305,7 +12504,7 @@ public class View_home_habit extends Fragment implements PopupMenu.OnMenuItemCli
                                 text_saying_the_how_many_times_for_this_year_actual.setText(String.valueOf(year_data));
                                 text_saying_the_how_many_times_for_this_all_time_actual.setText(String.valueOf(all_data));
                             }
-                        } else if (return_the_information_from_save(8).equals("everyndays")) {
+                        } else if (return_frequency().equals("everyndays")) {
                             long week_ago = Simplify_the_time.return_time_in_midnight(System.currentTimeMillis() - (6 * 86400000L));
                             long month_ago = Simplify_the_time.return_time_in_midnight(System.currentTimeMillis() - (29 * 86400000L));
                             long year_ago = Simplify_the_time.return_time_in_midnight(System.currentTimeMillis() - (364 * 86400000L));
@@ -12313,7 +12512,7 @@ public class View_home_habit extends Fragment implements PopupMenu.OnMenuItemCli
                             int month_data = 0;
                             int year_data = 0;
                             int all_data = 0;
-                            long start_date = Simplify_the_time.return_time_in_midnight(Long.parseLong(return_the_information_from_save(2)));
+                            long start_date = Simplify_the_time.return_time_in_midnight(this.start_date);
                             long difference = Simplify_the_time.return_time_in_midnight(System.currentTimeMillis()) - Simplify_the_time.return_time_in_midnight(start_date) + TimeUnit.DAYS.toMillis(1);
                             Calendar calendar = Calendar.getInstance();
                             if (difference % TimeUnit.DAYS.toMillis(1) != 0) {
@@ -12321,7 +12520,7 @@ public class View_home_habit extends Fragment implements PopupMenu.OnMenuItemCli
                             }
                             for (int i = 0; i < TimeUnit.MILLISECONDS.toDays(difference); i++) {
                                 calendar.setTimeInMillis(Simplify_the_time.return_time_in_midnight(Simplify_the_time.return_time_in_midnight(start_date) + TimeUnit.DAYS.toMillis(i)));
-                                if (hash_map_amount.containsKey(Simplify_the_time.return_time_in_midnight(calendar.getTimeInMillis())) && hash_map_amount.get(Simplify_the_time.return_time_in_midnight(calendar.getTimeInMillis())) >= Integer.parseInt(return_the_information_from_save(9))) {
+                                if (hash_map_amount.containsKey(Simplify_the_time.return_time_in_midnight(calendar.getTimeInMillis())) && hash_map_amount.get(Simplify_the_time.return_time_in_midnight(calendar.getTimeInMillis())) >= Integer.parseInt(return_the_information_from_save(10))) {
                                     if (calendar.getTimeInMillis() > week_ago) {
                                         week_data++;
                                     }
@@ -12361,10 +12560,10 @@ public class View_home_habit extends Fragment implements PopupMenu.OnMenuItemCli
                                 text_saying_the_how_many_times_for_this_year_actual.setText(String.valueOf(year_data));
                                 text_saying_the_how_many_times_for_this_all_time_actual.setText(String.valueOf(all_data));
                             }
-                        } else if (return_the_information_from_save(8).equals("dayspermonth")) {
+                        } else if (return_frequency().equals("dayspermonth")) {
 
                         }
-                    } else if (return_the_information_from_save(7).equals("timer")) {
+                    } else if (return_type_of_habit().equals("timer")) {
 
                     }
                 }
@@ -12397,739 +12596,422 @@ public class View_home_habit extends Fragment implements PopupMenu.OnMenuItemCli
 
     private void add_the_views() {
         if (getView() != null) {
-            View good_habits_layout_circle_jan1 = getView().findViewById(R.id.good_habits_layout_circle_jan1);
-            View good_habits_layout_circle_jan2 = getView().findViewById(R.id.good_habits_layout_circle_jan2);
-            View good_habits_layout_circle_jan3 = getView().findViewById(R.id.good_habits_layout_circle_jan3);
-            View good_habits_layout_circle_jan4 = getView().findViewById(R.id.good_habits_layout_circle_jan4);
-            View good_habits_layout_circle_jan5 = getView().findViewById(R.id.good_habits_layout_circle_jan5);
-            View good_habits_layout_circle_jan6 = getView().findViewById(R.id.good_habits_layout_circle_jan6);
-            View good_habits_layout_circle_jan7 = getView().findViewById(R.id.good_habits_layout_circle_jan7);
-            View good_habits_layout_circle_jan8 = getView().findViewById(R.id.good_habits_layout_circle_jan8);
-            View good_habits_layout_circle_jan9 = getView().findViewById(R.id.good_habits_layout_circle_jan9);
-            View good_habits_layout_circle_jan10 = getView().findViewById(R.id.good_habits_layout_circle_jan10);
-            View good_habits_layout_circle_jan11 = getView().findViewById(R.id.good_habits_layout_circle_jan11);
-            View good_habits_layout_circle_jan12 = getView().findViewById(R.id.good_habits_layout_circle_jan12);
-            View good_habits_layout_circle_jan13 = getView().findViewById(R.id.good_habits_layout_circle_jan13);
-            View good_habits_layout_circle_jan14 = getView().findViewById(R.id.good_habits_layout_circle_jan14);
-            View good_habits_layout_circle_jan15 = getView().findViewById(R.id.good_habits_layout_circle_jan15);
-            View good_habits_layout_circle_jan16 = getView().findViewById(R.id.good_habits_layout_circle_jan16);
-            View good_habits_layout_circle_jan17 = getView().findViewById(R.id.good_habits_layout_circle_jan17);
-            View good_habits_layout_circle_jan18 = getView().findViewById(R.id.good_habits_layout_circle_jan18);
-            View good_habits_layout_circle_jan19 = getView().findViewById(R.id.good_habits_layout_circle_jan19);
-            View good_habits_layout_circle_jan20 = getView().findViewById(R.id.good_habits_layout_circle_jan20);
-            View good_habits_layout_circle_jan21 = getView().findViewById(R.id.good_habits_layout_circle_jan21);
-            View good_habits_layout_circle_jan22 = getView().findViewById(R.id.good_habits_layout_circle_jan22);
-            View good_habits_layout_circle_jan23 = getView().findViewById(R.id.good_habits_layout_circle_jan23);
-            View good_habits_layout_circle_jan24 = getView().findViewById(R.id.good_habits_layout_circle_jan24);
-            View good_habits_layout_circle_jan25 = getView().findViewById(R.id.good_habits_layout_circle_jan25);
-            View good_habits_layout_circle_jan26 = getView().findViewById(R.id.good_habits_layout_circle_jan26);
-            View good_habits_layout_circle_jan27 = getView().findViewById(R.id.good_habits_layout_circle_jan27);
-            View good_habits_layout_circle_jan28 = getView().findViewById(R.id.good_habits_layout_circle_jan28);
-            View good_habits_layout_circle_jan29 = getView().findViewById(R.id.good_habits_layout_circle_jan29);
-            View good_habits_layout_circle_jan30 = getView().findViewById(R.id.good_habits_layout_circle_jan30);
-            View good_habits_layout_circle_jan31 = getView().findViewById(R.id.good_habits_layout_circle_jan31);
-            View good_habits_layout_circle_feb1 = getView().findViewById(R.id.good_habits_layout_circle_feb1);
-            View good_habits_layout_circle_feb2 = getView().findViewById(R.id.good_habits_layout_circle_feb2);
-            View good_habits_layout_circle_feb3 = getView().findViewById(R.id.good_habits_layout_circle_feb3);
-            View good_habits_layout_circle_feb4 = getView().findViewById(R.id.good_habits_layout_circle_feb4);
-            View good_habits_layout_circle_feb5 = getView().findViewById(R.id.good_habits_layout_circle_feb5);
-            View good_habits_layout_circle_feb6 = getView().findViewById(R.id.good_habits_layout_circle_feb6);
-            View good_habits_layout_circle_feb7 = getView().findViewById(R.id.good_habits_layout_circle_feb7);
-            View good_habits_layout_circle_feb8 = getView().findViewById(R.id.good_habits_layout_circle_feb8);
-            View good_habits_layout_circle_feb9 = getView().findViewById(R.id.good_habits_layout_circle_feb9);
-            View good_habits_layout_circle_feb10 = getView().findViewById(R.id.good_habits_layout_circle_feb10);
-            View good_habits_layout_circle_feb11 = getView().findViewById(R.id.good_habits_layout_circle_feb11);
-            View good_habits_layout_circle_feb12 = getView().findViewById(R.id.good_habits_layout_circle_feb12);
-            View good_habits_layout_circle_feb13 = getView().findViewById(R.id.good_habits_layout_circle_feb13);
-            View good_habits_layout_circle_feb14 = getView().findViewById(R.id.good_habits_layout_circle_feb14);
-            View good_habits_layout_circle_feb15 = getView().findViewById(R.id.good_habits_layout_circle_feb15);
-            View good_habits_layout_circle_feb16 = getView().findViewById(R.id.good_habits_layout_circle_feb16);
-            View good_habits_layout_circle_feb17 = getView().findViewById(R.id.good_habits_layout_circle_feb17);
-            View good_habits_layout_circle_feb18 = getView().findViewById(R.id.good_habits_layout_circle_feb18);
-            View good_habits_layout_circle_feb19 = getView().findViewById(R.id.good_habits_layout_circle_feb19);
-            View good_habits_layout_circle_feb20 = getView().findViewById(R.id.good_habits_layout_circle_feb20);
-            View good_habits_layout_circle_feb21 = getView().findViewById(R.id.good_habits_layout_circle_feb21);
-            View good_habits_layout_circle_feb22 = getView().findViewById(R.id.good_habits_layout_circle_feb22);
-            View good_habits_layout_circle_feb23 = getView().findViewById(R.id.good_habits_layout_circle_feb23);
-            View good_habits_layout_circle_feb24 = getView().findViewById(R.id.good_habits_layout_circle_feb24);
-            View good_habits_layout_circle_feb25 = getView().findViewById(R.id.good_habits_layout_circle_feb25);
-            View good_habits_layout_circle_feb26 = getView().findViewById(R.id.good_habits_layout_circle_feb26);
-            View good_habits_layout_circle_feb27 = getView().findViewById(R.id.good_habits_layout_circle_feb27);
-            View good_habits_layout_circle_feb28 = getView().findViewById(R.id.good_habits_layout_circle_feb28);
-            View good_habits_layout_circle_feb29 = getView().findViewById(R.id.good_habits_layout_circle_feb29);
-            View good_habits_layout_circle_mar1 = getView().findViewById(R.id.good_habits_layout_circle_mar1);
-            View good_habits_layout_circle_mar2 = getView().findViewById(R.id.good_habits_layout_circle_mar2);
-            View good_habits_layout_circle_mar3 = getView().findViewById(R.id.good_habits_layout_circle_mar3);
-            View good_habits_layout_circle_mar4 = getView().findViewById(R.id.good_habits_layout_circle_mar4);
-            View good_habits_layout_circle_mar5 = getView().findViewById(R.id.good_habits_layout_circle_mar5);
-            View good_habits_layout_circle_mar6 = getView().findViewById(R.id.good_habits_layout_circle_mar6);
-            View good_habits_layout_circle_mar7 = getView().findViewById(R.id.good_habits_layout_circle_mar7);
-            View good_habits_layout_circle_mar8 = getView().findViewById(R.id.good_habits_layout_circle_mar8);
-            View good_habits_layout_circle_mar9 = getView().findViewById(R.id.good_habits_layout_circle_mar9);
-            View good_habits_layout_circle_mar10 = getView().findViewById(R.id.good_habits_layout_circle_mar10);
-            View good_habits_layout_circle_mar11 = getView().findViewById(R.id.good_habits_layout_circle_mar11);
-            View good_habits_layout_circle_mar12 = getView().findViewById(R.id.good_habits_layout_circle_mar12);
-            View good_habits_layout_circle_mar13 = getView().findViewById(R.id.good_habits_layout_circle_mar13);
-            View good_habits_layout_circle_mar14 = getView().findViewById(R.id.good_habits_layout_circle_mar14);
-            View good_habits_layout_circle_mar15 = getView().findViewById(R.id.good_habits_layout_circle_mar15);
-            View good_habits_layout_circle_mar16 = getView().findViewById(R.id.good_habits_layout_circle_mar16);
-            View good_habits_layout_circle_mar17 = getView().findViewById(R.id.good_habits_layout_circle_mar17);
-            View good_habits_layout_circle_mar18 = getView().findViewById(R.id.good_habits_layout_circle_mar18);
-            View good_habits_layout_circle_mar19 = getView().findViewById(R.id.good_habits_layout_circle_mar19);
-            View good_habits_layout_circle_mar20 = getView().findViewById(R.id.good_habits_layout_circle_mar20);
-            View good_habits_layout_circle_mar21 = getView().findViewById(R.id.good_habits_layout_circle_mar21);
-            View good_habits_layout_circle_mar22 = getView().findViewById(R.id.good_habits_layout_circle_mar22);
-            View good_habits_layout_circle_mar23 = getView().findViewById(R.id.good_habits_layout_circle_mar23);
-            View good_habits_layout_circle_mar24 = getView().findViewById(R.id.good_habits_layout_circle_mar24);
-            View good_habits_layout_circle_mar25 = getView().findViewById(R.id.good_habits_layout_circle_mar25);
-            View good_habits_layout_circle_mar26 = getView().findViewById(R.id.good_habits_layout_circle_mar26);
-            View good_habits_layout_circle_mar27 = getView().findViewById(R.id.good_habits_layout_circle_mar27);
-            View good_habits_layout_circle_mar28 = getView().findViewById(R.id.good_habits_layout_circle_mar28);
-            View good_habits_layout_circle_mar29 = getView().findViewById(R.id.good_habits_layout_circle_mar29);
-            View good_habits_layout_circle_mar30 = getView().findViewById(R.id.good_habits_layout_circle_mar30);
-            View good_habits_layout_circle_mar31 = getView().findViewById(R.id.good_habits_layout_circle_mar31);
-            View good_habits_layout_circle_apr1 = getView().findViewById(R.id.good_habits_layout_circle_apr1);
-            View good_habits_layout_circle_apr2 = getView().findViewById(R.id.good_habits_layout_circle_apr2);
-            View good_habits_layout_circle_apr3 = getView().findViewById(R.id.good_habits_layout_circle_apr3);
-            View good_habits_layout_circle_apr4 = getView().findViewById(R.id.good_habits_layout_circle_apr4);
-            View good_habits_layout_circle_apr5 = getView().findViewById(R.id.good_habits_layout_circle_apr5);
-            View good_habits_layout_circle_apr6 = getView().findViewById(R.id.good_habits_layout_circle_apr6);
-            View good_habits_layout_circle_apr7 = getView().findViewById(R.id.good_habits_layout_circle_apr7);
-            View good_habits_layout_circle_apr8 = getView().findViewById(R.id.good_habits_layout_circle_apr8);
-            View good_habits_layout_circle_apr9 = getView().findViewById(R.id.good_habits_layout_circle_apr9);
-            View good_habits_layout_circle_apr10 = getView().findViewById(R.id.good_habits_layout_circle_apr10);
-            View good_habits_layout_circle_apr11 = getView().findViewById(R.id.good_habits_layout_circle_apr11);
-            View good_habits_layout_circle_apr12 = getView().findViewById(R.id.good_habits_layout_circle_apr12);
-            View good_habits_layout_circle_apr13 = getView().findViewById(R.id.good_habits_layout_circle_apr13);
-            View good_habits_layout_circle_apr14 = getView().findViewById(R.id.good_habits_layout_circle_apr14);
-            View good_habits_layout_circle_apr15 = getView().findViewById(R.id.good_habits_layout_circle_apr15);
-            View good_habits_layout_circle_apr16 = getView().findViewById(R.id.good_habits_layout_circle_apr16);
-            View good_habits_layout_circle_apr17 = getView().findViewById(R.id.good_habits_layout_circle_apr17);
-            View good_habits_layout_circle_apr18 = getView().findViewById(R.id.good_habits_layout_circle_apr18);
-            View good_habits_layout_circle_apr19 = getView().findViewById(R.id.good_habits_layout_circle_apr19);
-            View good_habits_layout_circle_apr20 = getView().findViewById(R.id.good_habits_layout_circle_apr20);
-            View good_habits_layout_circle_apr21 = getView().findViewById(R.id.good_habits_layout_circle_apr21);
-            View good_habits_layout_circle_apr22 = getView().findViewById(R.id.good_habits_layout_circle_apr22);
-            View good_habits_layout_circle_apr23 = getView().findViewById(R.id.good_habits_layout_circle_apr23);
-            View good_habits_layout_circle_apr24 = getView().findViewById(R.id.good_habits_layout_circle_apr24);
-            View good_habits_layout_circle_apr25 = getView().findViewById(R.id.good_habits_layout_circle_apr25);
-            View good_habits_layout_circle_apr26 = getView().findViewById(R.id.good_habits_layout_circle_apr26);
-            View good_habits_layout_circle_apr27 = getView().findViewById(R.id.good_habits_layout_circle_apr27);
-            View good_habits_layout_circle_apr28 = getView().findViewById(R.id.good_habits_layout_circle_apr28);
-            View good_habits_layout_circle_apr29 = getView().findViewById(R.id.good_habits_layout_circle_apr29);
-            View good_habits_layout_circle_apr30 = getView().findViewById(R.id.good_habits_layout_circle_apr30);
-            View good_habits_layout_circle_may1 = getView().findViewById(R.id.good_habits_layout_circle_may1);
-            View good_habits_layout_circle_may2 = getView().findViewById(R.id.good_habits_layout_circle_may2);
-            View good_habits_layout_circle_may3 = getView().findViewById(R.id.good_habits_layout_circle_may3);
-            View good_habits_layout_circle_may4 = getView().findViewById(R.id.good_habits_layout_circle_may4);
-            View good_habits_layout_circle_may5 = getView().findViewById(R.id.good_habits_layout_circle_may5);
-            View good_habits_layout_circle_may6 = getView().findViewById(R.id.good_habits_layout_circle_may6);
-            View good_habits_layout_circle_may7 = getView().findViewById(R.id.good_habits_layout_circle_may7);
-            View good_habits_layout_circle_may8 = getView().findViewById(R.id.good_habits_layout_circle_may8);
-            View good_habits_layout_circle_may9 = getView().findViewById(R.id.good_habits_layout_circle_may9);
-            View good_habits_layout_circle_may10 = getView().findViewById(R.id.good_habits_layout_circle_may10);
-            View good_habits_layout_circle_may11 = getView().findViewById(R.id.good_habits_layout_circle_may11);
-            View good_habits_layout_circle_may12 = getView().findViewById(R.id.good_habits_layout_circle_may12);
-            View good_habits_layout_circle_may13 = getView().findViewById(R.id.good_habits_layout_circle_may13);
-            View good_habits_layout_circle_may14 = getView().findViewById(R.id.good_habits_layout_circle_may14);
-            View good_habits_layout_circle_may15 = getView().findViewById(R.id.good_habits_layout_circle_may15);
-            View good_habits_layout_circle_may16 = getView().findViewById(R.id.good_habits_layout_circle_may16);
-            View good_habits_layout_circle_may17 = getView().findViewById(R.id.good_habits_layout_circle_may17);
-            View good_habits_layout_circle_may18 = getView().findViewById(R.id.good_habits_layout_circle_may18);
-            View good_habits_layout_circle_may19 = getView().findViewById(R.id.good_habits_layout_circle_may19);
-            View good_habits_layout_circle_may20 = getView().findViewById(R.id.good_habits_layout_circle_may20);
-            View good_habits_layout_circle_may21 = getView().findViewById(R.id.good_habits_layout_circle_may21);
-            View good_habits_layout_circle_may22 = getView().findViewById(R.id.good_habits_layout_circle_may22);
-            View good_habits_layout_circle_may23 = getView().findViewById(R.id.good_habits_layout_circle_may23);
-            View good_habits_layout_circle_may24 = getView().findViewById(R.id.good_habits_layout_circle_may24);
-            View good_habits_layout_circle_may25 = getView().findViewById(R.id.good_habits_layout_circle_may25);
-            View good_habits_layout_circle_may26 = getView().findViewById(R.id.good_habits_layout_circle_may26);
-            View good_habits_layout_circle_may27 = getView().findViewById(R.id.good_habits_layout_circle_may27);
-            View good_habits_layout_circle_may28 = getView().findViewById(R.id.good_habits_layout_circle_may28);
-            View good_habits_layout_circle_may29 = getView().findViewById(R.id.good_habits_layout_circle_may29);
-            View good_habits_layout_circle_may30 = getView().findViewById(R.id.good_habits_layout_circle_may30);
-            View good_habits_layout_circle_may31 = getView().findViewById(R.id.good_habits_layout_circle_may31);
-            View good_habits_layout_circle_jun1 = getView().findViewById(R.id.good_habits_layout_circle_jun1);
-            View good_habits_layout_circle_jun2 = getView().findViewById(R.id.good_habits_layout_circle_jun2);
-            View good_habits_layout_circle_jun3 = getView().findViewById(R.id.good_habits_layout_circle_jun3);
-            View good_habits_layout_circle_jun4 = getView().findViewById(R.id.good_habits_layout_circle_jun4);
-            View good_habits_layout_circle_jun5 = getView().findViewById(R.id.good_habits_layout_circle_jun5);
-            View good_habits_layout_circle_jun6 = getView().findViewById(R.id.good_habits_layout_circle_jun6);
-            View good_habits_layout_circle_jun7 = getView().findViewById(R.id.good_habits_layout_circle_jun7);
-            View good_habits_layout_circle_jun8 = getView().findViewById(R.id.good_habits_layout_circle_jun8);
-            View good_habits_layout_circle_jun9 = getView().findViewById(R.id.good_habits_layout_circle_jun9);
-            View good_habits_layout_circle_jun10 = getView().findViewById(R.id.good_habits_layout_circle_jun10);
-            View good_habits_layout_circle_jun11 = getView().findViewById(R.id.good_habits_layout_circle_jun11);
-            View good_habits_layout_circle_jun12 = getView().findViewById(R.id.good_habits_layout_circle_jun12);
-            View good_habits_layout_circle_jun13 = getView().findViewById(R.id.good_habits_layout_circle_jun13);
-            View good_habits_layout_circle_jun14 = getView().findViewById(R.id.good_habits_layout_circle_jun14);
-            View good_habits_layout_circle_jun15 = getView().findViewById(R.id.good_habits_layout_circle_jun15);
-            View good_habits_layout_circle_jun16 = getView().findViewById(R.id.good_habits_layout_circle_jun16);
-            View good_habits_layout_circle_jun17 = getView().findViewById(R.id.good_habits_layout_circle_jun17);
-            View good_habits_layout_circle_jun18 = getView().findViewById(R.id.good_habits_layout_circle_jun18);
-            View good_habits_layout_circle_jun19 = getView().findViewById(R.id.good_habits_layout_circle_jun19);
-            View good_habits_layout_circle_jun20 = getView().findViewById(R.id.good_habits_layout_circle_jun20);
-            View good_habits_layout_circle_jun21 = getView().findViewById(R.id.good_habits_layout_circle_jun21);
-            View good_habits_layout_circle_jun22 = getView().findViewById(R.id.good_habits_layout_circle_jun22);
-            View good_habits_layout_circle_jun23 = getView().findViewById(R.id.good_habits_layout_circle_jun23);
-            View good_habits_layout_circle_jun24 = getView().findViewById(R.id.good_habits_layout_circle_jun24);
-            View good_habits_layout_circle_jun25 = getView().findViewById(R.id.good_habits_layout_circle_jun25);
-            View good_habits_layout_circle_jun26 = getView().findViewById(R.id.good_habits_layout_circle_jun26);
-            View good_habits_layout_circle_jun27 = getView().findViewById(R.id.good_habits_layout_circle_jun27);
-            View good_habits_layout_circle_jun28 = getView().findViewById(R.id.good_habits_layout_circle_jun28);
-            View good_habits_layout_circle_jun29 = getView().findViewById(R.id.good_habits_layout_circle_jun29);
-            View good_habits_layout_circle_jun30 = getView().findViewById(R.id.good_habits_layout_circle_jun30);
-            View good_habits_layout_circle_jul1 = getView().findViewById(R.id.good_habits_layout_circle_jul1);
-            View good_habits_layout_circle_jul2 = getView().findViewById(R.id.good_habits_layout_circle_jul2);
-            View good_habits_layout_circle_jul3 = getView().findViewById(R.id.good_habits_layout_circle_jul3);
-            View good_habits_layout_circle_jul4 = getView().findViewById(R.id.good_habits_layout_circle_jul4);
-            View good_habits_layout_circle_jul5 = getView().findViewById(R.id.good_habits_layout_circle_jul5);
-            View good_habits_layout_circle_jul6 = getView().findViewById(R.id.good_habits_layout_circle_jul6);
-            View good_habits_layout_circle_jul7 = getView().findViewById(R.id.good_habits_layout_circle_jul7);
-            View good_habits_layout_circle_jul8 = getView().findViewById(R.id.good_habits_layout_circle_jul8);
-            View good_habits_layout_circle_jul9 = getView().findViewById(R.id.good_habits_layout_circle_jul9);
-            View good_habits_layout_circle_jul10 = getView().findViewById(R.id.good_habits_layout_circle_jul10);
-            View good_habits_layout_circle_jul11 = getView().findViewById(R.id.good_habits_layout_circle_jul11);
-            View good_habits_layout_circle_jul12 = getView().findViewById(R.id.good_habits_layout_circle_jul12);
-            View good_habits_layout_circle_jul13 = getView().findViewById(R.id.good_habits_layout_circle_jul13);
-            View good_habits_layout_circle_jul14 = getView().findViewById(R.id.good_habits_layout_circle_jul14);
-            View good_habits_layout_circle_jul15 = getView().findViewById(R.id.good_habits_layout_circle_jul15);
-            View good_habits_layout_circle_jul16 = getView().findViewById(R.id.good_habits_layout_circle_jul16);
-            View good_habits_layout_circle_jul17 = getView().findViewById(R.id.good_habits_layout_circle_jul17);
-            View good_habits_layout_circle_jul18 = getView().findViewById(R.id.good_habits_layout_circle_jul18);
-            View good_habits_layout_circle_jul19 = getView().findViewById(R.id.good_habits_layout_circle_jul19);
-            View good_habits_layout_circle_jul20 = getView().findViewById(R.id.good_habits_layout_circle_jul20);
-            View good_habits_layout_circle_jul21 = getView().findViewById(R.id.good_habits_layout_circle_jul21);
-            View good_habits_layout_circle_jul22 = getView().findViewById(R.id.good_habits_layout_circle_jul22);
-            View good_habits_layout_circle_jul23 = getView().findViewById(R.id.good_habits_layout_circle_jul23);
-            View good_habits_layout_circle_jul24 = getView().findViewById(R.id.good_habits_layout_circle_jul24);
-            View good_habits_layout_circle_jul25 = getView().findViewById(R.id.good_habits_layout_circle_jul25);
-            View good_habits_layout_circle_jul26 = getView().findViewById(R.id.good_habits_layout_circle_jul26);
-            View good_habits_layout_circle_jul27 = getView().findViewById(R.id.good_habits_layout_circle_jul27);
-            View good_habits_layout_circle_jul28 = getView().findViewById(R.id.good_habits_layout_circle_jul28);
-            View good_habits_layout_circle_jul29 = getView().findViewById(R.id.good_habits_layout_circle_jul29);
-            View good_habits_layout_circle_jul30 = getView().findViewById(R.id.good_habits_layout_circle_jul30);
-            View good_habits_layout_circle_jul31 = getView().findViewById(R.id.good_habits_layout_circle_jul31);
-            View good_habits_layout_circle_aug1 = getView().findViewById(R.id.good_habits_layout_circle_aug1);
-            View good_habits_layout_circle_aug2 = getView().findViewById(R.id.good_habits_layout_circle_aug2);
-            View good_habits_layout_circle_aug3 = getView().findViewById(R.id.good_habits_layout_circle_aug3);
-            View good_habits_layout_circle_aug4 = getView().findViewById(R.id.good_habits_layout_circle_aug4);
-            View good_habits_layout_circle_aug5 = getView().findViewById(R.id.good_habits_layout_circle_aug5);
-            View good_habits_layout_circle_aug6 = getView().findViewById(R.id.good_habits_layout_circle_aug6);
-            View good_habits_layout_circle_aug7 = getView().findViewById(R.id.good_habits_layout_circle_aug7);
-            View good_habits_layout_circle_aug8 = getView().findViewById(R.id.good_habits_layout_circle_aug8);
-            View good_habits_layout_circle_aug9 = getView().findViewById(R.id.good_habits_layout_circle_aug9);
-            View good_habits_layout_circle_aug10 = getView().findViewById(R.id.good_habits_layout_circle_aug10);
-            View good_habits_layout_circle_aug11 = getView().findViewById(R.id.good_habits_layout_circle_aug11);
-            View good_habits_layout_circle_aug12 = getView().findViewById(R.id.good_habits_layout_circle_aug12);
-            View good_habits_layout_circle_aug13 = getView().findViewById(R.id.good_habits_layout_circle_aug13);
-            View good_habits_layout_circle_aug14 = getView().findViewById(R.id.good_habits_layout_circle_aug14);
-            View good_habits_layout_circle_aug15 = getView().findViewById(R.id.good_habits_layout_circle_aug15);
-            View good_habits_layout_circle_aug16 = getView().findViewById(R.id.good_habits_layout_circle_aug16);
-            View good_habits_layout_circle_aug17 = getView().findViewById(R.id.good_habits_layout_circle_aug17);
-            View good_habits_layout_circle_aug18 = getView().findViewById(R.id.good_habits_layout_circle_aug18);
-            View good_habits_layout_circle_aug19 = getView().findViewById(R.id.good_habits_layout_circle_aug19);
-            View good_habits_layout_circle_aug20 = getView().findViewById(R.id.good_habits_layout_circle_aug20);
-            View good_habits_layout_circle_aug21 = getView().findViewById(R.id.good_habits_layout_circle_aug21);
-            View good_habits_layout_circle_aug22 = getView().findViewById(R.id.good_habits_layout_circle_aug22);
-            View good_habits_layout_circle_aug23 = getView().findViewById(R.id.good_habits_layout_circle_aug23);
-            View good_habits_layout_circle_aug24 = getView().findViewById(R.id.good_habits_layout_circle_aug24);
-            View good_habits_layout_circle_aug25 = getView().findViewById(R.id.good_habits_layout_circle_aug25);
-            View good_habits_layout_circle_aug26 = getView().findViewById(R.id.good_habits_layout_circle_aug26);
-            View good_habits_layout_circle_aug27 = getView().findViewById(R.id.good_habits_layout_circle_aug27);
-            View good_habits_layout_circle_aug28 = getView().findViewById(R.id.good_habits_layout_circle_aug28);
-            View good_habits_layout_circle_aug29 = getView().findViewById(R.id.good_habits_layout_circle_aug29);
-            View good_habits_layout_circle_aug30 = getView().findViewById(R.id.good_habits_layout_circle_aug30);
-            View good_habits_layout_circle_aug31 = getView().findViewById(R.id.good_habits_layout_circle_aug31);
-            View good_habits_layout_circle_sep1 = getView().findViewById(R.id.good_habits_layout_circle_sep1);
-            View good_habits_layout_circle_sep2 = getView().findViewById(R.id.good_habits_layout_circle_sep2);
-            View good_habits_layout_circle_sep3 = getView().findViewById(R.id.good_habits_layout_circle_sep3);
-            View good_habits_layout_circle_sep4 = getView().findViewById(R.id.good_habits_layout_circle_sep4);
-            View good_habits_layout_circle_sep5 = getView().findViewById(R.id.good_habits_layout_circle_sep5);
-            View good_habits_layout_circle_sep6 = getView().findViewById(R.id.good_habits_layout_circle_sep6);
-            View good_habits_layout_circle_sep7 = getView().findViewById(R.id.good_habits_layout_circle_sep7);
-            View good_habits_layout_circle_sep8 = getView().findViewById(R.id.good_habits_layout_circle_sep8);
-            View good_habits_layout_circle_sep9 = getView().findViewById(R.id.good_habits_layout_circle_sep9);
-            View good_habits_layout_circle_sep10 = getView().findViewById(R.id.good_habits_layout_circle_sep10);
-            View good_habits_layout_circle_sep11 = getView().findViewById(R.id.good_habits_layout_circle_sep11);
-            View good_habits_layout_circle_sep12 = getView().findViewById(R.id.good_habits_layout_circle_sep12);
-            View good_habits_layout_circle_sep13 = getView().findViewById(R.id.good_habits_layout_circle_sep13);
-            View good_habits_layout_circle_sep14 = getView().findViewById(R.id.good_habits_layout_circle_sep14);
-            View good_habits_layout_circle_sep15 = getView().findViewById(R.id.good_habits_layout_circle_sep15);
-            View good_habits_layout_circle_sep16 = getView().findViewById(R.id.good_habits_layout_circle_sep16);
-            View good_habits_layout_circle_sep17 = getView().findViewById(R.id.good_habits_layout_circle_sep17);
-            View good_habits_layout_circle_sep18 = getView().findViewById(R.id.good_habits_layout_circle_sep18);
-            View good_habits_layout_circle_sep19 = getView().findViewById(R.id.good_habits_layout_circle_sep19);
-            View good_habits_layout_circle_sep20 = getView().findViewById(R.id.good_habits_layout_circle_sep20);
-            View good_habits_layout_circle_sep21 = getView().findViewById(R.id.good_habits_layout_circle_sep21);
-            View good_habits_layout_circle_sep22 = getView().findViewById(R.id.good_habits_layout_circle_sep22);
-            View good_habits_layout_circle_sep23 = getView().findViewById(R.id.good_habits_layout_circle_sep23);
-            View good_habits_layout_circle_sep24 = getView().findViewById(R.id.good_habits_layout_circle_sep24);
-            View good_habits_layout_circle_sep25 = getView().findViewById(R.id.good_habits_layout_circle_sep25);
-            View good_habits_layout_circle_sep26 = getView().findViewById(R.id.good_habits_layout_circle_sep26);
-            View good_habits_layout_circle_sep27 = getView().findViewById(R.id.good_habits_layout_circle_sep27);
-            View good_habits_layout_circle_sep28 = getView().findViewById(R.id.good_habits_layout_circle_sep28);
-            View good_habits_layout_circle_sep29 = getView().findViewById(R.id.good_habits_layout_circle_sep29);
-            View good_habits_layout_circle_sep30 = getView().findViewById(R.id.good_habits_layout_circle_sep30);
-            View good_habits_layout_circle_oct1 = getView().findViewById(R.id.good_habits_layout_circle_oct1);
-            View good_habits_layout_circle_oct2 = getView().findViewById(R.id.good_habits_layout_circle_oct2);
-            View good_habits_layout_circle_oct3 = getView().findViewById(R.id.good_habits_layout_circle_oct3);
-            View good_habits_layout_circle_oct4 = getView().findViewById(R.id.good_habits_layout_circle_oct4);
-            View good_habits_layout_circle_oct5 = getView().findViewById(R.id.good_habits_layout_circle_oct5);
-            View good_habits_layout_circle_oct6 = getView().findViewById(R.id.good_habits_layout_circle_oct6);
-            View good_habits_layout_circle_oct7 = getView().findViewById(R.id.good_habits_layout_circle_oct7);
-            View good_habits_layout_circle_oct8 = getView().findViewById(R.id.good_habits_layout_circle_oct8);
-            View good_habits_layout_circle_oct9 = getView().findViewById(R.id.good_habits_layout_circle_oct9);
-            View good_habits_layout_circle_oct10 = getView().findViewById(R.id.good_habits_layout_circle_oct10);
-            View good_habits_layout_circle_oct11 = getView().findViewById(R.id.good_habits_layout_circle_oct11);
-            View good_habits_layout_circle_oct12 = getView().findViewById(R.id.good_habits_layout_circle_oct12);
-            View good_habits_layout_circle_oct13 = getView().findViewById(R.id.good_habits_layout_circle_oct13);
-            View good_habits_layout_circle_oct14 = getView().findViewById(R.id.good_habits_layout_circle_oct14);
-            View good_habits_layout_circle_oct15 = getView().findViewById(R.id.good_habits_layout_circle_oct15);
-            View good_habits_layout_circle_oct16 = getView().findViewById(R.id.good_habits_layout_circle_oct16);
-            View good_habits_layout_circle_oct17 = getView().findViewById(R.id.good_habits_layout_circle_oct17);
-            View good_habits_layout_circle_oct18 = getView().findViewById(R.id.good_habits_layout_circle_oct18);
-            View good_habits_layout_circle_oct19 = getView().findViewById(R.id.good_habits_layout_circle_oct19);
-            View good_habits_layout_circle_oct20 = getView().findViewById(R.id.good_habits_layout_circle_oct20);
-            View good_habits_layout_circle_oct21 = getView().findViewById(R.id.good_habits_layout_circle_oct21);
-            View good_habits_layout_circle_oct22 = getView().findViewById(R.id.good_habits_layout_circle_oct22);
-            View good_habits_layout_circle_oct23 = getView().findViewById(R.id.good_habits_layout_circle_oct23);
-            View good_habits_layout_circle_oct24 = getView().findViewById(R.id.good_habits_layout_circle_oct24);
-            View good_habits_layout_circle_oct25 = getView().findViewById(R.id.good_habits_layout_circle_oct25);
-            View good_habits_layout_circle_oct26 = getView().findViewById(R.id.good_habits_layout_circle_oct26);
-            View good_habits_layout_circle_oct27 = getView().findViewById(R.id.good_habits_layout_circle_oct27);
-            View good_habits_layout_circle_oct28 = getView().findViewById(R.id.good_habits_layout_circle_oct28);
-            View good_habits_layout_circle_oct29 = getView().findViewById(R.id.good_habits_layout_circle_oct29);
-            View good_habits_layout_circle_oct30 = getView().findViewById(R.id.good_habits_layout_circle_oct30);
-            View good_habits_layout_circle_oct31 = getView().findViewById(R.id.good_habits_layout_circle_oct31);
-            View good_habits_layout_circle_nov1 = getView().findViewById(R.id.good_habits_layout_circle_nov1);
-            View good_habits_layout_circle_nov2 = getView().findViewById(R.id.good_habits_layout_circle_nov2);
-            View good_habits_layout_circle_nov3 = getView().findViewById(R.id.good_habits_layout_circle_nov3);
-            View good_habits_layout_circle_nov4 = getView().findViewById(R.id.good_habits_layout_circle_nov4);
-            View good_habits_layout_circle_nov5 = getView().findViewById(R.id.good_habits_layout_circle_nov5);
-            View good_habits_layout_circle_nov6 = getView().findViewById(R.id.good_habits_layout_circle_nov6);
-            View good_habits_layout_circle_nov7 = getView().findViewById(R.id.good_habits_layout_circle_nov7);
-            View good_habits_layout_circle_nov8 = getView().findViewById(R.id.good_habits_layout_circle_nov8);
-            View good_habits_layout_circle_nov9 = getView().findViewById(R.id.good_habits_layout_circle_nov9);
-            View good_habits_layout_circle_nov10 = getView().findViewById(R.id.good_habits_layout_circle_nov10);
-            View good_habits_layout_circle_nov11 = getView().findViewById(R.id.good_habits_layout_circle_nov11);
-            View good_habits_layout_circle_nov12 = getView().findViewById(R.id.good_habits_layout_circle_nov12);
-            View good_habits_layout_circle_nov13 = getView().findViewById(R.id.good_habits_layout_circle_nov13);
-            View good_habits_layout_circle_nov14 = getView().findViewById(R.id.good_habits_layout_circle_nov14);
-            View good_habits_layout_circle_nov15 = getView().findViewById(R.id.good_habits_layout_circle_nov15);
-            View good_habits_layout_circle_nov16 = getView().findViewById(R.id.good_habits_layout_circle_nov16);
-            View good_habits_layout_circle_nov17 = getView().findViewById(R.id.good_habits_layout_circle_nov17);
-            View good_habits_layout_circle_nov18 = getView().findViewById(R.id.good_habits_layout_circle_nov18);
-            View good_habits_layout_circle_nov19 = getView().findViewById(R.id.good_habits_layout_circle_nov19);
-            View good_habits_layout_circle_nov20 = getView().findViewById(R.id.good_habits_layout_circle_nov20);
-            View good_habits_layout_circle_nov21 = getView().findViewById(R.id.good_habits_layout_circle_nov21);
-            View good_habits_layout_circle_nov22 = getView().findViewById(R.id.good_habits_layout_circle_nov22);
-            View good_habits_layout_circle_nov23 = getView().findViewById(R.id.good_habits_layout_circle_nov23);
-            View good_habits_layout_circle_nov24 = getView().findViewById(R.id.good_habits_layout_circle_nov24);
-            View good_habits_layout_circle_nov25 = getView().findViewById(R.id.good_habits_layout_circle_nov25);
-            View good_habits_layout_circle_nov26 = getView().findViewById(R.id.good_habits_layout_circle_nov26);
-            View good_habits_layout_circle_nov27 = getView().findViewById(R.id.good_habits_layout_circle_nov27);
-            View good_habits_layout_circle_nov28 = getView().findViewById(R.id.good_habits_layout_circle_nov28);
-            View good_habits_layout_circle_nov29 = getView().findViewById(R.id.good_habits_layout_circle_nov29);
-            View good_habits_layout_circle_nov30 = getView().findViewById(R.id.good_habits_layout_circle_nov30);
-            View good_habits_layout_circle_dec1 = getView().findViewById(R.id.good_habits_layout_circle_dec1);
-            View good_habits_layout_circle_dec2 = getView().findViewById(R.id.good_habits_layout_circle_dec2);
-            View good_habits_layout_circle_dec3 = getView().findViewById(R.id.good_habits_layout_circle_dec3);
-            View good_habits_layout_circle_dec4 = getView().findViewById(R.id.good_habits_layout_circle_dec4);
-            View good_habits_layout_circle_dec5 = getView().findViewById(R.id.good_habits_layout_circle_dec5);
-            View good_habits_layout_circle_dec6 = getView().findViewById(R.id.good_habits_layout_circle_dec6);
-            View good_habits_layout_circle_dec7 = getView().findViewById(R.id.good_habits_layout_circle_dec7);
-            View good_habits_layout_circle_dec8 = getView().findViewById(R.id.good_habits_layout_circle_dec8);
-            View good_habits_layout_circle_dec9 = getView().findViewById(R.id.good_habits_layout_circle_dec9);
-            View good_habits_layout_circle_dec10 = getView().findViewById(R.id.good_habits_layout_circle_dec10);
-            View good_habits_layout_circle_dec11 = getView().findViewById(R.id.good_habits_layout_circle_dec11);
-            View good_habits_layout_circle_dec12 = getView().findViewById(R.id.good_habits_layout_circle_dec12);
-            View good_habits_layout_circle_dec13 = getView().findViewById(R.id.good_habits_layout_circle_dec13);
-            View good_habits_layout_circle_dec14 = getView().findViewById(R.id.good_habits_layout_circle_dec14);
-            View good_habits_layout_circle_dec15 = getView().findViewById(R.id.good_habits_layout_circle_dec15);
-            View good_habits_layout_circle_dec16 = getView().findViewById(R.id.good_habits_layout_circle_dec16);
-            View good_habits_layout_circle_dec17 = getView().findViewById(R.id.good_habits_layout_circle_dec17);
-            View good_habits_layout_circle_dec18 = getView().findViewById(R.id.good_habits_layout_circle_dec18);
-            View good_habits_layout_circle_dec19 = getView().findViewById(R.id.good_habits_layout_circle_dec19);
-            View good_habits_layout_circle_dec20 = getView().findViewById(R.id.good_habits_layout_circle_dec20);
-            View good_habits_layout_circle_dec21 = getView().findViewById(R.id.good_habits_layout_circle_dec21);
-            View good_habits_layout_circle_dec22 = getView().findViewById(R.id.good_habits_layout_circle_dec22);
-            View good_habits_layout_circle_dec23 = getView().findViewById(R.id.good_habits_layout_circle_dec23);
-            View good_habits_layout_circle_dec24 = getView().findViewById(R.id.good_habits_layout_circle_dec24);
-            View good_habits_layout_circle_dec25 = getView().findViewById(R.id.good_habits_layout_circle_dec25);
-            View good_habits_layout_circle_dec26 = getView().findViewById(R.id.good_habits_layout_circle_dec26);
-            View good_habits_layout_circle_dec27 = getView().findViewById(R.id.good_habits_layout_circle_dec27);
-            View good_habits_layout_circle_dec28 = getView().findViewById(R.id.good_habits_layout_circle_dec28);
-            View good_habits_layout_circle_dec29 = getView().findViewById(R.id.good_habits_layout_circle_dec29);
-            View good_habits_layout_circle_dec30 = getView().findViewById(R.id.good_habits_layout_circle_dec30);
-            View good_habits_layout_circle_dec31 = getView().findViewById(R.id.good_habits_layout_circle_dec31);
-            list_of_all_the_calender_views = new View[366];
-            list_of_all_the_calender_views[0] = good_habits_layout_circle_jan1;
-            list_of_all_the_calender_views[1] = good_habits_layout_circle_jan2;
-            list_of_all_the_calender_views[2] = good_habits_layout_circle_jan3;
-            list_of_all_the_calender_views[3] = good_habits_layout_circle_jan4;
-            list_of_all_the_calender_views[4] = good_habits_layout_circle_jan5;
-            list_of_all_the_calender_views[5] = good_habits_layout_circle_jan6;
-            list_of_all_the_calender_views[6] = good_habits_layout_circle_jan7;
-            list_of_all_the_calender_views[7] = good_habits_layout_circle_jan8;
-            list_of_all_the_calender_views[8] = good_habits_layout_circle_jan9;
-            list_of_all_the_calender_views[9] = good_habits_layout_circle_jan10;
-            list_of_all_the_calender_views[10] = good_habits_layout_circle_jan11;
-            list_of_all_the_calender_views[11] = good_habits_layout_circle_jan12;
-            list_of_all_the_calender_views[12] = good_habits_layout_circle_jan13;
-            list_of_all_the_calender_views[13] = good_habits_layout_circle_jan14;
-            list_of_all_the_calender_views[14] = good_habits_layout_circle_jan15;
-            list_of_all_the_calender_views[15] = good_habits_layout_circle_jan16;
-            list_of_all_the_calender_views[16] = good_habits_layout_circle_jan17;
-            list_of_all_the_calender_views[17] = good_habits_layout_circle_jan18;
-            list_of_all_the_calender_views[18] = good_habits_layout_circle_jan19;
-            list_of_all_the_calender_views[19] = good_habits_layout_circle_jan20;
-            list_of_all_the_calender_views[20] = good_habits_layout_circle_jan21;
-            list_of_all_the_calender_views[21] = good_habits_layout_circle_jan22;
-            list_of_all_the_calender_views[22] = good_habits_layout_circle_jan23;
-            list_of_all_the_calender_views[23] = good_habits_layout_circle_jan24;
-            list_of_all_the_calender_views[24] = good_habits_layout_circle_jan25;
-            list_of_all_the_calender_views[25] = good_habits_layout_circle_jan26;
-            list_of_all_the_calender_views[26] = good_habits_layout_circle_jan27;
-            list_of_all_the_calender_views[27] = good_habits_layout_circle_jan28;
-            list_of_all_the_calender_views[28] = good_habits_layout_circle_jan29;
-            list_of_all_the_calender_views[29] = good_habits_layout_circle_jan30;
-            list_of_all_the_calender_views[30] = good_habits_layout_circle_jan31;
-            list_of_all_the_calender_views[31] = good_habits_layout_circle_feb1;
-            list_of_all_the_calender_views[32] = good_habits_layout_circle_feb2;
-            list_of_all_the_calender_views[33] = good_habits_layout_circle_feb3;
-            list_of_all_the_calender_views[34] = good_habits_layout_circle_feb4;
-            list_of_all_the_calender_views[35] = good_habits_layout_circle_feb5;
-            list_of_all_the_calender_views[36] = good_habits_layout_circle_feb6;
-            list_of_all_the_calender_views[37] = good_habits_layout_circle_feb7;
-            list_of_all_the_calender_views[38] = good_habits_layout_circle_feb8;
-            list_of_all_the_calender_views[39] = good_habits_layout_circle_feb9;
-            list_of_all_the_calender_views[40] = good_habits_layout_circle_feb10;
-            list_of_all_the_calender_views[41] = good_habits_layout_circle_feb11;
-            list_of_all_the_calender_views[42] = good_habits_layout_circle_feb12;
-            list_of_all_the_calender_views[43] = good_habits_layout_circle_feb13;
-            list_of_all_the_calender_views[44] = good_habits_layout_circle_feb14;
-            list_of_all_the_calender_views[45] = good_habits_layout_circle_feb15;
-            list_of_all_the_calender_views[46] = good_habits_layout_circle_feb16;
-            list_of_all_the_calender_views[47] = good_habits_layout_circle_feb17;
-            list_of_all_the_calender_views[48] = good_habits_layout_circle_feb18;
-            list_of_all_the_calender_views[49] = good_habits_layout_circle_feb19;
-            list_of_all_the_calender_views[50] = good_habits_layout_circle_feb20;
-            list_of_all_the_calender_views[51] = good_habits_layout_circle_feb21;
-            list_of_all_the_calender_views[52] = good_habits_layout_circle_feb22;
-            list_of_all_the_calender_views[53] = good_habits_layout_circle_feb23;
-            list_of_all_the_calender_views[54] = good_habits_layout_circle_feb24;
-            list_of_all_the_calender_views[55] = good_habits_layout_circle_feb25;
-            list_of_all_the_calender_views[56] = good_habits_layout_circle_feb26;
-            list_of_all_the_calender_views[57] = good_habits_layout_circle_feb27;
-            list_of_all_the_calender_views[58] = good_habits_layout_circle_feb28;
-            list_of_all_the_calender_views[59] = good_habits_layout_circle_feb29;
-            list_of_all_the_calender_views[60] = good_habits_layout_circle_mar1;
-            list_of_all_the_calender_views[61] = good_habits_layout_circle_mar2;
-            list_of_all_the_calender_views[62] = good_habits_layout_circle_mar3;
-            list_of_all_the_calender_views[63] = good_habits_layout_circle_mar4;
-            list_of_all_the_calender_views[64] = good_habits_layout_circle_mar5;
-            list_of_all_the_calender_views[65] = good_habits_layout_circle_mar6;
-            list_of_all_the_calender_views[66] = good_habits_layout_circle_mar7;
-            list_of_all_the_calender_views[67] = good_habits_layout_circle_mar8;
-            list_of_all_the_calender_views[68] = good_habits_layout_circle_mar9;
-            list_of_all_the_calender_views[69] = good_habits_layout_circle_mar10;
-            list_of_all_the_calender_views[70] = good_habits_layout_circle_mar11;
-            list_of_all_the_calender_views[71] = good_habits_layout_circle_mar12;
-            list_of_all_the_calender_views[72] = good_habits_layout_circle_mar13;
-            list_of_all_the_calender_views[73] = good_habits_layout_circle_mar14;
-            list_of_all_the_calender_views[74] = good_habits_layout_circle_mar15;
-            list_of_all_the_calender_views[75] = good_habits_layout_circle_mar16;
-            list_of_all_the_calender_views[76] = good_habits_layout_circle_mar17;
-            list_of_all_the_calender_views[77] = good_habits_layout_circle_mar18;
-            list_of_all_the_calender_views[78] = good_habits_layout_circle_mar19;
-            list_of_all_the_calender_views[79] = good_habits_layout_circle_mar20;
-            list_of_all_the_calender_views[80] = good_habits_layout_circle_mar21;
-            list_of_all_the_calender_views[81] = good_habits_layout_circle_mar22;
-            list_of_all_the_calender_views[82] = good_habits_layout_circle_mar23;
-            list_of_all_the_calender_views[83] = good_habits_layout_circle_mar24;
-            list_of_all_the_calender_views[84] = good_habits_layout_circle_mar25;
-            list_of_all_the_calender_views[85] = good_habits_layout_circle_mar26;
-            list_of_all_the_calender_views[86] = good_habits_layout_circle_mar27;
-            list_of_all_the_calender_views[87] = good_habits_layout_circle_mar28;
-            list_of_all_the_calender_views[88] = good_habits_layout_circle_mar29;
-            list_of_all_the_calender_views[89] = good_habits_layout_circle_mar30;
-            list_of_all_the_calender_views[90] = good_habits_layout_circle_mar31;
-            list_of_all_the_calender_views[91] = good_habits_layout_circle_apr1;
-            list_of_all_the_calender_views[92] = good_habits_layout_circle_apr2;
-            list_of_all_the_calender_views[93] = good_habits_layout_circle_apr3;
-            list_of_all_the_calender_views[94] = good_habits_layout_circle_apr4;
-            list_of_all_the_calender_views[95] = good_habits_layout_circle_apr5;
-            list_of_all_the_calender_views[96] = good_habits_layout_circle_apr6;
-            list_of_all_the_calender_views[97] = good_habits_layout_circle_apr7;
-            list_of_all_the_calender_views[98] = good_habits_layout_circle_apr8;
-            list_of_all_the_calender_views[99] = good_habits_layout_circle_apr9;
-            list_of_all_the_calender_views[100] = good_habits_layout_circle_apr10;
-            list_of_all_the_calender_views[101] = good_habits_layout_circle_apr11;
-            list_of_all_the_calender_views[102] = good_habits_layout_circle_apr12;
-            list_of_all_the_calender_views[103] = good_habits_layout_circle_apr13;
-            list_of_all_the_calender_views[104] = good_habits_layout_circle_apr14;
-            list_of_all_the_calender_views[105] = good_habits_layout_circle_apr15;
-            list_of_all_the_calender_views[106] = good_habits_layout_circle_apr16;
-            list_of_all_the_calender_views[107] = good_habits_layout_circle_apr17;
-            list_of_all_the_calender_views[108] = good_habits_layout_circle_apr18;
-            list_of_all_the_calender_views[109] = good_habits_layout_circle_apr19;
-            list_of_all_the_calender_views[110] = good_habits_layout_circle_apr20;
-            list_of_all_the_calender_views[111] = good_habits_layout_circle_apr21;
-            list_of_all_the_calender_views[112] = good_habits_layout_circle_apr22;
-            list_of_all_the_calender_views[113] = good_habits_layout_circle_apr23;
-            list_of_all_the_calender_views[114] = good_habits_layout_circle_apr24;
-            list_of_all_the_calender_views[115] = good_habits_layout_circle_apr25;
-            list_of_all_the_calender_views[116] = good_habits_layout_circle_apr26;
-            list_of_all_the_calender_views[117] = good_habits_layout_circle_apr27;
-            list_of_all_the_calender_views[118] = good_habits_layout_circle_apr28;
-            list_of_all_the_calender_views[119] = good_habits_layout_circle_apr29;
-            list_of_all_the_calender_views[120] = good_habits_layout_circle_apr30;
-            list_of_all_the_calender_views[121] = good_habits_layout_circle_may1;
-            list_of_all_the_calender_views[122] = good_habits_layout_circle_may2;
-            list_of_all_the_calender_views[123] = good_habits_layout_circle_may3;
-            list_of_all_the_calender_views[124] = good_habits_layout_circle_may4;
-            list_of_all_the_calender_views[125] = good_habits_layout_circle_may5;
-            list_of_all_the_calender_views[126] = good_habits_layout_circle_may6;
-            list_of_all_the_calender_views[127] = good_habits_layout_circle_may7;
-            list_of_all_the_calender_views[128] = good_habits_layout_circle_may8;
-            list_of_all_the_calender_views[129] = good_habits_layout_circle_may9;
-            list_of_all_the_calender_views[130] = good_habits_layout_circle_may10;
-            list_of_all_the_calender_views[131] = good_habits_layout_circle_may11;
-            list_of_all_the_calender_views[132] = good_habits_layout_circle_may12;
-            list_of_all_the_calender_views[133] = good_habits_layout_circle_may13;
-            list_of_all_the_calender_views[134] = good_habits_layout_circle_may14;
-            list_of_all_the_calender_views[135] = good_habits_layout_circle_may15;
-            list_of_all_the_calender_views[136] = good_habits_layout_circle_may16;
-            list_of_all_the_calender_views[137] = good_habits_layout_circle_may17;
-            list_of_all_the_calender_views[138] = good_habits_layout_circle_may18;
-            list_of_all_the_calender_views[139] = good_habits_layout_circle_may19;
-            list_of_all_the_calender_views[140] = good_habits_layout_circle_may20;
-            list_of_all_the_calender_views[141] = good_habits_layout_circle_may21;
-            list_of_all_the_calender_views[142] = good_habits_layout_circle_may22;
-            list_of_all_the_calender_views[143] = good_habits_layout_circle_may23;
-            list_of_all_the_calender_views[144] = good_habits_layout_circle_may24;
-            list_of_all_the_calender_views[145] = good_habits_layout_circle_may25;
-            list_of_all_the_calender_views[146] = good_habits_layout_circle_may26;
-            list_of_all_the_calender_views[147] = good_habits_layout_circle_may27;
-            list_of_all_the_calender_views[148] = good_habits_layout_circle_may28;
-            list_of_all_the_calender_views[149] = good_habits_layout_circle_may29;
-            list_of_all_the_calender_views[150] = good_habits_layout_circle_may30;
-            list_of_all_the_calender_views[151] = good_habits_layout_circle_may31;
-            list_of_all_the_calender_views[152] = good_habits_layout_circle_jun1;
-            list_of_all_the_calender_views[153] = good_habits_layout_circle_jun2;
-            list_of_all_the_calender_views[154] = good_habits_layout_circle_jun3;
-            list_of_all_the_calender_views[155] = good_habits_layout_circle_jun4;
-            list_of_all_the_calender_views[156] = good_habits_layout_circle_jun5;
-            list_of_all_the_calender_views[157] = good_habits_layout_circle_jun6;
-            list_of_all_the_calender_views[158] = good_habits_layout_circle_jun7;
-            list_of_all_the_calender_views[159] = good_habits_layout_circle_jun8;
-            list_of_all_the_calender_views[160] = good_habits_layout_circle_jun9;
-            list_of_all_the_calender_views[161] = good_habits_layout_circle_jun10;
-            list_of_all_the_calender_views[162] = good_habits_layout_circle_jun11;
-            list_of_all_the_calender_views[163] = good_habits_layout_circle_jun12;
-            list_of_all_the_calender_views[164] = good_habits_layout_circle_jun13;
-            list_of_all_the_calender_views[165] = good_habits_layout_circle_jun14;
-            list_of_all_the_calender_views[166] = good_habits_layout_circle_jun15;
-            list_of_all_the_calender_views[167] = good_habits_layout_circle_jun16;
-            list_of_all_the_calender_views[168] = good_habits_layout_circle_jun17;
-            list_of_all_the_calender_views[169] = good_habits_layout_circle_jun18;
-            list_of_all_the_calender_views[170] = good_habits_layout_circle_jun19;
-            list_of_all_the_calender_views[171] = good_habits_layout_circle_jun20;
-            list_of_all_the_calender_views[172] = good_habits_layout_circle_jun21;
-            list_of_all_the_calender_views[173] = good_habits_layout_circle_jun22;
-            list_of_all_the_calender_views[174] = good_habits_layout_circle_jun23;
-            list_of_all_the_calender_views[175] = good_habits_layout_circle_jun24;
-            list_of_all_the_calender_views[176] = good_habits_layout_circle_jun25;
-            list_of_all_the_calender_views[177] = good_habits_layout_circle_jun26;
-            list_of_all_the_calender_views[178] = good_habits_layout_circle_jun27;
-            list_of_all_the_calender_views[179] = good_habits_layout_circle_jun28;
-            list_of_all_the_calender_views[180] = good_habits_layout_circle_jun29;
-            list_of_all_the_calender_views[181] = good_habits_layout_circle_jun30;
-            list_of_all_the_calender_views[182] = good_habits_layout_circle_jul1;
-            list_of_all_the_calender_views[183] = good_habits_layout_circle_jul2;
-            list_of_all_the_calender_views[184] = good_habits_layout_circle_jul3;
-            list_of_all_the_calender_views[185] = good_habits_layout_circle_jul4;
-            list_of_all_the_calender_views[186] = good_habits_layout_circle_jul5;
-            list_of_all_the_calender_views[187] = good_habits_layout_circle_jul6;
-            list_of_all_the_calender_views[188] = good_habits_layout_circle_jul7;
-            list_of_all_the_calender_views[189] = good_habits_layout_circle_jul8;
-            list_of_all_the_calender_views[190] = good_habits_layout_circle_jul9;
-            list_of_all_the_calender_views[191] = good_habits_layout_circle_jul10;
-            list_of_all_the_calender_views[192] = good_habits_layout_circle_jul11;
-            list_of_all_the_calender_views[193] = good_habits_layout_circle_jul12;
-            list_of_all_the_calender_views[194] = good_habits_layout_circle_jul13;
-            list_of_all_the_calender_views[195] = good_habits_layout_circle_jul14;
-            list_of_all_the_calender_views[196] = good_habits_layout_circle_jul15;
-            list_of_all_the_calender_views[197] = good_habits_layout_circle_jul16;
-            list_of_all_the_calender_views[198] = good_habits_layout_circle_jul17;
-            list_of_all_the_calender_views[199] = good_habits_layout_circle_jul18;
-            list_of_all_the_calender_views[200] = good_habits_layout_circle_jul19;
-            list_of_all_the_calender_views[201] = good_habits_layout_circle_jul20;
-            list_of_all_the_calender_views[202] = good_habits_layout_circle_jul21;
-            list_of_all_the_calender_views[203] = good_habits_layout_circle_jul22;
-            list_of_all_the_calender_views[204] = good_habits_layout_circle_jul23;
-            list_of_all_the_calender_views[205] = good_habits_layout_circle_jul24;
-            list_of_all_the_calender_views[206] = good_habits_layout_circle_jul25;
-            list_of_all_the_calender_views[207] = good_habits_layout_circle_jul26;
-            list_of_all_the_calender_views[208] = good_habits_layout_circle_jul27;
-            list_of_all_the_calender_views[209] = good_habits_layout_circle_jul28;
-            list_of_all_the_calender_views[210] = good_habits_layout_circle_jul29;
-            list_of_all_the_calender_views[211] = good_habits_layout_circle_jul30;
-            list_of_all_the_calender_views[212] = good_habits_layout_circle_jul31;
-            list_of_all_the_calender_views[213] = good_habits_layout_circle_aug1;
-            list_of_all_the_calender_views[214] = good_habits_layout_circle_aug2;
-            list_of_all_the_calender_views[215] = good_habits_layout_circle_aug3;
-            list_of_all_the_calender_views[216] = good_habits_layout_circle_aug4;
-            list_of_all_the_calender_views[217] = good_habits_layout_circle_aug5;
-            list_of_all_the_calender_views[218] = good_habits_layout_circle_aug6;
-            list_of_all_the_calender_views[219] = good_habits_layout_circle_aug7;
-            list_of_all_the_calender_views[220] = good_habits_layout_circle_aug8;
-            list_of_all_the_calender_views[221] = good_habits_layout_circle_aug9;
-            list_of_all_the_calender_views[222] = good_habits_layout_circle_aug10;
-            list_of_all_the_calender_views[223] = good_habits_layout_circle_aug11;
-            list_of_all_the_calender_views[224] = good_habits_layout_circle_aug12;
-            list_of_all_the_calender_views[225] = good_habits_layout_circle_aug13;
-            list_of_all_the_calender_views[226] = good_habits_layout_circle_aug14;
-            list_of_all_the_calender_views[227] = good_habits_layout_circle_aug15;
-            list_of_all_the_calender_views[228] = good_habits_layout_circle_aug16;
-            list_of_all_the_calender_views[229] = good_habits_layout_circle_aug17;
-            list_of_all_the_calender_views[230] = good_habits_layout_circle_aug18;
-            list_of_all_the_calender_views[231] = good_habits_layout_circle_aug19;
-            list_of_all_the_calender_views[232] = good_habits_layout_circle_aug20;
-            list_of_all_the_calender_views[233] = good_habits_layout_circle_aug21;
-            list_of_all_the_calender_views[234] = good_habits_layout_circle_aug22;
-            list_of_all_the_calender_views[235] = good_habits_layout_circle_aug23;
-            list_of_all_the_calender_views[236] = good_habits_layout_circle_aug24;
-            list_of_all_the_calender_views[237] = good_habits_layout_circle_aug25;
-            list_of_all_the_calender_views[238] = good_habits_layout_circle_aug26;
-            list_of_all_the_calender_views[239] = good_habits_layout_circle_aug27;
-            list_of_all_the_calender_views[240] = good_habits_layout_circle_aug28;
-            list_of_all_the_calender_views[241] = good_habits_layout_circle_aug29;
-            list_of_all_the_calender_views[242] = good_habits_layout_circle_aug30;
-            list_of_all_the_calender_views[243] = good_habits_layout_circle_aug31;
-            list_of_all_the_calender_views[244] = good_habits_layout_circle_sep1;
-            list_of_all_the_calender_views[245] = good_habits_layout_circle_sep2;
-            list_of_all_the_calender_views[246] = good_habits_layout_circle_sep3;
-            list_of_all_the_calender_views[247] = good_habits_layout_circle_sep4;
-            list_of_all_the_calender_views[248] = good_habits_layout_circle_sep5;
-            list_of_all_the_calender_views[249] = good_habits_layout_circle_sep6;
-            list_of_all_the_calender_views[250] = good_habits_layout_circle_sep7;
-            list_of_all_the_calender_views[251] = good_habits_layout_circle_sep8;
-            list_of_all_the_calender_views[252] = good_habits_layout_circle_sep9;
-            list_of_all_the_calender_views[253] = good_habits_layout_circle_sep10;
-            list_of_all_the_calender_views[254] = good_habits_layout_circle_sep11;
-            list_of_all_the_calender_views[255] = good_habits_layout_circle_sep12;
-            list_of_all_the_calender_views[256] = good_habits_layout_circle_sep13;
-            list_of_all_the_calender_views[257] = good_habits_layout_circle_sep14;
-            list_of_all_the_calender_views[258] = good_habits_layout_circle_sep15;
-            list_of_all_the_calender_views[259] = good_habits_layout_circle_sep16;
-            list_of_all_the_calender_views[260] = good_habits_layout_circle_sep17;
-            list_of_all_the_calender_views[261] = good_habits_layout_circle_sep18;
-            list_of_all_the_calender_views[262] = good_habits_layout_circle_sep19;
-            list_of_all_the_calender_views[263] = good_habits_layout_circle_sep20;
-            list_of_all_the_calender_views[264] = good_habits_layout_circle_sep21;
-            list_of_all_the_calender_views[265] = good_habits_layout_circle_sep22;
-            list_of_all_the_calender_views[266] = good_habits_layout_circle_sep23;
-            list_of_all_the_calender_views[267] = good_habits_layout_circle_sep24;
-            list_of_all_the_calender_views[268] = good_habits_layout_circle_sep25;
-            list_of_all_the_calender_views[269] = good_habits_layout_circle_sep26;
-            list_of_all_the_calender_views[270] = good_habits_layout_circle_sep27;
-            list_of_all_the_calender_views[271] = good_habits_layout_circle_sep28;
-            list_of_all_the_calender_views[272] = good_habits_layout_circle_sep29;
-            list_of_all_the_calender_views[273] = good_habits_layout_circle_sep30;
-            list_of_all_the_calender_views[274] = good_habits_layout_circle_oct1;
-            list_of_all_the_calender_views[275] = good_habits_layout_circle_oct2;
-            list_of_all_the_calender_views[276] = good_habits_layout_circle_oct3;
-            list_of_all_the_calender_views[277] = good_habits_layout_circle_oct4;
-            list_of_all_the_calender_views[278] = good_habits_layout_circle_oct5;
-            list_of_all_the_calender_views[279] = good_habits_layout_circle_oct6;
-            list_of_all_the_calender_views[280] = good_habits_layout_circle_oct7;
-            list_of_all_the_calender_views[281] = good_habits_layout_circle_oct8;
-            list_of_all_the_calender_views[282] = good_habits_layout_circle_oct9;
-            list_of_all_the_calender_views[283] = good_habits_layout_circle_oct10;
-            list_of_all_the_calender_views[284] = good_habits_layout_circle_oct11;
-            list_of_all_the_calender_views[285] = good_habits_layout_circle_oct12;
-            list_of_all_the_calender_views[286] = good_habits_layout_circle_oct13;
-            list_of_all_the_calender_views[287] = good_habits_layout_circle_oct14;
-            list_of_all_the_calender_views[288] = good_habits_layout_circle_oct15;
-            list_of_all_the_calender_views[289] = good_habits_layout_circle_oct16;
-            list_of_all_the_calender_views[290] = good_habits_layout_circle_oct17;
-            list_of_all_the_calender_views[291] = good_habits_layout_circle_oct18;
-            list_of_all_the_calender_views[292] = good_habits_layout_circle_oct19;
-            list_of_all_the_calender_views[293] = good_habits_layout_circle_oct20;
-            list_of_all_the_calender_views[294] = good_habits_layout_circle_oct21;
-            list_of_all_the_calender_views[295] = good_habits_layout_circle_oct22;
-            list_of_all_the_calender_views[296] = good_habits_layout_circle_oct23;
-            list_of_all_the_calender_views[297] = good_habits_layout_circle_oct24;
-            list_of_all_the_calender_views[298] = good_habits_layout_circle_oct25;
-            list_of_all_the_calender_views[299] = good_habits_layout_circle_oct26;
-            list_of_all_the_calender_views[300] = good_habits_layout_circle_oct27;
-            list_of_all_the_calender_views[301] = good_habits_layout_circle_oct28;
-            list_of_all_the_calender_views[302] = good_habits_layout_circle_oct29;
-            list_of_all_the_calender_views[303] = good_habits_layout_circle_oct30;
-            list_of_all_the_calender_views[304] = good_habits_layout_circle_oct31;
-            list_of_all_the_calender_views[305] = good_habits_layout_circle_nov1;
-            list_of_all_the_calender_views[306] = good_habits_layout_circle_nov2;
-            list_of_all_the_calender_views[307] = good_habits_layout_circle_nov3;
-            list_of_all_the_calender_views[308] = good_habits_layout_circle_nov4;
-            list_of_all_the_calender_views[309] = good_habits_layout_circle_nov5;
-            list_of_all_the_calender_views[310] = good_habits_layout_circle_nov6;
-            list_of_all_the_calender_views[311] = good_habits_layout_circle_nov7;
-            list_of_all_the_calender_views[312] = good_habits_layout_circle_nov8;
-            list_of_all_the_calender_views[313] = good_habits_layout_circle_nov9;
-            list_of_all_the_calender_views[314] = good_habits_layout_circle_nov10;
-            list_of_all_the_calender_views[315] = good_habits_layout_circle_nov11;
-            list_of_all_the_calender_views[316] = good_habits_layout_circle_nov12;
-            list_of_all_the_calender_views[317] = good_habits_layout_circle_nov13;
-            list_of_all_the_calender_views[318] = good_habits_layout_circle_nov14;
-            list_of_all_the_calender_views[319] = good_habits_layout_circle_nov15;
-            list_of_all_the_calender_views[320] = good_habits_layout_circle_nov16;
-            list_of_all_the_calender_views[321] = good_habits_layout_circle_nov17;
-            list_of_all_the_calender_views[322] = good_habits_layout_circle_nov18;
-            list_of_all_the_calender_views[323] = good_habits_layout_circle_nov19;
-            list_of_all_the_calender_views[324] = good_habits_layout_circle_nov20;
-            list_of_all_the_calender_views[325] = good_habits_layout_circle_nov21;
-            list_of_all_the_calender_views[326] = good_habits_layout_circle_nov22;
-            list_of_all_the_calender_views[327] = good_habits_layout_circle_nov23;
-            list_of_all_the_calender_views[328] = good_habits_layout_circle_nov24;
-            list_of_all_the_calender_views[329] = good_habits_layout_circle_nov25;
-            list_of_all_the_calender_views[330] = good_habits_layout_circle_nov26;
-            list_of_all_the_calender_views[331] = good_habits_layout_circle_nov27;
-            list_of_all_the_calender_views[332] = good_habits_layout_circle_nov28;
-            list_of_all_the_calender_views[333] = good_habits_layout_circle_nov29;
-            list_of_all_the_calender_views[334] = good_habits_layout_circle_nov30;
-            list_of_all_the_calender_views[335] = good_habits_layout_circle_dec1;
-            list_of_all_the_calender_views[336] = good_habits_layout_circle_dec2;
-            list_of_all_the_calender_views[337] = good_habits_layout_circle_dec3;
-            list_of_all_the_calender_views[338] = good_habits_layout_circle_dec4;
-            list_of_all_the_calender_views[339] = good_habits_layout_circle_dec5;
-            list_of_all_the_calender_views[340] = good_habits_layout_circle_dec6;
-            list_of_all_the_calender_views[341] = good_habits_layout_circle_dec7;
-            list_of_all_the_calender_views[342] = good_habits_layout_circle_dec8;
-            list_of_all_the_calender_views[343] = good_habits_layout_circle_dec9;
-            list_of_all_the_calender_views[344] = good_habits_layout_circle_dec10;
-            list_of_all_the_calender_views[345] = good_habits_layout_circle_dec11;
-            list_of_all_the_calender_views[346] = good_habits_layout_circle_dec12;
-            list_of_all_the_calender_views[347] = good_habits_layout_circle_dec13;
-            list_of_all_the_calender_views[348] = good_habits_layout_circle_dec14;
-            list_of_all_the_calender_views[349] = good_habits_layout_circle_dec15;
-            list_of_all_the_calender_views[350] = good_habits_layout_circle_dec16;
-            list_of_all_the_calender_views[351] = good_habits_layout_circle_dec17;
-            list_of_all_the_calender_views[352] = good_habits_layout_circle_dec18;
-            list_of_all_the_calender_views[353] = good_habits_layout_circle_dec19;
-            list_of_all_the_calender_views[354] = good_habits_layout_circle_dec20;
-            list_of_all_the_calender_views[355] = good_habits_layout_circle_dec21;
-            list_of_all_the_calender_views[356] = good_habits_layout_circle_dec22;
-            list_of_all_the_calender_views[357] = good_habits_layout_circle_dec23;
-            list_of_all_the_calender_views[358] = good_habits_layout_circle_dec24;
-            list_of_all_the_calender_views[359] = good_habits_layout_circle_dec25;
-            list_of_all_the_calender_views[360] = good_habits_layout_circle_dec26;
-            list_of_all_the_calender_views[361] = good_habits_layout_circle_dec27;
-            list_of_all_the_calender_views[362] = good_habits_layout_circle_dec28;
-            list_of_all_the_calender_views[363] = good_habits_layout_circle_dec29;
-            list_of_all_the_calender_views[364] = good_habits_layout_circle_dec30;
-            list_of_all_the_calender_views[365] = good_habits_layout_circle_dec31;
+            View january_view_habit_over_all = getView().findViewById(R.id.january_view_habit_over_all);
+            View febraury_view_habit_over_all = getView().findViewById(R.id.febraury_view_habit_over_all);
+            View march_view_habit_over_all = getView().findViewById(R.id.march_view_habit_over_all);
+            View april_view_habit_over_all = getView().findViewById(R.id.april_view_habit_over_all);
+            View may_view_habit_over_all = getView().findViewById(R.id.may_view_habit_over_all);
+            View june_view_habit_over_all = getView().findViewById(R.id.june_view_habit_over_all);
+            View july_view_habit_over_all = getView().findViewById(R.id.july_view_habit_over_all);
+            View august_view_habit_over_all = getView().findViewById(R.id.august_view_habit_over_all);
+            View september_view_habit_over_all = getView().findViewById(R.id.september_view_habit_over_all);
+            View october_view_habit_over_all = getView().findViewById(R.id.october_view_habit_over_all);
+            View november_view_habit_over_all = getView().findViewById(R.id.november_view_habit_over_all);
+            View december_view_habit_over_all = getView().findViewById(R.id.december_view_habit_over_all);
+
+            LayerDrawable january_drawbale_list = (LayerDrawable) january_view_habit_over_all.getBackground();
+            LayerDrawable febraury_drawbale_list = (LayerDrawable) febraury_view_habit_over_all.getBackground();
+            LayerDrawable march_drawbale_list = (LayerDrawable) march_view_habit_over_all.getBackground();
+            LayerDrawable april_drawbale_list = (LayerDrawable) april_view_habit_over_all.getBackground();
+            LayerDrawable may_drawbale_list = (LayerDrawable) may_view_habit_over_all.getBackground();
+            LayerDrawable june_drawbale_list = (LayerDrawable) june_view_habit_over_all.getBackground();
+            LayerDrawable july_drawbale_list = (LayerDrawable) july_view_habit_over_all.getBackground();
+            LayerDrawable august_drawbale_list = (LayerDrawable) august_view_habit_over_all.getBackground();
+            LayerDrawable september_drawbale_list = (LayerDrawable) september_view_habit_over_all.getBackground();
+            LayerDrawable october_drawbale_list = (LayerDrawable) october_view_habit_over_all.getBackground();
+            LayerDrawable november_drawbale_list = (LayerDrawable) november_view_habit_over_all.getBackground();
+            LayerDrawable december_drawbale_list = (LayerDrawable) december_view_habit_over_all.getBackground();
+            list_of_all_the_calender_views = new Drawable[366];
+
+            //jan
+            list_of_all_the_calender_views[0] = january_drawbale_list.getDrawable(0);
+            list_of_all_the_calender_views[1] = january_drawbale_list.getDrawable(1);
+            list_of_all_the_calender_views[2] = january_drawbale_list.getDrawable(2);
+            list_of_all_the_calender_views[3] = january_drawbale_list.getDrawable(3);
+            list_of_all_the_calender_views[4] = january_drawbale_list.getDrawable(4);
+            list_of_all_the_calender_views[5] = january_drawbale_list.getDrawable(5);
+            list_of_all_the_calender_views[6] = january_drawbale_list.getDrawable(6);
+            list_of_all_the_calender_views[7] = january_drawbale_list.getDrawable(7);
+            list_of_all_the_calender_views[8] = january_drawbale_list.getDrawable(8);
+            list_of_all_the_calender_views[9] = january_drawbale_list.getDrawable(9);
+            list_of_all_the_calender_views[10] = january_drawbale_list.getDrawable(10);
+            list_of_all_the_calender_views[11] = january_drawbale_list.getDrawable(11);
+            list_of_all_the_calender_views[12] = january_drawbale_list.getDrawable(12);
+            list_of_all_the_calender_views[13] = january_drawbale_list.getDrawable(13);
+            list_of_all_the_calender_views[14] = january_drawbale_list.getDrawable(14);
+            list_of_all_the_calender_views[15] = january_drawbale_list.getDrawable(15);
+            list_of_all_the_calender_views[16] = january_drawbale_list.getDrawable(16);
+            list_of_all_the_calender_views[17] = january_drawbale_list.getDrawable(17);
+            list_of_all_the_calender_views[18] = january_drawbale_list.getDrawable(18);
+            list_of_all_the_calender_views[19] = january_drawbale_list.getDrawable(19);
+            list_of_all_the_calender_views[20] = january_drawbale_list.getDrawable(20);
+            list_of_all_the_calender_views[21] = january_drawbale_list.getDrawable(21);
+            list_of_all_the_calender_views[22] = january_drawbale_list.getDrawable(22);
+            list_of_all_the_calender_views[23] = january_drawbale_list.getDrawable(23);
+            list_of_all_the_calender_views[24] = january_drawbale_list.getDrawable(24);
+            list_of_all_the_calender_views[25] = january_drawbale_list.getDrawable(25);
+            list_of_all_the_calender_views[26] = january_drawbale_list.getDrawable(26);
+            list_of_all_the_calender_views[27] = january_drawbale_list.getDrawable(27);
+            list_of_all_the_calender_views[28] = january_drawbale_list.getDrawable(28);
+            list_of_all_the_calender_views[29] = january_drawbale_list.getDrawable(29);
+            list_of_all_the_calender_views[30] = january_drawbale_list.getDrawable(30);
+
+            //feb
+            list_of_all_the_calender_views[31] = febraury_drawbale_list.getDrawable(0);
+            list_of_all_the_calender_views[32] = febraury_drawbale_list.getDrawable(1);
+            list_of_all_the_calender_views[33] = febraury_drawbale_list.getDrawable(2);
+            list_of_all_the_calender_views[34] = febraury_drawbale_list.getDrawable(3);
+            list_of_all_the_calender_views[35] = febraury_drawbale_list.getDrawable(4);
+            list_of_all_the_calender_views[36] = febraury_drawbale_list.getDrawable(5);
+            list_of_all_the_calender_views[37] = febraury_drawbale_list.getDrawable(6);
+            list_of_all_the_calender_views[38] = febraury_drawbale_list.getDrawable(7);
+            list_of_all_the_calender_views[39] = febraury_drawbale_list.getDrawable(8);
+            list_of_all_the_calender_views[40] = febraury_drawbale_list.getDrawable(9);
+            list_of_all_the_calender_views[41] = febraury_drawbale_list.getDrawable(10);
+            list_of_all_the_calender_views[42] = febraury_drawbale_list.getDrawable(11);
+            list_of_all_the_calender_views[43] = febraury_drawbale_list.getDrawable(12);
+            list_of_all_the_calender_views[44] = febraury_drawbale_list.getDrawable(13);
+            list_of_all_the_calender_views[45] = febraury_drawbale_list.getDrawable(14);
+            list_of_all_the_calender_views[46] = febraury_drawbale_list.getDrawable(15);
+            list_of_all_the_calender_views[47] = febraury_drawbale_list.getDrawable(16);
+            list_of_all_the_calender_views[48] = febraury_drawbale_list.getDrawable(17);
+            list_of_all_the_calender_views[49] = febraury_drawbale_list.getDrawable(18);
+            list_of_all_the_calender_views[50] = febraury_drawbale_list.getDrawable(19);
+            list_of_all_the_calender_views[51] = febraury_drawbale_list.getDrawable(20);
+            list_of_all_the_calender_views[52] = febraury_drawbale_list.getDrawable(21);
+            list_of_all_the_calender_views[53] = febraury_drawbale_list.getDrawable(22);
+            list_of_all_the_calender_views[54] = febraury_drawbale_list.getDrawable(23);
+            list_of_all_the_calender_views[55] = febraury_drawbale_list.getDrawable(24);
+            list_of_all_the_calender_views[56] = febraury_drawbale_list.getDrawable(25);
+            list_of_all_the_calender_views[57] = febraury_drawbale_list.getDrawable(26);
+            list_of_all_the_calender_views[58] = febraury_drawbale_list.getDrawable(27);
+            list_of_all_the_calender_views[59] = febraury_drawbale_list.getDrawable(28);
+
+            //march
+            list_of_all_the_calender_views[60] = march_drawbale_list.getDrawable(0);
+            list_of_all_the_calender_views[61] = march_drawbale_list.getDrawable(1);
+            list_of_all_the_calender_views[62] = march_drawbale_list.getDrawable(2);
+            list_of_all_the_calender_views[63] = march_drawbale_list.getDrawable(3);
+            list_of_all_the_calender_views[64] = march_drawbale_list.getDrawable(4);
+            list_of_all_the_calender_views[65] = march_drawbale_list.getDrawable(5);
+            list_of_all_the_calender_views[66] = march_drawbale_list.getDrawable(6);
+            list_of_all_the_calender_views[67] = march_drawbale_list.getDrawable(7);
+            list_of_all_the_calender_views[68] = march_drawbale_list.getDrawable(8);
+            list_of_all_the_calender_views[69] = march_drawbale_list.getDrawable(9);
+            list_of_all_the_calender_views[70] = march_drawbale_list.getDrawable(10);
+            list_of_all_the_calender_views[71] = march_drawbale_list.getDrawable(11);
+            list_of_all_the_calender_views[72] = march_drawbale_list.getDrawable(12);
+            list_of_all_the_calender_views[73] = march_drawbale_list.getDrawable(13);
+            list_of_all_the_calender_views[74] = march_drawbale_list.getDrawable(14);
+            list_of_all_the_calender_views[75] = march_drawbale_list.getDrawable(15);
+            list_of_all_the_calender_views[76] = march_drawbale_list.getDrawable(16);
+            list_of_all_the_calender_views[77] = march_drawbale_list.getDrawable(17);
+            list_of_all_the_calender_views[78] = march_drawbale_list.getDrawable(18);
+            list_of_all_the_calender_views[79] = march_drawbale_list.getDrawable(19);
+            list_of_all_the_calender_views[80] = march_drawbale_list.getDrawable(20);
+            list_of_all_the_calender_views[81] = march_drawbale_list.getDrawable(21);
+            list_of_all_the_calender_views[82] = march_drawbale_list.getDrawable(22);
+            list_of_all_the_calender_views[83] = march_drawbale_list.getDrawable(23);
+            list_of_all_the_calender_views[84] = march_drawbale_list.getDrawable(24);
+            list_of_all_the_calender_views[85] = march_drawbale_list.getDrawable(25);
+            list_of_all_the_calender_views[86] = march_drawbale_list.getDrawable(26);
+            list_of_all_the_calender_views[87] = march_drawbale_list.getDrawable(27);
+            list_of_all_the_calender_views[88] = march_drawbale_list.getDrawable(28);
+            list_of_all_the_calender_views[89] = march_drawbale_list.getDrawable(29);
+            list_of_all_the_calender_views[90] = march_drawbale_list.getDrawable(30);
+
+            //april
+            list_of_all_the_calender_views[91] = april_drawbale_list.getDrawable(0);
+            list_of_all_the_calender_views[92] = april_drawbale_list.getDrawable(1);
+            list_of_all_the_calender_views[93] = april_drawbale_list.getDrawable(2);
+            list_of_all_the_calender_views[94] = april_drawbale_list.getDrawable(3);
+            list_of_all_the_calender_views[95] = april_drawbale_list.getDrawable(4);
+            list_of_all_the_calender_views[96] = april_drawbale_list.getDrawable(5);
+            list_of_all_the_calender_views[97] = april_drawbale_list.getDrawable(6);
+            list_of_all_the_calender_views[98] = april_drawbale_list.getDrawable(7);
+            list_of_all_the_calender_views[99] = april_drawbale_list.getDrawable(8);
+            list_of_all_the_calender_views[100] = april_drawbale_list.getDrawable(9);
+            list_of_all_the_calender_views[101] = april_drawbale_list.getDrawable(10);
+            list_of_all_the_calender_views[102] = april_drawbale_list.getDrawable(11);
+            list_of_all_the_calender_views[103] = april_drawbale_list.getDrawable(12);
+            list_of_all_the_calender_views[104] = april_drawbale_list.getDrawable(13);
+            list_of_all_the_calender_views[105] = april_drawbale_list.getDrawable(14);
+            list_of_all_the_calender_views[106] = april_drawbale_list.getDrawable(15);
+            list_of_all_the_calender_views[107] = april_drawbale_list.getDrawable(16);
+            list_of_all_the_calender_views[108] = april_drawbale_list.getDrawable(17);
+            list_of_all_the_calender_views[109] = april_drawbale_list.getDrawable(18);
+            list_of_all_the_calender_views[110] = april_drawbale_list.getDrawable(19);
+            list_of_all_the_calender_views[111] = april_drawbale_list.getDrawable(20);
+            list_of_all_the_calender_views[112] = april_drawbale_list.getDrawable(21);
+            list_of_all_the_calender_views[113] = april_drawbale_list.getDrawable(22);
+            list_of_all_the_calender_views[114] = april_drawbale_list.getDrawable(23);
+            list_of_all_the_calender_views[115] = april_drawbale_list.getDrawable(24);
+            list_of_all_the_calender_views[116] = april_drawbale_list.getDrawable(25);
+            list_of_all_the_calender_views[117] = april_drawbale_list.getDrawable(26);
+            list_of_all_the_calender_views[118] = april_drawbale_list.getDrawable(27);
+            list_of_all_the_calender_views[119] = april_drawbale_list.getDrawable(28);
+            list_of_all_the_calender_views[120] = april_drawbale_list.getDrawable(29);
+
+            //may
+            list_of_all_the_calender_views[121] = may_drawbale_list.getDrawable(0);
+            list_of_all_the_calender_views[122] = may_drawbale_list.getDrawable(1);
+            list_of_all_the_calender_views[123] = may_drawbale_list.getDrawable(2);
+            list_of_all_the_calender_views[124] = may_drawbale_list.getDrawable(3);
+            list_of_all_the_calender_views[125] = may_drawbale_list.getDrawable(4);
+            list_of_all_the_calender_views[126] = may_drawbale_list.getDrawable(5);
+            list_of_all_the_calender_views[127] = may_drawbale_list.getDrawable(6);
+            list_of_all_the_calender_views[128] = may_drawbale_list.getDrawable(7);
+            list_of_all_the_calender_views[129] = may_drawbale_list.getDrawable(8);
+            list_of_all_the_calender_views[130] = may_drawbale_list.getDrawable(9);
+            list_of_all_the_calender_views[131] = may_drawbale_list.getDrawable(10);
+            list_of_all_the_calender_views[132] = may_drawbale_list.getDrawable(11);
+            list_of_all_the_calender_views[133] = may_drawbale_list.getDrawable(12);
+            list_of_all_the_calender_views[134] = may_drawbale_list.getDrawable(13);
+            list_of_all_the_calender_views[135] = may_drawbale_list.getDrawable(14);
+            list_of_all_the_calender_views[136] = may_drawbale_list.getDrawable(15);
+            list_of_all_the_calender_views[137] = may_drawbale_list.getDrawable(16);
+            list_of_all_the_calender_views[138] = may_drawbale_list.getDrawable(17);
+            list_of_all_the_calender_views[139] = may_drawbale_list.getDrawable(18);
+            list_of_all_the_calender_views[140] = may_drawbale_list.getDrawable(19);
+            list_of_all_the_calender_views[141] = may_drawbale_list.getDrawable(20);
+            list_of_all_the_calender_views[142] = may_drawbale_list.getDrawable(21);
+            list_of_all_the_calender_views[143] = may_drawbale_list.getDrawable(22);
+            list_of_all_the_calender_views[144] = may_drawbale_list.getDrawable(23);
+            list_of_all_the_calender_views[145] = may_drawbale_list.getDrawable(24);
+            list_of_all_the_calender_views[146] = may_drawbale_list.getDrawable(25);
+            list_of_all_the_calender_views[147] = may_drawbale_list.getDrawable(26);
+            list_of_all_the_calender_views[148] = may_drawbale_list.getDrawable(27);
+            list_of_all_the_calender_views[149] = may_drawbale_list.getDrawable(28);
+            list_of_all_the_calender_views[150] = may_drawbale_list.getDrawable(29);
+            list_of_all_the_calender_views[151] = may_drawbale_list.getDrawable(30);
+
+            //june
+            list_of_all_the_calender_views[152] = june_drawbale_list.getDrawable(0);
+            list_of_all_the_calender_views[153] = june_drawbale_list.getDrawable(1);
+            list_of_all_the_calender_views[154] = june_drawbale_list.getDrawable(2);
+            list_of_all_the_calender_views[155] = june_drawbale_list.getDrawable(3);
+            list_of_all_the_calender_views[156] = june_drawbale_list.getDrawable(4);
+            list_of_all_the_calender_views[157] = june_drawbale_list.getDrawable(5);
+            list_of_all_the_calender_views[158] = june_drawbale_list.getDrawable(6);
+            list_of_all_the_calender_views[159] = june_drawbale_list.getDrawable(7);
+            list_of_all_the_calender_views[160] = june_drawbale_list.getDrawable(8);
+            list_of_all_the_calender_views[161] = june_drawbale_list.getDrawable(9);
+            list_of_all_the_calender_views[162] = june_drawbale_list.getDrawable(10);
+            list_of_all_the_calender_views[163] = june_drawbale_list.getDrawable(11);
+            list_of_all_the_calender_views[164] = june_drawbale_list.getDrawable(12);
+            list_of_all_the_calender_views[165] = june_drawbale_list.getDrawable(13);
+            list_of_all_the_calender_views[166] = june_drawbale_list.getDrawable(14);
+            list_of_all_the_calender_views[167] = june_drawbale_list.getDrawable(15);
+            list_of_all_the_calender_views[168] = june_drawbale_list.getDrawable(16);
+            list_of_all_the_calender_views[169] = june_drawbale_list.getDrawable(17);
+            list_of_all_the_calender_views[170] = june_drawbale_list.getDrawable(18);
+            list_of_all_the_calender_views[171] = june_drawbale_list.getDrawable(19);
+            list_of_all_the_calender_views[172] = june_drawbale_list.getDrawable(20);
+            list_of_all_the_calender_views[173] = june_drawbale_list.getDrawable(21);
+            list_of_all_the_calender_views[174] = june_drawbale_list.getDrawable(22);
+            list_of_all_the_calender_views[175] = june_drawbale_list.getDrawable(23);
+            list_of_all_the_calender_views[176] = june_drawbale_list.getDrawable(24);
+            list_of_all_the_calender_views[177] = june_drawbale_list.getDrawable(25);
+            list_of_all_the_calender_views[178] = june_drawbale_list.getDrawable(26);
+            list_of_all_the_calender_views[179] = june_drawbale_list.getDrawable(27);
+            list_of_all_the_calender_views[180] = june_drawbale_list.getDrawable(28);
+            list_of_all_the_calender_views[181] = june_drawbale_list.getDrawable(29);
+
+            //july
+            list_of_all_the_calender_views[182] = july_drawbale_list.getDrawable(0);
+            list_of_all_the_calender_views[183] = july_drawbale_list.getDrawable(1);
+            list_of_all_the_calender_views[184] = july_drawbale_list.getDrawable(2);
+            list_of_all_the_calender_views[185] = july_drawbale_list.getDrawable(3);
+            list_of_all_the_calender_views[186] = july_drawbale_list.getDrawable(4);
+            list_of_all_the_calender_views[187] = july_drawbale_list.getDrawable(5);
+            list_of_all_the_calender_views[188] = july_drawbale_list.getDrawable(6);
+            list_of_all_the_calender_views[189] = july_drawbale_list.getDrawable(7);
+            list_of_all_the_calender_views[190] = july_drawbale_list.getDrawable(8);
+            list_of_all_the_calender_views[191] = july_drawbale_list.getDrawable(9);
+            list_of_all_the_calender_views[192] = july_drawbale_list.getDrawable(10);
+            list_of_all_the_calender_views[193] = july_drawbale_list.getDrawable(11);
+            list_of_all_the_calender_views[194] = july_drawbale_list.getDrawable(12);
+            list_of_all_the_calender_views[195] = july_drawbale_list.getDrawable(13);
+            list_of_all_the_calender_views[196] = july_drawbale_list.getDrawable(14);
+            list_of_all_the_calender_views[197] = july_drawbale_list.getDrawable(15);
+            list_of_all_the_calender_views[198] = july_drawbale_list.getDrawable(16);
+            list_of_all_the_calender_views[199] = july_drawbale_list.getDrawable(17);
+            list_of_all_the_calender_views[200] = july_drawbale_list.getDrawable(18);
+            list_of_all_the_calender_views[201] = july_drawbale_list.getDrawable(19);
+            list_of_all_the_calender_views[202] = july_drawbale_list.getDrawable(20);
+            list_of_all_the_calender_views[203] = july_drawbale_list.getDrawable(21);
+            list_of_all_the_calender_views[204] = july_drawbale_list.getDrawable(22);
+            list_of_all_the_calender_views[205] = july_drawbale_list.getDrawable(23);
+            list_of_all_the_calender_views[206] = july_drawbale_list.getDrawable(24);
+            list_of_all_the_calender_views[207] = july_drawbale_list.getDrawable(25);
+            list_of_all_the_calender_views[208] = july_drawbale_list.getDrawable(26);
+            list_of_all_the_calender_views[209] = july_drawbale_list.getDrawable(27);
+            list_of_all_the_calender_views[210] = july_drawbale_list.getDrawable(28);
+            list_of_all_the_calender_views[211] = july_drawbale_list.getDrawable(29);
+            list_of_all_the_calender_views[212] = july_drawbale_list.getDrawable(30);
+
+            //august
+            list_of_all_the_calender_views[213] = august_drawbale_list.getDrawable(0);
+            list_of_all_the_calender_views[214] = august_drawbale_list.getDrawable(1);
+            list_of_all_the_calender_views[215] = august_drawbale_list.getDrawable(2);
+            list_of_all_the_calender_views[216] = august_drawbale_list.getDrawable(3);
+            list_of_all_the_calender_views[217] = august_drawbale_list.getDrawable(4);
+            list_of_all_the_calender_views[218] = august_drawbale_list.getDrawable(5);
+            list_of_all_the_calender_views[219] = august_drawbale_list.getDrawable(6);
+            list_of_all_the_calender_views[220] = august_drawbale_list.getDrawable(7);
+            list_of_all_the_calender_views[221] = august_drawbale_list.getDrawable(8);
+            list_of_all_the_calender_views[222] = august_drawbale_list.getDrawable(9);
+            list_of_all_the_calender_views[223] = august_drawbale_list.getDrawable(10);
+            list_of_all_the_calender_views[224] = august_drawbale_list.getDrawable(11);
+            list_of_all_the_calender_views[225] = august_drawbale_list.getDrawable(12);
+            list_of_all_the_calender_views[226] = august_drawbale_list.getDrawable(13);
+            list_of_all_the_calender_views[227] = august_drawbale_list.getDrawable(14);
+            list_of_all_the_calender_views[228] = august_drawbale_list.getDrawable(15);
+            list_of_all_the_calender_views[229] = august_drawbale_list.getDrawable(16);
+            list_of_all_the_calender_views[230] = august_drawbale_list.getDrawable(17);
+            list_of_all_the_calender_views[231] = august_drawbale_list.getDrawable(18);
+            list_of_all_the_calender_views[232] = august_drawbale_list.getDrawable(19);
+            list_of_all_the_calender_views[233] = august_drawbale_list.getDrawable(20);
+            list_of_all_the_calender_views[234] = august_drawbale_list.getDrawable(21);
+            list_of_all_the_calender_views[235] = august_drawbale_list.getDrawable(22);
+            list_of_all_the_calender_views[236] = august_drawbale_list.getDrawable(23);
+            list_of_all_the_calender_views[237] = august_drawbale_list.getDrawable(24);
+            list_of_all_the_calender_views[238] = august_drawbale_list.getDrawable(25);
+            list_of_all_the_calender_views[239] = august_drawbale_list.getDrawable(26);
+            list_of_all_the_calender_views[240] = august_drawbale_list.getDrawable(27);
+            list_of_all_the_calender_views[241] = august_drawbale_list.getDrawable(28);
+            list_of_all_the_calender_views[242] = august_drawbale_list.getDrawable(29);
+            list_of_all_the_calender_views[243] = august_drawbale_list.getDrawable(30);
+
+            //september
+            list_of_all_the_calender_views[244] = september_drawbale_list.getDrawable(0);
+            list_of_all_the_calender_views[245] = september_drawbale_list.getDrawable(1);
+            list_of_all_the_calender_views[246] = september_drawbale_list.getDrawable(2);
+            list_of_all_the_calender_views[247] = september_drawbale_list.getDrawable(3);
+            list_of_all_the_calender_views[248] = september_drawbale_list.getDrawable(4);
+            list_of_all_the_calender_views[249] = september_drawbale_list.getDrawable(5);
+            list_of_all_the_calender_views[250] = september_drawbale_list.getDrawable(6);
+            list_of_all_the_calender_views[251] = september_drawbale_list.getDrawable(7);
+            list_of_all_the_calender_views[252] = september_drawbale_list.getDrawable(8);
+            list_of_all_the_calender_views[253] = september_drawbale_list.getDrawable(9);
+            list_of_all_the_calender_views[254] = september_drawbale_list.getDrawable(10);
+            list_of_all_the_calender_views[255] = september_drawbale_list.getDrawable(11);
+            list_of_all_the_calender_views[256] = september_drawbale_list.getDrawable(12);
+            list_of_all_the_calender_views[257] = september_drawbale_list.getDrawable(13);
+            list_of_all_the_calender_views[258] = september_drawbale_list.getDrawable(14);
+            list_of_all_the_calender_views[259] = september_drawbale_list.getDrawable(15);
+            list_of_all_the_calender_views[260] = september_drawbale_list.getDrawable(16);
+            list_of_all_the_calender_views[261] = september_drawbale_list.getDrawable(17);
+            list_of_all_the_calender_views[262] = september_drawbale_list.getDrawable(18);
+            list_of_all_the_calender_views[263] = september_drawbale_list.getDrawable(19);
+            list_of_all_the_calender_views[264] = september_drawbale_list.getDrawable(20);
+            list_of_all_the_calender_views[265] = september_drawbale_list.getDrawable(21);
+            list_of_all_the_calender_views[266] = september_drawbale_list.getDrawable(22);
+            list_of_all_the_calender_views[267] = september_drawbale_list.getDrawable(23);
+            list_of_all_the_calender_views[268] = september_drawbale_list.getDrawable(24);
+            list_of_all_the_calender_views[269] = september_drawbale_list.getDrawable(25);
+            list_of_all_the_calender_views[270] = september_drawbale_list.getDrawable(26);
+            list_of_all_the_calender_views[271] = september_drawbale_list.getDrawable(27);
+            list_of_all_the_calender_views[272] = september_drawbale_list.getDrawable(28);
+            list_of_all_the_calender_views[273] = september_drawbale_list.getDrawable(29);
+
+            //october
+            list_of_all_the_calender_views[274] = october_drawbale_list.getDrawable(0);
+            list_of_all_the_calender_views[275] = october_drawbale_list.getDrawable(1);
+            list_of_all_the_calender_views[276] = october_drawbale_list.getDrawable(2);
+            list_of_all_the_calender_views[277] = october_drawbale_list.getDrawable(3);
+            list_of_all_the_calender_views[278] = october_drawbale_list.getDrawable(4);
+            list_of_all_the_calender_views[279] = october_drawbale_list.getDrawable(5);
+            list_of_all_the_calender_views[280] = october_drawbale_list.getDrawable(6);
+            list_of_all_the_calender_views[281] = october_drawbale_list.getDrawable(7);
+            list_of_all_the_calender_views[282] = october_drawbale_list.getDrawable(8);
+            list_of_all_the_calender_views[283] = october_drawbale_list.getDrawable(9);
+            list_of_all_the_calender_views[284] = october_drawbale_list.getDrawable(10);
+            list_of_all_the_calender_views[285] = october_drawbale_list.getDrawable(11);
+            list_of_all_the_calender_views[286] = october_drawbale_list.getDrawable(12);
+            list_of_all_the_calender_views[287] = october_drawbale_list.getDrawable(13);
+            list_of_all_the_calender_views[288] = october_drawbale_list.getDrawable(14);
+            list_of_all_the_calender_views[289] = october_drawbale_list.getDrawable(15);
+            list_of_all_the_calender_views[290] = october_drawbale_list.getDrawable(16);
+            list_of_all_the_calender_views[291] = october_drawbale_list.getDrawable(17);
+            list_of_all_the_calender_views[292] = october_drawbale_list.getDrawable(18);
+            list_of_all_the_calender_views[293] = october_drawbale_list.getDrawable(19);
+            list_of_all_the_calender_views[294] = october_drawbale_list.getDrawable(20);
+            list_of_all_the_calender_views[295] = october_drawbale_list.getDrawable(21);
+            list_of_all_the_calender_views[296] = october_drawbale_list.getDrawable(22);
+            list_of_all_the_calender_views[297] = october_drawbale_list.getDrawable(23);
+            list_of_all_the_calender_views[298] = october_drawbale_list.getDrawable(24);
+            list_of_all_the_calender_views[299] = october_drawbale_list.getDrawable(25);
+            list_of_all_the_calender_views[300] = october_drawbale_list.getDrawable(26);
+            list_of_all_the_calender_views[301] = october_drawbale_list.getDrawable(27);
+            list_of_all_the_calender_views[302] = october_drawbale_list.getDrawable(28);
+            list_of_all_the_calender_views[303] = october_drawbale_list.getDrawable(29);
+            list_of_all_the_calender_views[304] = october_drawbale_list.getDrawable(30);
+
+            //november
+            list_of_all_the_calender_views[305] = november_drawbale_list.getDrawable(0);
+            list_of_all_the_calender_views[306] = november_drawbale_list.getDrawable(1);
+            list_of_all_the_calender_views[307] = november_drawbale_list.getDrawable(2);
+            list_of_all_the_calender_views[308] = november_drawbale_list.getDrawable(3);
+            list_of_all_the_calender_views[309] = november_drawbale_list.getDrawable(4);
+            list_of_all_the_calender_views[310] = november_drawbale_list.getDrawable(5);
+            list_of_all_the_calender_views[311] = november_drawbale_list.getDrawable(6);
+            list_of_all_the_calender_views[312] = november_drawbale_list.getDrawable(7);
+            list_of_all_the_calender_views[313] = november_drawbale_list.getDrawable(8);
+            list_of_all_the_calender_views[314] = november_drawbale_list.getDrawable(9);
+            list_of_all_the_calender_views[315] = november_drawbale_list.getDrawable(10);
+            list_of_all_the_calender_views[316] = november_drawbale_list.getDrawable(11);
+            list_of_all_the_calender_views[317] = november_drawbale_list.getDrawable(12);
+            list_of_all_the_calender_views[318] = november_drawbale_list.getDrawable(13);
+            list_of_all_the_calender_views[319] = november_drawbale_list.getDrawable(14);
+            list_of_all_the_calender_views[320] = november_drawbale_list.getDrawable(15);
+            list_of_all_the_calender_views[321] = november_drawbale_list.getDrawable(16);
+            list_of_all_the_calender_views[322] = november_drawbale_list.getDrawable(17);
+            list_of_all_the_calender_views[323] = november_drawbale_list.getDrawable(18);
+            list_of_all_the_calender_views[324] = november_drawbale_list.getDrawable(19);
+            list_of_all_the_calender_views[325] = november_drawbale_list.getDrawable(20);
+            list_of_all_the_calender_views[326] = november_drawbale_list.getDrawable(21);
+            list_of_all_the_calender_views[327] = november_drawbale_list.getDrawable(22);
+            list_of_all_the_calender_views[328] = november_drawbale_list.getDrawable(23);
+            list_of_all_the_calender_views[329] = november_drawbale_list.getDrawable(24);
+            list_of_all_the_calender_views[330] = november_drawbale_list.getDrawable(25);
+            list_of_all_the_calender_views[331] = november_drawbale_list.getDrawable(26);
+            list_of_all_the_calender_views[332] = november_drawbale_list.getDrawable(27);
+            list_of_all_the_calender_views[333] = november_drawbale_list.getDrawable(28);
+            list_of_all_the_calender_views[334] = november_drawbale_list.getDrawable(29);
+
+            //december
+            list_of_all_the_calender_views[335] = december_drawbale_list.getDrawable(0);
+            list_of_all_the_calender_views[336] = december_drawbale_list.getDrawable(1);
+            list_of_all_the_calender_views[337] = december_drawbale_list.getDrawable(2);
+            list_of_all_the_calender_views[338] = december_drawbale_list.getDrawable(3);
+            list_of_all_the_calender_views[339] = december_drawbale_list.getDrawable(4);
+            list_of_all_the_calender_views[340] = december_drawbale_list.getDrawable(5);
+            list_of_all_the_calender_views[341] = december_drawbale_list.getDrawable(6);
+            list_of_all_the_calender_views[342] = december_drawbale_list.getDrawable(7);
+            list_of_all_the_calender_views[343] = december_drawbale_list.getDrawable(8);
+            list_of_all_the_calender_views[344] = december_drawbale_list.getDrawable(9);
+            list_of_all_the_calender_views[345] = december_drawbale_list.getDrawable(10);
+            list_of_all_the_calender_views[346] = december_drawbale_list.getDrawable(11);
+            list_of_all_the_calender_views[347] = december_drawbale_list.getDrawable(12);
+            list_of_all_the_calender_views[348] = december_drawbale_list.getDrawable(13);
+            list_of_all_the_calender_views[349] = december_drawbale_list.getDrawable(14);
+            list_of_all_the_calender_views[350] = december_drawbale_list.getDrawable(15);
+            list_of_all_the_calender_views[351] = december_drawbale_list.getDrawable(16);
+            list_of_all_the_calender_views[352] = december_drawbale_list.getDrawable(17);
+            list_of_all_the_calender_views[353] = december_drawbale_list.getDrawable(18);
+            list_of_all_the_calender_views[354] = december_drawbale_list.getDrawable(19);
+            list_of_all_the_calender_views[355] = december_drawbale_list.getDrawable(20);
+            list_of_all_the_calender_views[356] = december_drawbale_list.getDrawable(21);
+            list_of_all_the_calender_views[357] = december_drawbale_list.getDrawable(22);
+            list_of_all_the_calender_views[358] = december_drawbale_list.getDrawable(23);
+            list_of_all_the_calender_views[359] = december_drawbale_list.getDrawable(24);
+            list_of_all_the_calender_views[360] = december_drawbale_list.getDrawable(25);
+            list_of_all_the_calender_views[361] = december_drawbale_list.getDrawable(26);
+            list_of_all_the_calender_views[362] = december_drawbale_list.getDrawable(27);
+            list_of_all_the_calender_views[363] = december_drawbale_list.getDrawable(28);
+            list_of_all_the_calender_views[364] = december_drawbale_list.getDrawable(29);
+            list_of_all_the_calender_views[365] = december_drawbale_list.getDrawable(30);
         }
     }
 
@@ -13164,40 +13046,44 @@ public class View_home_habit extends Fragment implements PopupMenu.OnMenuItemCli
     private void set_the_leap_year() {
         if (getView() != null) {
             TextView text_saying_which_year_to_show_in_a_good_habits_year = getView().findViewById(R.id.text_saying_which_year_to_show_in_a_good_habits_year);
-            View good_habits_layout_circle_feb29 = getView().findViewById(R.id.good_habits_layout_circle_feb29);
+            View febraury_view_habit_over_all = getView().findViewById(R.id.febraury_view_habit_over_all);
+            LayerDrawable febraury_month = (LayerDrawable) febraury_view_habit_over_all.getBackground();
+            Drawable day_29 = febraury_month.getDrawable(28);
             View backward_button_over_for_good_habits_for_the_full_year_view = getView().findViewById(R.id.backward_button_over_for_good_habits_for_the_full_year_view);
             Calendar calendar = Calendar.getInstance();
             calendar.set(Calendar.YEAR, Integer.parseInt(text_saying_which_year_to_show_in_a_good_habits_year.getText().toString()));
             if (calendar.getActualMaximum(Calendar.DAY_OF_YEAR) > 365) {
                 if (backward_button_over_for_good_habits_for_the_full_year_view.getVisibility() == View.VISIBLE) {
-                    good_habits_layout_circle_feb29.setVisibility(View.VISIBLE);
+                    //day_29.setVisible(true,true);
                 } else {
                     calendar.set(Calendar.MONTH, Calendar.FEBRUARY);
                     calendar.set(Calendar.DAY_OF_MONTH, 29);
                     if (Simplify_the_time.return_time_in_midnight(calendar.getTimeInMillis()) >= Simplify_the_time.return_time_in_midnight(start_date)) {
-                        good_habits_layout_circle_feb29.setVisibility(View.VISIBLE);
+                        //day_29.setVisible(true,true);
                     } else {
-                        good_habits_layout_circle_feb29.setVisibility(View.INVISIBLE);
+                        day_29.setTint(Color.TRANSPARENT);
                     }
                 }
             } else {
-                good_habits_layout_circle_feb29.setVisibility(View.INVISIBLE);
+                day_29.setTint(Color.TRANSPARENT);
             }
         }
     }
 
     private void put_values_into_year_in_good_habits() {
         if (getView() != null && getContext() != null) {
+            reset_all_year();
             TextView text_saying_which_year_to_show_in_a_good_habits_year = getView().findViewById(R.id.text_saying_which_year_to_show_in_a_good_habits_year);
             Button this_yearly_data_is_only_available_for_pro_users_pie_chart_view_home = getView().findViewById(R.id.this_yearly_data_is_only_available_for_pro_users_pie_chart_view_home);
-            Am_i_paid am_i_paid = new Am_i_paid(getContext());
-            if (am_i_paid.did_user_pay()) {
+            if (Payment_processer.getInstance().state_of_the_user()) {
                 this_yearly_data_is_only_available_for_pro_users_pie_chart_view_home.setVisibility(View.INVISIBLE);
                 int year_from_text = Integer.parseInt(text_saying_which_year_to_show_in_a_good_habits_year.getText().toString());
                 Calendar calendar = Calendar.getInstance();
                 calendar.set(Calendar.YEAR, year_from_text);
                 Drawable back_ground_for_a_year_in_habits_yes = ContextCompat.getDrawable(getContext(), R.drawable.back_ground_for_a_year_in_habits_yes);
                 Drawable back_ground_for_a_year_in_habits_no = ContextCompat.getDrawable(getContext(), R.drawable.back_ground_for_a_year_in_habits_no);
+                int yes_color = Color.parseColor("#06a94d");
+                int no_color = Color.parseColor("#FF2400");
                 if (is_this_a_leap_year(year_from_text)) {
                     if (past_current_future_for_the_full_year().equals("past")) {
                         for (int i = 366; i >= 1; i--) {
@@ -13205,11 +13091,11 @@ public class View_home_habit extends Fragment implements PopupMenu.OnMenuItemCli
                             if (Simplify_the_time.return_time_in_midnight(calendar.getTimeInMillis()) < Simplify_the_time.return_time_in_midnight(start_date)) {
                                 break;
                             }
-                            list_of_all_the_calender_views[i - 1].setVisibility(View.VISIBLE);
+                            //list_of_all_the_calender_views[i - 1].setVisible(true,true);
                             if (return_state_of_day(calendar.getTimeInMillis())) {
-                                list_of_all_the_calender_views[i - 1].setBackground(back_ground_for_a_year_in_habits_yes);
+                                list_of_all_the_calender_views[i - 1].setTint(yes_color);
                             } else {
-                                list_of_all_the_calender_views[i - 1].setBackground(back_ground_for_a_year_in_habits_no);
+                                list_of_all_the_calender_views[i - 1].setTint(no_color);
                             }
                         }
                     } else if (past_current_future_for_the_full_year().equals("current")) {
@@ -13219,11 +13105,11 @@ public class View_home_habit extends Fragment implements PopupMenu.OnMenuItemCli
                             if (Simplify_the_time.return_time_in_midnight(calendar.getTimeInMillis()) < Simplify_the_time.return_time_in_midnight(start_date)) {
                                 break;
                             }
-                            list_of_all_the_calender_views[i - 1].setVisibility(View.VISIBLE);
+                            //list_of_all_the_calender_views[i - 1].setVisible(true,true);
                             if (return_state_of_day(calendar.getTimeInMillis())) {
-                                list_of_all_the_calender_views[i - 1].setBackground(back_ground_for_a_year_in_habits_yes);
+                                list_of_all_the_calender_views[i - 1].setTint(yes_color);
                             } else {
-                                list_of_all_the_calender_views[i - 1].setBackground(back_ground_for_a_year_in_habits_no);
+                                list_of_all_the_calender_views[i - 1].setTint(no_color);
                             }
                         }
                     }
@@ -13235,18 +13121,18 @@ public class View_home_habit extends Fragment implements PopupMenu.OnMenuItemCli
                                 break;
                             }
                             if (i > 59) {
-                                list_of_all_the_calender_views[i].setVisibility(View.VISIBLE);
+                                //list_of_all_the_calender_views[i].setVisible(true,true);
                                 if (return_state_of_day(calendar.getTimeInMillis())) {
-                                    list_of_all_the_calender_views[i].setBackground(back_ground_for_a_year_in_habits_yes);
+                                    list_of_all_the_calender_views[i].setTint(yes_color);
                                 } else {
-                                    list_of_all_the_calender_views[i].setBackground(back_ground_for_a_year_in_habits_no);
+                                    list_of_all_the_calender_views[i].setTint(no_color);
                                 }
                             } else {
-                                list_of_all_the_calender_views[i - 1].setVisibility(View.VISIBLE);
+                                //list_of_all_the_calender_views[i - 1].setVisible(true,true);
                                 if (return_state_of_day(calendar.getTimeInMillis())) {
-                                    list_of_all_the_calender_views[i - 1].setBackground(back_ground_for_a_year_in_habits_yes);
+                                    list_of_all_the_calender_views[i - 1].setTint(yes_color);
                                 } else {
-                                    list_of_all_the_calender_views[i - 1].setBackground(back_ground_for_a_year_in_habits_no);
+                                    list_of_all_the_calender_views[i - 1].setTint(no_color);
                                 }
                             }
                         }
@@ -13258,18 +13144,18 @@ public class View_home_habit extends Fragment implements PopupMenu.OnMenuItemCli
                                 break;
                             }
                             if (i > 59) {
-                                list_of_all_the_calender_views[i].setVisibility(View.VISIBLE);
+                                //list_of_all_the_calender_views[i].setVisible(true,true);
                                 if (return_state_of_day(calendar.getTimeInMillis())) {
-                                    list_of_all_the_calender_views[i].setBackground(back_ground_for_a_year_in_habits_yes);
+                                    list_of_all_the_calender_views[i].setTint(yes_color);
                                 } else {
-                                    list_of_all_the_calender_views[i].setBackground(back_ground_for_a_year_in_habits_no);
+                                    list_of_all_the_calender_views[i].setTint(no_color);
                                 }
                             } else {
-                                list_of_all_the_calender_views[i - 1].setVisibility(View.VISIBLE);
+                                //list_of_all_the_calender_views[i - 1].setVisible(true,true);
                                 if (return_state_of_day(calendar.getTimeInMillis())) {
-                                    list_of_all_the_calender_views[i - 1].setBackground(back_ground_for_a_year_in_habits_yes);
+                                    list_of_all_the_calender_views[i - 1].setTint(yes_color);
                                 } else {
-                                    list_of_all_the_calender_views[i - 1].setBackground(back_ground_for_a_year_in_habits_no);
+                                    list_of_all_the_calender_views[i - 1].setTint(no_color);
                                 }
                             }
                         }
@@ -13283,16 +13169,18 @@ public class View_home_habit extends Fragment implements PopupMenu.OnMenuItemCli
                 calendar.set(Calendar.YEAR, year_from_text);
                 Drawable back_ground_for_a_year_in_habits_yes = ContextCompat.getDrawable(getContext(), R.drawable.back_ground_for_a_year_in_habits_yes);
                 Drawable back_ground_for_a_year_in_habits_no = ContextCompat.getDrawable(getContext(), R.drawable.back_ground_for_a_year_in_habits_no);
+                int yes_color = Color.parseColor("#06a94d");
+                int no_color = Color.parseColor("#FF2400");
                 Random random = new Random();
                 if (is_this_a_leap_year(year_from_text)) {
                     for (int i = 366; i >= 1; i--) {
                         int random_number = random.nextInt(2);
                         calendar.set(Calendar.DAY_OF_YEAR, i);
-                        list_of_all_the_calender_views[i - 1].setVisibility(View.VISIBLE);
+                        //list_of_all_the_calender_views[i - 1].setVisible(true,true);
                         if (random_number == 0) {
-                            list_of_all_the_calender_views[i - 1].setBackground(back_ground_for_a_year_in_habits_yes);
+                            list_of_all_the_calender_views[i - 1].setTint(yes_color);
                         } else {
-                            list_of_all_the_calender_views[i - 1].setBackground(back_ground_for_a_year_in_habits_no);
+                            list_of_all_the_calender_views[i - 1].setTint(no_color);
                         }
                     }
                 } else {
@@ -13300,18 +13188,18 @@ public class View_home_habit extends Fragment implements PopupMenu.OnMenuItemCli
                         calendar.set(Calendar.DAY_OF_YEAR, i);
                         int random_number = random.nextInt(2);
                         if (i > 59) {
-                            list_of_all_the_calender_views[i].setVisibility(View.VISIBLE);
+//                            list_of_all_the_calender_views[i].setVisible(true,true);
                             if (random_number == 0) {
-                                list_of_all_the_calender_views[i].setBackground(back_ground_for_a_year_in_habits_yes);
+                                list_of_all_the_calender_views[i].setTint(yes_color);
                             } else {
-                                list_of_all_the_calender_views[i].setBackground(back_ground_for_a_year_in_habits_no);
+                                list_of_all_the_calender_views[i].setTint(no_color);
                             }
                         } else {
-                            list_of_all_the_calender_views[i - 1].setVisibility(View.VISIBLE);
+//                            list_of_all_the_calender_views[i - 1].setVisible(true,true);
                             if (random_number == 0) {
-                                list_of_all_the_calender_views[i - 1].setBackground(back_ground_for_a_year_in_habits_yes);
+                                list_of_all_the_calender_views[i - 1].setTint(yes_color);
                             } else {
-                                list_of_all_the_calender_views[i - 1].setBackground(back_ground_for_a_year_in_habits_no);
+                                list_of_all_the_calender_views[i - 1].setTint(no_color);
                             }
                         }
                     }
@@ -13333,7 +13221,7 @@ public class View_home_habit extends Fragment implements PopupMenu.OnMenuItemCli
     private void restart_all_the_year_values() {
         if (getContext() != null) {
             for (int i = 0; i < 366; i++) {
-                list_of_all_the_calender_views[i].setVisibility(View.INVISIBLE);
+                list_of_all_the_calender_views[i].setTint(Color.WHITE);
             }
         }
     }
@@ -13409,7 +13297,8 @@ public class View_home_habit extends Fragment implements PopupMenu.OnMenuItemCli
     @Override
     public boolean onMenuItemClick(MenuItem item) {
         if (item.getItemId() == R.id.item_number_one_for_menu_edit_good_habits) {
-            edit_has_been_clicked();
+            //edit_has_been_clicked();
+            Toast.makeText(getContext(), "Coming soon", Toast.LENGTH_SHORT).show();
             return true;
         } else if (item.getItemId() == R.id.item_number_two_for_menu_delete_good_habits) {
             show_alert_dialog_for_delete();
@@ -13420,33 +13309,33 @@ public class View_home_habit extends Fragment implements PopupMenu.OnMenuItemCli
     }
 
     private void edit_has_been_clicked() {
-        edit_bad_habits new_fragment = new edit_bad_habits(value_for_position);
+        /*edit_bad_habits new_fragment = new edit_bad_habits(value_for_position);
         View_home_habit old_fragment = (View_home_habit) getActivity().getSupportFragmentManager().findFragmentByTag("view home");
         if (old_fragment != null) {
             getActivity().getSupportFragmentManager().beginTransaction().hide(old_fragment).add(R.id.fragment_container, new_fragment, "edit bad habit").show(new_fragment).commit();
-        }
+        }*/
     }
 
     private void delete_this_good_habit() {
-       /* if (getActivity() != null) {
-            SharedPreferences sharedPreferences = getActivity().getSharedPreferences("list_of_the_bad_habits", Context.MODE_PRIVATE);
-            String bad_habits = sharedPreferences.getString("Bad_habits", "");
-            String[] split = bad_habits.split("spit_max_for_the_bad_habits");
-            if (split.length == 1) {
-
-            } else {
-                String save_me = "";
-                for (int i = 0; i < split.length; i++) {
-                    if (i != value_for_position) {
-                        save_me = save_me.concat(split[i]).concat("spit_max_for_the_bad_habits");
-                    }
-                }
-                SharedPreferences.Editor myEdit = sharedPreferences.edit();
-                myEdit.putString("Bad_habits", save_me);
-                myEdit.commit();
-                remove_the_framgent();
+        int id = Integer.parseInt(return_the_information_from_save(5));
+        Room_database_habits room_database_habits = Room_database_habits.getInstance(getContext());
+        List<habits_data_class> list = room_database_habits.dao_for_habits_data().getAll();
+        habits_data_class habits_data_class = return_habits_class();
+        room_database_habits.dao_for_habits_data().delete(habits_data_class);
+        return_status_bar_color();
+        return_icons_color_to_dark();
+        remove_the_framgent(id);
+        /*habits_fragment habits_fragment = new habits_fragment();
+        View_home_habit view_home_habit = (View_home_habit) getActivity().getSupportFragmentManager().findFragmentByTag("view home");
+        home_fragment home_fragment = (com.easyhabitsapp.android.home_fragment) getActivity().getSupportFragmentManager().findFragmentByTag("home");
+        //com.easyhabitsapp.android.habits_fragment old_habits = (com.easyhabitsapp.android.habits_fragment) getActivity().getSupportFragmentManager().findFragmentByTag("habits");
+        if (view_home_habit != null) {
+            if (getActivity() != null && home_fragment != null) {
+                getActivity().getSupportFragmentManager().beginTransaction().remove(view_home_habit).show(home_fragment).commitNow();
             }
         }*/
+        /*delete_the_notification(id);
+        delete_alarm_from_list(id);*/
     }
 
     private void show_alert_dialog_for_delete() {
@@ -13469,13 +13358,11 @@ public class View_home_habit extends Fragment implements PopupMenu.OnMenuItemCli
         }
     }
 
-    private void remove_the_framgent() {
-        View_home_habit view_home_habit = (View_home_habit) getActivity().getSupportFragmentManager().findFragmentByTag("view home");
+    private void remove_the_framgent(int id) {
+        View_home_habit view_home_habit = (View_home_habit) getActivity().getSupportFragmentManager().findFragmentByTag("view home: ".concat(String.valueOf(id)));
         home_fragment home_fragment = (com.easyhabitsapp.android.home_fragment) getActivity().getSupportFragmentManager().findFragmentByTag("home");
-        if (view_home_habit != null) {
-            if (getActivity() != null && home_fragment != null) {
-                getActivity().getSupportFragmentManager().beginTransaction().show(home_fragment).remove(view_home_habit).commit();
-            }
+        if (view_home_habit != null && getActivity() != null && home_fragment != null) {
+            getActivity().getSupportFragmentManager().beginTransaction().show(home_fragment).remove(view_home_habit).commitNow();
         }
     }
 
@@ -13503,6 +13390,7 @@ public class View_home_habit extends Fragment implements PopupMenu.OnMenuItemCli
             button_too_share_calender_in_good_habits.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    Event_manager_all_in_one.getInstance().record_fire_base_event(getContext(), Event_manager_all_in_one.Event_type_fire_base_record.share_habit_clicked, false);
                     if (button_saying_yes_under_calender_in_good_habits.getVisibility() == View.VISIBLE) {
                         button_too_share_calender_in_good_habits.setVisibility(View.GONE);
                         hide_or_un_hide_the_button(0);
@@ -13526,6 +13414,7 @@ public class View_home_habit extends Fragment implements PopupMenu.OnMenuItemCli
             button_to_share_the_best_average_and_current_streak.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    Event_manager_all_in_one.getInstance().record_fire_base_event(getContext(), Event_manager_all_in_one.Event_type_fire_base_record.share_habit_clicked, false);
                     button_to_share_the_best_average_and_current_streak.setVisibility(View.INVISIBLE);
                     share_screen_shot(screenShot(card_to_show_current_average_and_best_streak));
                     button_to_share_the_best_average_and_current_streak.setVisibility(View.VISIBLE);
@@ -13534,6 +13423,7 @@ public class View_home_habit extends Fragment implements PopupMenu.OnMenuItemCli
             button_to_share_goal_progress_good_habits.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    Event_manager_all_in_one.getInstance().record_fire_base_event(getContext(), Event_manager_all_in_one.Event_type_fire_base_record.share_habit_clicked, false);
                     button_to_share_goal_progress_good_habits.setVisibility(View.INVISIBLE);
                     share_screen_shot(screenShot(card_to_show_goal_progress_good_habits));
                     button_to_share_goal_progress_good_habits.setVisibility(View.VISIBLE);
@@ -13542,6 +13432,7 @@ public class View_home_habit extends Fragment implements PopupMenu.OnMenuItemCli
             button_to_share_bar_chart.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    Event_manager_all_in_one.getInstance().record_fire_base_event(getContext(), Event_manager_all_in_one.Event_type_fire_base_record.share_habit_clicked, false);
                     button_to_share_bar_chart.setVisibility(View.INVISIBLE);
                     share_screen_shot(screenShot(card_to_show_daily_input_by_week_of_days));
                     button_to_share_bar_chart.setVisibility(View.VISIBLE);
@@ -13550,6 +13441,7 @@ public class View_home_habit extends Fragment implements PopupMenu.OnMenuItemCli
             button_to_share_pie_chart.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    Event_manager_all_in_one.getInstance().record_fire_base_event(getContext(), Event_manager_all_in_one.Event_type_fire_base_record.share_habit_clicked, false);
                     button_to_share_pie_chart.setVisibility(View.INVISIBLE);
                     share_screen_shot(screenShot(card_to_show_pie_chart_for_yes_or_no_over_the_days));
                     button_to_share_pie_chart.setVisibility(View.VISIBLE);
@@ -13558,6 +13450,7 @@ public class View_home_habit extends Fragment implements PopupMenu.OnMenuItemCli
             button_to_share_line_chart_of_various_streaks.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    Event_manager_all_in_one.getInstance().record_fire_base_event(getContext(), Event_manager_all_in_one.Event_type_fire_base_record.share_habit_clicked, false);
                     button_to_share_line_chart_of_various_streaks.setVisibility(View.INVISIBLE);
                     share_screen_shot(screenShot(card_view_showing_multiple_streak_length));
                     button_to_share_line_chart_of_various_streaks.setVisibility(View.VISIBLE);
@@ -13566,6 +13459,7 @@ public class View_home_habit extends Fragment implements PopupMenu.OnMenuItemCli
             sahre_button_for_the_foour_values_in_good_habits.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    Event_manager_all_in_one.getInstance().record_fire_base_event(getContext(), Event_manager_all_in_one.Event_type_fire_base_record.share_habit_clicked, false);
                     sahre_button_for_the_foour_values_in_good_habits.setVisibility(View.INVISIBLE);
                     share_screen_shot(screenShot(card_showingthe_four_values_day_week_month));
                     sahre_button_for_the_foour_values_in_good_habits.setVisibility(View.VISIBLE);
@@ -13574,6 +13468,7 @@ public class View_home_habit extends Fragment implements PopupMenu.OnMenuItemCli
             share_button_to_share_the_whole_year_in_the_good_habits.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    Event_manager_all_in_one.getInstance().record_fire_base_event(getContext(), Event_manager_all_in_one.Event_type_fire_base_record.share_habit_clicked, false);
                     share_button_to_share_the_whole_year_in_the_good_habits.setVisibility(View.INVISIBLE);
                     share_screen_shot(screenShot(card_showing_the_habit_in_year_in_good_habits));
                     share_button_to_share_the_whole_year_in_the_good_habits.setVisibility(View.VISIBLE);
@@ -13582,6 +13477,7 @@ public class View_home_habit extends Fragment implements PopupMenu.OnMenuItemCli
             button_to_share_streak_in_good_habits.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    Event_manager_all_in_one.getInstance().record_fire_base_event(getContext(), Event_manager_all_in_one.Event_type_fire_base_record.share_habit_clicked, false);
                     button_to_share_streak_in_good_habits.setVisibility(View.INVISIBLE);
                     share_screen_shot(screenShot(layout_to_say_streak_of_bad_habit));
                     button_to_share_streak_in_good_habits.setVisibility(View.VISIBLE);
@@ -13689,9 +13585,7 @@ public class View_home_habit extends Fragment implements PopupMenu.OnMenuItemCli
             View backward_button_over_for_good_habits_for_the_full_year_view = getView().findViewById(R.id.backward_button_over_for_good_habits_for_the_full_year_view);
             ConstraintLayout layout_to_show_data_about_the_year_calender = getView().findViewById(R.id.layout_to_show_data_about_the_year_calender);
             Button share_button_to_share_the_whole_year_in_the_good_habits = getView().findViewById(R.id.share_button_to_share_the_whole_year_in_the_good_habits);
-
-            Am_i_paid am_i_paid = new Am_i_paid(getContext());
-            if (!am_i_paid.did_user_pay()) {
+            if (!Payment_processer.getInstance().state_of_the_user()) {
                 text_for_title_in_the_card_to_show_pie.setAlpha(0.2f);
                 chart_to_show_pie_of_yes_or_no_pie.setAlpha(0.2f);
                 text_view_saying_that_there_is_not_enough_data_to_draw_this_chart.setAlpha(0.2f);
@@ -13795,17 +13689,20 @@ public class View_home_habit extends Fragment implements PopupMenu.OnMenuItemCli
     }
 
     private void open_buy_premium(String which_chart) {
-        Buy_premuim buy_premuim = new Buy_premuim("to view the ".concat(which_chart).concat(" chart."), true, "view home");
-        View_home_habit old_fragment = (View_home_habit) getActivity().getSupportFragmentManager().findFragmentByTag("view home");
+        View_home_habit old_fragment = (View_home_habit) getActivity().getSupportFragmentManager().findFragmentByTag("view home: ".concat(return_the_information_from_save(5)));
+        Buy_premuim buy_premuim = new Buy_premuim("to view the ".concat(which_chart).concat(" chart."), true, old_fragment);
+        Bundle arguments = new Bundle();
+        arguments.putString("tag", "view home: ".concat(return_the_information_from_save(5)));
+        buy_premuim.setArguments(arguments);
         if (old_fragment != null) {
-            getActivity().getSupportFragmentManager().beginTransaction().hide(old_fragment).add(R.id.fragment_container, buy_premuim, "buy premium").show(buy_premuim).commit();
+            getActivity().getSupportFragmentManager().beginTransaction().hide(old_fragment).add(R.id.fragment_container, buy_premuim, "buy premium").show(buy_premuim).commitNow();
         }
     }
 
     private ArrayList<Long> return_relapses() {
         Room_database_habits room_database_habits = Room_database_habits.getInstance(getContext());
         List<habits_data_class> list = room_database_habits.dao_for_habits_data().getAll();
-        habits_data_class habits_data_class = list.get(value_for_position);
+        habits_data_class habits_data_class = return_habits_class();
         if (habits_data_class.getRelapse() == null) {
             return new ArrayList<>();
         } else {
@@ -13816,7 +13713,7 @@ public class View_home_habit extends Fragment implements PopupMenu.OnMenuItemCli
     private HashMap<Long, Integer> return_relapse_amount() {
         Room_database_habits room_database_habits = Room_database_habits.getInstance(getContext());
         List<habits_data_class> list = room_database_habits.dao_for_habits_data().getAll();
-        habits_data_class habits_data_class = list.get(value_for_position);
+        habits_data_class habits_data_class = return_habits_class();
         if (habits_data_class.getRelapse_amount() == null) {
             return new HashMap<Long, Integer>();
         } else {
@@ -13831,10 +13728,10 @@ public class View_home_habit extends Fragment implements PopupMenu.OnMenuItemCli
         ArrayList<Long> filter_list_at_midnight = new ArrayList<>();
         long time_minus_24 = Simplify_the_time.return_time_in_midnight(System.currentTimeMillis()) - TimeUnit.DAYS.toMillis(1);
         long time_today = Simplify_the_time.return_time_in_midnight(System.currentTimeMillis());
-        if (return_the_information_from_save(6).equals("bad")) {
+        if (return_the_information_from_save(6).equals("Quit")) {
             if (relapse.size() > 1) {
                 {
-                    long difference = Math.max(Simplify_the_time.return_time_in_midnight(relapse.get(0)) - Simplify_the_time.return_time_in_midnight(Long.parseLong(return_the_information_from_save(2))), 0);
+                    long difference = Math.max(Simplify_the_time.return_time_in_midnight(relapse.get(0)) - Simplify_the_time.return_time_in_midnight(this.start_date), 0);
                     each_streak_lengths.add((int) TimeUnit.MILLISECONDS.toDays(difference));
                 }
                 for (int i = 1; i < relapse.size(); i++) {
@@ -13845,24 +13742,24 @@ public class View_home_habit extends Fragment implements PopupMenu.OnMenuItemCli
                 each_streak_lengths.add((int) TimeUnit.MILLISECONDS.toDays(difference));
             } else if (relapse.size() == 1) {
                 {
-                    long difference = Math.max(Simplify_the_time.return_time_in_midnight(relapse.get(0)) - Simplify_the_time.return_time_in_midnight(Long.parseLong(return_the_information_from_save(2))), 0);
+                    long difference = Math.max(Simplify_the_time.return_time_in_midnight(relapse.get(0)) - Simplify_the_time.return_time_in_midnight(this.start_date), 0);
                     each_streak_lengths.add((int) TimeUnit.MILLISECONDS.toDays(difference));
                 }
                 long difference = Math.max(time_minus_24 - Simplify_the_time.return_time_in_midnight(relapse.get(0)), 0);
                 each_streak_lengths.add((int) TimeUnit.MILLISECONDS.toDays(difference));
             } else {
-                long difference = Math.max(time_today - Simplify_the_time.return_time_in_midnight(Long.parseLong(return_the_information_from_save(2))), 0);
+                long difference = Math.max(time_today - Simplify_the_time.return_time_in_midnight(this.start_date), 0);
                 each_streak_lengths.add((int) TimeUnit.MILLISECONDS.toDays(difference));
             }
         } else {
-            if (return_the_information_from_save(7).equals("yes/no")) {
+            if (return_type_of_habit().equals("yes/no")) {
                 filter_list = return_relapses();
-                if (return_the_information_from_save(8).equals("everyday")) {
-                    long start_date = Simplify_the_time.return_time_in_midnight(Long.parseLong(return_the_information_from_save(2)));
+                if (return_frequency().equals("everyday")) {
+                    long start_date = Simplify_the_time.return_time_in_midnight(this.start_date);
                     long difference = Simplify_the_time.return_time_in_midnight(time_today) - Simplify_the_time.return_time_in_midnight(start_date) + TimeUnit.DAYS.toMillis(1);
                     Calendar calendar = Calendar.getInstance();
-                    int sum = 0;
-                    if (difference % TimeUnit.DAYS.toMillis(1) != 0) {
+                    int sum = 1;
+                    /*if (difference % TimeUnit.DAYS.toMillis(1) != 0) {
                         difference = difference + (TimeUnit.DAYS.toMillis(1) - (difference % TimeUnit.DAYS.toMillis(1)));
                     }
                     for (int i = 0; i < TimeUnit.MILLISECONDS.toDays(difference); i++) {
@@ -13874,12 +13771,22 @@ public class View_home_habit extends Fragment implements PopupMenu.OnMenuItemCli
                             each_streak_lengths.add(sum);
                             sum = 0;
                         }
-                    }
-                    if (sum >= 0) {
+                    }*/
+                    if (history_of_relapse.size() == 1) {
+
+                    } else {
+                        for (int i = 0; i < history_of_relapse.size() - 1; i++) {
+                            if (Simplify_the_time.return_time_in_midnight(history_of_relapse.get(i + 1)) - Simplify_the_time.return_time_in_midnight(history_of_relapse.get(i)) <= TimeUnit.DAYS.toMillis(1)) {
+                                sum++;
+                            } else {
+                                each_streak_lengths.add(sum);
+                                sum = 1;
+                            }
+                        }
                         each_streak_lengths.add(sum);
                     }
-                } else if (return_the_information_from_save(8).equals("daysperweek")) {
-                    long start_date = Simplify_the_time.return_time_in_midnight(Long.parseLong(return_the_information_from_save(2)));
+                } else if (return_frequency().equals("daysperweek")) {
+                    long start_date = Simplify_the_time.return_time_in_midnight(this.start_date);
                     long difference = Simplify_the_time.return_time_in_midnight(time_today) - Simplify_the_time.return_time_in_midnight(start_date) + TimeUnit.DAYS.toMillis(1);
                     Calendar calendar = Calendar.getInstance();
                     int sum = 0;
@@ -13892,7 +13799,7 @@ public class View_home_habit extends Fragment implements PopupMenu.OnMenuItemCli
                     for (int i = 0; i < TimeUnit.MILLISECONDS.toDays(difference); i++) {
                         calendar.setTimeInMillis(Simplify_the_time.return_time_in_midnight(Simplify_the_time.return_time_in_midnight(start_date) + TimeUnit.DAYS.toMillis(i)));
                         if (calendar.get(Calendar.DAY_OF_WEEK) == Calendar.MONDAY) {
-                            if (return_the_information_from_save(10).contains("Mo")) {
+                            if (return_days_per_week().contains("Mo")) {
                                 if (filter_list_at_midnight.contains(Simplify_the_time.return_time_in_midnight(Simplify_the_time.return_time_in_midnight(start_date) + TimeUnit.DAYS.toMillis(i)))) {
                                     sum++;
                                 } else {
@@ -13903,7 +13810,7 @@ public class View_home_habit extends Fragment implements PopupMenu.OnMenuItemCli
                                 sum++;
                             }
                         } else if (calendar.get(Calendar.DAY_OF_WEEK) == Calendar.TUESDAY) {
-                            if (return_the_information_from_save(10).contains("Tu")) {
+                            if (return_days_per_week().contains("Tu")) {
                                 if (filter_list_at_midnight.contains(Simplify_the_time.return_time_in_midnight(Simplify_the_time.return_time_in_midnight(start_date) + TimeUnit.DAYS.toMillis(i)))) {
                                     sum++;
                                 } else {
@@ -13914,7 +13821,7 @@ public class View_home_habit extends Fragment implements PopupMenu.OnMenuItemCli
                                 sum++;
                             }
                         } else if (calendar.get(Calendar.DAY_OF_WEEK) == Calendar.WEDNESDAY) {
-                            if (return_the_information_from_save(10).contains("We")) {
+                            if (return_days_per_week().contains("We")) {
                                 if (filter_list_at_midnight.contains(Simplify_the_time.return_time_in_midnight(Simplify_the_time.return_time_in_midnight(start_date) + TimeUnit.DAYS.toMillis(i)))) {
                                     sum++;
                                 } else {
@@ -13925,7 +13832,7 @@ public class View_home_habit extends Fragment implements PopupMenu.OnMenuItemCli
                                 sum++;
                             }
                         } else if (calendar.get(Calendar.DAY_OF_WEEK) == Calendar.THURSDAY) {
-                            if (return_the_information_from_save(10).contains("Th")) {
+                            if (return_days_per_week().contains("Th")) {
                                 if (filter_list_at_midnight.contains(Simplify_the_time.return_time_in_midnight(Simplify_the_time.return_time_in_midnight(start_date) + TimeUnit.DAYS.toMillis(i)))) {
                                     sum++;
                                 } else {
@@ -13936,7 +13843,7 @@ public class View_home_habit extends Fragment implements PopupMenu.OnMenuItemCli
                                 sum++;
                             }
                         } else if (calendar.get(Calendar.DAY_OF_WEEK) == Calendar.FRIDAY) {
-                            if (return_the_information_from_save(10).contains("Fr")) {
+                            if (return_days_per_week().contains("Fr")) {
                                 if (filter_list_at_midnight.contains(Simplify_the_time.return_time_in_midnight(Simplify_the_time.return_time_in_midnight(start_date) + TimeUnit.DAYS.toMillis(i)))) {
                                     sum++;
                                 } else {
@@ -13947,7 +13854,7 @@ public class View_home_habit extends Fragment implements PopupMenu.OnMenuItemCli
                                 sum++;
                             }
                         } else if (calendar.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY) {
-                            if (return_the_information_from_save(10).contains("Sa")) {
+                            if (return_days_per_week().contains("Sa")) {
                                 if (filter_list_at_midnight.contains(Simplify_the_time.return_time_in_midnight(Simplify_the_time.return_time_in_midnight(start_date) + TimeUnit.DAYS.toMillis(i)))) {
                                     sum++;
                                 } else {
@@ -13958,7 +13865,7 @@ public class View_home_habit extends Fragment implements PopupMenu.OnMenuItemCli
                                 sum++;
                             }
                         } else if (calendar.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY) {
-                            if (return_the_information_from_save(10).contains("Su")) {
+                            if (return_days_per_week().contains("Su")) {
                                 if (filter_list_at_midnight.contains(Simplify_the_time.return_time_in_midnight(Simplify_the_time.return_time_in_midnight(start_date) + TimeUnit.DAYS.toMillis(i)))) {
                                     sum++;
                                 } else {
@@ -13973,8 +13880,8 @@ public class View_home_habit extends Fragment implements PopupMenu.OnMenuItemCli
                     if (sum >= 0) {
                         each_streak_lengths.add(sum);
                     }
-                } else if (return_the_information_from_save(8).equals("everyndays")) {
-                    long start_date = Simplify_the_time.return_time_in_midnight(Long.parseLong(return_the_information_from_save(2)));
+                } else if (return_frequency().equals("everyndays")) {
+                    long start_date = Simplify_the_time.return_time_in_midnight(this.start_date);
                     long difference = Simplify_the_time.return_time_in_midnight(time_today) - Simplify_the_time.return_time_in_midnight(start_date) + TimeUnit.DAYS.toMillis(1);
                     Calendar calendar = Calendar.getInstance();
                     int sum = 0;
@@ -14013,9 +13920,9 @@ public class View_home_habit extends Fragment implements PopupMenu.OnMenuItemCli
                     if (sum >= 0) {
                         each_streak_lengths.add(sum);
                     }
-                } else if (return_the_information_from_save(8).equals("dayspermonth")) {
+                } else if (return_frequency().equals("dayspermonth")) {
                     Calendar calender = Calendar.getInstance();
-                    long start_date = Simplify_the_time.return_time_in_midnight(Long.parseLong(return_the_information_from_save(2)));
+                    long start_date = Simplify_the_time.return_time_in_midnight(this.start_date);
                     long difference = Simplify_the_time.return_time_in_midnight(time_today) - Simplify_the_time.return_time_in_midnight(start_date) + TimeUnit.DAYS.toMillis(1);
                     int sum = 0;
                     for (int i = 0; i < filter_list.size(); i++) {
@@ -14043,9 +13950,9 @@ public class View_home_habit extends Fragment implements PopupMenu.OnMenuItemCli
                         each_streak_lengths.add(sum);
                     }
                 }
-            } else if (return_the_information_from_save(7).equals("amount")) {
-                if (return_the_information_from_save(8).equals("everyday")) {
-                    long start_date = Simplify_the_time.return_time_in_midnight(Long.parseLong(return_the_information_from_save(2)));
+            } else if (return_type_of_habit().equals("amount")) {
+                if (return_frequency().equals("everyday")) {
+                    long start_date = Simplify_the_time.return_time_in_midnight(this.start_date);
                     long difference = Simplify_the_time.return_time_in_midnight(time_today) - Simplify_the_time.return_time_in_midnight(start_date) + TimeUnit.DAYS.toMillis(1);
                     Calendar calendar = Calendar.getInstance();
                     int sum = 0;
@@ -14056,7 +13963,7 @@ public class View_home_habit extends Fragment implements PopupMenu.OnMenuItemCli
                         calendar.setTimeInMillis(Simplify_the_time.return_time_in_midnight(Simplify_the_time.return_time_in_midnight(start_date) + TimeUnit.DAYS.toMillis(i)));
                         if (hash_map_amount.containsKey(Simplify_the_time.return_time_in_midnight(calendar.getTimeInMillis()))) {
                             int value = hash_map_amount.get(Simplify_the_time.return_time_in_midnight(calendar.getTimeInMillis()));
-                            if (value >= Integer.parseInt(return_the_information_from_save(9))) {
+                            if (value >= Integer.parseInt(return_the_information_from_save(10))) {
                                 sum++;
                             } else {
                                 each_streak_lengths.add(sum);
@@ -14070,8 +13977,8 @@ public class View_home_habit extends Fragment implements PopupMenu.OnMenuItemCli
                     if (sum >= 0) {
                         each_streak_lengths.add(sum);
                     }
-                } else if (return_the_information_from_save(8).equals("daysperweek")) {
-                    long start_date = Simplify_the_time.return_time_in_midnight(Long.parseLong(return_the_information_from_save(2)));
+                } else if (return_frequency().equals("daysperweek")) {
+                    long start_date = Simplify_the_time.return_time_in_midnight(this.start_date);
                     long difference = Simplify_the_time.return_time_in_midnight(time_today) - Simplify_the_time.return_time_in_midnight(start_date) + TimeUnit.DAYS.toMillis(1);
                     Calendar calendar = Calendar.getInstance();
                     int sum = 0;
@@ -14081,10 +13988,10 @@ public class View_home_habit extends Fragment implements PopupMenu.OnMenuItemCli
                     for (int i = 0; i < TimeUnit.MILLISECONDS.toDays(difference); i++) {
                         calendar.setTimeInMillis(Simplify_the_time.return_time_in_midnight(Simplify_the_time.return_time_in_midnight(start_date) + TimeUnit.DAYS.toMillis(i)));
                         if (calendar.get(Calendar.DAY_OF_WEEK) == Calendar.MONDAY) {
-                            if (return_the_information_from_save(10).contains("Mo")) {
+                            if (return_days_per_week().contains("Mo")) {
                                 if (hash_map_amount.containsKey(Simplify_the_time.return_time_in_midnight(Simplify_the_time.return_time_in_midnight(start_date) + TimeUnit.DAYS.toMillis(i)))) {
                                     int value = hash_map_amount.get(Simplify_the_time.return_time_in_midnight(Simplify_the_time.return_time_in_midnight(Simplify_the_time.return_time_in_midnight(start_date) + TimeUnit.DAYS.toMillis(i))));
-                                    if (value >= Integer.parseInt(return_the_information_from_save(9))) {
+                                    if (value >= Integer.parseInt(return_the_information_from_save(10))) {
                                         sum++;
                                     } else {
                                         each_streak_lengths.add(sum);
@@ -14098,10 +14005,10 @@ public class View_home_habit extends Fragment implements PopupMenu.OnMenuItemCli
                                 sum++;
                             }
                         } else if (calendar.get(Calendar.DAY_OF_WEEK) == Calendar.TUESDAY) {
-                            if (return_the_information_from_save(10).contains("Tu")) {
+                            if (return_days_per_week().contains("Tu")) {
                                 if (hash_map_amount.containsKey(Simplify_the_time.return_time_in_midnight(Simplify_the_time.return_time_in_midnight(start_date) + TimeUnit.DAYS.toMillis(i)))) {
                                     int value = hash_map_amount.get(Simplify_the_time.return_time_in_midnight(Simplify_the_time.return_time_in_midnight(Simplify_the_time.return_time_in_midnight(start_date) + TimeUnit.DAYS.toMillis(i))));
-                                    if (value >= Integer.parseInt(return_the_information_from_save(9))) {
+                                    if (value >= Integer.parseInt(return_the_information_from_save(10))) {
                                         sum++;
                                     } else {
                                         each_streak_lengths.add(sum);
@@ -14115,10 +14022,10 @@ public class View_home_habit extends Fragment implements PopupMenu.OnMenuItemCli
                                 sum++;
                             }
                         } else if (calendar.get(Calendar.DAY_OF_WEEK) == Calendar.WEDNESDAY) {
-                            if (return_the_information_from_save(10).contains("We")) {
+                            if (return_days_per_week().contains("We")) {
                                 if (hash_map_amount.containsKey(Simplify_the_time.return_time_in_midnight(Simplify_the_time.return_time_in_midnight(start_date) + TimeUnit.DAYS.toMillis(i)))) {
                                     int value = hash_map_amount.get(Simplify_the_time.return_time_in_midnight(Simplify_the_time.return_time_in_midnight(Simplify_the_time.return_time_in_midnight(start_date) + TimeUnit.DAYS.toMillis(i))));
-                                    if (value >= Integer.parseInt(return_the_information_from_save(9))) {
+                                    if (value >= Integer.parseInt(return_the_information_from_save(10))) {
                                         sum++;
                                     } else {
                                         each_streak_lengths.add(sum);
@@ -14132,10 +14039,10 @@ public class View_home_habit extends Fragment implements PopupMenu.OnMenuItemCli
                                 sum++;
                             }
                         } else if (calendar.get(Calendar.DAY_OF_WEEK) == Calendar.THURSDAY) {
-                            if (return_the_information_from_save(10).contains("Th")) {
+                            if (return_days_per_week().contains("Th")) {
                                 if (hash_map_amount.containsKey(Simplify_the_time.return_time_in_midnight(Simplify_the_time.return_time_in_midnight(start_date) + TimeUnit.DAYS.toMillis(i)))) {
                                     int value = hash_map_amount.get(Simplify_the_time.return_time_in_midnight(Simplify_the_time.return_time_in_midnight(Simplify_the_time.return_time_in_midnight(start_date) + TimeUnit.DAYS.toMillis(i))));
-                                    if (value >= Integer.parseInt(return_the_information_from_save(9))) {
+                                    if (value >= Integer.parseInt(return_the_information_from_save(10))) {
                                         sum++;
                                     } else {
                                         each_streak_lengths.add(sum);
@@ -14149,10 +14056,10 @@ public class View_home_habit extends Fragment implements PopupMenu.OnMenuItemCli
                                 sum++;
                             }
                         } else if (calendar.get(Calendar.DAY_OF_WEEK) == Calendar.FRIDAY) {
-                            if (return_the_information_from_save(10).contains("Fr")) {
+                            if (return_days_per_week().contains("Fr")) {
                                 if (hash_map_amount.containsKey(Simplify_the_time.return_time_in_midnight(Simplify_the_time.return_time_in_midnight(start_date) + TimeUnit.DAYS.toMillis(i)))) {
                                     int value = hash_map_amount.get(Simplify_the_time.return_time_in_midnight(Simplify_the_time.return_time_in_midnight(Simplify_the_time.return_time_in_midnight(start_date) + TimeUnit.DAYS.toMillis(i))));
-                                    if (value >= Integer.parseInt(return_the_information_from_save(9))) {
+                                    if (value >= Integer.parseInt(return_the_information_from_save(10))) {
                                         sum++;
                                     } else {
                                         each_streak_lengths.add(sum);
@@ -14166,10 +14073,10 @@ public class View_home_habit extends Fragment implements PopupMenu.OnMenuItemCli
                                 sum++;
                             }
                         } else if (calendar.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY) {
-                            if (return_the_information_from_save(10).contains("Sa")) {
+                            if (return_days_per_week().contains("Sa")) {
                                 if (hash_map_amount.containsKey(Simplify_the_time.return_time_in_midnight(Simplify_the_time.return_time_in_midnight(start_date) + TimeUnit.DAYS.toMillis(i)))) {
                                     int value = hash_map_amount.get(Simplify_the_time.return_time_in_midnight(Simplify_the_time.return_time_in_midnight(Simplify_the_time.return_time_in_midnight(start_date) + TimeUnit.DAYS.toMillis(i))));
-                                    if (value >= Integer.parseInt(return_the_information_from_save(9))) {
+                                    if (value >= Integer.parseInt(return_the_information_from_save(10))) {
                                         sum++;
                                     } else {
                                         each_streak_lengths.add(sum);
@@ -14183,10 +14090,10 @@ public class View_home_habit extends Fragment implements PopupMenu.OnMenuItemCli
                                 sum++;
                             }
                         } else if (calendar.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY) {
-                            if (return_the_information_from_save(10).contains("Su")) {
+                            if (return_days_per_week().contains("Su")) {
                                 if (hash_map_amount.containsKey(Simplify_the_time.return_time_in_midnight(Simplify_the_time.return_time_in_midnight(start_date) + TimeUnit.DAYS.toMillis(i)))) {
                                     int value = hash_map_amount.get(Simplify_the_time.return_time_in_midnight(Simplify_the_time.return_time_in_midnight(Simplify_the_time.return_time_in_midnight(start_date) + TimeUnit.DAYS.toMillis(i))));
-                                    if (value >= Integer.parseInt(return_the_information_from_save(9))) {
+                                    if (value >= Integer.parseInt(return_the_information_from_save(10))) {
                                         sum++;
                                     } else {
                                         each_streak_lengths.add(sum);
@@ -14204,8 +14111,8 @@ public class View_home_habit extends Fragment implements PopupMenu.OnMenuItemCli
                     if (sum >= 0) {
                         each_streak_lengths.add(sum);
                     }
-                } else if (return_the_information_from_save(8).equals("everyndays")) {
-                    long start_date = Simplify_the_time.return_time_in_midnight(Long.parseLong(return_the_information_from_save(2)));
+                } else if (return_frequency().equals("everyndays")) {
+                    long start_date = Simplify_the_time.return_time_in_midnight(this.start_date);
                     long difference = Simplify_the_time.return_time_in_midnight(time_today) - Simplify_the_time.return_time_in_midnight(start_date) + TimeUnit.DAYS.toMillis(1);
                     Calendar calendar = Calendar.getInstance();
                     int sum = 0;
@@ -14223,7 +14130,7 @@ public class View_home_habit extends Fragment implements PopupMenu.OnMenuItemCli
                                 if (hash_map_amount.size() > 0) {
                                     long milli = Simplify_the_time.return_time_in_midnight(calendar.getTimeInMillis());
                                     for (int j = 1; j < Integer.parseInt(return_the_information_from_save(10)); j++) {
-                                        if (hash_map_amount.containsKey(milli - TimeUnit.DAYS.toMillis(j)) && hash_map_amount.get(milli - TimeUnit.DAYS.toMillis(j)) >= Integer.parseInt(return_the_information_from_save(9))) {
+                                        if (hash_map_amount.containsKey(milli - TimeUnit.DAYS.toMillis(j)) && hash_map_amount.get(milli - TimeUnit.DAYS.toMillis(j)) >= Integer.parseInt(return_the_information_from_save(10))) {
                                             sum++;
                                         }
                                     }
@@ -14239,9 +14146,9 @@ public class View_home_habit extends Fragment implements PopupMenu.OnMenuItemCli
                     if (sum >= 0) {
                         each_streak_lengths.add(sum);
                     }
-                } else if (return_the_information_from_save(8).equals("dayspermonth")) {
+                } else if (return_frequency().equals("dayspermonth")) {
                     Calendar calender = Calendar.getInstance();
-                    long start_date = Simplify_the_time.return_time_in_midnight(Long.parseLong(return_the_information_from_save(2)));
+                    long start_date = Simplify_the_time.return_time_in_midnight(this.start_date);
                     long difference = Simplify_the_time.return_time_in_midnight(time_today) - Simplify_the_time.return_time_in_midnight(start_date) + TimeUnit.DAYS.toMillis(1);
                     int sum = 0;
                     if (difference % TimeUnit.DAYS.toMillis(1) != 0) {
@@ -14265,7 +14172,7 @@ public class View_home_habit extends Fragment implements PopupMenu.OnMenuItemCli
                         each_streak_lengths.add(sum);
                     }
                 }
-            } else if (return_the_information_from_save(7).equals("timer")) {
+            } else if (return_type_of_habit().equals("timer")) {
 
             }
         }
@@ -14276,7 +14183,7 @@ public class View_home_habit extends Fragment implements PopupMenu.OnMenuItemCli
         time = Simplify_the_time.return_time_in_midnight(time);
         if (hash_map_amount != null && hash_map_amount.containsKey(time)) {
             int amount_int = hash_map_amount.get(time);
-            if (amount_int >= Integer.parseInt(return_the_information_from_save(9))) {
+            if (amount_int >= Integer.parseInt(return_the_information_from_save(10))) {
                 return true;
             } else {
                 return false;
@@ -14289,19 +14196,19 @@ public class View_home_habit extends Fragment implements PopupMenu.OnMenuItemCli
     private HashMap<Long, Integer> return_amount() {
         Room_database_habits room_database_habits = Room_database_habits.getInstance(getContext());
         List<habits_data_class> list = room_database_habits.dao_for_habits_data().getAll();
-        habits_data_class habits_data_class = list.get(value_for_position);
+        habits_data_class habits_data_class = return_habits_class();
         return habits_data_class.getRelapse_amount_timer();
     }
 
     private void change_the_text_if_it_is_a_good_habit() {
         if (getView() != null) {
             TextView text_asking_did_you_relapse_in_share = getView().findViewById(R.id.text_asking_did_you_relapse_in_share);
-            if (return_the_information_from_save(6).equals("good")) {
-                if (return_the_information_from_save(7).equals("yes/no")) {
+            if (return_the_information_from_save(6).equals("Build_up")) {
+                if (return_type_of_habit().equals("yes/no")) {
                     text_asking_did_you_relapse_in_share.setText("Did you complete this habit?");
-                } else if (return_the_information_from_save(7).equals("amount")) {
+                } else if (return_type_of_habit().equals("amount")) {
                     text_asking_did_you_relapse_in_share.setText("How many times did you complete this habit?");
-                } else if (return_the_information_from_save(7).equals("timer")) {
+                } else if (return_type_of_habit().equals("timer")) {
                     text_asking_did_you_relapse_in_share.setText("");
                 }
             }
@@ -14311,7 +14218,7 @@ public class View_home_habit extends Fragment implements PopupMenu.OnMenuItemCli
     private void change_the_text_above_realpse_graphs_if_it_is_a_good_habit() {
         if (getView() != null) {
             TextView text_title_of_weekly_daily_habit_in_card = getView().findViewById(R.id.text_title_of_weekly_daily_habit_in_card);
-            if (return_the_information_from_save(6).equals("good")) {
+            if (return_the_information_from_save(6).equals("Build_up")) {
                 text_title_of_weekly_daily_habit_in_card.setText("Habit completion");
             }
         }
@@ -14320,14 +14227,14 @@ public class View_home_habit extends Fragment implements PopupMenu.OnMenuItemCli
     private void change_the_four_text_good_habit() {
         if (getView() != null) {
             TextView title_for_values_inside_card_layout = getView().findViewById(R.id.title_for_values_inside_card_layout);
-            if (return_the_information_from_save(6).equals("good")) {
+            if (return_the_information_from_save(6).equals("Build_up")) {
                 title_for_values_inside_card_layout.setText("Habit completion");
             }
         }
     }
 
     private void add_the_days_per_month_to_the_calender() {
-        if (return_the_information_from_save(6).equals("good") && return_the_information_from_save(8).equals("dayspermonth")) {
+        if (return_the_information_from_save(6).equals("Build_up") && return_frequency().equals("dayspermonth")) {
             if (days_of_months_good_habit == null) {
                 days_of_months_good_habit = new ArrayList<>();
             }
@@ -14347,6 +14254,7 @@ public class View_home_habit extends Fragment implements PopupMenu.OnMenuItemCli
             negative_button_beside_amount_in_view_habit.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    Event_manager_all_in_one.getInstance().record_fire_base_event(getContext(), Event_manager_all_in_one.Event_type_fire_base_record.user_recorded_inter_action, false);
                     if (how_many_times_did_you_do_this_habit_edit_text.getText().toString().equals("")) {
                         how_many_times_did_you_do_this_habit_edit_text.setText("0");
                     } else {
@@ -14354,8 +14262,8 @@ public class View_home_habit extends Fragment implements PopupMenu.OnMenuItemCli
                         if (how_many != 0) {
                             how_many = how_many - 1;
                             how_many_times_did_you_do_this_habit_edit_text.setText(String.valueOf(how_many));
-
-                            String[] split_for_day_month_year = color_the_today.split("_");
+                        }
+                            /*String[] split_for_day_month_year = color_the_today.split("_");
                             String[] month_and_year = month_and_year_in_calender_for_good_habits.getText().toString().split(" ");
                             int calender_day = Integer.parseInt(split_for_day_month_year[0]);
                             int calender_month = return_month_string_to_int(month_and_year[0]);
@@ -14363,6 +14271,7 @@ public class View_home_habit extends Fragment implements PopupMenu.OnMenuItemCli
                             Calendar calendar = Calendar.getInstance();
                             calendar.set(calender_year, calender_month, calender_day);
                             save_the_input_for_good_habit_amount_input(how_many, calendar.getTimeInMillis());
+                            update_start_date(calendar.getTimeInMillis());
                             put_all_the_relapses_into_a_array_list();
                             calculate_all_the_streaks();
                             color_the_calender();
@@ -14387,8 +14296,7 @@ public class View_home_habit extends Fragment implements PopupMenu.OnMenuItemCli
                             setup_the_four_information_card();
                             set_the_leap_year();
                             put_values_into_year_in_good_habits();
-                            line_chart_for_streak.fitScreen();
-                        }
+                            line_chart_for_streak.fitScreen();*/
                     }
                     if (how_many_times_did_you_do_this_habit_edit_text.hasFocus()) {
                         how_many_times_did_you_do_this_habit_edit_text.setSelection(how_many_times_did_you_do_this_habit_edit_text.getText().toString().length());
@@ -14398,14 +14306,15 @@ public class View_home_habit extends Fragment implements PopupMenu.OnMenuItemCli
             positive_button_beside_amount_in_view_habit.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    Event_manager_all_in_one.getInstance().record_fire_base_event(getContext(), Event_manager_all_in_one.Event_type_fire_base_record.user_recorded_inter_action, false);
                     if (how_many_times_did_you_do_this_habit_edit_text.getText().toString().equals("")) {
                         how_many_times_did_you_do_this_habit_edit_text.setText("1");
                     } else {
                         int how_many = Integer.parseInt(how_many_times_did_you_do_this_habit_edit_text.getText().toString());
                         how_many = how_many + 1;
                         how_many_times_did_you_do_this_habit_edit_text.setText(String.valueOf(how_many));
-
-                        String[] split_for_day_month_year = color_the_today.split("_");
+                    }
+                       /* String[] split_for_day_month_year = color_the_today.split("_");
                         String[] month_and_year = month_and_year_in_calender_for_good_habits.getText().toString().split(" ");
                         int calender_day = Integer.parseInt(split_for_day_month_year[0]);
                         int calender_month = return_month_string_to_int(month_and_year[0]);
@@ -14413,6 +14322,7 @@ public class View_home_habit extends Fragment implements PopupMenu.OnMenuItemCli
                         Calendar calendar = Calendar.getInstance();
                         calendar.set(calender_year, calender_month, calender_day);
                         save_the_input_for_good_habit_amount_input(how_many, calendar.getTimeInMillis());
+                        update_start_date(calendar.getTimeInMillis());
                         put_all_the_relapses_into_a_array_list();
                         calculate_all_the_streaks();
                         color_the_calender();
@@ -14437,8 +14347,7 @@ public class View_home_habit extends Fragment implements PopupMenu.OnMenuItemCli
                         setup_the_four_information_card();
                         set_the_leap_year();
                         put_values_into_year_in_good_habits();
-                        line_chart_for_streak.fitScreen();
-                    }
+                        line_chart_for_streak.fitScreen();*/
                     if (how_many_times_did_you_do_this_habit_edit_text.hasFocus()) {
                         how_many_times_did_you_do_this_habit_edit_text.setSelection(how_many_times_did_you_do_this_habit_edit_text.getText().toString().length());
                     }
@@ -14459,6 +14368,7 @@ public class View_home_habit extends Fragment implements PopupMenu.OnMenuItemCli
 
                 @Override
                 public void onTextChanged(CharSequence s, int start, int before, int count) {
+                    Event_manager_all_in_one.getInstance().record_fire_base_event(getContext(), Event_manager_all_in_one.Event_type_fire_base_record.user_recorded_inter_action, false);
                     int how_many;
                     if (how_many_times_did_you_do_this_habit_edit_text.getText().toString().equals("")) {
                         how_many = 0;
@@ -14505,6 +14415,395 @@ public class View_home_habit extends Fragment implements PopupMenu.OnMenuItemCli
 
                 }
             });
+        }
+    }
+
+    /*private void delete_the_notification(int id) {
+        if (getActivity() != null) {
+            AlarmManager alarmManager = (AlarmManager) getActivity().getSystemService(Context.ALARM_SERVICE);
+            Intent myIntent = new Intent(getActivity(), Send_notifcation_at_set_time.class);
+            PendingIntent pendingIntent = PendingIntent.getBroadcast(getActivity(), return_request_code_based_on_id(id), myIntent,
+                    PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
+            alarmManager.cancel(pendingIntent);
+        }
+    }*/
+
+    private int return_request_code_based_on_id(int id) {
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("alarms_saved", Context.MODE_PRIVATE);
+        String alarms = sharedPreferences.getString("alarms", "");
+        if (!alarms.isEmpty()) {
+            String[] big_split = alarms.split("big_split");
+            for (int i = 0; i < big_split.length; i++) {
+                String[] small_split = big_split[i].split("small_split", -1);
+                if (Integer.parseInt(small_split[6]) == id) {
+                    return Integer.parseInt(small_split[10]);
+                }
+            }
+        }
+        return 0;
+    }
+
+    /*private void delete_alarm_from_list(int id) {
+        String save_me = "";
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("alarms_saved", Context.MODE_PRIVATE);
+        String alarms = sharedPreferences.getString("alarms", "");
+        SharedPreferences.Editor myEdit = sharedPreferences.edit();
+        if (!alarms.isEmpty()) {
+            String[] big_split = alarms.split("big_split");
+            for (int i = 0; i < big_split.length; i++) {
+                String[] small_split = big_split[i].split("small_split", -1);
+                if (Integer.parseInt(small_split[6]) != id) {
+                    save_me = save_me.concat(small_split[0]).concat("small_split").concat(small_split[1]).concat("small_split").concat(small_split[2]).concat("small_split").concat(small_split[3]).concat("small_split").concat(small_split[4]).concat("small_split").concat(small_split[5]).concat("small_split").concat(small_split[6]).concat("small_split").concat(small_split[7]).concat("small_split").concat(small_split[8]).concat("small_split").concat(small_split[9]).concat("small_split").concat(small_split[10]).concat("small_split").concat(small_split[11]).concat("big_split");
+                }
+            }
+            myEdit.putString("alarms", save_me);
+            myEdit.commit();
+        }
+    }*/
+
+    private void update_start_date(long new_date) {
+        if (new_date < start_date) {
+            start_date = Simplify_the_time.return_time_in_midnight(new_date);
+            Room_database_habits room_database_habits = Room_database_habits.getInstance(getContext());
+            List<habits_data_class> list = room_database_habits.dao_for_habits_data().getAll();
+//            habits_data_class habits_data_class = list.get(value_for_position);
+            Room_database_habits database_habits = Room_database_habits.getInstance(getContext());
+            database_habits.dao_for_habits_data().update_start_date(Integer.parseInt(return_the_information_from_save(5)), start_date);
+        }
+    }
+
+    private String return_type_of_habit() {
+        if (Integer.parseInt(return_the_information_from_save(10)) == 1) {
+            return "yes/no";
+        } else {
+            return "amount";
+        }
+    }
+
+    private String return_frequency() {
+        Room_database_habits room_database_habits = Room_database_habits.getInstance(getContext());
+        List<habits_data_class> list = room_database_habits.dao_for_habits_data().getAll();
+        habits_data_class habits_data_class = return_habits_class();
+        ArrayList<String> habits_freq = habits_data_class.getHabits_freq();
+        if (habits_freq.size() == 7) {
+            return "everyday";
+        } else {
+            return "daysperweek";
+        }
+    }
+
+    private String return_days_per_week() {
+        Room_database_habits room_database_habits = Room_database_habits.getInstance(getContext());
+        List<habits_data_class> list = room_database_habits.dao_for_habits_data().getAll();
+        habits_data_class habits_data_class = return_habits_class();
+        ArrayList<String> habits_freq = habits_data_class.getHabits_freq();
+        String return_me = "";
+        if (habits_freq.contains("Monday")) {
+            return_me = return_me.concat("Mo");
+        }
+        if (habits_freq.contains("Tuesday")) {
+            return_me = return_me.concat("Tu");
+        }
+        if (habits_freq.contains("Wednesday")) {
+            return_me = return_me.concat("We");
+        }
+        if (habits_freq.contains("Thursday")) {
+            return_me = return_me.concat("Th");
+        }
+        if (habits_freq.contains("Friday")) {
+            return_me = return_me.concat("Fr");
+        }
+        if (habits_freq.contains("Saturday")) {
+            return_me = return_me.concat("Sa");
+        }
+        if (habits_freq.contains("Sunday")) {
+            return_me = return_me.concat("Su");
+        }
+        return return_me;
+    }
+
+    private habits_data_class return_habits_class() {
+        Room_database_habits room_database_habits = Room_database_habits.getInstance(getContext());
+        List<habits_data_class> list = room_database_habits.dao_for_habits_data().getAll();
+        int id = getArguments().getInt("which_id");
+        for (int i = 0; i < list.size(); i++) {
+            if (list.get(i).getId() == id) {
+                return list.get(i);
+            }
+        }
+        return list.get(0);
+    }
+
+    private void set_status_bar_color() {
+        if (getActivity() != null) {
+            Window window = getActivity().getWindow();
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            window.setStatusBarColor(Color.parseColor(return_the_information_from_save(4)));
+        }
+    }
+
+    private void return_status_bar_color() {
+        if (getActivity() != null) {
+            Window window = getActivity().getWindow();
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            window.setStatusBarColor(Color.parseColor("#f1f3f9"));
+        }
+    }
+
+    public void make_the_views_pro() {
+        draw_pie_chart();
+        set_up_the_various_streak_chart();
+        setup_the_four_information_card();
+        put_values_into_year_in_good_habits();
+        make_the_views_transparent();
+    }
+
+    private void reset_all_year() {
+        for (int i = 366; i >= 1; i--) {
+            list_of_all_the_calender_views[i - 1].setTint(Color.TRANSPARENT);
+        }
+    }
+
+    private void scroll_to_top() {
+        if (getView() != null) {
+            ScrollView scroll_view_in_bad_habits_view_home = getView().findViewById(R.id.scroll_view_in_bad_habits_view_home);
+            scroll_view_in_bad_habits_view_home.smoothScrollTo(0, 0);
+            /*scroll_view_in_bad_habits_view_home.setSmoothScrollingEnabled(false);
+            scroll_view_in_bad_habits_view_home.fullScroll(ScrollView.FOCUS_UP);
+            scroll_view_in_bad_habits_view_home.setSmoothScrollingEnabled(true);*/
+        }
+    }
+
+    private void set_visiblity_of_months_days() {
+        if (getView() != null) {
+            View febraury_view_habit_over_all = getView().findViewById(R.id.febraury_view_habit_over_all);
+            View april_view_habit_over_all = getView().findViewById(R.id.april_view_habit_over_all);
+            View june_view_habit_over_all = getView().findViewById(R.id.june_view_habit_over_all);
+            View september_view_habit_over_all = getView().findViewById(R.id.september_view_habit_over_all);
+            View november_view_habit_over_all = getView().findViewById(R.id.november_view_habit_over_all);
+            LayerDrawable febraury = (LayerDrawable) febraury_view_habit_over_all.getBackground();
+            LayerDrawable april = (LayerDrawable) april_view_habit_over_all.getBackground();
+            LayerDrawable june = (LayerDrawable) june_view_habit_over_all.getBackground();
+            LayerDrawable september = (LayerDrawable) september_view_habit_over_all.getBackground();
+            LayerDrawable november = (LayerDrawable) november_view_habit_over_all.getBackground();
+            febraury.getDrawable(29).setTint(Color.TRANSPARENT);
+            febraury.getDrawable(30).setTint(Color.TRANSPARENT);
+            april.getDrawable(30).setTint(Color.TRANSPARENT);
+            june.getDrawable(30).setTint(Color.TRANSPARENT);
+            september.getDrawable(30).setTint(Color.TRANSPARENT);
+            november.getDrawable(30).setTint(Color.TRANSPARENT);
+        }
+    }
+
+    public ArrayList<String> return_state_of_last_five_days() {
+        ArrayList<String> last_5_days = new ArrayList<>();
+        String yes_color = "#06a94d";
+        String no_color = "#FF2400";
+        String empty_color = "#000000";
+        for (int i = 4; i >= 0; i--) {
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTimeInMillis(System.currentTimeMillis() - TimeUnit.DAYS.toMillis(i));
+            if (Simplify_the_time.return_time_in_midnight(calendar.getTimeInMillis()) >= Simplify_the_time.return_time_in_midnight(start_date)) {
+                if (return_state_of_day(Simplify_the_time.return_time_in_midnight(calendar.getTimeInMillis()))) {
+                    last_5_days.add("yes");
+                } else {
+                    last_5_days.add("no");
+                }
+            } else {
+                last_5_days.add("empty");
+            }
+            /*if (return_the_information_from_save(6).equals("Quit")) {
+                if (return_type_of_habit().equals("yes/no")) {
+                    if (colors[calendar.get(Calendar.DAY_OF_MONTH)].equals(yes_color)) {
+                        last_5_days.add("yes");
+                    } else if (colors[calendar.get(Calendar.DAY_OF_MONTH)].equals(no_color)) {
+                        last_5_days.add("no");
+                    } else if (colors[calendar.get(Calendar.DAY_OF_MONTH)].equals(empty_color)) {
+                        last_5_days.add("empty");
+                    }
+                }
+            } else if (return_the_information_from_save(6).equals("Build_up")) {
+                if (return_type_of_habit().equals("yes/no")) {
+                    if (return_type_of_habit().equals("yes/no")) {
+                        if (colors[calendar.get(Calendar.DAY_OF_MONTH)].equals(yes_color)) {
+                            last_5_days.add("yes");
+                        } else if (colors[calendar.get(Calendar.DAY_OF_MONTH)].equals(no_color)) {
+                            last_5_days.add("no");
+                        } else if (colors[calendar.get(Calendar.DAY_OF_MONTH)].equals(empty_color)) {
+                            last_5_days.add("empty");
+                        }
+                    }
+                } else if (return_type_of_habit().equals("amount")) {
+                    if (colors[calendar.get(Calendar.DAY_OF_MONTH)].equals(yes_color)) {
+                        last_5_days.add("yes");
+                    } else if (colors[calendar.get(Calendar.DAY_OF_MONTH)].equals(no_color)) {
+                        last_5_days.add("no");
+                    } else if (colors[calendar.get(Calendar.DAY_OF_MONTH)].equals(empty_color)) {
+                        last_5_days.add("empty");
+                    }
+                }
+            }*/
+        }
+        return last_5_days;
+    }
+
+    public void today_just_got_clicked() {
+        if (getView() != null) {
+            Button button_saying_yes_under_calender_in_good_habits = getView().findViewById(R.id.button_saying_yes_under_calender_in_good_habits);
+            Button button_saying_no_under_calender_in_good_habits = getView().findViewById(R.id.button_saying_no_under_calender_in_good_habits);
+            EditText how_many_times_did_you_do_this_habit_edit_text = getView().findViewById(R.id.how_many_times_did_you_do_this_habit_edit_text);
+            if (return_the_information_from_save(6).equals("Quit")) {
+                Event_manager_all_in_one.getInstance().record_fire_base_event(getContext(), Event_manager_all_in_one.Event_type_fire_base_record.user_recorded_inter_action, false);
+                if (!button_saying_yes_under_calender_in_good_habits.getText().toString().contains("✓")) {
+                    save_the_input_for_good_habit_input("yes", Simplify_the_time.return_time_in_midnight(System.currentTimeMillis()));
+                    put_all_the_relapses_into_a_array_list();
+                    update_start_date(Simplify_the_time.return_time_in_midnight(System.currentTimeMillis()));
+                    calculate_all_the_streaks();
+                    button_saying_yes_under_calender_in_good_habits.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(return_the_information_from_save(4))));
+                    button_saying_yes_under_calender_in_good_habits.setTextColor(Color.WHITE);
+                    button_saying_yes_under_calender_in_good_habits.setText(button_saying_yes_under_calender_in_good_habits.getText().toString().concat(" ✓"));
+                    button_saying_no_under_calender_in_good_habits.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#d6d7d7")));
+                    button_saying_no_under_calender_in_good_habits.setTextColor(Color.BLACK);
+                    button_saying_no_under_calender_in_good_habits.setText(button_saying_no_under_calender_in_good_habits.getText().toString().replace(" ✓", ""));
+                    color_the_calender();
+                    set_up_day_of_week_bar_chart();
+                    clear_all_the_unders();
+                    divide_it_into_weeks();
+                    clear_the_middle();
+                    make_the_middle_come_again();
+                    // draw_pie_chart();
+                    // line_chart_for_streak.fitScreen();
+                    //set_up_the_various_streak_chart();
+                    // setup_the_four_information_card();
+                    // set_the_leap_year();
+                    //put_values_into_year_in_good_habits();
+                    displaying_streak_for_user();
+                    calculate_the_average_streak();
+                    calculate_the_best_streak();
+                    calculate_the_current_streak();
+                    set_the_text_for_in_card();
+                    draw_pie_chart();
+                    set_up_the_various_streak_chart();
+                    setup_the_four_information_card();
+                    set_the_leap_year();
+                    put_values_into_year_in_good_habits();
+                    line_chart_for_streak.fitScreen();
+                }
+            } else if (return_the_information_from_save(6).equals("Build_up")) {
+                if (return_type_of_habit().equals("yes/no")) {
+                    Event_manager_all_in_one.getInstance().record_fire_base_event(getContext(), Event_manager_all_in_one.Event_type_fire_base_record.user_recorded_inter_action, false);
+                    if (!button_saying_yes_under_calender_in_good_habits.getText().toString().contains("✓")) {
+                        save_the_input_for_good_habit_input("yes", Simplify_the_time.return_time_in_midnight(System.currentTimeMillis()));
+                        put_all_the_relapses_into_a_array_list();
+                        update_start_date(Simplify_the_time.return_time_in_midnight(System.currentTimeMillis()));
+                        calculate_all_the_streaks();
+                        button_saying_yes_under_calender_in_good_habits.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(return_the_information_from_save(4))));
+                        button_saying_yes_under_calender_in_good_habits.setTextColor(Color.WHITE);
+                        button_saying_yes_under_calender_in_good_habits.setText(button_saying_yes_under_calender_in_good_habits.getText().toString().concat(" ✓"));
+                        button_saying_no_under_calender_in_good_habits.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#d6d7d7")));
+                        button_saying_no_under_calender_in_good_habits.setTextColor(Color.BLACK);
+                        button_saying_no_under_calender_in_good_habits.setText(button_saying_no_under_calender_in_good_habits.getText().toString().replace(" ✓", ""));
+                        color_the_calender();
+                        set_up_day_of_week_bar_chart();
+                        clear_all_the_unders();
+                        divide_it_into_weeks();
+                        clear_the_middle();
+                        make_the_middle_come_again();
+                        // draw_pie_chart();
+                        // line_chart_for_streak.fitScreen();
+                        //set_up_the_various_streak_chart();
+                        // setup_the_four_information_card();
+                        // set_the_leap_year();
+                        //put_values_into_year_in_good_habits();
+                        displaying_streak_for_user();
+                        calculate_the_average_streak();
+                        calculate_the_best_streak();
+                        calculate_the_current_streak();
+                        set_the_text_for_in_card();
+                        draw_pie_chart();
+                        set_up_the_various_streak_chart();
+                        setup_the_four_information_card();
+                        set_the_leap_year();
+                        put_values_into_year_in_good_habits();
+                        line_chart_for_streak.fitScreen();
+                    }
+                } else if (return_type_of_habit().equals("amount")) {
+                    Event_manager_all_in_one.getInstance().record_fire_base_event(getContext(), Event_manager_all_in_one.Event_type_fire_base_record.user_recorded_inter_action, false);
+                    String[] split_for_day_month_year = color_the_today.split("_");
+                    int calender_day = Integer.parseInt(split_for_day_month_year[0]);
+                    int calender_month = Integer.parseInt(split_for_day_month_year[1]);
+                    int calender_year = Integer.parseInt(split_for_day_month_year[2]);
+                    Calendar calendar = Calendar.getInstance();
+                    calendar.set(calender_year, calender_month, calender_day);
+                    if (Simplify_the_time.return_time_in_midnight(calendar.getTimeInMillis()) == Simplify_the_time.return_time_in_midnight(System.currentTimeMillis())) {
+                        if (how_many_times_did_you_do_this_habit_edit_text.getText().toString().equals("")) {
+                            how_many_times_did_you_do_this_habit_edit_text.setText("1");
+                        } else {
+                            int how_many = Integer.parseInt(how_many_times_did_you_do_this_habit_edit_text.getText().toString());
+                            how_many = how_many + 1;
+                            how_many_times_did_you_do_this_habit_edit_text.setText(String.valueOf(how_many));
+                        }
+                    } else {
+                        if (hash_map_amount.containsKey(Simplify_the_time.return_time_in_midnight(System.currentTimeMillis()))) {
+                            save_the_input_for_good_habit_amount_input(hash_map_amount.get(Simplify_the_time.return_time_in_midnight(System.currentTimeMillis())) + 1, Simplify_the_time.return_time_in_midnight(System.currentTimeMillis()));
+                        } else {
+                            save_the_input_for_good_habit_amount_input(1, Simplify_the_time.return_time_in_midnight(System.currentTimeMillis()));
+                        }
+                        put_all_the_relapses_into_a_array_list();
+                        calculate_all_the_streaks();
+                        color_the_calender();
+                        set_up_day_of_week_bar_chart();
+                        clear_all_the_unders();
+                        divide_it_into_weeks();
+                        clear_the_middle();
+                        make_the_middle_come_again();
+                        // draw_pie_chart();
+                        // line_chart_for_streak.fitScreen();
+                        //set_up_the_various_streak_chart();
+                        // setup_the_four_information_card();
+                        // set_the_leap_year();
+                        //put_values_into_year_in_good_habits();
+                        displaying_streak_for_user();
+                        calculate_the_average_streak();
+                        calculate_the_best_streak();
+                        calculate_the_current_streak();
+                        set_the_text_for_in_card();
+                        draw_pie_chart();
+                        set_up_the_various_streak_chart();
+                        setup_the_four_information_card();
+                        set_the_leap_year();
+                        put_values_into_year_in_good_habits();
+                        line_chart_for_streak.fitScreen();
+                    }
+                    if (how_many_times_did_you_do_this_habit_edit_text.hasFocus()) {
+                        how_many_times_did_you_do_this_habit_edit_text.setSelection(how_many_times_did_you_do_this_habit_edit_text.getText().toString().length());
+                    }
+                }
+            }
+        }
+    }
+
+    private void set_the_color_of_the_notifications_status(){
+        if(getActivity()!=null){
+            int red = Color.red(Color.parseColor(return_the_information_from_save(4)));
+            int green = Color.green(Color.parseColor(return_the_information_from_save(4)));
+            int blue = Color.blue(Color.parseColor(return_the_information_from_save(4)));
+            double total = 0.2126*red + 0.7152*green + 0.0722*blue;
+            View decor = getActivity().getWindow().getDecorView();
+            if(total < 128){
+                //closer to black
+                decor.setSystemUiVisibility(0);
+            } else {
+                //closer to white
+                decor.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+            }
+        }
+    }
+
+    private void return_icons_color_to_dark(){
+        if(getActivity()!=null){
+            View decor = getActivity().getWindow().getDecorView();
+            decor.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
         }
     }
 }

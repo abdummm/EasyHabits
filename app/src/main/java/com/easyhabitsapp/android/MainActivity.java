@@ -357,7 +357,6 @@ public class MainActivity extends AppCompatActivity  {
             goal5 = 0;
         }
         long time_left_in_days = return_the_streak();
-        Log.w("google",String.valueOf(return_the_streak()));
         if (time_left_in_days < goal1 && time_left_in_days < goal2 && time_left_in_days < goal3 && time_left_in_days < goal4 && time_left_in_days < goal5) {
             return true;
         } else {
@@ -512,12 +511,10 @@ public class MainActivity extends AppCompatActivity  {
     private int return_the_streak(){
         EditText enter_streak_edittext = findViewById(R.id.enter_streak_edittext);
         if(enter_streak_edittext.getText().toString().length()>0){
-            Log.w("time_milli",enter_streak_edittext.getText().toString());
             return Integer.parseInt(enter_streak_edittext.getText().toString());
         } else{
             SharedPreferences shared = getSharedPreferences("main_streak", MODE_PRIVATE);
             long milli = shared.getLong("time_in_milli",0);
-            Log.w("time_milli",String.valueOf(milli));
             return (int) TimeUnit.MILLISECONDS.toDays(System.currentTimeMillis() - milli);
         }
     }

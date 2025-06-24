@@ -516,7 +516,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:gravity="center"
-                android:text="Example: I want to exercise 10 days in a row"
+                android:text="Example: I want to exercise for 10 days"
                 android:textAlignment="center"
                 android:textColor="@color/fav"
                 android:textSize="14.5sp"

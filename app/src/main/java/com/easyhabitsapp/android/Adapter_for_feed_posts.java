@@ -10,10 +10,12 @@ import android.os.Handler;
 import android.os.Looper;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -57,6 +59,7 @@ public class Adapter_for_feed_posts extends RecyclerView.Adapter<Adapter_for_fee
     private old_post_is_clicked old_post_is_clicked_listen;
     private gift_button_listen gift_button_listen_listener;
     private save_only_for_pro save_only_for_pro_listener;
+    private hide_post_clickled hide_post_listener;
 
     public void set_on_item_click_listen(up_vote_clicked_not_signed_in listener) {
         up_vote_listener = listener;
@@ -120,6 +123,14 @@ public class Adapter_for_feed_posts extends RecyclerView.Adapter<Adapter_for_fee
         void save_only_for_pro();
     }
 
+    public void set_up_hide_post(hide_post_clickled listen) {
+        hide_post_listener = listen;
+    }
+
+    public interface hide_post_clickled {
+        void hide_post_clickled(int position);
+    }
+
     @NonNull
     @Override
     public ExampleViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -148,15 +159,15 @@ public class Adapter_for_feed_posts extends RecyclerView.Adapter<Adapter_for_fee
                     data_is_loaded_listen.data_is_done_loading_from_adapter();
                     holder.card_showing_the_non_loading.setVisibility(View.VISIBLE);
                     holder.card_showing_teh_loading.setVisibility(View.GONE);
-                    do_everything(current_item, holder, position);
+                    do_everything(current_item, holder);
                 }
             }, 3000);
         } else {
-            do_everything(current_item, holder, position);
+            do_everything(current_item, holder);
         }
     }
 
-    private void do_everything(final Example_item_feed_posts current_item, @NonNull final ExampleViewHolder holder, final int position) {
+    private void do_everything(final Example_item_feed_posts current_item, @NonNull final ExampleViewHolder holder) {
         if (current_item.get_is_this_from_firebase()) {
             resest_the_stuff(holder, holder.constriant_inside_card_inside_post_feed.getContext());
             //deal with the image
@@ -287,8 +298,7 @@ public class Adapter_for_feed_posts extends RecyclerView.Adapter<Adapter_for_fee
                         remove_the_post(holder.constriant_inside_card_inside_post_feed.getContext(), current_item.return_the_document_id());
                         current_item.set_saved(false);
                     } else {
-                        Am_i_paid am_i_paid = new Am_i_paid(holder.constriant_inside_card_inside_post_feed.getContext());
-                        if (am_i_paid.did_user_pay()) {
+                        if (Payment_processer.getInstance().state_of_the_user()) {
                             holder.save_button_in_card_in_posts.setBackground(ContextCompat.getDrawable(holder.constriant_inside_card_inside_post_feed.getContext(), R.drawable.round_turned_in_24));
                             save_the_post(holder.constriant_inside_card_inside_post_feed.getContext(), current_item.return_the_document_id(), current_item.getM_title(), current_item.getM_body(), current_item.getM_span(), current_item.getM_time().getTime(), current_item.get_m_category(), current_item.getM_streak(), current_item.getName_of_the_poster());
                             current_item.set_saved(true);
@@ -314,7 +324,7 @@ public class Adapter_for_feed_posts extends RecyclerView.Adapter<Adapter_for_fee
                     add_me_to_seen_posts(current_item, holder.constriant_inside_card_inside_post_feed.getContext());
                     holder.title_for_post_in_posts_to_show_for_public.setTextColor(Color.parseColor("#888888"));
                     holder.actual_text_to_show_post_in_card.setTextColor(Color.parseColor("#888888"));
-                    post_is_clicked_listener.post_just_got_clicked(position, current_item.getM_title(), current_item.getM_body(), current_item.get_m_category(), current_item.getM_time(), current_item.getM_streak(), current_item.getM_span(), current_item.isM_image(), current_item.getM_user_id(), current_item.getM_comments(), current_item.getM_awards(), current_item.get_is_this_upvote(), current_item.isIs_this_down_vote(), current_item.getM_document_id(), current_item.isM_is_this_from_fire_base(), current_item.get_upvote_list(), current_item.getM_downvotes(), current_item.get_m_saved(), current_item.getPlus_or_minus(), current_item.isM_is_this_laoding(), current_item.isI_already_loaded(), current_item.isUpvote_or_down_vote_was_clicked(), current_item.getM_firebaseFirestore(), current_item.getM_firebaseUser(), current_item.isWas_this_reported(), current_item.getM_list_of_reports(), current_item.isAm_i_loading_up_voote_down_vote_from_fire_base(), current_item.isDid_i_see_this_tem(), current_item.getM_list_of_seen_posts(), current_item.isM_is_post_by_dev(),current_item.getName_of_the_poster());
+                    post_is_clicked_listener.post_just_got_clicked(holder.getAdapterPosition(), current_item.getM_title(), current_item.getM_body(), current_item.get_m_category(), current_item.getM_time(), current_item.getM_streak(), current_item.getM_span(), current_item.isM_image(), current_item.getM_user_id(), current_item.getM_comments(), current_item.getM_awards(), current_item.get_is_this_upvote(), current_item.isIs_this_down_vote(), current_item.getM_document_id(), current_item.isM_is_this_from_fire_base(), current_item.get_upvote_list(), current_item.getM_downvotes(), current_item.get_m_saved(), current_item.getPlus_or_minus(), current_item.isM_is_this_laoding(), current_item.isI_already_loaded(), current_item.isUpvote_or_down_vote_was_clicked(), current_item.getM_firebaseFirestore(), current_item.getM_firebaseUser(), current_item.isWas_this_reported(), current_item.getM_list_of_reports(), current_item.isAm_i_loading_up_voote_down_vote_from_fire_base(), current_item.isDid_i_see_this_tem(), current_item.getM_list_of_seen_posts(), current_item.isM_is_post_by_dev(),current_item.getName_of_the_poster());
                 }
             });
             holder.image_to_show_any_base_64_in_psot.setOnClickListener(new View.OnClickListener() {
@@ -333,6 +343,7 @@ public class Adapter_for_feed_posts extends RecyclerView.Adapter<Adapter_for_fee
             set_the_name(holder, current_item);
             gift_button_listen(holder, current_item);
             set_is_this_by_dev(current_item.isM_is_post_by_dev(),holder,current_item);
+            three_dot_listen(holder, holder.constriant_inside_card_inside_post_feed.getContext(), current_item.return_the_document_id(), current_item.get_the_data_base(), current_item.getM_my_user_id(), current_item);
         } else {
             set_the_name(holder, current_item);
             holder.title_for_post_in_posts_to_show_for_public.setText(make_first_letter_cap(current_item.getM_title()));
@@ -405,13 +416,13 @@ public class Adapter_for_feed_posts extends RecyclerView.Adapter<Adapter_for_fee
             holder.button_to_watch_save_in_card_in_post.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    Event_manager_all_in_one.getInstance().record_fire_base_event(holder.constriant_inside_card_inside_post_feed.getContext(), Event_manager_all_in_one.Event_type_fire_base_record.post_saved,false);
                     if (current_item.get_m_saved()) {
                         holder.save_button_in_card_in_posts.setBackground(ContextCompat.getDrawable(holder.constriant_inside_card_inside_post_feed.getContext(), R.drawable.round_turned_in_not_24));
                         remove_the_post(holder.constriant_inside_card_inside_post_feed.getContext(), current_item.return_the_document_id());
                         current_item.set_saved(false);
                     } else {
-                        Am_i_paid am_i_paid = new Am_i_paid(holder.constriant_inside_card_inside_post_feed.getContext());
-                        if (am_i_paid.did_user_pay()) {
+                        if (Payment_processer.getInstance().state_of_the_user()) {
                             holder.save_button_in_card_in_posts.setBackground(ContextCompat.getDrawable(holder.constriant_inside_card_inside_post_feed.getContext(), R.drawable.round_turned_in_24));
                             save_the_post(holder.constriant_inside_card_inside_post_feed.getContext(), current_item.return_the_document_id(), current_item.getM_title(), current_item.getM_body(), current_item.getM_span(), current_item.getM_time().getTime(), current_item.get_m_category(), current_item.getM_streak(), current_item.getName_of_the_poster());
                             current_item.set_saved(true);
@@ -427,6 +438,7 @@ public class Adapter_for_feed_posts extends RecyclerView.Adapter<Adapter_for_fee
                     old_post_is_clicked_listen.old_post_got_clicked(holder.getAdapterPosition(),current_item.getName_of_the_poster(),current_item.getM_title(),current_item.getM_body(),current_item.getM_span(),current_item.getM_time(),current_item.getM_category(),(int) current_item.getM_streak(),current_item.getM_document_id());
                 }
             });
+            three_dot_listen_for_archieved(holder,holder.constriant_inside_card_inside_post_feed.getContext(),current_item.return_the_document_id(),current_item);
         }
     }
 
@@ -494,6 +506,7 @@ public class Adapter_for_feed_posts extends RecyclerView.Adapter<Adapter_for_fee
         public View view_at_the_end_of_the_dev_object;
         public View view_behind_i_am_the_dev_of_the_text;
         public Button button_to_watch_gift_in_card_in_post;
+        public Button button_watch_three_dot_to_add_extra_options;
 
         public ExampleViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -543,6 +556,7 @@ public class Adapter_for_feed_posts extends RecyclerView.Adapter<Adapter_for_fee
             view_behind_i_am_the_dev_of_the_text = itemView.findViewById(R.id.view_behind_i_am_the_dev_of_the_text);
             button_to_watch_gift_in_card_in_post = itemView.findViewById(R.id.button_to_watch_gift_in_card_in_post);
             circle_between_time_and_dev_in_card = itemView.findViewById(R.id.circle_between_time_and_dev_in_card);
+            button_watch_three_dot_to_add_extra_options = itemView.findViewById(R.id.button_watch_three_dot_to_add_extra_options);
         }
     }
 
@@ -879,6 +893,7 @@ public class Adapter_for_feed_posts extends RecyclerView.Adapter<Adapter_for_fee
         holder.button_to_watch_upvote_in_card_in_post.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Event_manager_all_in_one.getInstance().record_fire_base_event(holder.constriant_inside_card_inside_post_feed.getContext(), Event_manager_all_in_one.Event_type_fire_base_record.post_upvoted,false);
                 if (current_item.isAm_i_loading_up_voote_down_vote_from_fire_base()) {
                     Toast toast = Toast.makeText(holder.constriant_inside_card_inside_post_feed.getContext(), "You are up voting and down voting too quickly!!", Toast.LENGTH_SHORT);
                     toast.show();
@@ -896,6 +911,7 @@ public class Adapter_for_feed_posts extends RecyclerView.Adapter<Adapter_for_fee
         holder.button_to_watch_downvote_in_card_in_post.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Event_manager_all_in_one.getInstance().record_fire_base_event(holder.constriant_inside_card_inside_post_feed.getContext(), Event_manager_all_in_one.Event_type_fire_base_record.post_downvoted,false);
                 if (current_item.isAm_i_loading_up_voote_down_vote_from_fire_base()) {
                     Toast toast = Toast.makeText(holder.constriant_inside_card_inside_post_feed.getContext(), "You are up voting and down voting too quickly!!", Toast.LENGTH_SHORT);
                     toast.show();
@@ -968,30 +984,35 @@ public class Adapter_for_feed_posts extends RecyclerView.Adapter<Adapter_for_fee
         holder.button_to_watch_three_dot_in_card_in_post_in_top.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (current_item.are_me_signed_with_google()) {
-                    if (current_item.is_this_reported() || current_item.return_list_of_reports().contains(my_id)) {
-                        Toast toast = Toast.makeText(context, "Already reported", Toast.LENGTH_SHORT);
-                        toast.show();
-                    } else {
-                        new AlertDialog.Builder(context)
-                                .setTitle("Report post?")
-                                .setMessage("Are you sure you want to report this post?")
-
-                                // Specifying a listener allows you to take an action before dismissing the dialog.
-                                // The dialog is automatically dismissed when a dialog button is clicked.
-                                .setPositiveButton("yes", new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        report_post(document_id, firebaseFirestore, my_id, context, current_item, holder);
-                                    }
-                                })
-                                .setNegativeButton("cancel", null)
-                                .show();
-                    }
-                } else {
-                    up_vote_listener.up_vote_click_no_sign_in("report");
-                }
+                Event_manager_all_in_one.getInstance().record_fire_base_event(context, Event_manager_all_in_one.Event_type_fire_base_record.post_reported,false);
+                report_is_clicked(holder,context,document_id,firebaseFirestore,my_id,current_item);
             }
         });
+    }
+
+    private void report_is_clicked(@NonNull final ExampleViewHolder holder, final Context context, final String document_id, final FirebaseFirestore firebaseFirestore, final String my_id, final Example_item_feed_posts current_item){
+        if (current_item.are_me_signed_with_google()) {
+            if (current_item.is_this_reported() || current_item.return_list_of_reports().contains(my_id)) {
+                Toast toast = Toast.makeText(context, "Already reported", Toast.LENGTH_SHORT);
+                toast.show();
+            } else {
+                new AlertDialog.Builder(context)
+                        .setTitle("Report post?")
+                        .setMessage("Are you sure you want to report this post?")
+
+                        // Specifying a listener allows you to take an action before dismissing the dialog.
+                        // The dialog is automatically dismissed when a dialog button is clicked.
+                        .setPositiveButton("yes", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                report_post(document_id, firebaseFirestore, my_id, context, current_item, holder);
+                            }
+                        })
+                        .setNegativeButton("cancel", null)
+                        .show();
+            }
+        } else {
+            up_vote_listener.up_vote_click_no_sign_in("report");
+        }
     }
 
     private void handle_the_color_of_card(final Example_item_feed_posts current_item, @NonNull final ExampleViewHolder holder) {
@@ -1233,6 +1254,7 @@ public class Adapter_for_feed_posts extends RecyclerView.Adapter<Adapter_for_fee
         holder.button_to_watch_share_in_card_in_post_in_top.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Event_manager_all_in_one.getInstance().record_fire_base_event(holder.constriant_inside_card_inside_post_feed.getContext(), Event_manager_all_in_one.Event_type_fire_base_record.post_shared,false);
                 share_button_was_clicked_listen.share_just_got_clciked(first_letter_capital(current_item.getM_title()), current_item.getM_body());
             }
         });
@@ -1269,7 +1291,151 @@ public class Adapter_for_feed_posts extends RecyclerView.Adapter<Adapter_for_fee
         holder.button_to_watch_gift_in_card_in_post.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Event_manager_all_in_one.getInstance().record_fire_base_event(holder.constriant_inside_card_inside_post_feed.getContext(), Event_manager_all_in_one.Event_type_fire_base_record.post_gifted,false);
                 gift_button_listen_listener.gift_was_clicked(holder.getAdapterPosition(),current_item.get_user_id(),current_item.getM_document_id(),-100,-100,current_item.getM_awards());
+            }
+        });
+    }
+
+    private void three_dot_listen(@NonNull final ExampleViewHolder holder, final Context context, final String document_id, final FirebaseFirestore firebaseFirestore, final String my_id, final Example_item_feed_posts current_item){
+        holder.button_watch_three_dot_to_add_extra_options.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                PopupMenu popupMenu = new PopupMenu(holder.constriant_inside_card_inside_post_feed.getContext(), holder.button_watch_three_dot_to_add_extra_options);
+                popupMenu.getMenuInflater().inflate(R.menu.menu_for_posts, popupMenu.getMenu());
+                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem menuItem) {
+                        if(menuItem.getOrder() == 0){
+                            Alert_dialog_show alert_dialog_show = new Alert_dialog_show();
+                            alert_dialog_show.show_alert_dialog(context,"Hide Post?","Are you sure you want to hide this post?");
+                            alert_dialog_show.set_ok_button_listen(new Alert_dialog_show.ok_button_clicked() {
+                                @Override
+                                public void ok_button_clicked() {
+                                    if (is_this_saved(context, document_id)) {
+                                        remove_the_post(context,document_id);
+                                    }
+                                    if (is_this_your_post(context,document_id)) {
+                                        remove_your_post(context,document_id);
+                                    }
+                                    Save_and_get.getInstance().save_this(context,document_id,"hide_posts",true);
+                                    Toast.makeText(context,"Post hidden",Toast.LENGTH_SHORT).show();
+                                    hide_post_listener.hide_post_clickled(holder.getAdapterPosition());
+                                }
+                            });
+                        }  else if(menuItem.getOrder() == 1){
+                            Alert_dialog_show alert_dialog_show = new Alert_dialog_show();
+                            alert_dialog_show.show_alert_dialog(context,"Block User?","Are you sure you want to block this user?");
+                            alert_dialog_show.set_ok_button_listen(new Alert_dialog_show.ok_button_clicked() {
+                                @Override
+                                public void ok_button_clicked() {
+                                    if(current_item.get_user_id().equals(current_item.getM_my_user_id())){
+                                        Toast.makeText(context,"You can't block yourself!",Toast.LENGTH_LONG).show();
+                                    } else {
+                                        if (is_this_saved(context, document_id)) {
+                                            remove_the_post(context,document_id);
+                                        }
+                                        if (is_this_your_post(context,document_id)) {
+                                            remove_your_post(context,document_id);
+                                        }
+                                        Save_and_get.getInstance().save_this(context,current_item.get_user_id(),"blocked_users",true);
+                                        Toast.makeText(context,"User blocked",Toast.LENGTH_SHORT).show();
+                                        hide_post_listener.hide_post_clickled(holder.getAdapterPosition());
+                                    }
+                                }
+                            });
+                        }
+                        return true;
+                    }
+                });
+                popupMenu.show();
+            }
+        });
+    }
+
+    private boolean is_this_your_post(Context context, String document_id) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences("posted_posts", MODE_PRIVATE);
+        String old = sharedPreferences.getString("posts", "");
+        String[] big_split = old.split("big_divide");
+        for (int i = 0; i < big_split.length; i++) {
+            String[] small_split = big_split[i].split("small_split");
+            if (small_split[5].equals(document_id)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private void remove_your_post(Context context, String document_id) {
+            SharedPreferences sharedPreferences = context.getSharedPreferences("posted_posts", MODE_PRIVATE);
+            SharedPreferences.Editor myEdit = sharedPreferences.edit();
+            String old = sharedPreferences.getString("posts", "");
+            if (old != null && !old.isEmpty()) {
+                String[] big_split = old.split("big_divide");
+                String save_me = "";
+                for (int i = 0; i < big_split.length; i++) {
+                    String[] small_split = big_split[i].split("small_split");
+                    if (!small_split[5].equals(document_id)) {
+                        save_me = save_me.concat(big_split[i]).concat("big_divide");
+                    }
+                }
+                myEdit.putString("posts", save_me);
+                myEdit.commit();
+        }
+    }
+
+    private void three_dot_listen_for_archieved(@NonNull final ExampleViewHolder holder, final Context context, final String document_id, final Example_item_feed_posts current_item){
+        holder.button_watch_three_dot_to_add_extra_options.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                PopupMenu popupMenu = new PopupMenu(holder.constriant_inside_card_inside_post_feed.getContext(), holder.button_watch_three_dot_to_add_extra_options);
+                popupMenu.getMenuInflater().inflate(R.menu.menu_for_posts, popupMenu.getMenu());
+                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem menuItem) {
+                        if(menuItem.getOrder() == 0){
+                            Alert_dialog_show alert_dialog_show = new Alert_dialog_show();
+                            alert_dialog_show.show_alert_dialog(context,"Hide Post?","Are you sure you want to hide this post?");
+                            alert_dialog_show.set_ok_button_listen(new Alert_dialog_show.ok_button_clicked() {
+                                @Override
+                                public void ok_button_clicked() {
+                                    if (is_this_saved(context, document_id)) {
+                                        remove_the_post(context,document_id);
+                                    }
+                                    if (is_this_your_post(context,document_id)) {
+                                        remove_your_post(context,document_id);
+                                    }
+                                    Save_and_get.getInstance().save_this(context,document_id,"hide_posts",true);
+                                    Toast.makeText(context,"Post hidden",Toast.LENGTH_SHORT).show();
+                                    hide_post_listener.hide_post_clickled(holder.getAdapterPosition());
+                                }
+                            });
+                        }  else if(menuItem.getOrder() == 1){
+                            Alert_dialog_show alert_dialog_show = new Alert_dialog_show();
+                            alert_dialog_show.show_alert_dialog(context,"Block User?","Are you sure you want to block this user?");
+                            alert_dialog_show.set_ok_button_listen(new Alert_dialog_show.ok_button_clicked() {
+                                @Override
+                                public void ok_button_clicked() {
+                                    if(is_this_your_post(context,document_id)){
+                                        Toast.makeText(context,"You can't block yourself!",Toast.LENGTH_LONG).show();
+                                    } else {
+                                        if (is_this_saved(context, document_id)) {
+                                            remove_the_post(context,document_id);
+                                        }
+                                        if (is_this_your_post(context,document_id)) {
+                                            remove_your_post(context,document_id);
+                                        }
+//                                        Save_and_get.getInstance().save_this(context,current_item.get_user_id(),"blocked_users",true);
+                                        Toast.makeText(context,"User blocked",Toast.LENGTH_SHORT).show();
+                                        hide_post_listener.hide_post_clickled(holder.getAdapterPosition());
+                                    }
+                                }
+                            });
+                        }
+                        return true;
+                    }
+                });
+                popupMenu.show();
             }
         });
     }

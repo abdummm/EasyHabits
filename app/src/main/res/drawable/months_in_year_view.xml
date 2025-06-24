@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:height="13dp" android:width="13dp">
+        <shape android:shape="oval" >
+            <solid android:color="#E1E2E2"/>
+        </shape>
+    </item>
+
+    <item android:height="13dp" android:width="13dp" android:top="18dp">
+        <shape android:shape="oval">
+            <solid android:color="#E1E2E2"/>
+        </shape>
+    </item>
+
+    <item android:height="13dp" android:width="13dp" android:top="36dp">
+        <shape android:shape="oval">
+            <solid android:color="#E1E2E2"/>
+        </shape>
+    </item>
+
+    <item android:height="13dp" android:width="13dp" android:top="54dp">
+        <shape android:shape="oval">
+            <solid android:color="#E1E2E2"/>
+        </shape>
+    </item>
+
+    <item android:height="13dp" android:width="13dp" android:top="72dp">
+        <shape android:shape="oval">
+            <solid android:color="#E1E2E2"/>
+        </shape>
+    </item>
+
+    <item android:height="13dp" android:width="13dp" android:top="90dp">
+        <shape android:shape="oval">
+            <solid android:color="#E1E2E2"/>
+        </shape>
+    </item>
+
+    <item android:height="13dp" android:width="13dp" android:top="108dp">
+        <shape android:shape="oval">
+            <solid android:color="#E1E2E2"/>
+        </shape>
+    </item>
+
+    <item android:height="13dp" android:width="13dp" android:top="126dp">
+        <shape android:shape="oval">
+            <solid android:color="#E1E2E2"/>
+        </shape>
+    </item>
+
+    <item android:height="13dp" android:width="13dp" android:top="144dp">
+        <shape android:shape="oval">
+            <solid android:color="#E1E2E2"/>
+        </shape>
+    </item>
+
+    <item android:height="13dp" android:width="13dp" android:top="162dp">
+        <shape android:shape="oval">
+            <solid android:color="#E1E2E2"/>
+        </shape>
+    </item>
+
+    <item android:height="13dp" android:width="13dp" android:top="180dp">
+        <shape android:shape="oval" >
+            <solid android:color="#E1E2E2"/>
+        </shape>
+    </item>
+
+    <item android:height="13dp" android:width="13dp" android:top="198dp">
+        <shape android:shape="oval">
+            <solid android:color="#E1E2E2"/>
+        </shape>
+    </item>
+
+    <item android:height="13dp" android:width="13dp" android:top="216dp">
+        <shape android:shape="oval">
+            <solid android:color="#E1E2E2"/>
+        </shape>
+    </item>
+
+    <item android:height="13dp" android:width="13dp" android:top="234dp">
+        <shape android:shape="oval">
+            <solid android:color="#E1E2E2"/>
+        </shape>
+    </item>
+
+    <item android:height="13dp" android:width="13dp" android:top="252dp">
+        <shape android:shape="oval">
+            <solid android:color="#E1E2E2"/>
+        </shape>
+    </item>
+
+    <item android:height="13dp" android:width="13dp" android:top="270dp">
+        <shape android:shape="oval">
+            <solid android:color="#E1E2E2"/>
+        </shape>
+    </item>
+
+    <item android:height="13dp" android:width="13dp" android:top="288dp">
+        <shape android:shape="oval">
+            <solid android:color="#E1E2E2"/>
+        </shape>
+    </item>
+
+    <item android:height="13dp" android:width="13dp" android:top="306dp">
+        <shape android:shape="oval">
+            <solid android:color="#E1E2E2"/>
+        </shape>
+    </item>
+
+    <item android:height="13dp" android:width="13dp" android:top="324dp">
+        <shape android:shape="oval">
+            <solid android:color="#E1E2E2"/>
+        </shape>
+    </item>
+
+    <item android:height="13dp" android:width="13dp" android:top="342dp">
+        <shape android:shape="oval">
+            <solid android:color="#E1E2E2"/>
+        </shape>
+    </item>
+
+    <item android:height="13dp" android:width="13dp" android:top="360dp">
+        <shape android:shape="oval" >
+            <solid android:color="#E1E2E2"/>
+        </shape>
+    </item>
+
+    <item android:height="13dp" android:width="13dp" android:top="378dp">
+        <shape android:shape="oval">
+            <solid android:color="#E1E2E2"/>
+        </shape>
+    </item>
+
+    <item android:height="13dp" android:width="13dp" android:top="396dp">
+        <shape android:shape="oval">
+            <solid android:color="#E1E2E2"/>
+        </shape>
+    </item>
+
+    <item android:height="13dp" android:width="13dp" android:top="414dp">
+        <shape android:shape="oval">
+            <solid android:color="#E1E2E2"/>
+        </shape>
+    </item>
+
+    <item android:height="13dp" android:width="13dp" android:top="432dp">
+        <shape android:shape="oval">
+            <solid android:color="#E1E2E2"/>
+        </shape>
+    </item>
+
+    <item android:height="13dp" android:width="13dp" android:top="450dp">
+        <shape android:shape="oval">
+            <solid android:color="#E1E2E2"/>
+        </shape>
+    </item>
+
+    <item android:height="13dp" android:width="13dp" android:top="468dp">
+        <shape android:shape="oval">
+            <solid android:color="#E1E2E2"/>
+        </shape>
+    </item>
+
+    <item android:height="13dp" android:width="13dp" android:top="486dp">
+        <shape android:shape="oval">
+            <solid android:color="#E1E2E2"/>
+        </shape>
+    </item>
+
+    <item android:height="13dp" android:width="13dp" android:top="504dp">
+        <shape android:shape="oval">
+            <solid android:color="#E1E2E2"/>
+        </shape>
+    </item>
+
+    <item android:height="13dp" android:width="13dp" android:top="522dp">
+        <shape android:shape="oval">
+            <solid android:color="#E1E2E2"/>
+        </shape>
+    </item>
+
+    <item android:height="13dp" android:width="13dp" android:top="540dp">
+        <shape android:shape="oval">
+            <solid android:color="#E1E2E2"/>
+        </shape>
+    </item>
+</layer-list>

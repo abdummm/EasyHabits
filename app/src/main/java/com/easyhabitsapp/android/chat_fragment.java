@@ -64,6 +64,7 @@ import com.google.firebase.functions.HttpsCallableResult;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
@@ -101,6 +102,10 @@ public class chat_fragment extends Fragment {
     private int random_join_or_create = 2;
     private String last_text;
     private ListenerRegistration event_listener_snapchot;
+    private boolean is_the_other_user_blocked = false;
+    private ArrayList<String> my_blocked_users = new ArrayList<>();
+    private long gift_to_user_1 = 0;
+    private long gift_to_user_2 = 0;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -118,6 +123,7 @@ public class chat_fragment extends Fragment {
         if (last_time_chatted() != 0) {
             //setHandler_for_start_button_listen();
         }
+        set_my_blocked_users();
         start_session_button_listen();
         send_button_chat_listen();
 //        choose_chat_topic();
@@ -138,6 +144,9 @@ public class chat_fragment extends Fragment {
                 hashMap.put("user1_id", FirebaseAuth.getInstance().getCurrentUser().getUid());
                 hashMap.put("text", "");
                 hashMap.put("status", "O");
+                hashMap.put("blocked_users", my_blocked_users);
+                hashMap.put("gift_to_user_1",0);
+                hashMap.put("gift_to_user_2",0);
                 document_name = firebaseFirestore.collection("chat").document().getId();
                 firebaseFirestore.collection("chat")
                         .document(document_name).set(hashMap).addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -163,7 +172,7 @@ public class chat_fragment extends Fragment {
                                 if (task.isSuccessful()) {
                                     boolean did_the_loop_break = false;
                                     for (QueryDocumentSnapshot document : task.getResult()) {
-                                        if (document.getData().get("status").equals("O")) {
+                                        if (document.getData().get("status").equals("O") && are_we_both_allowed_to_join((ArrayList<String>) document.get("blocked_users"), (String) document.get("user1_id"))) {
                                             document_name = document.getId();
                                             join_as_second_user(document);
                                             did_the_loop_break = true;
@@ -232,16 +241,30 @@ public class chat_fragment extends Fragment {
                                 adapter.notifyDataSetChanged();
                                 recycle_view_for_chat_in_chat_fragment.scrollToPosition(chat_list.size() - 1);
                                 text_view_saying_be_nice_to_the_start.setVisibility(View.INVISIBLE);
-                            } else if(snapshot.get("status").equals("D2")){
+                            } else if (which_screen_i_am_in == 2 && !snapshot.get("gift_to_user_1").equals(gift_to_user_1) && snapshot.get("status").equals("F")) {
+                                long gift = (long) snapshot.get("gift_to_user_1") - gift_to_user_1;
+                                gift_to_user_1 = (long) snapshot.get("gift_to_user_1");
+                                chat_list.add(new Item_for_chat("", String.valueOf(gift), "i_get_gift"));
+                                adapter.notifyDataSetChanged();
+                                recycle_view_for_chat_in_chat_fragment.scrollToPosition(chat_list.size() - 1);
+                                text_view_saying_be_nice_to_the_start.setVisibility(View.INVISIBLE);
+                            } else if (which_screen_i_am_in == 2 && snapshot.get("status").equals("D2")) {
                                 end_the_chat(1);
                             }
                         } else {
-                            if (which_screen_i_am_in == 2 && !snapshot.get("text").equals("")&& !snapshot.get("text").equals(last_text) && snapshot.get("status").equals("F")) {
+                            if (which_screen_i_am_in == 2 && !snapshot.get("text").equals("") && !snapshot.get("text").equals(last_text) && snapshot.get("status").equals("F")) {
                                 chat_list.add(new Item_for_chat((String) snapshot.get("text"), "", "normal"));
                                 adapter.notifyDataSetChanged();
                                 recycle_view_for_chat_in_chat_fragment.scrollToPosition(chat_list.size() - 1);
                                 text_view_saying_be_nice_to_the_start.setVisibility(View.INVISIBLE);
-                            } else if(snapshot.get("status").equals("D1")){
+                            } else if (which_screen_i_am_in == 2 && !snapshot.get("gift_to_user_2").equals(gift_to_user_2) && snapshot.get("status").equals("F")) {
+                                long gift = (long) snapshot.get("gift_to_user_2") - gift_to_user_2;
+                                gift_to_user_2 = (long) snapshot.get("gift_to_user_2");
+                                chat_list.add(new Item_for_chat("", String.valueOf(gift), "i_get_gift"));
+                                adapter.notifyDataSetChanged();
+                                recycle_view_for_chat_in_chat_fragment.scrollToPosition(chat_list.size() - 1);
+                                text_view_saying_be_nice_to_the_start.setVisibility(View.INVISIBLE);
+                            } else if (which_screen_i_am_in == 2 && snapshot.get("status").equals("D1")) {
                                 end_the_chat(1);
                             }
                         }
@@ -277,7 +300,7 @@ public class chat_fragment extends Fragment {
         if (!am_i_in_gift) {
             end_the_chat(0);
             handler.removeCallbacksAndMessages(null);
-            if(getView()!=null) {
+            if (getView() != null) {
                 Button button_to_start_seesion_in_chat = getView().findViewById(R.id.button_to_start_seesion_in_chat);
                 button_to_start_seesion_in_chat.setText("Start Session");
             }
@@ -304,8 +327,9 @@ public class chat_fragment extends Fragment {
                 public void onClick(View view) {
                     //if (how_is_user_logged_in().equals("google")) {
                     if (button_to_start_seesion_in_chat.getText().toString().equals("Start Session")) {
-                        if(is_the_chat_still_going){
-                            Toast.makeText(getActivity(),"Please wait a little bit before chatting again",Toast.LENGTH_LONG).show();
+                        Event_manager_all_in_one.getInstance().record_fire_base_event(getContext(), Event_manager_all_in_one.Event_type_fire_base_record.chat_started,false);
+                        if (is_the_chat_still_going) {
+                            Toast.makeText(getActivity(), "Please wait a little bit before chatting again", Toast.LENGTH_LONG).show();
                         } else {
                             is_the_chat_still_going = true;
 //                            spinner_item = spinner_to_choose_chat_to_talk_about.getSelectedItem().toString();
@@ -518,17 +542,17 @@ public class chat_fragment extends Fragment {
                 @Override
                 public void onClick(View view) {
                     if (!edit_text_to_enter_chat_t_send_messages.getText().toString().trim().equals("")) {
-                            firebaseFirestore.collection("chat").document(document_name).update("text", edit_text_to_enter_chat_t_send_messages.getText().toString().trim()).addOnSuccessListener(new OnSuccessListener<Void>() {
-                                @Override
-                                public void onSuccess(Void unused) {
+                        firebaseFirestore.collection("chat").document(document_name).update("text", edit_text_to_enter_chat_t_send_messages.getText().toString().trim()).addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void unused) {
 
-                                }
-                            }).addOnFailureListener(new OnFailureListener() {
-                                @Override
-                                public void onFailure(@NonNull Exception e) {
+                            }
+                        }).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
 
-                                }
-                            });
+                            }
+                        });
                         /*database.child(spinner_item).child("chat_room_".concat(String.valueOf(room_int))).child("user_".concat(String.valueOf(which_user))).setValue(edit_text_to_enter_chat_t_send_messages.getText().toString().trim()).addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override
                             public void onSuccess(Void unused) {
@@ -617,7 +641,7 @@ public class chat_fragment extends Fragment {
     }*/
 
     private void leave_chat(boolean restart) {
-        if (document_name!= null && !document_name.equals("")) {
+        if (document_name != null && !document_name.equals("")) {
             firebaseFirestore.collection("chat").document(document_name).update("status", "D".concat(String.valueOf(random_join_or_create))).addOnSuccessListener(new OnSuccessListener<Void>() {
                 @Override
                 public void onSuccess(Void unused) {
@@ -658,7 +682,7 @@ public class chat_fragment extends Fragment {
             ripple_send_button_chat.setBackgroundResource(R.drawable.ripple_button_round_grey);
             chat_list.clear();
             adapter.notifyDataSetChanged();
-            if(event_listener_snapchot!=null){
+            if (event_listener_snapchot != null) {
                 event_listener_snapchot.remove();
             }
             /*if (valueEventListener != null) {
@@ -773,17 +797,17 @@ public class chat_fragment extends Fragment {
 
     private void end_the_chat(int which) {
         if (which == 0) {
-            if(event_listener_snapchot!=null){
+            if (event_listener_snapchot != null) {
                 event_listener_snapchot.remove();
             }
             leave_chat(true);
             open_a_screen(1);
             //setHandler_for_start_button_listen();
             //is_the_chat_still_going = false;
-            last_text="";
+            last_text = "";
         } else if (which == 1) {
             if (getActivity() != null) {
-                if(event_listener_snapchot!=null){
+                if (event_listener_snapchot != null) {
                     event_listener_snapchot.remove();
                 }
                 //Button button_to_end_chat_in_chat = getActivity().findViewById(R.id.button_to_end_chat_in_chat);
@@ -808,7 +832,7 @@ public class chat_fragment extends Fragment {
                     button_to_back_in_chat_visible_after_chat.setVisibility(View.VISIBLE);
                 }
                 back_view_white_in_chat.setVisibility(View.VISIBLE);
-                last_text="";
+                last_text = "";
                 other_person_id = null;
                 was_this_reported = false;
                 did_i_leave_chat = false;
@@ -819,7 +843,7 @@ public class chat_fragment extends Fragment {
             //they pressed end chat
         } else if (which == 2) {
             if (getActivity() != null) {
-                if(event_listener_snapchot!=null){
+                if (event_listener_snapchot != null) {
                     event_listener_snapchot.remove();
                 }
                 leave_chat(false);
@@ -841,7 +865,7 @@ public class chat_fragment extends Fragment {
                     button_to_back_in_chat_visible_after_chat.setVisibility(View.VISIBLE);
                 }
                 back_view_white_in_chat.setVisibility(View.VISIBLE);
-                last_text="";
+                last_text = "";
                 other_person_id = null;
                 was_this_reported = false;
                 did_i_leave_chat = false;
@@ -917,7 +941,7 @@ public class chat_fragment extends Fragment {
                                         // The dialog is automatically dismissed when a dialog button is clicked.
                                         .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                                             public void onClick(DialogInterface dialog, int which) {
-                                                firebaseFirestore.collection("chat").document(document_name).update("status","D".concat(String.valueOf(random_join_or_create))).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                firebaseFirestore.collection("chat").document(document_name).update("status", "D".concat(String.valueOf(random_join_or_create))).addOnSuccessListener(new OnSuccessListener<Void>() {
                                                     @Override
                                                     public void onSuccess(Void unused) {
                                                         firebaseFirestore.collection("chat").document(document_name).delete();
@@ -1095,7 +1119,7 @@ public class chat_fragment extends Fragment {
             button_to_gift_in_chat_real_time.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    /*Bottom_sheet_to_give_coins bottom_sheet_to_give_coins = new Bottom_sheet_to_give_coins(other_person_firebase);
+                    Bottom_sheet_to_give_coins bottom_sheet_to_give_coins = new Bottom_sheet_to_give_coins(other_person_id);
                     bottom_sheet_to_give_coins.set_gift_listen_which_one(new Bottom_sheet_to_give_coins.send_which_award_was_given() {
                         @Override
                         public void gift_was_clicked(ArrayList<Long> arrayList_of_gifts) {
@@ -1103,7 +1127,34 @@ public class chat_fragment extends Fragment {
                             if (arrayList_of_gifts != null && arrayList_of_gifts.size() == 4) {
                                 long number_of_month = arrayList_of_gifts.get(0) + arrayList_of_gifts.get(1) * 3 + arrayList_of_gifts.get(2) * 6 + arrayList_of_gifts.get(3) * 12;
                                 if (number_of_month != 0) {
-                                    database.child(spinner_item).child("chat_room_".concat(String.valueOf(room_int))).child("user_".concat(String.valueOf(which_user))).setValue("123457_hey_there_i_am_giving_you_".concat(String.valueOf(number_of_month)));
+//                                    database.child(spinner_item).child("chat_room_".concat(String.valueOf(room_int))).child("user_".concat(String.valueOf(which_user))).setValue("123457_hey_there_i_am_giving_you_".concat(String.valueOf(number_of_month)));
+                                    if(random_join_or_create == 1){
+                                        gift_to_user_2 = gift_to_user_2 + number_of_month;
+                                        firebaseFirestore.collection("chat").document(document_name).update("gift_to_user_2",gift_to_user_2).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                            @Override
+                                            public void onSuccess(Void unused) {
+
+                                            }
+                                        }).addOnFailureListener(new OnFailureListener() {
+                                            @Override
+                                            public void onFailure(@NonNull Exception e) {
+
+                                            }
+                                        });
+                                    } else if(random_join_or_create == 2){
+                                        gift_to_user_1 = gift_to_user_1+number_of_month;
+                                        firebaseFirestore.collection("chat").document(document_name).update("gift_to_user_1",gift_to_user_1).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                            @Override
+                                            public void onSuccess(Void unused) {
+
+                                            }
+                                        }).addOnFailureListener(new OnFailureListener() {
+                                            @Override
+                                            public void onFailure(@NonNull Exception e) {
+
+                                            }
+                                        });
+                                    }
                                     chat_list.add(new Item_for_chat(String.valueOf(number_of_month), String.valueOf(number_of_month), "i_give_gift"));
                                     adapter.notifyDataSetChanged();
                                     recycle_view_for_chat_in_chat_fragment.scrollToPosition(chat_list.size() - 1);
@@ -1113,7 +1164,7 @@ public class chat_fragment extends Fragment {
                         }
                     });
                     bottom_sheet_to_give_coins.show(getParentFragmentManager(), "");
-                    am_i_in_gift = true;*/
+                    am_i_in_gift = true;
                 }
             });
         }
@@ -1132,7 +1183,7 @@ public class chat_fragment extends Fragment {
                                     .setMessage("Are you sure you want to leave this chat?")
                                     .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                                         public void onClick(DialogInterface dialog, int which) {
-                                            firebaseFirestore.collection("chat").document(document_name).update("status","D".concat(String.valueOf(random_join_or_create))).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                            firebaseFirestore.collection("chat").document(document_name).update("status", "D".concat(String.valueOf(random_join_or_create))).addOnSuccessListener(new OnSuccessListener<Void>() {
                                                 @Override
                                                 public void onSuccess(Void unused) {
                                                     firebaseFirestore.collection("chat").document(document_name).delete().addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -1169,6 +1220,35 @@ public class chat_fragment extends Fragment {
                                     .setNegativeButton(android.R.string.no, null)
                                     .show();
                         }
+                        return true;
+                    } else if (item.getOrder() == 2) {
+                        Alert_dialog_show alert_dialog_show = new Alert_dialog_show();
+                        alert_dialog_show.show_alert_dialog(getContext(),"Block User?","Are you sure you want to block this user?");
+                        alert_dialog_show.set_ok_button_listen(new Alert_dialog_show.ok_button_clicked() {
+                            @Override
+                            public void ok_button_clicked() {
+                                if (is_the_other_user_blocked) {
+                                    Toast.makeText(getContext(), "User is already blocked", Toast.LENGTH_SHORT).show();
+                                } else {
+                                    my_blocked_users.add(other_person_id);
+                                    is_the_other_user_blocked = true;
+                                    Save_and_get.getInstance().save_this(getContext(), other_person_id, "blocked_users", true);
+                                    Toast.makeText(getContext(), "User blocked, please also report the user if you think they shouldn't be able to use the chat platform", Toast.LENGTH_LONG).show();
+                                    firebaseFirestore.collection("chat").document(document_name).update("status", "D".concat(String.valueOf(random_join_or_create))).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                        @Override
+                                        public void onSuccess(Void unused) {
+                                            firebaseFirestore.collection("chat").document(document_name).delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                @Override
+                                                public void onSuccess(Void unused) {
+                                                    did_i_leave_chat = true;
+                                                    end_the_chat(1);
+                                                }
+                                            });
+                                        }
+                                    });
+                                }
+                            }
+                        });
                         return true;
                     }
                     return false;
@@ -1314,7 +1394,23 @@ public class chat_fragment extends Fragment {
         };
     }*/
 
-    private void restart_the_premium_and_call_it() {
+    /*private void restart_the_premium_and_call_it() {
         ((after_login) getActivity()).check_if_user_is_gifted(true);
+    }*/
+
+    private boolean are_we_both_allowed_to_join(ArrayList<String> their_blocked_list,String their_id) {
+        if(!their_blocked_list.contains(FirebaseAuth.getInstance().getCurrentUser().getUid()) && !my_blocked_users.contains(their_id)){
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    private void set_my_blocked_users() {
+        String blocked_users = Save_and_get.getInstance().get_this(getContext(), "blocked_users", "blocked_users");
+        if (!blocked_users.equals("")) {
+            String[] blocked_users_array = blocked_users.split(Save_and_get.getInstance().return_split_keyword());
+           my_blocked_users = new ArrayList<>(Arrays.asList(blocked_users_array));
+        }
     }
 }

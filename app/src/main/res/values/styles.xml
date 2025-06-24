@@ -8,6 +8,8 @@
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:windowBackground">@android:color/white</item>
         <item name="bottomSheetDialogTheme">@style/AppBottomSheetDialogTheme</item>
+        <item name="android:statusBarColor">#f1f3f9</item>
+        <item name="android:windowLightStatusBar">true</item>
     </style>
 
     <style name="Transparent_theme" parent="@style/Theme.AppCompat.Light.NoActionBar">

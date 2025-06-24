@@ -103,7 +103,6 @@ public class Dialog_to_show_journals_to_switch extends DialogFragment {
             for (int i = 0; i < splitter.length; i++) {
                 save_me = save_me.concat(splitter[i]).concat("##&&&&max_divide&&&&##");
             }
-            Log.w("savesave",save_me);
             SharedPreferences sharedPreferences = getActivity().getSharedPreferences("_all_the_journal", getContext().MODE_PRIVATE);
             SharedPreferences.Editor myEdit = sharedPreferences.edit();
             myEdit.putString("journal", save_me);

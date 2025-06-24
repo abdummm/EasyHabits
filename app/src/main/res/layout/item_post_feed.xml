@@ -388,7 +388,7 @@
                 app:layout_constraintTop_toTopOf="@+id/layout_for_the_comment_in_card_in_psot" />
 
             <Button
-                android:id="@+id/button_to_watch_three_dot_in_card_in_post_in_top"
+                android:id="@+id/button_watch_three_dot_to_add_extra_options"
                 style="?android:attr/borderlessButtonStyle"
                 android:layout_width="38dp"
                 android:layout_height="38dp"
@@ -396,6 +396,27 @@
                 android:layout_marginTop="2dp"
                 android:layout_marginEnd="2dp"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"/>
+
+            <View
+                android:id="@+id/view_for_the_three_dots_adapter_post"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:background="@drawable/three_dots_colored_fav"
+                app:layout_constraintStart_toStartOf="@+id/button_watch_three_dot_to_add_extra_options"
+                app:layout_constraintBottom_toBottomOf="@+id/button_watch_three_dot_to_add_extra_options"
+                app:layout_constraintEnd_toEndOf="@+id/button_watch_three_dot_to_add_extra_options"
+                app:layout_constraintTop_toTopOf="@+id/button_watch_three_dot_to_add_extra_options" />
+
+            <Button
+                android:id="@+id/button_to_watch_three_dot_in_card_in_post_in_top"
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_width="38dp"
+                android:layout_height="38dp"
+                android:background="@drawable/ripple_for_all_circle"
+                android:layout_marginTop="2dp"
+                android:layout_marginEnd="2dp"
+                app:layout_constraintEnd_toStartOf="@+id/button_watch_three_dot_to_add_extra_options"
                 app:layout_constraintTop_toTopOf="parent"/>
 
             <View

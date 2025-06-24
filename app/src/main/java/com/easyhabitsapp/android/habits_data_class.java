@@ -3,6 +3,7 @@ package com.easyhabitsapp.android;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
+import androidx.room.TypeConverters;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -31,12 +32,6 @@ public class habits_data_class implements Serializable {
     @ColumnInfo(name = "icon")
     private String icon;
 
-    @ColumnInfo(name = "reminder")
-    private String reminder;
-
-    @ColumnInfo(name = "days_per_week")
-    private String days_per_week;
-
     @ColumnInfo(name = "type_of_the_habit")
     private String type_of_the_habit;
 
@@ -46,8 +41,9 @@ public class habits_data_class implements Serializable {
     @ColumnInfo(name = "notifications_on_or_off")
     private boolean notifications_on_or_off;
 
+    @TypeConverters(Notification_converter.class)
     @ColumnInfo(name = "notifications_freq")
-    private String notifications_freq;
+    private ArrayList<Notification_object_add_new_habit> notifications_freq;
 
     @ColumnInfo(name = "notifications_freq_extra")
     private String notifications_freq_extra;
@@ -55,20 +51,27 @@ public class habits_data_class implements Serializable {
     @ColumnInfo(name = "notifications_time")
     private long notifications_time;
 
+    @TypeConverters(Habits_freq_converter.class)
     @ColumnInfo(name = "habits_freq")
-    private String habits_freq;
+    private ArrayList<String> habits_freq;
 
     @ColumnInfo(name = "habits_freq_extra")
-    private String habits_freq_extra;
+    private Integer habits_freq_extra;
 
+    @TypeConverters(Converters.class)
     @ColumnInfo(name = "relapse")
     private ArrayList<Long> relapse;
 
+    @TypeConverters(Converters.class)
     @ColumnInfo(name = "relapse_amount_timer")
     private HashMap<Long,Integer> relapse_amount_timer;
 
+    @TypeConverters(Converters.class)
     @ColumnInfo(name = "relapse_amount")
     private HashMap<Long,Integer> relapse_amount;
+
+    @ColumnInfo(name = "advanced")
+    private boolean advanced;
 
     public String getNotifications_freq_extra() {
         return notifications_freq_extra;
@@ -86,11 +89,11 @@ public class habits_data_class implements Serializable {
         this.notifications_on_or_off = notifications_on_or_off;
     }
 
-    public String getNotifications_freq() {
+    public ArrayList<Notification_object_add_new_habit> getNotifications_freq() {
         return notifications_freq;
     }
 
-    public void setNotifications_freq(String notifications_freq) {
+    public void setNotifications_freq(ArrayList<Notification_object_add_new_habit> notifications_freq) {
         this.notifications_freq = notifications_freq;
     }
 
@@ -158,21 +161,21 @@ public class habits_data_class implements Serializable {
         this.icon = icon;
     }
 
-    public String getReminder() {
+    /*public String getReminder() {
         return reminder;
     }
 
     public void setReminder(String reminder) {
         this.reminder = reminder;
-    }
+    }*/
 
-    public String getDays_per_week() {
+    /*public String getDays_per_week() {
         return days_per_week;
     }
 
     public void setDays_per_week(String days_per_week) {
         this.days_per_week = days_per_week;
-    }
+    }*/
 
     public String getType_of_the_habit() {
         return type_of_the_habit;
@@ -190,19 +193,19 @@ public class habits_data_class implements Serializable {
         this.extra_type_info = extra_type_info;
     }
 
-    public String getHabits_freq() {
+    public ArrayList<String> getHabits_freq() {
         return habits_freq;
     }
 
-    public void setHabits_freq(String habits_freq) {
+    public void setHabits_freq(ArrayList<String> habits_freq) {
         this.habits_freq = habits_freq;
     }
 
-    public String getHabits_freq_extra() {
+    public Integer getHabits_freq_extra() {
         return habits_freq_extra;
     }
 
-    public void setHabits_freq_extra(String habits_freq_extra) {
+    public void setHabits_freq_extra(Integer habits_freq_extra) {
         this.habits_freq_extra = habits_freq_extra;
     }
 
@@ -228,5 +231,13 @@ public class habits_data_class implements Serializable {
 
     public void setRelapse_amount(HashMap<Long, Integer> relapse_amount) {
         this.relapse_amount = relapse_amount;
+    }
+
+    public boolean isAdvanced() {
+        return advanced;
+    }
+
+    public void setAdvanced(boolean advanced) {
+        this.advanced = advanced;
     }
 }

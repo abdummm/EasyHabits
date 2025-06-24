@@ -59,7 +59,6 @@ package com.easyhabitsapp.android;
                     if (last_location == null) {
                         last_location = locationResult.getLastLocation();
                     } else {
-                        Log.w("accuracy",String.valueOf(locationResult.getLastLocation().getAccuracy()));
                         if(locationResult.getLastLocation().hasAccuracy() && locationResult.getLastLocation().getAccuracy()>=15) {
                             total_distance = total_distance + locationResult.getLastLocation().distanceTo(last_location);
                         }

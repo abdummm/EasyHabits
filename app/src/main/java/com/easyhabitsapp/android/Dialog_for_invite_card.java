@@ -33,6 +33,7 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.TaskExecutors;
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -230,6 +231,7 @@ public class Dialog_for_invite_card extends DialogFragment {
         copy_code_button_in_get_or_send_invite_code_dialog.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Event_manager_all_in_one.getInstance().record_fire_base_event(getContext(), Event_manager_all_in_one.Event_type_fire_base_record.copy_code_clicked,false);
                 ClipboardManager clipboard = (ClipboardManager)mview.getContext().getSystemService(Context.CLIPBOARD_SERVICE);
                 ClipData clip = ClipData.newPlainText(null,user_id);
                 clipboard.setPrimaryClip(clip);
@@ -332,4 +334,5 @@ public class Dialog_for_invite_card extends DialogFragment {
                 constraintSet.applyTo(constraintLayout);
             }
     }
+
 }

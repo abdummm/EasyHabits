@@ -2,5 +2,14 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/report_button_comment_in_tree_dots"
+        android:orderInCategory="0"
         android:title="Report" />
+    <item
+        android:id="@+id/hide_content_comment_in_tree_dots"
+        android:orderInCategory="1"
+        android:title="Hide content" />
+    <item
+        android:id="@+id/block_user_comment_in_tree_dots"
+        android:orderInCategory="2"
+        android:title="Block user" />
 </menu>
