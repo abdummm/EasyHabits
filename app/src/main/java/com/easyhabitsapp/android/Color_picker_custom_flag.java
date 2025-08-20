@@ -20,4 +20,9 @@ public class Color_picker_custom_flag extends FlagView {
     public void onRefresh(ColorEnvelope colorEnvelope) {
         View.setBackgroundTintList(ColorStateList.valueOf(colorEnvelope.getColor()));
     }
+
+    @Override
+    public void onFlipped(Boolean isFlipped) {
+
+    }
 }
