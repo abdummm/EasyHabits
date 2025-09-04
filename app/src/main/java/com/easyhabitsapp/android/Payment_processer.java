@@ -18,12 +18,14 @@ import com.android.billingclient.api.BillingFlowParams;
 import com.android.billingclient.api.BillingResult;
 import com.android.billingclient.api.ConsumeParams;
 import com.android.billingclient.api.ConsumeResponseListener;
+import com.android.billingclient.api.PendingPurchasesParams;
 import com.android.billingclient.api.ProductDetails;
 import com.android.billingclient.api.ProductDetailsResponseListener;
 import com.android.billingclient.api.Purchase;
 import com.android.billingclient.api.PurchasesResponseListener;
 import com.android.billingclient.api.PurchasesUpdatedListener;
 import com.android.billingclient.api.QueryProductDetailsParams;
+import com.android.billingclient.api.QueryProductDetailsResult;
 import com.android.billingclient.api.QueryPurchasesParams;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -238,83 +240,16 @@ public class Payment_processer extends Application {
                 }
             }
         };
-
+        PendingPurchasesParams pendingPurchasesParams = PendingPurchasesParams.newBuilder().enableOneTimeProducts().build();
         billingClient = BillingClient.newBuilder(context)
                 .setListener(purchasesUpdatedListener)
-                .enablePendingPurchases()
+                .enablePendingPurchases(pendingPurchasesParams)
                 .build();
     }
 
     private void handle_purchase(Purchase purchase, Context context, Activity activity,FragmentManager supportFragmentManager) {
         if (purchase.getPurchaseState() == Purchase.PurchaseState.PURCHASED && !purchase.isAcknowledged()) {
             if (purchase.getQuantity() == 1 && (purchase.getProducts().get(0).equals("new_monthly_subscription") || purchase.getProducts().get(0).equals("new_yearly_subscription"))) {
-                /*activity.runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        set_buy_premuim_true(context);
-                        if (purchase.getProducts().get(0).equals("new_monthly_subscription")) {
-                            Map<String, Object> data = new HashMap<>();
-                            data.put("token", purchase.getPurchaseToken());
-                            data.put("orderId", purchase.getOrderId());
-                            data.put("userId", purchase.getAccountIdentifiers().getObfuscatedAccountId());
-                            Dialog_subscribe_to_premuim dialog_subscribe_to_premuim = new Dialog_subscribe_to_premuim("month", false);
-                            dialog_subscribe_to_premuim.setCancelable(false);
-                            dialog_subscribe_to_premuim.show(supportFragmentManager, "");
-                            FirebaseFunctions.getInstance()
-                                    .getHttpsCallable("monthly_sub_i_buy")
-                                    .call(data)
-                                    .continueWith(new Continuation<HttpsCallableResult, String>() {
-                                        @Override
-                                        public String then(@NonNull Task<HttpsCallableResult> task) throws Exception {
-                                            if (String.valueOf(task.getResult().getData()).equals("success")) {
-                                                dialog_subscribe_to_premuim.loaded();
-                                                //set_the_premuim_in_text();
-                                                set_buy_premuim_true(context);
-                                                acknowledge_purchase(purchase);
-                                            } else if (String.valueOf(task.getResult().getData()).equals("error")) {
-                                                Toast.makeText(context, "Verifying purchase with server failed. Please try restarting the app with internet connection. If that doesn't work contact supprt", Toast.LENGTH_LONG).show();
-                                            }
-                                            return "result";
-                                        }
-                                    }).addOnFailureListener(new OnFailureListener() {
-                                        @Override
-                                        public void onFailure(@NonNull @NotNull Exception e) {
-
-                                        }
-                                    });
-                        } else if (purchase.getProducts().get(0).equals("new_yearly_subscription")) {
-                            Map<String, Object> data = new HashMap<>();
-                            data.put("token", purchase.getPurchaseToken());
-                            data.put("orderId", purchase.getOrderId());
-                            data.put("userId", purchase.getAccountIdentifiers().getObfuscatedAccountId());
-                            Dialog_subscribe_to_premuim dialog_subscribe_to_premuim = new Dialog_subscribe_to_premuim("year", false);
-                            dialog_subscribe_to_premuim.setCancelable(false);
-                            dialog_subscribe_to_premuim.show(supportFragmentManager, "");
-                            FirebaseFunctions.getInstance()
-                                    .getHttpsCallable("yearly_sub_i_buy")
-                                    .call(data)
-                                    .continueWith(new Continuation<HttpsCallableResult, String>() {
-                                        @Override
-                                        public String then(@NonNull Task<HttpsCallableResult> task) throws Exception {
-                                            if (String.valueOf(task.getResult().getData()).equals("success")) {
-                                                dialog_subscribe_to_premuim.loaded();
-                                                //set_the_premuim_in_text();
-                                                set_buy_premuim_true(context);
-                                                acknowledge_purchase(purchase);
-                                            } else if (String.valueOf(task.getResult().getData()).equals("error")) {
-                                                Toast.makeText(context, "Verifying purchase with server failed. Please try restarting the app with internet connection. If that doesn't work contact supprt", Toast.LENGTH_LONG).show();
-                                            }
-                                            return "result";
-                                        }
-                                    }).addOnFailureListener(new OnFailureListener() {
-                                        @Override
-                                        public void onFailure(@NonNull @NotNull Exception e) {
-
-                                        }
-                                    });
-                        }
-                    }
-                });*/
                 sub_purchase_list.add(purchase);
                 activity.runOnUiThread(new Runnable() {
                     @Override
@@ -758,24 +693,20 @@ public class Payment_processer extends Application {
                                                 .build()
                                 ))
                         .build();
-
-        billingClient.queryProductDetailsAsync(
-                queryProductDetailsParams,
-                new ProductDetailsResponseListener() {
-                    public void onProductDetailsResponse(BillingResult billingResult,
-                                                         List<ProductDetails> productDetailsList) {
-                        if (billingResult.getResponseCode() == BillingClient.BillingResponseCode.OK) {
-                            instance.productDetailsList.addAll(productDetailsList);
+        billingClient.queryProductDetailsAsync(queryProductDetailsParams, new ProductDetailsResponseListener() {
+            @Override
+            public void onProductDetailsResponse(@NonNull BillingResult billingResult, @NonNull QueryProductDetailsResult queryProductDetailsResult) {
+                if (billingResult.getResponseCode() == BillingClient.BillingResponseCode.OK) {
+                    instance.productDetailsList.addAll(productDetailsList);
                             /*are_in_app_prices_ready = true;
                             if (in_app_prices_ready_listen_bottom_sheet_give_coins != null) {
                                 in_app_prices_ready_listen_bottom_sheet_give_coins.in_app_prices_are_ready();
                             }*/
-                        } else {
-                            Toast.makeText(context, "An error occurred, please try again later", Toast.LENGTH_SHORT).show();
-                        }
-                    }
+                } else {
+                    Toast.makeText(context, "An error occurred, please try again later", Toast.LENGTH_SHORT).show();
                 }
-        );
+            }
+        });
     }
 
     private void add_all_subs_to_list(Context context) {
@@ -793,27 +724,23 @@ public class Payment_processer extends Application {
                                                 .build()
                                 ))
                         .build();
-
-        billingClient.queryProductDetailsAsync(
-                queryProductDetailsParams,
-                new ProductDetailsResponseListener() {
-                    public void onProductDetailsResponse(BillingResult billingResult,
-                                                         List<ProductDetails> productDetailsList) {
-                        if (billingResult.getResponseCode() == BillingClient.BillingResponseCode.OK) {
-                            subsDetailsList.addAll(productDetailsList);
-                            are_sub_prices_ready = true;
-                            if (sub_prices_ready_listen != null) {
-                                sub_prices_ready_listen.sub_prices_are_ready();
-                            }
-                            if (sub_prices_ready_listen_2 != null) {
-                                sub_prices_ready_listen_2.sub_prices_are_ready_2();
-                            }
-                        } else {
-                            Toast.makeText(context, "An error occurred, please try again later", Toast.LENGTH_SHORT).show();
-                        }
+        billingClient.queryProductDetailsAsync(queryProductDetailsParams, new ProductDetailsResponseListener() {
+            @Override
+            public void onProductDetailsResponse(@NonNull BillingResult billingResult, @NonNull QueryProductDetailsResult queryProductDetailsResult) {
+                if (billingResult.getResponseCode() == BillingClient.BillingResponseCode.OK) {
+                    subsDetailsList.addAll(productDetailsList);
+                    are_sub_prices_ready = true;
+                    if (sub_prices_ready_listen != null) {
+                        sub_prices_ready_listen.sub_prices_are_ready();
                     }
+                    if (sub_prices_ready_listen_2 != null) {
+                        sub_prices_ready_listen_2.sub_prices_are_ready_2();
+                    }
+                } else {
+                    Toast.makeText(context, "An error occurred, please try again later", Toast.LENGTH_SHORT).show();
                 }
-        );
+            }
+        });
     }
 
     public String get_price_in_app(String product_id) {
@@ -1532,7 +1459,7 @@ public class Payment_processer extends Application {
                     .setObfuscatedAccountId(userId)
                     .setSubscriptionUpdateParams(
                             BillingFlowParams.SubscriptionUpdateParams.newBuilder()
-                                    .setReplaceProrationMode(BillingFlowParams.ProrationMode.DEFERRED)
+                                    //.setReplaceProrationMode(BillingFlowParams.ProrationMode.DEFERRED)
                                     .setOldPurchaseToken(return_old_purchase_token())
                                     .build())
                     .build();
